@@ -1,0 +1,44 @@
+#!/bin/bash
+#
+# IBM Omni driver
+# Copyright (c) International Business Machines Corp., 2000
+#
+# This library is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation; either version 2.1 of the License, or
+# (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+# the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+#
+
+FROMDIR="../../XMLParser"
+
+if [ "Epson Generic ESC2P Commands.xml"       -ot ${FROMDIR}"/Epson Generic ESC2P Commands.xml"       ]; then echo 'copying "Epson Generic ESC2P Commands.xml"';       cp ${FROMDIR}"/Epson Generic ESC2P Commands.xml"       .; fi
+if [ "Epson Copies.xml"                       -ot ${FROMDIR}"/Epson Copies.xml"                       ]; then echo 'copying "Epson Copies.xml"';                       cp ${FROMDIR}"/Epson Copies.xml"                       .; fi
+if [ "Epson Stylus Color 660 Connections.xml" -ot ${FROMDIR}"/Epson Stylus Color 660 Connections.xml" ]; then echo 'copying "Epson Stylus Color 660 Connections.xml"'; cp ${FROMDIR}"/Epson Stylus Color 660 Connections.xml" .; fi
+if [ "Epson Stylus Color 760 Data.xml"        -ot ${FROMDIR}"/Epson Stylus Color 760 Data.xml"        ]; then echo 'copying "Epson Stylus Color 760 Data.xml"';        cp ${FROMDIR}"/Epson Stylus Color 760 Data.xml"        .; fi
+if [ "Epson Stylus Color 660 Forms.xml"       -ot ${FROMDIR}"/Epson Stylus Color 660 Forms.xml"       ]; then echo 'copying "Epson Stylus Color 660 Forms.xml"';       cp ${FROMDIR}"/Epson Stylus Color 660 Forms.xml"       .; fi
+if [ "Epson Stylus Color 760 Gammas.xml"      -ot ${FROMDIR}"/Epson Stylus Color 760 Gammas.xml"      ]; then echo 'copying "Epson Stylus Color 760 Gammas.xml"';      cp ${FROMDIR}"/Epson Stylus Color 760 Gammas.xml"      .; fi
+if [ "Epson Stylus 200 Medias.xml"            -ot ${FROMDIR}"/Epson Stylus 200 Medias.xml"            ]; then echo 'copying "Epson Stylus 200 Medias.xml"';            cp ${FROMDIR}"/Epson Stylus 200 Medias.xml"            .; fi
+if [ "Epson NUps.xml"                         -ot ${FROMDIR}"/Epson NUps.xml"                         ]; then echo 'copying "Epson NUps.xml"';                         cp ${FROMDIR}"/Epson NUps.xml"                         .; fi
+if [ "Epson Orientations.xml"                 -ot ${FROMDIR}"/Epson Orientations.xml"                 ]; then echo 'copying "Epson Orientations.xml"';                 cp ${FROMDIR}"/Epson Orientations.xml"                 .; fi
+if [ "Epson Output Bins.xml"                  -ot ${FROMDIR}"/Epson Output Bins.xml"                  ]; then echo 'copying "Epson Output Bins.xml"';                  cp ${FROMDIR}"/Epson Output Bins.xml"                  .; fi
+if [ "Epson DLQ-3000+ PrintModes.xml"         -ot ${FROMDIR}"/Epson DLQ-3000+ PrintModes.xml"         ]; then echo 'copying "Epson DLQ-3000+ PrintModes.xml"';         cp ${FROMDIR}"/Epson DLQ-3000+ PrintModes.xml"         .; fi
+if [ "Epson Stylus Color 660 Resolutions.xml" -ot ${FROMDIR}"/Epson Stylus Color 660 Resolutions.xml" ]; then echo 'copying "Epson Stylus Color 660 Resolutions.xml"'; cp ${FROMDIR}"/Epson Stylus Color 660 Resolutions.xml" .; fi
+if [ "Epson Scalings.xml"                     -ot ${FROMDIR}"/Epson Scalings.xml"                     ]; then echo 'copying "Epson Scalings.xml"';                     cp ${FROMDIR}"/Epson Scalings.xml"                     .; fi
+if [ "Epson Sheet Collates.xml"               -ot ${FROMDIR}"/Epson Sheet Collates.xml"               ]; then echo 'copying "Epson Sheet Collates.xml"';               cp ${FROMDIR}"/Epson Sheet Collates.xml"               .; fi
+if [ "Epson Sides.xml"                        -ot ${FROMDIR}"/Epson Sides.xml"                        ]; then echo 'copying "Epson Sides.xml"';                        cp ${FROMDIR}"/Epson Sides.xml"                        .; fi
+if [ "Epson Stitchings.xml"                   -ot ${FROMDIR}"/Epson Stitchings.xml"                   ]; then echo 'copying "Epson Stitchings.xml"';                   cp ${FROMDIR}"/Epson Stitchings.xml"                   .; fi
+if [ "Epson Strings.xml"                      -ot ${FROMDIR}"/Epson Strings.xml"                      ]; then echo 'copying "Epson Strings.xml"';                      cp ${FROMDIR}"/Epson Strings.xml"                      .; fi
+if [ "Epson Stylus 200 Trays.xml"             -ot ${FROMDIR}"/Epson Stylus 200 Trays.xml"             ]; then echo 'copying "Epson Stylus 200 Trays.xml"';             cp ${FROMDIR}"/Epson Stylus 200 Trays.xml"             .; fi
+if [ "Epson Trimmings.xml"                    -ot ${FROMDIR}"/Epson Trimmings.xml"                    ]; then echo 'copying "Epson Trimmings.xml"';                    cp ${FROMDIR}"/Epson Trimmings.xml"                    .; fi
+if [ "Epson Stylus Color 760.xml"             -ot ${FROMDIR}"/Epson Stylus Color 760.xml"             ]; then echo 'copying "Epson Stylus Color 760.xml"';             cp ${FROMDIR}"/Epson Stylus Color 760.xml"             .; fi
+
+../OmniEditDevice.py --gladePath ".." "Epson Stylus Color 760.xml"

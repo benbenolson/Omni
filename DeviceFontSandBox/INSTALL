@@ -1,0 +1,55 @@
+#
+#  Linux Device Font Library Installation Instruction
+#  Julie Zhuo
+#  Jan 06, 2003
+#  
+#
+
+Requirements:
+
+1). One of the Following XML Parser
+
+	a) LIBXML2
+	b) XERCESC2_1_0
+	C) XML4C5_0_0
+
+2). gcc 3.2 or up
+
+3). The Linux Device Font Library DeviceFontLib.tar.gz file.
+
+Environment Setup:
+
+1). Unzip DeviceFontLib.tar.gz into a directory.
+	example, cd $HOME/devicefontlib
+		 tar -xvzf DeviceFontLib.tar.gz
+		 rm DeviceFontLib.tar.gz
+
+2). If you have LIBXML2 parser installed, set LIBXMLROOT and LIBXMLLIB variables.
+	example (for bash or korn shell), 
+		">export LIBXMLROOT=/usr/local/include/libxml2" 
+		">export LIBXMLLIB=/usr/local/lib"  
+
+3). If you have XERCES2_1_0 installed, set XERCESCROOT and XERCESCLIB variables.
+	example (for bash or korn shell), 
+	">export XERCESCROOT=$HOME/xerces-c-src2_1_0/src" 
+	">export XERCESCLIB="$HOME/xerces-c-src2_1_0/lib"
+
+4). If you have XML4C5_0_0 installed, set XERCESCROOT and XERCESCLIB variables.
+	example (for bash or korn shell), 
+	">export XERCESCROOT=$HOME/xml4c5_0_0/src" 
+	">export XERCESCLIB="$HOME/xml4c5_0_0/lib"
+
+Build Device Font Library:
+	For LIBXML2, run "make libxml".
+	For XERCES2_1_0, run "make xerces".
+	For XML4C5_0_0, run "make xml4c".
+
+Install Device Font Library:
+	Before you are ready to install the library, make sure you have the root level authority.
+
+	run "make instrall".
+
+Congratulations! You have successfully installed the device font library.	
+	
+
+

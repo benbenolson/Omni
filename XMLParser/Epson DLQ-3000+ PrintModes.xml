@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     IBM Omni driver
+     Copyright (c) International Business Machines Corp., 2000
+
+     This library is free software; you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published
+     by the Free Software Foundation; either version 2.1 of the License, or
+     (at your option) any later version.
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+     the GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this library; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
+
+<devicePrintModes
+   xmlns:omni="http://www.ibm.com/linux/ltc/projects/omni/"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.ibm.com/linux/ltc/projects/omni/ ../OmniDevice.xsd"
+   xmlns:targetNamespace="omni">
+   <devicePrintMode>
+      <name>PRINT_MODE_1_ANY</name>
+      <printModePhysicalCount>1</printModePhysicalCount>
+      <printModeLogicalCount>1</printModeLogicalCount>
+      <printModePlanes>1</printModePlanes>
+      <deviceID>a</deviceID>
+   </devicePrintMode>
+   <devicePrintMode>
+      <name>PRINT_MODE_8_CMYK</name>
+      <printModePhysicalCount>4</printModePhysicalCount>
+      <printModeLogicalCount>8</printModeLogicalCount>
+      <printModePlanes>1</printModePlanes>
+      <deviceID>b</deviceID>
+   </devicePrintMode>
+   <devicePrintMode>
+      <name>PRINT_MODE_24_CMYK</name>
+      <printModePhysicalCount>4</printModePhysicalCount>
+      <printModeLogicalCount>24</printModeLogicalCount>
+      <printModePlanes>1</printModePlanes>
+   </devicePrintMode>
+</devicePrintModes>

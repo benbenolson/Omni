@@ -1,0 +1,783 @@
+#!/bin/bash
+#
+# IBM Omni driver
+# Copyright (c) International Business Machines Corp., 2000
+#
+# This library is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation; either version 2.1 of the License, or
+# (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+# the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+#
+trap '/bin/rm -f /tmp/$$ /tmp/$$.a /tmp/$$.b /tmp/$$.c' 1 2 15
+
+MAKEOMNI_STAGE1=./.makeOmni.stageOne
+
+# @BUG - run with ./makeOmni does not fill in the path
+EXEC_NAME=$0
+if test ${EXEC_NAME} = "./makeOmni"; then
+	if test -x ${EXEC_NAME}; then
+		EXEC_NAME=`pwd`/$0
+	fi
+fi
+
+# NLS nuisances.
+# Support unset when possible.
+if (FOO=FOO; unset FOO) >/dev/null 2>&1; then
+   as_unset=unset
+else
+   as_unset=false
+fi
+
+# Set the languages variables
+(set +x; test -n "`(LANG=C; export LANG) 2>&1`") &&
+   { $as_unset LANG || test "${LANG+set}" != set; } ||
+   { LANG=C; export LANG; }
+(set +x; test -n "`(LC_ALL=C; export LC_ALL) 2>&1`") &&
+	{ $as_unset LC_ALL || test "${LC_ALL+set}" != set; } ||
+	{ LC_ALL=C; export LC_ALL; }
+(set +x; test -n "`(LC_TIME=C; export LC_TIME) 2>&1`") &&
+	{ $as_unset LC_TIME || test "${LC_TIME+set}" != set; } ||
+	{ LC_TIME=C; export LC_TIME; }
+(set +x; test -n "`(LC_CTYPE=C; export LC_CTYPE) 2>&1`") &&
+	{ $as_unset LC_CTYPE || test "${LC_CTYPE+set}" != set; } ||
+	{ LC_CTYPE=C; export LC_CTYPE; }
+(set +x; test -n "`(LANGUAGE=C; export LANGUAGE) 2>&1`") &&
+	{ $as_unset LANGUAGE || test "${LANGUAGE+set}" != set; } ||
+	{ LANGUAGE=C; export LANGUAGE; }
+(set +x; test -n "`(LC_COLLATE=C; export LC_COLLATE) 2>&1`") &&
+	{ $as_unset LC_COLLATE || test "${LC_COLLATE+set}" != set; } ||
+	{ LC_COLLATE=C; export LC_COLLATE; }
+(set +x; test -n "`(LC_NUMERIC=C; export LC_NUMERIC) 2>&1`") &&
+	{ $as_unset LC_NUMERIC || test "${LC_NUMERIC+set}" != set; } ||
+	{ LC_NUMERIC=C; export LC_NUMERIC; }
+(set +x; test -n "`(LC_MESSAGES=C; export LC_MESSAGES) 2>&1`") &&
+	{ $as_unset LC_MESSAGES || test "${LC_MESSAGES+set}" != set; } ||
+	{ LC_MESSAGES=C; export LC_MESSAGES; }
+
+#
+# Create default variables for this script
+#
+MAKEOMNI_ARGS=./.makeOmni.args
+if test ! -e  ${MAKEOMNI_ARGS}; then
+	echo 'CONFIGURE_ARGS="--enable-retail"' > ${MAKEOMNI_ARGS}
+fi
+
+#
+# Load in default variables for this script
+#
+. ${MAKEOMNI_ARGS}
+OLD_CONFIGURE_ARGS=${CONFIGURE_ARGS}
+
+#
+# Load in the device list.  Override it if DEVICES="XXX" is found on the
+# command line.
+#
+MAKE_ARGS=
+DEVICESOVERRIDEN=false
+for ((i = 1; $i <= $#; i++));
+do
+	eval PARM=\$$i
+	if test "x${PARM:0:8}" = "xDEVICES="; then
+		DEVICESOVERRIDEN=true
+		DEVICELIST=${PARM:8}
+		PARM=`echo ${PARM} | sed -e 's/_//' -e 's/~//'`
+	elif test "${PARM}" = "debug"; then
+		PARM=
+		CONFIGURE_ARGS="--enable-debug"
+	elif test "${PARM}" = "retail"; then
+		PARM=
+		CONFIGURE_ARGS="--enable-retail"
+	fi
+	if test ! -z "${PARM}"; then
+		if test ! -z "${MAKE_ARGS}"; then
+			MAKE_ARGS=MAKE_ARGS" "${PARM}
+		else
+			MAKE_ARGS=${PARM}
+		fi
+	fi
+done
+
+#
+# Save the default variables if changed
+#
+ForceConfigure=0
+if test "${OLD_CONFIGURE_ARGS}" != "${CONFIGURE_ARGS}"; then
+	echo 'CONFIGURE_ARGS="'${CONFIGURE_ARGS}'"' > ${MAKEOMNI_ARGS}
+	ForceConfigure=1
+fi
+
+#
+# Load in the device list if has not been overriden
+#
+if test x${DEVICESOVERRIDEN} = xfalse; then
+	. ./devices.mak
+fi
+
+#
+# Loop through the devices and set up some variables
+#
+DEVICEMAKEFILES=
+for i in ${DEVICELIST}; do
+	NOSPACENAME="`echo ${i} | sed -e 's/~//g' -e 's/_//g'`"
+
+	DEVICEMAKEFILES=${DEVICEMAKEFILES}" "${NOSPACENAME}/Makefile
+done
+
+#
+# Find any vendor supplied Makefiles
+#
+VENDORMAKEFILES=
+if test `find VendorSupplied/ -type d -mindepth 1 -maxdepth 1 2>/dev/null | wc -l | tr -d \t` -ge 1; then
+	for i in `find VendorSupplied/ -type d -mindepth 1 -maxdepth 1`; do
+		if test "${i}" != "VendorSupplied/CVS"; then
+			VENDORMAKEFILES=${VENDORMAKEFILES}" "${i}/Makefile
+		fi
+	done
+fi
+
+#
+# Clean every generated file
+#
+if test "$1" = "reallyclean"; then
+
+	# make clean first
+	if test -e "Makefile"; then
+		echo make distclean
+		make distclean
+
+		if test $? != 0; then
+			# this is a really poor substiture
+			find -name \*.\*o -exec rm -rf "{}" \;
+			find -name \*.la -exec rm -rf "{}" \;
+			find -name .libs -exec rm -rf "{}" \;
+		fi
+	fi
+
+	# Remove auto* files
+	rm aclocal.m4 AUTHORS COPYING ChangeLog config.h.in	2>/dev/null
+	rm config.guess config.sub configure configure.scan	2>/dev/null
+	rm INSTALL install-sh ltmain.sh ${MAKEOMNI_ARGS}	2>/dev/null
+	rm missing mkinstalldirs NEWS README stamp-h.in		2>/dev/null
+	rm uninstall						2>/dev/null
+
+	# Remove symbolic linked directories and generated Makefiles
+	for i in . *; do
+		if test -L "${i}"; then
+			rm "${i}"
+		fi
+		if test -d "${i}"; then
+			(
+			cd "${i}"
+			if test -e "Makefile.in"; then
+				rm "Makefile.in"
+			fi
+			)
+		fi
+	done
+
+	# Look through the device directories
+	for i in ${DEVICELIST}; do
+		(
+		DIR="`echo ${i} | sed -e 's/~//g' -e 's/_/ /g'`"
+
+		cd "${DIR}";
+
+		# remove parser generated files
+		for j in Makefile.am libraries1.mak libraries2.mak libraries3.mak; do
+			if test -e "$j"; then
+				rm "$j"
+			fi
+		done
+		)
+	done
+
+	(
+	cd XMLParser
+	for j in MyErrorHandler.hpp \
+		MyErrorHandler.cpp \
+		DebugParser.hpp \
+		DebugParser.cpp \
+		DebugDocumentHandler.hpp \
+		DebugDocumentHandler.cpp \
+		DeviceInfo.hpp \
+		OmniDomParser.hpp \
+		OmniDomParser.cpp \
+		Main.cpp \
+		Makefile.am; \
+		do
+		if test -e "$j"; then
+			rm "$j"
+		fi
+	done
+	)
+
+	rm /tmp/$$ 2>/dev/null
+
+	# remove device makefiles from configure.ac
+	awk -v DEVICEMAKEFILES="${DEVICEMAKEFILES}" '
+BEGIN                  { skip = 0              }
+/^[d]nl @BEGIN-HACK-1/ { skip = 1
+                         print $0              }
+/^[d]nl @END-HACK-1/   { skip = 0              }
+/^[d]nl @BEGIN-HACK-2/ { skip = 1
+                         print $0              }
+/^[d]nl @END-HACK-2/   { skip = 0              }
+                       { if (skip == 0)
+                         {
+                            print $0
+                         }                     }
+' < configure.ac > /tmp/$$
+
+	cp /tmp/$$ configure.ac
+
+	rm /tmp/$$
+
+#
+# Clean every device XML generated file
+#
+elif test "$1" = "deviceclean"; then
+
+	OLDDIR=`pwd`
+
+	#
+	# Loop through the device directories
+	#
+	for i in ${DEVICELIST}; do
+
+		#
+		# Set up the names
+		#
+		NAME="`echo ${i} | sed -e 's/~//g' -e 's/\..*//' -e s'/_.*$//'`"
+		DIR="`echo ${i} | sed -e 's/~//g' -e 's/_/ /g'`"
+
+		cd "${DIR}"
+
+		if test "${DIR}" = "test"; then
+			NAME=Test
+		fi
+
+		rm ${NAME}_*
+		rm lib*
+
+		cd "${OLDDIR}"
+
+	done
+
+#
+# Clean every device Makefile.am file
+#
+elif test "$1" = "devicemakefileclean"; then
+
+	OLDDIR=`pwd`
+
+	#
+	# Loop through the device directories
+	#
+	for i in ${DEVICELIST}; do
+
+		#
+		# Set up the names
+		#
+		DIR="`echo ${i} | sed -e 's/~//g' -e 's/_/ /g'`"
+
+		cd "${DIR}"
+
+		if test -e Makefile.am; then
+			rm Makefile.am
+		fi
+
+		cd "${OLDDIR}"
+
+	done
+
+#
+# Normal build
+#
+else
+
+	#
+	# Set up key variables to determine if we need a rebuild or a reconfigure
+	#
+	FirstTimeBuild=0
+	Rebuild=0
+	AutoReconf=0
+	ParserMissing=1
+
+	if test ! -e "aclocal.m4"; then
+		aclocal
+	fi
+
+	for i in NEWS README AUTHORS ChangeLog; do
+		if test ! -e "${i}"; then
+			touch "${i}"
+		fi
+	done
+
+	if test ! -e "config.h.in"; then
+		autoheader
+		if test $? != 0; then
+			echo "Error: autoheader failed."
+			exit
+		fi
+	fi
+
+	#
+	# Detect XML
+	#
+	xml_version=
+	if which xml2-config >/dev/null; then
+		xml_version=libxml2
+	elif which xml-config >/dev/null; then
+		xml_version=libxml
+#	elif which xerces @TBD
+#	elif which xml4c  @TBD
+	fi
+
+	if test -z "${xml_version}"; then
+		echo "Error: XML parser is undetected!"
+		exit
+	fi
+
+	#
+	# Copy the correct version of XML in
+	#
+	filelist_libxml="Makefile.in Makefile.am Main.cpp MyErrorHandler.hpp MyErrorHandler.cpp DeviceInfo.hpp OmniDomParser.hpp OmniDomParser.cpp"
+	filelist_xerces1_3="Makefile.in Makefile.am DebugDocumentHandler.hpp DebugDocumentHandler.cpp DeviceInfo.hpp MyErrorHandler.hpp MyErrorHandler.cpp Main.cpp OmniDomParser.hpp OmniDomParser.cpp DebugParser.hpp DebugParser.cpp"
+	filelist_xml4c3_1_0="Makefile.in Makefile.am DebugDocumentHandler.hpp DebugDocumentHandler.cpp DeviceInfo.hpp MyErrorHandler.hpp MyErrorHandler.cpp Main.cpp OmniDomParser.hpp OmniDomParser.cpp DebugParser.hpp DebugParser.cpp"
+	case ${xml_version} in
+	libxml*)	filelist=$filelist_libxml;	dir=libxml		;;
+	xerces1_3)	filelist=$filelist_xerces1_3;	dir=xerces-c1_3_0-linux	;;
+	xml4c3_1_0)	filelist=$filelist_xml4c3_1_0;	dir=xml4c3_1_0-linux	;;
+	*)		echo "Error: should not be here!"; exit			;;
+	esac
+	cd XMLParser;
+	success=1
+	for i in $filelist; do
+		if test ! -f $i; then
+			success=0
+			echo "Missing: $i"
+			break
+		fi
+		cmp -s $i $dir/$i
+		if test $? != 0; then
+			success=0
+			echo "Different: $i"
+			break
+		fi
+	done
+	if test $success != 1; then
+		for i in $filelist; do
+			echo "Copying: $dir/$i"
+			cp $dir/$i .
+		done		
+	fi
+	cd ..
+
+	#
+	# Determine if the parser has been built
+	#
+	PARSER_EXEC="XMLParser/parser"
+	if test -x ${PARSER_EXEC}; then
+		ParserMissing=0
+	fi
+
+	#
+	# Run automake if necessary
+	#
+	for i in install-sh mkinstalldirs missing ltmain.sh INSTALL COPYING config.h.in; do
+		if test ! -e "${i}"; then
+			automake --gnu --add-missing
+			break
+		fi
+	done
+
+	#
+	# Run configure if necessary
+	#
+	if test \(  \( ! -x "configure" \) \
+		-o  \( ${ForceConfigure} = 1 \) \
+		\); then
+		autoconf
+		if test $? != 0; then
+			echo "Error: autoconf failed."
+			exit
+		fi
+		echo ./configure ${CONFIGURE_ARGS}
+		./configure ${CONFIGURE_ARGS}
+		if test $? != 0; then
+			echo "Error: configure failed."
+			exit
+		fi
+	fi
+
+	#
+	# Make first stage omni project
+	#
+#	if test ${ParserMissing} = 1; then
+#		echo "****************************Stage*1*Make****************************"
+#		echo make SUBDIRS="hppcl3 . XMLParser"
+#		make SUBDIRS="hppcl3 . XMLParser"
+#
+#		if test $? != 0; then
+#			echo "Error: Build break!"
+#
+#			exit
+#		fi
+#	fi
+
+	#
+	# Search for the exact device list in configure.ac
+	#
+	if awk -v compare1="${DEVICEMAKEFILES}" -v compare2="${VENDORMAKEFILES}" '
+BEGIN                  { found  = 0;
+			  found1 = 0;
+			  found2 = 0;            }
+/^[d]nl @BEGIN-HACK-1/ { found = 1;             }
+/^[d]nl @BEGIN-HACK-2/ { found = 2;             }
+/^[d]nl @END-HACK-1/   { found = 0              }
+/^[d]nl @END-HACK-2/   { found = 0              }
+                       { if (found == 1)
+                         {
+                            if (compare1 == $0)
+                            {
+				found1 = 1
+                            }
+                         }
+			  if (found == 2)
+			  {
+                            if (compare2 == $0)
+                            {
+				found2 = 1
+                            }
+			  }
+			}
+END                    { if ((found1 == 1) && (found2 == 1))
+			  {
+                            exit 1
+			  }
+			  else
+			  {
+                            exit 0
+			  }
+			}
+
+' < configure.ac; then
+
+		#
+		# Change configure.ac
+		#
+		echo "********************************************************************"
+		echo "Changing configure.ac"
+
+		rm /tmp/$$ 2>/dev/null
+
+		awk -v DEVICEMAKEFILES="${DEVICEMAKEFILES}" -v VENDORMAKEFILES="${VENDORMAKEFILES}" '
+BEGIN                  { skip = 0              }
+/^[d]nl @BEGIN-HACK-1/ { skip = 1
+                         print $0
+                         print DEVICEMAKEFILES }
+/^[d]nl @BEGIN-HACK-2/ { skip = 1
+                         print $0
+                         print VENDORMAKEFILES }
+/^[d]nl @END-HACK-1/   { skip = 0              }
+/^[d]nl @END-HACK-2/   { skip = 0              }
+                       { if (skip == 0)
+                         {
+                            print $0
+                         }                     }
+' < configure.ac > /tmp/$$
+
+		cp /tmp/$$ configure.ac
+
+		rm /tmp/$$
+
+		FirstTimeBuild=1
+	fi
+
+	OLDDIR=`pwd`
+
+	echo "*************************Running*XML*Parser*************************"
+
+	#
+	# Determine if the parser has been built
+	#
+	PARSER_EXEC="XMLParser/parser"
+	if test -x ${PARSER_EXEC}; then
+		ParserMissing=0
+	fi
+
+	#
+	# Loop through the device directories
+	#
+	for i in ${DEVICELIST}; do
+
+		#
+		# Set up the names
+		#
+		NAME="`echo ${i} | sed -e 's/~//g' -e 's/\..*//'`"
+		DIR="`echo ${i} | sed -e 's/~//g' -e 's/_/ /g'`"
+		NOSPACENAME="`echo ${i} | sed -e 's/~//g' -e 's/_//g'`"
+
+		#
+		# Create the arguments for the parser.
+		#
+		PARSER_ARGS="-a"
+		PARSER_ARGS_EXTRA=""
+		if test "${DIR}" = "test"; then
+			#
+			# Don't install the test device
+			#
+			PARSER_ARGS_EXTRA="-i"
+		fi
+
+#		echo "NAME      = #"${NAME}"#"
+#		echo "NOSPACENAME = #"${NOSPACENAME}"#"
+#		echo "DIR       = #"${DIR}"#"
+
+		#
+		# Bug: Autotools cannot handle spaces in filenames!
+		#      So create a spaceless directory name equivalent.
+		#
+		if test "${DIR}" != "${NOSPACENAME}"; then
+			if test ! -L "${NOSPACENAME}"; then
+				echo "Linking \"${DIR}\" to \"${NOSPACENAME}\""
+				ln -s "${DIR}" "${NOSPACENAME}" 2>/dev/null
+			fi
+		fi
+
+		cd "${DIR}"
+
+		#
+		# Create necessary files
+		#
+		if test \(  \( ! -e Makefile.am \) \
+			-o  \( ${EXEC_NAME} -nt Makefile.am \) \
+			\); then
+			echo "Creating \"${DIR}/Makefile.am\""
+			echo "#"										> Makefile.am
+			echo "# IBM Omni driver"								>> Makefile.am
+			echo "# Copyright (c) International Business Machines Corp., 2000"			>> Makefile.am
+			echo "#"										>> Makefile.am
+			echo "# This library is free software; you can redistribute it and/or modify"		>> Makefile.am
+			echo "# it under the terms of the GNU Lesser General Public License as published"	>> Makefile.am
+			echo "# by the Free Software Foundation; either version 2.1 of the License, or"		>> Makefile.am
+			echo "# (at your option) any later version."						>> Makefile.am
+			echo "#"										>> Makefile.am
+			echo "# This library is distributed in the hope that it will be useful,"		>> Makefile.am
+			echo "# but WITHOUT ANY WARRANTY; without even the implied warranty of"			>> Makefile.am
+			echo "# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See"			>> Makefile.am
+			echo "# the GNU Lesser General Public License for more details."			>> Makefile.am
+			echo "#"										>> Makefile.am
+			echo "# You should have received a copy of the GNU Lesser General Public License"	>> Makefile.am
+			echo "# along with this library; if not, write to the Free Software"			>> Makefile.am
+			echo "# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA"	>> Makefile.am
+			echo "#"										>> Makefile.am
+			echo ""											>> Makefile.am
+			echo "lib_LTLIBRARIES ="								>> Makefile.am
+			echo "noinst_LTLIBRARIES ="								>> Makefile.am
+			echo "CLEANFILES ="									>> Makefile.am
+			echo ""											>> Makefile.am
+			if test "${DIR}" = "test"; then
+				echo "noinst_PROGRAMS = Tester"							>> Makefile.am
+				echo ""										>> Makefile.am
+				echo "Tester_SOURCES = Tester.cpp"						>> Makefile.am
+				echo "Tester_LDADD = @GLIB_LIBS@ \$(top_builddir)/libomni.la"				>> Makefile.am
+				echo ""										>> Makefile.am
+			fi
+			echo "include \$(srcdir)/libraries1.mak"						>> Makefile.am
+			echo "include \$(srcdir)/libraries2.mak"						>> Makefile.am
+			echo "include \$(srcdir)/libraries3.mak"						>> Makefile.am
+
+			Rebuild=1
+			AutoReconf=1
+		fi
+
+		#
+		# If the parser has been built
+		#
+		if test ${ParserMissing} = 0; then
+
+			rm /tmp/$$.a /tmp/$$.b /tmp/$$.c 2>/dev/null
+
+			#
+			# Save a backup of the output files
+			#
+			if test -e libraries1.mak; then
+				cp libraries1.mak /tmp/$$.a
+				touch -r libraries1.mak /tmp/$$.a
+			fi
+			if test -e libraries2.mak; then
+				cp libraries2.mak /tmp/$$.b
+				touch -r libraries2.mak /tmp/$$.b
+			fi
+			if test -e libraries3.mak; then
+				cp libraries3.mak /tmp/$$.c
+				touch -r libraries3.mak /tmp/$$.c
+			fi
+
+			#
+			# Execute the parser
+			#
+			echo ../${PARSER_EXEC} ${PARSER_ARGS} ${PARSER_ARGS_EXTRA} < "Device List"
+			../${PARSER_EXEC} ${PARSER_ARGS} ${PARSER_ARGS_EXTRA} < "Device List"
+
+			#
+			# Did a device source file change?
+			#
+			if test $? = 1; then
+				Rebuild=1
+			fi
+
+#			ls -l libraries*
+#			ls -l /tmp/$$*
+
+			#
+			# Should we use the newly generated ones or the originals?
+			#
+			if test -e /tmp/$$.a; then
+				if cmp -s libraries1.mak /tmp/$$.a; then
+					echo "Same libraries1.mak"
+
+					#
+					# Restore the old date
+					#
+					touch -r /tmp/$$.a libraries1.mak
+				else
+					#
+					# Use the new one
+					#
+					echo "Different libraries1.mak"
+					Rebuild=1
+					AutoReconf=1
+				fi
+			else
+				#
+				# Use the new one
+				#
+				echo "Missing libraries1.mak"
+				Rebuild=1
+				AutoReconf=1
+			fi
+			if test -e /tmp/$$.b; then
+				if cmp -s libraries2.mak /tmp/$$.b; then
+					echo "Same libraries2.mak"
+
+					#
+					# Restore the old date
+					#
+					touch -r /tmp/$$.b libraries2.mak
+				else
+					#
+					# Use the new one
+					#
+					echo "Different libraries2.mak"
+					Rebuild=1
+					AutoReconf=1
+				fi
+			else
+				#
+				# Use the new one
+				#
+				echo "Missing libraries2.mak"
+				Rebuild=1
+				AutoReconf=1
+			fi
+			if test -s libraries3.mak; then
+				if test -e /tmp/$$.c; then
+					if cmp -s libraries3.mak /tmp/$$.c; then
+						echo "Same libraries3.mak"
+
+						#
+						# Restore the old date
+						#
+						touch -r /tmp/$$.c libraries3.mak
+					else
+						#
+						# Use the new one
+						#
+						echo "Different libraries3.mak"
+						Rebuild=1
+						AutoReconf=1
+					fi
+				else
+					#
+					# Use the new one
+					#
+					echo "Missing libraries3.mak"
+					Rebuild=1
+					AutoReconf=1
+				fi
+			else
+				#
+				# Use the old one
+				#
+				echo "Old libraries3.mak"
+				cp /tmp/$$.c libraries3.mak
+				touch -r /tmp/$$.c libraries3.mak
+			fi
+
+			#
+			# Clean up
+			#
+			if test -e /tmp/$$.a; then
+				rm /tmp/$$.a
+			fi
+			if test -e /tmp/$$.b; then
+				rm /tmp/$$.b
+			fi
+			if test -e /tmp/$$.c; then
+				rm /tmp/$$.c
+			fi
+
+		fi
+
+		cd "${OLDDIR}"
+	done
+
+	echo "********************************************************************"
+	echo "FirstTimeBuild=${FirstTimeBuild}"
+	echo "Rebuild=${Rebuild}"
+	echo "AutoReconf=${AutoReconf}"
+	echo "ParserMissing=${ParserMissing}"
+
+	#
+	# If the automake files have changed then reconfigure the project
+	#
+	if test ${AutoReconf} = 1; then
+
+		autoreconf
+		echo ./configure ${CONFIGURE_ARGS}
+		./configure ${CONFIGURE_ARGS}
+
+	fi
+
+	#
+	# If the source files have changed, then rebuild
+	#
+	if test \( \( \( ${FirstTimeBuild} = 1 \) \
+		   -a \( ${Rebuild} = 1 \) \
+		   \) \
+		-o \( ${FirstTimeBuild} = 0 \) \
+		\); then
+
+		echo "****************************Stage*2*Make****************************"
+		echo make ${MAKE_ARGS}
+		make ${MAKE_ARGS}
+
+		if test $? != 0; then
+			echo "Error: Build break!"
+
+			exit
+		fi
+
+	fi
+fi

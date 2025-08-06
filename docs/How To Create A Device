@@ -1,0 +1,570 @@
+/*
+ *   IBM Omni driver
+ *   Copyright (c) International Business Machines Corp., 2000
+ *
+ *   This library is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU Lesser General Public License as published
+ *   by the Free Software Foundation; either version 2.1 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This library is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+ *   the GNU Lesser General Public License for more details.
+ *
+ *   You should have received a copy of the GNU Lesser General Public License
+ *   along with this library; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ *
+ */
+
+How to create a device:
+
+1) Determine and edit the build layout.  The list of drivers that are built in
+the omni driver is contained in the "devices.mak" file.  Drivers have separate
+subdirectories.  For example, there is a directory called Epson.
+
+$ ls -ld Epson
+drwxrwsr-x    4 nobody   nobody      73728 Jun  3 10:07 Epson
+$ cd Epson
+
+The list of devices for a driver are contained in a file called "Device List"
+in the driver directory.
+
+$ ls -l Device\ List
+-rw-rw-r--    1 nobody   nobody       2497 Apr 24 15:55 Device List
+
+This file contains a list of device names (without the .xml ending).  The
+main XML file will be named after the device name and includes the .xml
+file extension.  Spaces are used for the real files.  The generated files
+(.hpp and .cpp) will have spaces converted to underscores.  For example,
+suppose that you have a new device called the "Epson LQ-2550."
+
+$ grep -n "Epson LQ-2550" Device\ List
+62:Epson LQ-2550
+
+$ ls -l Epson\ LQ-2550.xml
+-rw-rw-r--    1 nobody   nobody       1160 Jul 13 13:35 Epson LQ-2550.xml
+
+2) Create an XML file of the device's description of its capabilities.  The
+format is as follows.
+
+$ cat Epson\ LQ-2550.xml
+ 1: <?xml version="1.0" encoding="UTF-8" ?>
+ 2: <!DOCTYPE Device SYSTEM "../OmniDevice.dtd">
+ 3: <Device name="Epson LQ-2550">
+ 4:    <DriverName>Epson</DriverName>
+ 5:    <Capability type="COLOR"/>
+ 6:    <Capability type="MONOCHROME"/>
+ 7:    <Capability type="MIRROR"/>
+ 8:    <RasterCapabilities type="TOP_TO_BOTTOM"/>
+ 9:    <PDL level="PDL_Epson" sublevel="LEVEL_ESC" major="1" minor="0"/>
+10:    <Uses>Brother HJ-100i Commands.xml</Uses>
+11:    <Has>Citizen PN60 Resolutions.xml</Has>
+12:    <Has>Brother M-1824L Color PrintModes.xml</Has>
+13:    <Has>Brother HJ-100i Trays.xml</Has>
+14:    <Has>Epson LQ-2550 Forms.xml</Has>
+15:    <Has>Brother HJ-100i Medias.xml</Has>
+16:    <Has>Brother HJ-100i Connections.xml</Has>
+17:    <Has>Epson LQ-2550 Gammas.xml</Has>
+18:    <Instance>Epson ESC Instance.hpp</Instance>
+19:    <Instance>Epson ESC Instance.cpp</Instance>
+20:    <Blitter>Epson ESC Blitter.hpp</Blitter>
+21:    <Blitter>Epson ESC Blitter.cpp</Blitter>
+22:    <DefaultJobProperties>
+23:       <orientation>ORIENTATION_PORTRAIT</orientation>
+24:       <form>FORM_LETTER</form>
+25:       <tray>TRAY_REAR_CONTINUOUS</tray>
+26:       <media>MEDIA_PLAIN</media>
+27:       <resolution>RESOLUTION_180_X_180</resolution>
+28:       <dither>DITHER_STUCKI_DIFFUSION</dither>
+29:       <printmode>PRINT_MODE_24_BLACK_COLOR</printmode>
+30:    </DefaultJobProperties>
+31: </Device>
+
+on line  3 - is the root type of the data in this file.  Valid choices are:
+             Device, deviceCommands, deviceConnections, deviceForms,
+             deviceGammaTable, deviceMedias, deviceOptions,
+             devicePrintModes, deviceResolutions, or deviceTrays.
+             The required attribute name is the device name.
+
+         4 - is the the name of the driver.  The device name was named in
+             line 1.
+
+         5 - These are capabilities for the device.  They are used in C++
+             code by including Capability.hpp.  Ex:
+                if (hasCapability (Capability::MIRROR))
+                {
+                }
+             You can use these in the device blitter and instance code.
+             However, these capabilites are for applications to ask you
+             about.  Ex:
+                if (pDevice->hasCapability (Capability::MIRROR))
+                {
+                }
+
+         8 - These are the raster capabilities for the device.  These are
+             on the todo list.
+
+         9 - This describes the Page Description Language for the specific
+             printer.  The required attributes are as follows:
+                level    - The general catagory of the device.
+                sublevel - The subcatagory of the device.
+                major    - The major revision code.
+                minor    - The minor revision code.
+
+        10 - This describes the command set that is in the printer.  NOTE:
+             You can use either the Uses or Has keyword.
+
+        11 - This describes the resolutions that the printer supports.
+
+        12 - This describes the print modes that the printer supports.
+
+        13 - This describes the trays that the printer supports.
+
+        14 - This describes the forms that the printer supports.
+
+        15 - This describes the medias that the printer supports.
+
+        16 - This describes the connectons that the printer supports.
+
+        17 - This describes the gamma corrections for a printer.
+
+        18 - The next two lines point to the instance code for this
+             device.  These are pure C++ files and are copied verbatim and
+             then compiled.
+             NOTE: In the future, this will be a script language instead.
+
+        20 - The next two lines point to the blitter code for this
+             device.  These are pure C++ files and are copied verbatim and
+             then compiled.
+             NOTE: In the future, this will be a script language instead.
+
+        22 - This is the start of a structure that describe the default job
+             properties for a device.  There are two ways to create the
+             device in C++.  One is with no arguments and uses the
+             properties that follow here and the other passes in the job
+             properties.
+
+        23 - This is the orientation.  NOTE:  all of the following ids must
+             be defined in the previous tables.
+
+        24 - This is the form id.
+
+        25 - This is the tray id.
+
+        26 - This is the media id.
+
+        27 - This is the resolution id.
+
+        28 - This is the dithering id.
+
+        29 - This is the print mode id.
+
+        30 - This is the end of the structure.
+
+        31 - This is the end of the device definiton.
+
+3) Create a text file for all of the previous definitions or reuse existing
+ones.
+
+COMMAND DEFINITIONS
+-------------------
+
+ 1: <deviceCommands>
+ 2:   <command name="cmdSetColor">_ESC_ "r%c"</command>
+ 3:   ...
+ 4: </deviceCommands>
+
+on line  1 - is the root type of the data in this file.  In this case,
+             deviceCommands.
+
+         2 - The format for elements in the structure is the name of the
+             tag (command) followed by an attribute (name) which contains the
+             name of the command.  The command data is between the start and
+             end command tags.  The command data can be composed of one or
+             more of the following:
+                _ESC_ - hexadecimal 0x1b
+                _FF_  -             0x0c
+                _LF_  -             0x0a
+                _CR_  -             0x0d
+                _EM_  -             0x19
+                _FS_  -             0x1c
+                _CAN_ -             0x18
+                _NUL_ -             0x00
+                HEX (xx) - any hexadecimal value 2 hexdigits long
+                ASCII (c) - an ASCII character c.
+                "string" - an ASCII string
+
+Usage:
+
+The command structure comes from the Device's getCurrentCommand method.
+Individual commands are then accessed by calling the DeviceCommand's
+getCommandData method.  You can then send the command by itself via
+Device's sendBinaryDataToDevice method, or you can use a printf style call
+with Device's sendPrintfToDevice method.  Valid printf arguments are:
+   %d - little endian 32-bit value
+   %D - big    endian 32-bit value
+   %w - little endian 16-bit value
+   %W - big    endian 16-bit value
+   %c -                8-bit value
+   %% - the % character
+
+an example would be:
+
+   DeviceCommand *pCommands = pDevice_d->getCurrentCommand ();
+   BinaryData    *pCmd      = 0;
+
+   pCmd = pCommands->getCommandData ("cmdSetColor");
+   pDevice_d->sendPrintfToDevice (pCmd, 4);
+
+RESOLUTION DEFINITIONS
+----------------------
+
+ 1: <deviceResolutions>
+ 2:   <deviceResolution>
+ 3:     <name>RESOLUTION_60_X_180</name>
+ 4:     <xRes>60</xRes>
+ 5:     <yRes>180</yRes>
+ 6:     <command>_ESC_ "* %w"</command>
+ 7:     <resolutionCapability>0</resolutionCapability>
+ 8:     <resolutionDestinationBitsPerPel>1</resolutionDestinationBitsPerPel>
+ 9:     <resolutionScanlineMultiple>24</resolutionScanlineMultiple>
+10:   </deviceResolution>
+11:   ...
+12: </deviceResolutions>
+
+on line  1 - is the root type of the data in this file.  In this case,
+             deviceResolutions.
+
+         3 - This is the id of the structure.  NOTE: The ids are global and
+             are defined in DeviceResolution.hpp.
+
+         4 - This is the x resolution in dots per inch.
+
+         5 - This is the y resolution in dots per inch.
+
+         6 - This is the command for the resolution.  See above for a
+             description of the command format.
+
+         7 - This is the capabilities of the resolution.  This is for
+             future use.
+
+         8 - This is the bits per pel of the destination bitmap on the
+             printer.  This is for future use.
+
+         9 - This is the number of scanlines that the blitter codes wants
+             at a time.  The actual number of scanlines will be a multiple
+             of this number.  For example, for 10, it could be 10, 20, 30,
+             etc...
+
+Usage:
+
+   DeviceResolution *pDR = pDevice->getCurrentResolution ();
+
+   if (  360 == pDR->getXRes ()
+      && 360 == pDR->getYRes ()
+      )
+   {
+      ...
+   }
+
+PRINT MODE DEFINITIONS
+----------------------
+
+A print mode is the combination of the physical bits per pel (bpp), the
+logical bpp, and the number of planes in the logical bitmap.  The logical
+bitmap is the intermediate format that the printer driver converts to the
+final format (physical bitmap).
+Right now, you will receive the bitmap in the logical depth and the
+physical depth is only informational.
+
+ 1: <devicePrintModes>
+ 2:   <devicePrintMode>
+ 3:     <name>PRINT_MODE_MONOCHROME</name>
+ 4:     <printModePhysicalCount>1</printModePhysicalCount>
+ 5:     <printModeLogicalCount>1</printModeLogicalCount>
+ 6:     <printModePlanes>1</printModePlanes>
+ 7:   </devicePrintMode>
+ 8:   ...
+ 9: </devicePrintModes>
+
+on line  1 - is the root type of the data in this file.  In this case,
+             devicePrintModes.
+
+         3 - This is the id of the structure.  NOTE: The ids are global and
+             are defined in DevicePrintMode.hpp.
+
+         4 - This is the physical bit count of the output bitmap.
+
+         5 - This is the logical bit count of the input bitmap.
+
+         6 - This is the logical number of color planes of the input
+             bitmap.
+
+Usage:
+
+   DevicePrintMode *pDPM = pDevice->getCurrentPrintMode ();
+
+   if (1 == pDPM->getLogicalCount ())
+   {
+      // Printer wants a monochrome surface.
+   }
+
+TRAY DEFINITIONS
+----------------
+
+ 1: <deviceTrays>
+ 2:   <deviceTray>
+ 3:     <name>TRAY_REAR_CONTINUOUS</name>
+ 4:     <trayType>TRAY_TYPE_AUTO</trayType>
+ 5:     <command>_ESC_ HEX (19) "B"</command>
+ 6:   </deviceTray>
+ 7:   ...
+ 8: </deviceTrays>
+
+on line  1 - is the root type of the data in this file.  In this case,
+             deviceTrays.
+
+         3 - This is the id of the structure.  NOTE: The ids are global and
+             are defined in DeviceTray.hpp.
+
+         4 - This is unique within the deviceTrays file.  To use it:
+             #include "Brother_HJ_100i_Trays.hpp"
+             if (Brother_HJ_100i_Trays::TRAY_TYPE_AUTO == pTray->getType ())
+             {
+             }
+             This is reserved for future use and will be probably be
+             consolidated into DeviceTray.hpp
+
+         5 - This is the command for the tray.  See above for a description
+             of the command format.
+
+Usage:
+
+   DeviceTray *pTray = pDevice->getCurrentTray ();
+
+   if (pTray->isID (DeviceTray::TRAY_REAR_CONTINUOUS))
+   {
+   }
+
+FORM DEFINITIONS
+----------------
+
+ 1: <deviceForms>
+ 2:   <deviceForm>
+ 3:     <name>FORM_LETTER</name>
+ 4:     <formCapabilities>NO_CAPABILITIES</formCapabilities>
+ 5:     <command>_NUL_</command>
+ 6:     <hardCopyCap>
+ 7:       <hardCopyCapLeft>0</hardCopyCapLeft>
+ 8:       <hardCopyCapTop>9000</hardCopyCapTop>
+ 9:       <hardCopyCapRight>0</hardCopyCapRight>
+10:       <hardCopyCapBottom>4000</hardCopyCapBottom>
+11:     </hardCopyCap>
+12:   </deviceForm>
+13:   ...
+14: </deviceForms>
+
+on line  1 - is the root type of the data in this file.  In this case,
+             deviceForms.
+
+         3 - This is the id of the structure.  NOTE: The ids are global and
+             are defined in DeviceForm.hpp.
+
+         4 - This is unique within the deviceForms file.
+             This is reserved for future use and will be probably be
+             consolidated into DeviceTray.hpp
+
+         5 - This is the command for the form.  See above for a description
+             of the command format.
+
+         6 - This is the start of the form's unprintable areas.  These are
+             called Hard Copy Caps (short for Capabilities).  The units are
+             in thousandths of a millimeter (tmm).  One inch would be 25400
+             hmms.
+
+         7 - This is the form's left unprintable area.
+
+         8 - This is the form's top unprintable area.
+
+         9 - This is the form's right unprintable area.
+
+        10 - This is the form's bottom unprintable area.
+
+Usage:
+
+   DeviceForm  *pDF  = pDevice->getCurrentForm ();
+   HardCopyCap *pHCC = pDF->getHardCopyCap ();
+
+   if (pDF->isID (DeviceForm::FORM_LETTER))
+   {
+   }
+
+MEDIA DEFINITIONS
+-----------------
+
+ 1: <deviceMedias>
+ 2:   <deviceMedia>
+ 3:     <name>MEDIA_PLAIN</name>
+ 4:     <command>_NUL_</command>
+ 5:     <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+ 6:     <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+ 7:   </deviceMedia>
+ 8:   ...
+ 9: </deviceMedias>
+
+on line  1 - is the root type of the data in this file.  In this case,
+             deviceMedias.
+
+         3 - This is the id of the structure.  NOTE: The ids are global and
+             are defined in DeviceMedia.hpp.
+
+         4 - This is the command for the media.  See above for a
+             description of the command format.
+
+         5 - This is the color adjustment that is required for this media.
+             This is reserved for future use.
+
+         6 - This is the absorption that this media has.  This is reserved
+             for future use.
+
+Usage:
+
+   DeviceMedia *pDM = pDevice->getCurrentMedia ();
+
+   if (pDM->isID (DeviceMedia::MEDIA_PLAIN))
+   {
+   }
+
+CONNECTION DEFINITIONS
+----------------------
+
+A connection is defined to be a grouping of a form, a tray, and a media.
+It is reserved for future use such as dialogs that show what is allowable
+for a device.
+
+ 1: <deviceConnections>
+ 2:   <deviceConnection>
+ 3:     <name>EPSON_CONN_ID_1</name>
+ 4:     <connectionForm>FORM_LETTER</connectionForm>
+ 5:     <connectionTray>TRAY_REAR_CONTINUOUS</connectionTray>
+ 6:     <connectionMedia>MEDIA_PLAIN</connectionMedia>
+ 7:   </deviceConnection>
+ 8:   ...
+ 9: </deviceConnections>
+
+on line  1 - is the root type of the data in this file.  In this case,
+             deviceConnections.
+
+         3 - This is the id of the structure.  NOTE: The ids are local for
+             this file.  Should there be an id at all?
+
+         4 - This is the form id.
+
+         5 - This is the tray id.
+
+         6 - This is the media id.
+
+GAMMA DEFINITIONS
+-----------------
+
+A gamma table entry consists of gamma values for the Cyan, Magenta, Yellow,
+and Black planes.  The gamma values are in tenths (ex: 1.0 is 10).  It also
+has a minimum level of value for each of the CMYK planes.  This is passed
+as input to the dithering algorithm in the instance code.  Gamma
+corrections are based on a resolution, media, print mode, and dither
+catagory.
+
+ 1: <deviceGammaTable>
+ 2:   <deviceGammaTable>
+ 3:     <gammaTableResolution>RESOLUTION_60_X_180</gammaTableResolution>
+ 4:     <gammaTableMedia>MEDIA_PLAIN</gammaTableMedia>
+ 5:     <gammaTablePrintMode>PRINT_MODE_MONOCHROME</gammaTablePrintMode>
+ 6:     <gammaTableDitherCatagory>DITHER_CATAGORY_MATRIX</gammaTableDitherCatagory>
+ 7:     <gammaTableCGamma>10</gammaTableCGamma>
+ 8:     <gammaTableMGamma>10</gammaTableMGamma>
+ 9:     <gammaTableYGamma>10</gammaTableYGamma>
+10:     <gammaTableKGamma>10</gammaTableKGamma>
+11:     <gammaTableCBias>0</gammaTableCBias>
+12:     <gammaTableMBias>0</gammaTableMBias>
+13:     <gammaTableYBias>0</gammaTableYBias>
+14:     <gammaTableKBias>0</gammaTableKBias>
+15:   </deviceGammaTable>
+16:   ...
+17: </deviceGammaTable>
+
+on line  1 - is the root type of the data in this file.  In this case,
+             deviceGammaTable.
+
+         3 - This is the resolution id.
+
+         4 - This is the media id.
+
+         5 - This is the print mode id.
+
+         6 - This is the dither catagory.  For right now, valid catagories
+             are DITHER_CATAGORY_MATRIX, DITHER_CATAGORY_DIFFUSION,
+             DITHER_CATAGORY_HSV_DIFFUSION, DITHER_CATAGORY_CMYK_DIFFUSION,
+             DITHER_CATAGORY_VOID_CLUSTER, DITHER_CATAGORY_NEW_DIFFUSION,
+             DITHER_CATAGORY_NEW_MATRIX.
+
+         7 - This is the Cyan gamma.
+
+         8 - This is the Magenta gamma.
+
+         9 - This is the Yellow gamma.
+
+        10 - This is the Black gamma.
+
+        11 - This is the Cyan bias.
+
+        12 - This is the Magenta bias.
+
+        13 - This is the Yellow bias.
+
+        14 - This is the Black bias.
+
+Usage:
+
+   DeviceGamma *pDG = pDevice->getCurrentGamma ();
+
+DEVICE DATA
+-----------
+
+A device data table consists of values that you want to be different on a
+per device basis.  It consists of a key followed by an equals sign followed
+by a value (either a string, a boolean value (true or false), or an integer).
+Multiple data entries are separated by commas.  If you have a class of
+devices, then each device can have the same key name but have different
+values.
+
+ 1: <deviceDatas>
+ 2:    <deviceData name="dataTestString" type="string">Hello world!</deviceData>
+ 3:    <deviceData name="dataTestBool" type="boolean">true</deviceData>
+ 4:    <deviceData name="dataTestInt" type="integer">42</deviceData>
+ 5: </deviceDatas>
+
+on line  1 - is the root type of the data in this file.  In this case,
+             deviceDatas.
+
+         2 - a string value set to "Hello world!".
+
+         3 - a boolean value set to true.
+
+         4 - a integer value set to 42.
+
+Usage:
+
+   DeviceData *pData             = getDeviceData ();
+   char       *pszDataTestString = 0;
+   bool        fDataTestBool     = false;
+   int         iDataTestInt      = 0;
+   bool        fRc;
+
+   if (pData)
+   {
+      fRc = pData->getStringData ("dataTestString", &pszDataTestString);
+      fRc = pData->getBooleanData ("dataTestBool", &fDataTestBool);
+      fRc = pData->getIntData ("dataTestInt", &iDataTestInt);
+   }

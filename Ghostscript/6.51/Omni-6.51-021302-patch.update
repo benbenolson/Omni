@@ -1,0 +1,1282 @@
+diff -C5 ghostscript-6.51b/src/defs.h ghostscript-6.51a/src/defs.h
+*** ghostscript-6.51b/src/defs.h	Wed Feb 13 18:09:00 2002
+--- ghostscript-6.51a/src/defs.h	Wed Feb 13 16:01:34 2002
+***************
+*** 111,155 ****
+  #define HIUCHAR(w)      ((UCHAR)(((USHORT)(w) >> 8) & 0xff))
+  #define LOUSHORT(l)     ((USHORT)((ULONG)l))
+  #define HIUSHORT(l)     ((USHORT)(((ULONG)(l) >> 16) & 0xffff))
+  
+  
+!    #define CLR_FALSE                     (-5L)
+!    #define CLR_TRUE                      (-4L)
+  
+!    #define CLR_ERROR                   (-255L)
+!    #define CLR_DEFAULT                   (-3L)
+!    #define CLR_WHITE                     (-2L)
+!    #define CLR_BLACK                     (-1L)
+!    #define CLR_BACKGROUND                  0L
+!    #define CLR_BLUE                        1L
+!    #define CLR_RED                         2L
+!    #define CLR_PINK                        3L
+!    #define CLR_GREEN                       4L
+!    #define CLR_CYAN                        5L
+!    #define CLR_YELLOW                      6L
+!    #define CLR_NEUTRAL                     7L
+! 
+!    #define CLR_DARKGRAY                    8L
+!    #define CLR_DARKBLUE                    9L
+!    #define CLR_DARKRED                    10L
+!    #define CLR_DARKPINK                   11L
+!    #define CLR_DARKGREEN                  12L
+!    #define CLR_DARKCYAN                   13L
+!    #define CLR_BROWN                      14L
+!    #define CLR_PALEGRAY                   15L
+! 
+!    /* rgb colors */
+!    #define RGB_ERROR                   (-255L)
+!    #define RGB_BLACK              0x00000000L
+!    #define RGB_BLUE               0x000000FFL
+!    #define RGB_GREEN              0x0000FF00L
+!    #define RGB_CYAN               0x0000FFFFL
+!    #define RGB_RED                0x00FF0000L
+!    #define RGB_PINK               0x00FF00FFL
+!    #define RGB_YELLOW             0x00FFFF00L
+!    #define RGB_WHITE              0x00FFFFFFL
+  
+  
+  
+  #define BMAP_MEMORY          0x00000001
+  
+--- 111,155 ----
+  #define HIUCHAR(w)      ((UCHAR)(((USHORT)(w) >> 8) & 0xff))
+  #define LOUSHORT(l)     ((USHORT)((ULONG)l))
+  #define HIUSHORT(l)     ((USHORT)(((ULONG)(l) >> 16) & 0xffff))
+  
+  
+! #define CLR_FALSE                     (-5L)
+! #define CLR_TRUE                      (-4L)
+  
+! #define CLR_ERROR                   (-255L)
+! #define CLR_DEFAULT                   (-3L)
+! #define CLR_WHITE                     (-2L)
+! #define CLR_BLACK                     (-1L)
+! #define CLR_BACKGROUND                  0L
+! #define CLR_BLUE                        1L
+! #define CLR_RED                         2L
+! #define CLR_PINK                        3L
+! #define CLR_GREEN                       4L
+! #define CLR_CYAN                        5L
+! #define CLR_YELLOW                      6L
+! #define CLR_NEUTRAL                     7L
+! 
+! #define CLR_DARKGRAY                    8L
+! #define CLR_DARKBLUE                    9L
+! #define CLR_DARKRED                    10L
+! #define CLR_DARKPINK                   11L
+! #define CLR_DARKGREEN                  12L
+! #define CLR_DARKCYAN                   13L
+! #define CLR_BROWN                      14L
+! #define CLR_PALEGRAY                   15L
+! 
+! /* rgb colors */
+! #define RGB_ERROR                   (-255L)
+! #define RGB_BLACK              0x00000000L
+! #define RGB_BLUE               0x000000FFL
+! #define RGB_GREEN              0x0000FF00L
+! #define RGB_CYAN               0x0000FFFFL
+! #define RGB_RED                0x00FF0000L
+! #define RGB_PINK               0x00FF00FFL
+! #define RGB_YELLOW             0x00FFFF00L
+! #define RGB_WHITE              0x00FFFFFFL
+  
+  
+  
+  #define BMAP_MEMORY          0x00000001
+  
+diff -C5 ghostscript-6.51b/src/gomni.c ghostscript-6.51a/src/gomni.c
+*** ghostscript-6.51b/src/gomni.c	Wed Feb 13 18:10:17 2002
+--- ghostscript-6.51a/src/gomni.c	Wed Feb 13 16:01:22 2002
+***************
+*** 76,85 ****
+--- 76,93 ----
+  /*                     interaction instead of writing the data          */
+  /*                     directly to a file                               */
+  /*                                                                      */
+  /*    @@05052001A      Update mulitplier for .0001 mm vs. .001 mm       */
+  /*                                                                      */
++ /*    1/28/2002        changed code to utilize a core omni structure    */
++ /*                     to allow for management of devices linked        */
++ /*                     to servers and allow device code re-entrancy     */
++ /*                                                                      */
++ /*    @@01302002       Changed code to utilize -sserver from the        */
++ /*                     command line instead of having to provide a      */
++ /*                     file name along with the server                  */
++ /*                                                                      */
+  /************************************************************************/
+  
+  // Include these first.  Ghostscript redefines printf
+  #include <glib.h>
+  #include <gmodule.h>
+***************
+*** 94,103 ****
+--- 102,115 ----
+  #include "gserrors.h"
+  #include "gpsync.h"
+  
+  #include "defs.h"
+  
++ #define MAX_LENGTH 65
++ 
++ #define Signature "OMNI"
++ 
+  const static int fDebugOutput = 0;
+  
+  #define DEVICES_DEFINED
+  #define ORIENTATION_STRING "orientation=ORIENTATION_PORTRAIT"
+  
+***************
+*** 134,150 ****
+                                          PRINTMODE    *pPrtMode);
+  typedef bool   (*PFNGETRESOLUTIONINFO) (void         *pDev,
+                                          HWRESOLUTION *hwRes);
+  typedef bool   (*PFNGETMARGININFO)     (void         *pDev,
+                                          HWMARGINS    *hwMargins);
+! typedef void   (*PFNBEGINJOB)          (void         *pDev,
+!                                         FILE         *pFile);
+  typedef void   (*PFNNEWFRAME)          (void         *pDev); //@@04162001
+  
+  typedef void   (*PFNENDJOB)            (void         *pDev,
+                                          void         *pOutputObject);
+! typedef void   (*PFNRASTERIZE)         (void         *pDevice,
+                                          PBYTE         pbBits,
+                                          PBITMAPINFO2  pbmi,
+                                          PSIZEL        psizelPage,
+                                          PRECTL        prectlPageLocation,
+                                          BITBLT_TYPE   eType);
+--- 146,168 ----
+                                          PRINTMODE    *pPrtMode);
+  typedef bool   (*PFNGETRESOLUTIONINFO) (void         *pDev,
+                                          HWRESOLUTION *hwRes);
+  typedef bool   (*PFNGETMARGININFO)     (void         *pDev,
+                                          HWMARGINS    *hwMargins);
+! typedef bool   (*PFNGETVERSION)        (void         *pDev,
+!                                         char         *OmniVersion);
+! 
+! typedef void   (* PFNBEGINJOB)         (void *pOmni,
+!                                         FILE *pFile); 
+! //                                        char  *pszDeviceName, 
+! //                                        char  *pszJobProperties);
+! 
+  typedef void   (*PFNNEWFRAME)          (void         *pDev); //@@04162001
+  
+  typedef void   (*PFNENDJOB)            (void         *pDev,
+                                          void         *pOutputObject);
+! typedef void   (*PFNRASTERIZE)         (void         *pcoreOmni,
+                                          PBYTE         pbBits,
+                                          PBITMAPINFO2  pbmi,
+                                          PSIZEL        psizelPage,
+                                          PRECTL        prectlPageLocation,
+                                          BITBLT_TYPE   eType);
+***************
+*** 154,164 ****
+                                          void         *pszDebugFile,
+                                          char         *pszOptions,
+                                          int           iUseClient,   //@@05092001
+                                          FILE         *file);        //@@05092001
+  
+! typedef void   (*PFNDELETEDEVICE)      (void         *pDevice);
+  
+  typedef long   (*PFNMONODITHER)        (PDDI          pdi,           //@@04062001
+                                          PIMAGEINFO    pimg_infos,
+                                          PBYTE        *pBuffer,
+                                          ULONG         ulFlgs);
+--- 172,182 ----
+                                          void         *pszDebugFile,
+                                          char         *pszOptions,
+                                          int           iUseClient,   //@@05092001
+                                          FILE         *file);        //@@05092001
+  
+! typedef void   (*PFNDELETEDEVICE)      (void         *pcoreOmni);
+  
+  typedef long   (*PFNMONODITHER)        (PDDI          pdi,           //@@04062001
+                                          PIMAGEINFO    pimg_infos,
+                                          PBYTE        *pBuffer,
+                                          ULONG         ulFlgs);
+***************
+*** 186,209 ****
+      int         copies_printed;
+      pDevStruct  pDev;            /**    Omni specific extensions */
+  } gx_device_omni;
+  typedef gx_device_omni omni_device;
+  
+  
+- #define MAX_LENGTH 65
+  
+  struct _DevStruct { /* All omni specific data */
+  
+-    char                  cDeviceName[MAX_LENGTH];
+-    char                  cDebugFile[MAX_LENGTH];   /* text value for dither */
+     char                  cAsyncOpt[MAX_LENGTH];   /* text value for dither */
+     char                  cMonoDither[MAX_LENGTH];
+     char                  cServer[32];             //@@05092001
+     char                  cServerFile[256];        //@@05092001
+-    char                 *pszOtherOptions;
+     void                 *pOutputObject;            // can be used for redirecting cerr in C++ section
+!    void                 *pDevice;                  // pointer to the device
+  
+     GModule              *hmodOmni;                   // handle to libomni.so
+     GModule              *hmodDevice;                 // handle to libDeviceXXX.so
+     PFNGETPRINTMODEINFO   pfnGetPrintModeInfo;
+     PFNGETRESOLUTIONINFO  pfnGetResolutionInfo;
+--- 204,238 ----
+      int         copies_printed;
+      pDevStruct  pDev;            /**    Omni specific extensions */
+  } gx_device_omni;
+  typedef gx_device_omni omni_device;
+  
++ typedef struct omni_dev_struct {
++     char cSignature[4];
++     char cVersion[10];
++     void *pDevice;                    // pointer to a standard device
++     void *pPDCDevice;                 // pointer to a PDC device for utilizing IPC
++     bool  bPDCDevice;                 // boolean to tell if this is a PDC device or not
++     FILE *pfile;                      // pointer to the output handle from beginjob
++     char *pszJobOptions;              // pointer to the job options
++     char  cDebugFile[MAX_LENGTH];     // debug file name
++     char  cDeviceName[MAX_LENGTH];
++     char  cOmniVersion[10];
++ } core_omni;
++ typedef core_omni core_omni_device;
++ 
+  
+  
+  struct _DevStruct { /* All omni specific data */
+  
+     char                  cAsyncOpt[MAX_LENGTH];   /* text value for dither */
+     char                  cMonoDither[MAX_LENGTH];
+     char                  cServer[32];             //@@05092001
+     char                  cServerFile[256];        //@@05092001
+     void                 *pOutputObject;            // can be used for redirecting cerr in C++ section
+!    core_omni_device     *pcoreOmni;
+!    void                 *pCallPtr;
+  
+     GModule              *hmodOmni;                   // handle to libomni.so
+     GModule              *hmodDevice;                 // handle to libDeviceXXX.so
+     PFNGETPRINTMODEINFO   pfnGetPrintModeInfo;
+     PFNGETRESOLUTIONINFO  pfnGetResolutionInfo;
+***************
+*** 213,232 ****
+     PFNENDJOB             pfnEndJob;
+     PFNRASTERIZE          pfnRasterize;
+     PFNCREATEDEVICE       pfnCreateDevice;
+     PFNDELETEDEVICE       pfnDeleteDevice;
+     PFNMONODITHER         pfnMonoDither;    //@@04162001
+! 
+     unsigned long         ulPelSizeCorrection;
+  
+     int                   iVertDots;
+     int                   width;
+     int                   height;
+     int                   iSync;
+     int                   iPageNumber;  //@@04162001
+     int                   iGSMono;      //@@04252001
+     int                   iUseServer;   //@@05092001
+     FILE                 *ProxyFile;    //@@05092001
+  
+     byte                 *outbuf;     /* Output-Buffer */
+  
+     int                   iPage;
+--- 242,262 ----
+     PFNENDJOB             pfnEndJob;
+     PFNRASTERIZE          pfnRasterize;
+     PFNCREATEDEVICE       pfnCreateDevice;
+     PFNDELETEDEVICE       pfnDeleteDevice;
+     PFNMONODITHER         pfnMonoDither;    //@@04162001
+!    PFNGETVERSION         pfnGetVersion;
+     unsigned long         ulPelSizeCorrection;
+  
+     int                   iVertDots;
+     int                   width;
+     int                   height;
+     int                   iSync;
+     int                   iPageNumber;  //@@04162001
+     int                   iGSMono;      //@@04252001
+     int                   iUseServer;   //@@05092001
++    int                   iUseDialog;
+     FILE                 *ProxyFile;    //@@05092001
+  
+     byte                 *outbuf;     /* Output-Buffer */
+  
+     int                   iPage;
+***************
+*** 371,381 ****
+--- 401,413 ----
+         */
+  
+         return e_Fatal;
+      }
+  
++     pDev->iUseServer = 0;                                            //@@05092001
+      pDev->iPageNumber = 0;  //@@04162001
++     pDev->iUseDialog = 0;
+  
+  //    if(pDev->pszOtherOptions)
+  //       *pDev->pszOtherOptions = '\0';
+  
+      /*
+***************
+*** 442,469 ****
+  CloseDevice (gx_device * pdev)
+  {
+     gx_device_omni * const pwdev = (gx_device_omni *)pdev;
+     pDevStruct              pDev  = pwdev->pDev;
+  
+!    if(!pDev || !pDev->pDevice)
+     {
+       return_error(gs_error_Fatal);  // handle no pDev
+     }
+     /***
+      *     WE NEED TO TERMINATE HERE!!!!!!!!!
+      *     @@04162001
+      ***/
+     if (pDev->pfnEndJob)
+     {
+!        pDev->pfnEndJob (pDev->pDevice, pDev->pOutputObject);
+         pDev->pfnEndJob = 0;
+     }
+  
+!    if (pDev->pDevice && pDev->pfnDeleteDevice)           //@@05092001
+     {
+!       pDev->pfnDeleteDevice (pDev->pDevice);
+!       pDev->pDevice = 0;
+     }
+  
+     if (pDev->hmodDevice)
+     {
+        g_module_close (pDev->hmodDevice);
+--- 474,501 ----
+  CloseDevice (gx_device * pdev)
+  {
+     gx_device_omni * const pwdev = (gx_device_omni *)pdev;
+     pDevStruct              pDev  = pwdev->pDev;
+  
+!    if(!pDev || !pDev->pcoreOmni->pDevice)
+     {
+       return_error(gs_error_Fatal);  // handle no pDev
+     }
+     /***
+      *     WE NEED TO TERMINATE HERE!!!!!!!!!
+      *     @@04162001
+      ***/
+     if (pDev->pfnEndJob)
+     {
+!        pDev->pfnEndJob ((void*) pDev->pCallPtr, pDev->pOutputObject);
+         pDev->pfnEndJob = 0;
+     }
+  
+!    if (pDev->pcoreOmni->pDevice && pDev->pfnDeleteDevice)           //@@05092001
+     {
+!       pDev->pfnDeleteDevice ((void*) pDev->pcoreOmni->pDevice);
+!       gs_free(pDev->pcoreOmni , sizeof(core_omni_device), 1, "omni/device" );
+     }
+  
+     if (pDev->hmodDevice)
+     {
+        g_module_close (pDev->hmodDevice);
+***************
+*** 474,492 ****
+     {
+        g_module_close (pDev->hmodOmni);
+        pDev->hmodOmni = 0;
+     }
+  
+!    if (pDev->pszOtherOptions)
+     {
+!        gs_free(pDev->pszOtherOptions,strlen(pDev->pszOtherOptions)+1, 1, "Option String");
+     }
+  
+!    if(pDev->ProxyFile)                                    //@@05092001
+!    {                                                      //@@05092001
+!        fclose(pDev->ProxyFile);                           //@@05092001
+!    }                                                      //@@05092001
+  
+     return gdev_prn_close (pdev);
+  
+  }
+  
+--- 506,527 ----
+     {
+        g_module_close (pDev->hmodOmni);
+        pDev->hmodOmni = 0;
+     }
+  
+!    if (pDev->pcoreOmni->pszJobOptions)
+     {
+!        gs_free(pDev->pcoreOmni->pszJobOptions,strlen(pDev->pcoreOmni->pszJobOptions)+1, 1, "Option String");
+     }
+  
+!    // Removed following code so commandline server invocation is
+!    // just -sserver  @@01302002
+! 
+! //   if(pDev->ProxyFile)                                    //@@05092001
+! //   {                                                      //@@05092001
+! //       fclose(pDev->ProxyFile);                           //@@05092001
+! //   }                                                      //@@05092001
+  
+     return gdev_prn_close (pdev);
+  
+  }
+  
+***************
+*** 524,540 ****
+  
+     iReturnCode = gdev_prn_get_params ( pgxdev, plist );
+     if (pDev)
+     {
+         bPersist            = true;
+!        pszDeviceName       = pDev->cDeviceName;
+!        pszDebug            = pDev->cDebugFile;
+!        pszOther            = pDev->pszOtherOptions;
+         pszAsync            = pDev->cAsyncOpt;
+         ulPelSizeCorrection = pDev->ulPelSizeCorrection;
+         pszMonoDither       = pDev->cMonoDither;
+!        pszServer           = pDev->cServerFile;              //@@05092001
+  
+         // Return if we already did our work here
+         if(strlen(pszDeviceName) > 0)
+         {
+             return iReturnCode;
+--- 559,578 ----
+  
+     iReturnCode = gdev_prn_get_params ( pgxdev, plist );
+     if (pDev)
+     {
+         bPersist            = true;
+!        pszDeviceName       = pDev->pcoreOmni->cDeviceName;
+!        pszDebug            = pDev->pcoreOmni->cDebugFile;
+!        pszOther            = pDev->pcoreOmni->pszJobOptions;
+         pszAsync            = pDev->cAsyncOpt;
+         ulPelSizeCorrection = pDev->ulPelSizeCorrection;
+         pszMonoDither       = pDev->cMonoDither;
+! 
+!        // Removed following code so commandline server invocation is
+!        // just -sserver  @@01302002
+! //       pszServer           = pDev->cServerFile;              //@@05092001
+  
+         // Return if we already did our work here
+         if(strlen(pszDeviceName) > 0)
+         {
+             return iReturnCode;
+***************
+*** 548,558 ****
+     strdata.data = pszDebug;
+     strdata.size = strlen(pszDebug);
+     strdata.persistent = bPersist;
+     iReturnCode = param_write_string(plist,"dbgout",&strdata);
+  
+!    if(pDev && pDev->pszOtherOptions)
+     {
+         strdata.size = strlen(pszOther);
+         strdata.data = pszOther;
+     }
+     else
+--- 586,596 ----
+     strdata.data = pszDebug;
+     strdata.size = strlen(pszDebug);
+     strdata.persistent = bPersist;
+     iReturnCode = param_write_string(plist,"dbgout",&strdata);
+  
+!    if(pDev && pDev->pcoreOmni->pszJobOptions)
+     {
+         strdata.size = strlen(pszOther);
+         strdata.data = pszOther;
+     }
+     else
+***************
+*** 578,587 ****
+--- 616,630 ----
+     strdata.data = pszServer;                                      //@@05092001
+     strdata.size = strlen(pszServer);                              //@@05092001
+     strdata.persistent = bPersist;                                 //@@05092001
+     iReturnCode = param_write_string(plist,"server",&strdata);     //@@05092001
+  
++    strdata.data = pszServer;                                      //@@05092001
++    strdata.size = strlen(pszServer);                              //@@05092001
++    strdata.persistent = bPersist;                                 //@@05092001
++    iReturnCode = param_write_string(plist,"jobdialog",&strdata);     //@@05092001
++ 
+     iReturnCode = param_write_long(plist,"PelSizeCorrection",&ulPelSizeCorrection);
+  
+     return iReturnCode;
+  }
+  
+***************
+*** 598,613 ****
+  
+  private int
+  SetupDevice(gx_device *pgxdev, gs_param_list *plist)
+  {
+  
+!    int                     iReturnCode;
+     BOOL                    bRet;
+     HWMARGINS               hwMargins;
+     HWRESOLUTION            hwRes;
+     gx_device_omni * const prgxdev  = (gx_device_omni *)pgxdev;
+     pDevStruct              pDev     = prgxdev->pDev;
+  
+     PRINTMODE prtMode;  //definition of printed output Bpp ..
+  
+  // gs_param_string         =    data, size, persistant + byte data
+     gs_param_string         fname    = { NULL, 0, false };
+--- 641,666 ----
+  
+  private int
+  SetupDevice(gx_device *pgxdev, gs_param_list *plist)
+  {
+  
+!    int                     iReturnCode, i;
+     BOOL                    bRet;
+     HWMARGINS               hwMargins;
+     HWRESOLUTION            hwRes;
+     gx_device_omni * const prgxdev  = (gx_device_omni *)pgxdev;
+     pDevStruct              pDev     = prgxdev->pDev;
++    char *pszDeviceLib = 0;
++    static char cOmnilib[] = "libomni.so";
++    static char cDialogName[] = "libomnijobdialog.so";
++ 
++    static char *apszLibraryPaths[] = {
++       "/usr/lib/Omni/",
++       "/opt/Omni/bin/",
++       "./",
++       ""                // give a chance for $LD_LIBRARY_PATH to work
++    };
+  
+     PRINTMODE prtMode;  //definition of printed output Bpp ..
+  
+  // gs_param_string         =    data, size, persistant + byte data
+     gs_param_string         fname    = { NULL, 0, false };
+***************
+*** 632,657 ****
+            return_error(gs_error_Fatal);
+         }
+         else
+         {
+            memset (pDev, 0, sizeof (Omni_Dev));
+           // prgxdev->pDev->pszOtherOptions = '\0';
+         }
+     }
+  
+     if (!pDev->hmodOmni)
+     {
+        pDev->ulPelSizeCorrection = 100;
+  
+!       pDev->hmodOmni = g_module_open ("libomni.so", (GModuleFlags)0);
+  
+        if (!pDev->hmodOmni)
+        {
+-           pDev->hmodOmni = g_module_open ("/opt/Omni/bin/libomni.so", (GModuleFlags)0);
+- 
+-           if (!pDev->hmodOmni)
+-           {
+                // Failure!
+                fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
+                fprintf (stderr, "Error: Could not load libomni.so!\n\n");
+  
+                // @TBD - why doesnt return_error(gs_error_Fatal) work?
+--- 685,727 ----
+            return_error(gs_error_Fatal);
+         }
+         else
+         {
+            memset (pDev, 0, sizeof (Omni_Dev));
++           pDev->pcoreOmni = (core_omni_device *)gs_malloc ( 1, sizeof (core_omni_device), "omni/device" );
++ 
++           if(!pDev->pcoreOmni)
++               return_error(gs_error_Fatal);
++ 
++           memset(pDev->pcoreOmni, 0, sizeof(core_omni_device));
++           pDev->pcoreOmni->bPDCDevice = false;
++           memcpy(pDev->pcoreOmni->cSignature, (char *)Signature, 4);
++ 
+           // prgxdev->pDev->pszOtherOptions = '\0';
+         }
+     }
+  
+     if (!pDev->hmodOmni)
+     {
+        pDev->ulPelSizeCorrection = 100;
+  
+!       for (i = 0; i < 4 && !pDev->hmodOmni; i++)
+!       {
+!           pszDeviceLib = (char *)gs_malloc (1, strlen (cOmnilib)
+!                                            + strlen (apszLibraryPaths[i])
+!                                            + 1, "Devicestring");
+!           if (pszDeviceLib)
+!           {
+!               sprintf (pszDeviceLib, "%s%s", apszLibraryPaths[i], cOmnilib);
+!               pDev->hmodOmni = g_module_open (pszDeviceLib, (GModuleFlags)0);
+!           }
+!           gs_free (pszDeviceLib,strlen(pszDeviceLib)+1, 1, "Devicestring");
+!       }
+! 
+  
+        if (!pDev->hmodOmni)
+        {
+                // Failure!
+                fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
+                fprintf (stderr, "Error: Could not load libomni.so!\n\n");
+  
+                // @TBD - why doesnt return_error(gs_error_Fatal) work?
+***************
+*** 678,688 ****
+                // 0x81c74a4: 0x02 dict --Gwrx--- 0x081b 0x081b947c
+                // 0x81c74ac: 0x02 dict --Gwrx--- 0x081c 0x0821d0a8
+                // 0x81c74b4: 0x02 dict --Lwrx--- 0x4000 0x081c1388
+                // 0x81c74bc: 0x02 dict --Gwrx--- 0x081b 0x081b947c
+                return 1;
+-           }
+        }
+  
+        g_module_symbol (pDev->hmodOmni, "GetPrintModeInfo", (gpointer *)&pDev->pfnGetPrintModeInfo);
+  
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (GetPrintModeInfo) = 0x%08x\n", (int)pDev->pfnGetPrintModeInfo);
+--- 748,757 ----
+***************
+*** 717,726 ****
+--- 786,799 ----
+  
+        g_module_symbol (pDev->hmodOmni, "DiffusionDither__FP20_DIFFUSIONDITHERINFOP11_IMAGEINFOSPPUcUi", (gpointer *)&pDev->pfnMonoDither);
+  
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (DiffusionDither__FP20_DIFFUSIONDITHERINFOP11_IMAGEINFOSPPUcUi) = 0x%08x\n", (int)pDev->pfnMonoDither);
+  
++       g_module_symbol (pDev->hmodOmni, "getInterfaceVersion__FPvPc", (gpointer *)&pDev->pfnGetVersion);
++           
++ 
++ 
+        if (  !pDev->pfnCreateDevice
+           || !pDev->pfnBeginJob
+           || !pDev->pfnNewFrame            //@@04162001
+           || !pDev->pfnEndJob
+           || !pDev->pfnRasterize
+***************
+*** 746,756 ****
+  //   device name in structure - need to fail if none
+     fname = deffname;
+     iReturnCode = param_read_string(plist,"DeviceName",&fname);
+     if(0 > iReturnCode)
+     {
+!       pDev->cDeviceName[0] = '\0';
+        if(iReturnCode < 0)
+        {
+            iReturnCode = param_read_null(plist,"DeviceName");
+            if(iReturnCode != 0)
+              fprintf(stderr, "Error Reading DeviceName parameter\n");
+--- 819,829 ----
+  //   device name in structure - need to fail if none
+     fname = deffname;
+     iReturnCode = param_read_string(plist,"DeviceName",&fname);
+     if(0 > iReturnCode)
+     {
+!       pDev->pcoreOmni->cDeviceName[0] = '\0';
+        if(iReturnCode < 0)
+        {
+            iReturnCode = param_read_null(plist,"DeviceName");
+            if(iReturnCode != 0)
+              fprintf(stderr, "Error Reading DeviceName parameter\n");
+***************
+*** 758,780 ****
+     }
+     else
+     {
+        if((iReturnCode < 1) && (fname.size > 0))
+        {
+!           memcpy (pDev->cDeviceName, fname.data, fname.size );
+!           pDev->cDeviceName[fname.size] = '\0';
+        }
+  
+     }
+  
+     // set debugging file name
+     fname = deffname;
+     iReturnCode = 0;
+     iReturnCode = param_read_string(plist,"dbgout",&fname);
+     if(0 > iReturnCode)
+     {
+!       pDev->cDebugFile[0] = '\0';
+        if(iReturnCode < 0)
+        {
+            iReturnCode = param_read_null(plist,"dbgout");
+            if(iReturnCode != 0)
+              fprintf(stderr, "Error Reading dbgout parameter\n");
+--- 831,853 ----
+     }
+     else
+     {
+        if((iReturnCode < 1) && (fname.size > 0))
+        {
+!           memcpy (pDev->pcoreOmni->cDeviceName, fname.data, fname.size );
+!           pDev->pcoreOmni->cDeviceName[fname.size] = '\0';
+        }
+  
+     }
+  
+     // set debugging file name
+     fname = deffname;
+     iReturnCode = 0;
+     iReturnCode = param_read_string(plist,"dbgout",&fname);
+     if(0 > iReturnCode)
+     {
+!       pDev->pcoreOmni->cDebugFile[0] = '\0';
+        if(iReturnCode < 0)
+        {
+            iReturnCode = param_read_null(plist,"dbgout");
+            if(iReturnCode != 0)
+              fprintf(stderr, "Error Reading dbgout parameter\n");
+***************
+*** 782,793 ****
+     }
+     else
+     {
+        if((iReturnCode < 1) && (fname.size > 0))
+        {
+!           memcpy ( pDev->cDebugFile, fname.data, fname.size );
+!           pDev->cDebugFile[fname.size] = '\0';
+        }
+     }
+  
+     // set Async option
+     fname = deffname;
+--- 855,866 ----
+     }
+     else
+     {
+        if((iReturnCode < 1) && (fname.size > 0))
+        {
+!           memcpy ( pDev->pcoreOmni->cDebugFile, fname.data, fname.size );
+!           pDev->pcoreOmni->cDebugFile[fname.size] = '\0';
+        }
+     }
+  
+     // set Async option
+     fname = deffname;
+***************
+*** 846,859 ****
+     }
+     else
+     {
+         if((iReturnCode < 1) && (fname.size > 0))
+         {
+!            if(!pDev->pszOtherOptions)
+!              pDev->pszOtherOptions = (char *) gs_malloc(1,fname.size+1, "Option String");
+!            memcpy ( pDev->pszOtherOptions, fname.data, fname.size );
+!            pDev->pszOtherOptions[fname.size] = '\0';
+         }
+     }
+  
+     /*
+      *  Set user options for monodither by GS
+--- 919,932 ----
+     }
+     else
+     {
+         if((iReturnCode < 1) && (fname.size > 0))
+         {
+!            if(!pDev->pcoreOmni->pszJobOptions)
+!              pDev->pcoreOmni->pszJobOptions = (char *) gs_malloc(1,fname.size+1, "Option String");
+!            memcpy ( pDev->pcoreOmni->pszJobOptions, fname.data, fname.size );
+!            pDev->pcoreOmni->pszJobOptions[fname.size] = '\0';
+         }
+     }
+  
+     /*
+      *  Set user options for monodither by GS
+***************
+*** 892,904 ****
+  
+     /*
+      *  Set user options for client / server function
+      */
+  
+-    pDev->iUseServer = 0;                                            //@@05092001
+     fname = deffname;                                                //@@05092001
+     iReturnCode = param_read_string(plist,"server",&fname);          //@@05092001
+     if(0 > iReturnCode)                                              //@@05092001
+     {                                                                //@@05092001
+        if(iReturnCode < 0)                                           //@@05092001
+        {                                                             //@@05092001
+            iReturnCode = param_read_null(plist,"server");            //@@05092001
+--- 965,977 ----
+  
+     /*
+      *  Set user options for client / server function
+      */
+  
+     fname = deffname;                                                //@@05092001
+     iReturnCode = param_read_string(plist,"server",&fname);          //@@05092001
++ 
+     if(0 > iReturnCode)                                              //@@05092001
+     {                                                                //@@05092001
+        if(iReturnCode < 0)                                           //@@05092001
+        {                                                             //@@05092001
+            iReturnCode = param_read_null(plist,"server");            //@@05092001
+***************
+*** 906,975 ****
+              fprintf(stderr, "Error Reading server parameter\n");    //@@05092001
+        }                                                             //@@05092001
+     }                                                                //@@05092001
+     else                                                             //@@05092001
+     {                                                                //@@05092001
+!        if((iReturnCode < 1) && (fname.size > 0))                    //@@05092001
+!        {                                                            //@@05092001
+!            memcpy ( pDev->cServerFile, fname.data, fname.size );    //@@05092001
+!            pDev->cServerFile[fname.size] = '\0';                    //@@05092001
+!                                                                     //@@05092001
+!          //  if(!strcmp(pDev->cMonoDither, "TRUE"))                 //@@05092001
+!            if(pDev->cServerFile[0])                                 //@@05092001
+!            {                                                        //@@05092001
+!                pDev->iUseServer = 1;                                //@@05092001
+!            }                                                        //@@05092001
+!                                                                     //@@05092001
+!        }                                                            //@@05092001
+     }                                                                //@@05092001
+  
+     if(pDev->iSetup != 1)
+     {
+        // create a device based on the user supplied inputs
+        // To-Do - free the device
+  
+        if (fDebugOutput) fprintf(stderr,"setting following options on CreateDevice\n");
+!       if (fDebugOutput) fprintf(stderr,"DeviceName= %s\n", pDev->cDeviceName );
+!       if (fDebugOutput) fprintf(stderr,"%s\n", pDev->pszOtherOptions);
+!       if (fDebugOutput) fprintf(stderr,"debug parameter = %s \n", pDev->cDebugFile );
+  
+        /*
+         *  Create a device definition by using the input parameters as the
+         *  the defining factors
+         */
+  
+!       if (!pDev->cDeviceName[0])
+        {
+            bRet = gdev_prn_put_params ((gx_device *)prgxdev, plist);
+            return bRet;
+        }
+  
+!       if(pDev->iUseServer && pDev->cServerFile[0])                  //@@05092001
+!       {                                                             //@@05092001
+!                                                                     //@@05092001
+!         pDev->ProxyFile = fopen(pDev->cServerFile, "wb");           //@@05092001
+!                                                                     //@@05092001
+!       }                                                             //@@05092001
+  
+!       pDev->pDevice = pDev->pfnCreateDevice(pDev->cDeviceName,
+!                                             pDev->pOutputObject,
+!                                             &pDev->hmodDevice,
+!                                             pDev->cDebugFile,
+!                                             pDev->pszOtherOptions,
+!                                             pDev->iUseServer,       //@@05092001
+!                                             pDev->ProxyFile);       //@@05092001
+  
+!       if (!pDev->pDevice)
+        {
+           return_error(gs_error_Fatal);  // fail if no device was created
+        }
+        else
+        {
+!           if (fDebugOutput) fprintf(stderr,"Device = %s ", pDev->cDeviceName );
+        }
+  
+!       bRet = pDev->pfnGetPrintModeInfo (pDev->pDevice, &prtMode);
+  
+        if(bRet)
+        {          // turn off Ghostscript mono if we are not in mono mode
+            if((prtMode.iBitCount > 1) && pDev->iGSMono )
+            {
+--- 979,1153 ----
+              fprintf(stderr, "Error Reading server parameter\n");    //@@05092001
+        }                                                             //@@05092001
+     }                                                                //@@05092001
+     else                                                             //@@05092001
+     {                                                                //@@05092001
+!        if( !iReturnCode) 
+!        {
+!            if (fDebugOutput) fprintf(stderr, "Utilizing Server\n");   
+!            pDev->iUseServer = 1;                                            
+!        }
+! 
+!    }                                                                //@@05092001
+! 
+!    /*
+!     *  Set user options for dialog function
+!     */
+! 
+!    fname = deffname;                                                //@@05092001
+!    iReturnCode = param_read_string(plist,"jobdialog",&fname);  //@@05092001
+! 
+!    if(0 > iReturnCode)                                              //@@05092001
+!    {                                                                //@@05092001
+!       if(iReturnCode < 0)                                           //@@05092001
+!       {                                                             //@@05092001
+!           iReturnCode = param_read_null(plist,"jobdialog");     //@@05092001
+!           if(iReturnCode != 0)                                      //@@05092001
+!             fprintf(stderr, "Error Reading server parameter\n");    //@@05092001
+!       }                                                             //@@05092001
+!    }                                                                //@@05092001
+!    else                                                             //@@05092001
+!    {                                                                //@@05092001
+!        if( !iReturnCode) 
+!        {
+!            if (fDebugOutput) fprintf(stderr, "Utilizing dialog\n");   
+!            pDev->iUseDialog = 1;                                            
+!        }
+! 
+     }                                                                //@@05092001
+  
+     if(pDev->iSetup != 1)
+     {
+        // create a device based on the user supplied inputs
+        // To-Do - free the device
+  
+        if (fDebugOutput) fprintf(stderr,"setting following options on CreateDevice\n");
+!       if (fDebugOutput) fprintf(stderr,"DeviceName= %s\n", pDev->pcoreOmni->cDeviceName );
+!       if (fDebugOutput) fprintf(stderr,"%s\n", pDev->pcoreOmni->pszJobOptions);
+!       if (fDebugOutput) fprintf(stderr,"debug parameter = %s \n", pDev->pcoreOmni->cDebugFile );
+  
+        /*
+         *  Create a device definition by using the input parameters as the
+         *  the defining factors
+         */
+  
+!       if (!pDev->pcoreOmni->cDeviceName[0])
+        {
+            bRet = gdev_prn_put_params ((gx_device *)prgxdev, plist);
+            return bRet;
+        }
+  
+!       // Removed following code so commandline server invocation is
+!       // just -sserver  @@01302002
+! 
+! //      if(pDev->iUseServer && pDev->cServerFile[0])                  //@@05092001
+! //      {                                                             //@@05092001
+! //                                                                    //@@05092001
+! //        pDev->ProxyFile = fopen(pDev->cServerFile, "wb");           //@@05092001
+! //                                                                    //@@05092001
+! //      }                                                             //@@05092001
+! 
+! /*****************************************************************/
+!    if(!pDev->pcoreOmni->pszJobOptions && pDev->iUseDialog)
+!    {
+! 		
+! 	 int iLength=0;
+!      char *pszSelectedJobProperties;
+!      int (*pfnJobDialog) (char[] , char **);
+!      int (*pfnFreeDialogMemory) (char **);
+! 
+! 
+! 	 GModule *pModule = 0; 
+!      for (i = 0; i < 4 && !pModule; i++)
+!      {
+!          pszDeviceLib = (char *)gs_malloc (1, strlen (cDialogName)
+!                                           + strlen (apszLibraryPaths[i])
+!                                           + 1, "Devicestring");
+!          pszDeviceLib[0] = '\0';
+! 
+!          if (pszDeviceLib)
+!          {
+!              sprintf (pszDeviceLib, "%s%s", apszLibraryPaths[i], cDialogName);
+!              pModule = g_module_open(pszDeviceLib,(GModuleFlags)0); 
+!          }
+!          gs_free (pszDeviceLib,strlen(pszDeviceLib)+1, 1, "Devicestring");
+!      }
+! 
+!      if(!pModule)
+!      {
+!        fprintf(stderr, "Unable to open <<%s>>.",cDialogName);
+! 	 }
+! 	 else
+! 	 {       
+!        g_module_symbol(pModule, "GetOmniJobProperties", (gpointer *) &pfnJobDialog);
+!        if(pfnJobDialog)
+!        {
+!            pfnJobDialog(pDev->pcoreOmni->cDeviceName, &pszSelectedJobProperties);
+!            iLength = strlen(pszSelectedJobProperties);
+!            if(!pDev->pcoreOmni->pszJobOptions)
+!                 pDev->pcoreOmni->pszJobOptions = (char *)gs_malloc(1,iLength+1,"Option String");
+! 
+!            strcpy(pDev->pcoreOmni->pszJobOptions, pszSelectedJobProperties);
+! 
+!            if (fDebugOutput) fprintf(stderr, "options = %s\n", pDev->pcoreOmni->pszJobOptions);
+! 
+!            g_module_symbol(pModule, "FreeOmniJobProperties", (gpointer *) &pfnFreeDialogMemory);
+!            if(pfnFreeDialogMemory)
+!            {
+!                pfnFreeDialogMemory(&pszSelectedJobProperties); 
+!                if (fDebugOutput) fprintf(stderr, "Freeing Dialog Memory\n");
+!            }
+! 
+  
+!        }
+! 	 }
+! 
+!    }	 
+! /**********************************************************************/      
+  
+!       if(pDev->iUseServer)
+!       {
+!           pDev->pcoreOmni->bPDCDevice = true;  
+!           if (fDebugOutput) fprintf(stderr, "utilizing server\n");
+!       }
+!       else
+!           pDev->pcoreOmni->bPDCDevice = false;  
+! 
+!       pDev->pcoreOmni->pDevice = pDev->pfnCreateDevice(pDev->pcoreOmni->cDeviceName,
+!                                                        pDev->pOutputObject,
+!                                                       &pDev->hmodDevice,
+!                                                        pDev->pcoreOmni->cDebugFile,
+!                                                        pDev->pcoreOmni->pszJobOptions,
+!                                                        pDev->iUseServer,       //@@05092001
+!                                                        pDev->ProxyFile);       //@@05092001
+! 
+! 
+! 
+!       if (!pDev->pcoreOmni->pDevice)
+        {
+           return_error(gs_error_Fatal);  // fail if no device was created
+        }
+        else
+        {
+!           if (fDebugOutput) fprintf(stderr,"Device = %s ", pDev->pcoreOmni->cDeviceName );
+!           if(pDev->pcoreOmni->bPDCDevice) 
+!               pDev->pcoreOmni->pPDCDevice = pDev->pcoreOmni->pDevice;
+!       }
+!            // get the omni version in case we need it
+!       if(pDev->pfnGetVersion)
+!       {
+!          pDev->pfnGetVersion((void*) pDev->pcoreOmni, pDev->pcoreOmni->cOmniVersion);
+!          if (fDebugOutput) fprintf(stderr, "Omni version = %s \n",pDev->pcoreOmni->cOmniVersion );
+!          pDev->pCallPtr = (void *) pDev->pcoreOmni;
+!       }
+!       else
+!       {
+!           pDev->pCallPtr = (void *) pDev->pcoreOmni->pDevice ;
+        }
+  
+! 
+!       bRet = pDev->pfnGetPrintModeInfo ((void*) pDev->pCallPtr, &prtMode);
+  
+        if(bRet)
+        {          // turn off Ghostscript mono if we are not in mono mode
+            if((prtMode.iBitCount > 1) && pDev->iGSMono )
+            {
+***************
+*** 977,1004 ****
+                pDev->iGSMono = 0;
+            }
+        }
+                           //** this routine is called multiple times
+        pDev->iSetup = 1;  //** don't go setting up new devices
+! 
+        if(!pDev->iUseServer)                                         //@@05092001
+        {
+            g_module_symbol (pDev->hmodDevice, "deleteDevice__FP6Device", (gpointer *)&pDev->pfnDeleteDevice);
+            if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (deleteDevice__FP6Device) = 0x%08x\n", (int)pDev->pfnDeleteDevice);
+        }
+  
+        // get the hardware resolution information
+! 
+!       bRet = pDev->pfnGetResolutionInfo (pDev->pDevice, &hwRes);
+  
+        if(!bRet)
+            return_error(gs_error_Fatal);
+  
+        // get the hardware page margins information
+  
+!       bRet = pDev->pfnGetMarginInfo (pDev->pDevice, &hwMargins);
+! 
+        if(!bRet)
+            return_error(gs_error_Fatal);
+  
+        /*
+         *  We have to let GS know about our page and resolution parameters
+--- 1155,1182 ----
+                pDev->iGSMono = 0;
+            }
+        }
+                           //** this routine is called multiple times
+        pDev->iSetup = 1;  //** don't go setting up new devices
+!       
+        if(!pDev->iUseServer)                                         //@@05092001
+        {
+            g_module_symbol (pDev->hmodDevice, "deleteDevice__FP6Device", (gpointer *)&pDev->pfnDeleteDevice);
+            if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (deleteDevice__FP6Device) = 0x%08x\n", (int)pDev->pfnDeleteDevice);
+        }
+  
+        // get the hardware resolution information
+!       
+!       bRet = pDev->pfnGetResolutionInfo ((void*) pDev->pCallPtr, &hwRes);
+  
+        if(!bRet)
+            return_error(gs_error_Fatal);
+  
+        // get the hardware page margins information
+  
+!       bRet = pDev->pfnGetMarginInfo ((void*) pDev->pCallPtr, &hwMargins);
+!       
+        if(!bRet)
+            return_error(gs_error_Fatal);
+  
+        /*
+         *  We have to let GS know about our page and resolution parameters
+***************
+*** 1113,1133 ****
+  
+      pDevStruct pDev = pasyncDev->pDev;
+  
+      // Do a new_frame if not first page
+  
+!     if(!pDev || !pDev->pDevice )
+      {
+          fprintf(stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
+          fprintf(stderr, "Error: -sDeviceName=XXX is not specified!\n\n");
+          return_error(gs_error_Fatal);
+      }
+  
+      pDev->iPage++;
+      pDev->iPageNumber++;  //keep track of the page @@04162001
+  
+!     bRet = pDev->pfnGetPrintModeInfo (pasyncDev->pDev->pDevice, &prtMode);
+  
+      iNumColors = 1 << prtMode.iBitCount;
+  
+      // Allocate a full bitmapinfo2 and bitmap header message
+      iBytesToAlloc = sizeof (BITMAPINFO2);
+--- 1291,1311 ----
+  
+      pDevStruct pDev = pasyncDev->pDev;
+  
+      // Do a new_frame if not first page
+  
+!     if(!pDev || !pDev->pcoreOmni->pDevice )
+      {
+          fprintf(stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
+          fprintf(stderr, "Error: -sDeviceName=XXX is not specified!\n\n");
+          return_error(gs_error_Fatal);
+      }
+  
+      pDev->iPage++;
+      pDev->iPageNumber++;  //keep track of the page @@04162001
+  
+!     bRet = pDev->pfnGetPrintModeInfo ((void*) pasyncDev->pDev->pCallPtr, &prtMode);
+  
+      iNumColors = 1 << prtMode.iBitCount;
+  
+      // Allocate a full bitmapinfo2 and bitmap header message
+      iBytesToAlloc = sizeof (BITMAPINFO2);
+***************
+*** 1293,1305 ****
+     rectPageLocation.xLeft    = 0;
+  
+     rectPageLocation.xRight   = pasyncDev->width;
+     //@@04162001
+     if(pDev->iPageNumber == 1)
+!       pDev->pfnBeginJob (pasyncDev->pDev->pDevice, prn_stream);
+     else
+!       pDev->pfnNewFrame (pasyncDev->pDev->pDevice);
+  
+  
+  // rectPageLocation.yTop = rectPageLocation.yBottom  = 0;  @@10172000
+  
+     rectPageLocation.yTop =  pasyncDev->height-1;       // @@10172000
+--- 1471,1491 ----
+     rectPageLocation.xLeft    = 0;
+  
+     rectPageLocation.xRight   = pasyncDev->width;
+     //@@04162001
+     if(pDev->iPageNumber == 1)
+!    {
+!        pDev->pcoreOmni->pfile = prn_stream;
+! 
+!        pDev->pfnBeginJob ((void*) pasyncDev->pDev->pCallPtr, prn_stream);
+! 
+!           // copy the PDC pointer to the pDevice since pDevice is defaulted throughout code
+!        if(pasyncDev->pDev->pcoreOmni->bPDCDevice)
+!            pasyncDev->pDev->pcoreOmni->pDevice = pasyncDev->pDev->pcoreOmni->pPDCDevice;
+!    }
+     else
+!       pDev->pfnNewFrame ((void*) pasyncDev->pDev->pCallPtr);
+  
+  
+  // rectPageLocation.yTop = rectPageLocation.yBottom  = 0;  @@10172000
+  
+     rectPageLocation.yTop =  pasyncDev->height-1;       // @@10172000
+***************
+*** 1388,1398 ****
+             // If this in a mono device, we need to send the mono data to the device and
+             // not the color
+  
+             if(pMonoData && !pDev->iGSMono)//@@04252001
+             {
+!               pDev->pfnRasterize (pasyncDev->pDev->pDevice,
+                                    pMonoData,
+                                    pbmi,
+                                    &sizelPage,
+                                    &rectPageLocation,
+                                    BITBLT_BITMAP);
+--- 1574,1584 ----
+             // If this in a mono device, we need to send the mono data to the device and
+             // not the color
+  
+             if(pMonoData && !pDev->iGSMono)//@@04252001
+             {
+!               pDev->pfnRasterize ((void*) pasyncDev->pDev->pCallPtr,
+                                    pMonoData,
+                                    pbmi,
+                                    &sizelPage,
+                                    &rectPageLocation,
+                                    BITBLT_BITMAP);
+***************
+*** 1405,1425 ****
+                pMonoData = NULL;
+  
+             }
+             else
+             {  // non-mono device -- Send the rgb bitmap to the dither and rasterize routines
+!               fprintf(stderr, "rendering band lines %d - %d w/%d \n", (int)rectPageLocation.yTop, (int)rectPageLocation.yBottom, iYBand);
+  
+                if (fDebugOutput) fprintf(stderr, "***************************************************************\n");
+                if (fDebugOutput) fprintf(stderr, "***************************************************************\n");
+                if (fDebugOutput) fprintf(stderr, "Number of lines in band = %d\n", iYBand);
+                if (fDebugOutput) fprintf(stderr, "rectPageLocation - Top = %ld\n", rectPageLocation.yTop);
+                if (fDebugOutput) fprintf(stderr, "rectPageLocation - Bot = %ld\n", rectPageLocation.yBottom);
+                if (fDebugOutput) fprintf(stderr, "***************************************************************\n");
+                if (fDebugOutput) fprintf(stderr, "***************************************************************\n");
+  
+!               pDev->pfnRasterize (pasyncDev->pDev->pDevice,
+                                    pBitmapTop - ((iYBand-1) * uiBytesPerLine),
+                                    pbmi,
+                                    &sizelPage,
+                                    &rectPageLocation,
+                                    BITBLT_BITMAP);
+--- 1591,1611 ----
+                pMonoData = NULL;
+  
+             }
+             else
+             {  // non-mono device -- Send the rgb bitmap to the dither and rasterize routines
+!               if (fDebugOutput) fprintf(stderr, "rendering band lines %d - %d w/%d \n", (int)rectPageLocation.yTop, (int)rectPageLocation.yBottom, iYBand);
+  
+                if (fDebugOutput) fprintf(stderr, "***************************************************************\n");
+                if (fDebugOutput) fprintf(stderr, "***************************************************************\n");
+                if (fDebugOutput) fprintf(stderr, "Number of lines in band = %d\n", iYBand);
+                if (fDebugOutput) fprintf(stderr, "rectPageLocation - Top = %ld\n", rectPageLocation.yTop);
+                if (fDebugOutput) fprintf(stderr, "rectPageLocation - Bot = %ld\n", rectPageLocation.yBottom);
+                if (fDebugOutput) fprintf(stderr, "***************************************************************\n");
+                if (fDebugOutput) fprintf(stderr, "***************************************************************\n");
+  
+!               pDev->pfnRasterize ((void*) pasyncDev->pDev->pCallPtr,
+                                    pBitmapTop - ((iYBand-1) * uiBytesPerLine),
+                                    pbmi,
+                                    &sizelPage,
+                                    &rectPageLocation,
+                                    BITBLT_BITMAP);
+Only in ghostscript-6.51a/src: temp

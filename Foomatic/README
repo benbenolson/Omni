@@ -1,0 +1,83 @@
+                                Creating Omni Foomatic Support
+                                ------------------------------
+
+
+Currently Omni uses a program that will create xml files in a foomatic
+fashion.  
+The Foomatic database is a set of 3 types of xml files: 
+   printer xmls
+   driver options xmls
+   driver xmls.  
+
+The driver xml is the particular driver, Omni, that we wanted to add to the
+foomatic database.  The driver xml simply contains all the printers that are
+supported by Omni.  
+
+The option xmls are all the options that our driver, Omni, supports and what
+printers support our options. 
+
+The printer xmls are descriptions of each printer and what options from the
+driver, Omni, are supported on this particular printer and what are the
+default options that should be selected.  
+
+The Omni/Foomatic/Foomatic.cpp will create these files in such a way that
+they are ready to be loaded into the foomatic database to be compiled.
+Once Omni gives us the 3 types of xml files, we can call this
+foomatic-combo-xml executable to get it to create the necessary output, 
+without all the time consumption of a full compile.  
+Once we get the combo files, they need to be added to the foomatic db compile
+directory. We then need to generate a new summary file, called overview.xml. 
+Foomatic does this for us with a call to foomatic-configure -O  (<-- thats a capital 'Oh').
+Once this makes the
+summary file, printconf will work with our drivers.
+
+
+
+INSTALL:
+
+Here is the execution process (each script to execute)
+
+   - Download Omni from CVS
+   - source the Omni/setit file, (i.e. from Omni dir, . ./setit) this sets the
+     paths needed.
+   - Compile Omni
+   - Download Foomatic from CVS, make sure it has the foomatic-combo-xml.c file
+   - Compile Foomatic
+   - Run Omni/Foomatic/Foomatic - this will generate a foomatic-db directory
+     with stage 1 xml files.
+   - Run from Omni/Foomatic/bin/makeXmlComboFiles.sh
+   - clear out foomatic cache if its there by running:  
+     rm -rf /var/cache/foomatic/*/*
+   - install the new files by running Omni/Foomatic/bin/installFoomaticSupport.sh 
+   - run foomatic-configure -O like this:  
+      cd /usr/local/share/foomatic/db/compiled/
+      foomatic-configure -O > overview.xml
+   - Now you can run printtool (printconf) and select omni driver options
+
+NOTES:
+
+Some things to note/change:
+
+   The mapping of printer names has now been incorporated into the Foomatic.cpp
+   file.  This will name all the printers from the make-model to the correct 
+   Foomatic ID, if it exists.  There still is a bit of a problem as to a standard
+   for describing a printer and its model correctly.  Hence, we will still miss
+   a few printer names and have duplicates till this work is done.  For example,
+   a printer may be, HP-LaserJet+, or HP-LaserJet_Plus, or HP-Laserjet+, etc.
+   Once a standard has been set for exactly how to describe printer names, we can
+   makes sure there are no duplicates in the list.
+
+   Right now, dont know how to get the Makefile to build omni2foo objects and 
+   link the together with Foomatic.  so, do a make in the Foomatic dir, it will
+   generate the Foomatic.o file and then complile omni2foo and generate its .o file
+   and then link them.
+
+      cd Omni/Foomatic
+      make
+      g++ -Wall -c omni2foo.h omni2foo.cpp
+      g++ -o Foomatic Foomatic.o omni2foo.o -L .. -lomni -L/usr/lib -rdynamic -lgmodule -lglib -ldl
+   
+   Once this gets added to the automake then this wont be needed.
+
+
+

@@ -1,0 +1,1478 @@
+diff -ur ghostscript-7.05-051402/autogen.sh ghostscript-7.05-052902/autogen.sh
+--- ghostscript-7.05-051402/autogen.sh	Wed Jan 23 19:30:56 2002
++++ ghostscript-7.05-052902/autogen.sh	Wed May 29 14:09:14 2002
+@@ -22,6 +22,7 @@
+ 
+ echo "  creating links to configuration sources"
+ ln -sf src/configure.ac .
++ln -sf src/configure.ac configure.in
+ ln -sf src/Makefile.in .
+ 
+ #echo "  aclocal $ACLOCAL_FLAGS"
+diff -ur ghostscript-7.05-051402/configure.ac ghostscript-7.05-052902/configure.ac
+--- ghostscript-7.05-051402/configure.ac	Fri Apr 19 17:23:09 2002
++++ ghostscript-7.05-052902/configure.ac	Wed May 29 14:09:14 2002
+@@ -201,6 +201,40 @@
+ AC_SUBST(STPLIB)
+ AC_SUBST(STPDEVS)
+ 
++dnl look for omni library implementation
++AC_ARG_WITH([omni], AC_HELP_STRING([--with-omni],
++	[build the omni driver]))
++dnl set safe defaults
++OMNIDIR=src
++OMNIDEVS=''
++if test x$with_omni != xno; then
++	dnl Test for xml development package
++	xml_version=
++	AC_PATH_PROG(XML2_CONFIG, xml2-config)
++	if test ! -z "$XML2_CONFIG"; then
++		xml_version=libxml2
++	fi
++	if test -z "$xml_version"; then
++		AC_PATH_PROG(XML_CONFIG, xml-config)
++		if test ! -z "$XML_CONFIG"; then
++               	xml_version=libxml
++	        fi
++	fi
++	if test -z "$xml_version"; then
++		AC_MSG_WARN([Omni needs an XML development package to build.])
++	else
++		AC_PATH_PROG(GLIB_CONFIG, glib-config)
++		if test -z "$GLIB_CONFIG"; then
++			AC_MSG_WARN([Omni needs a glib development package to build.])
++		else
++			OMNIDIR=omni
++			OMNIDEVS='$(DD)omni.dev'
++		fi
++	fi
++fi
++AC_SUBST(OMNIDIR)
++AC_SUBST(OMNIDEVS)
++
+ dnl optional X11 for display devices
+ AC_PATH_XTRA
+ if test x"$no_x" = x"yes"; then
+diff -ur ghostscript-7.05-051402/src/configure.ac ghostscript-7.05-052902/src/configure.ac
+--- ghostscript-7.05-051402/src/configure.ac	Fri Apr 19 17:23:09 2002
++++ ghostscript-7.05-052902/src/configure.ac	Wed May 29 14:09:14 2002
+@@ -201,6 +201,40 @@
+ AC_SUBST(STPLIB)
+ AC_SUBST(STPDEVS)
+ 
++dnl look for omni library implementation
++AC_ARG_WITH([omni], AC_HELP_STRING([--with-omni],
++	[build the omni driver]))
++dnl set safe defaults
++OMNIDIR=src
++OMNIDEVS=''
++if test x$with_omni != xno; then
++	dnl Test for xml development package
++	xml_version=
++	AC_PATH_PROG(XML2_CONFIG, xml2-config)
++	if test ! -z "$XML2_CONFIG"; then
++		xml_version=libxml2
++	fi
++	if test -z "$xml_version"; then
++		AC_PATH_PROG(XML_CONFIG, xml-config)
++		if test ! -z "$XML_CONFIG"; then
++               	xml_version=libxml
++	        fi
++	fi
++	if test -z "$xml_version"; then
++		AC_MSG_WARN([Omni needs an XML development package to build.])
++	else
++		AC_PATH_PROG(GLIB_CONFIG, glib-config)
++		if test -z "$GLIB_CONFIG"; then
++			AC_MSG_WARN([Omni needs a glib development package to build.])
++		else
++			OMNIDIR=omni
++			OMNIDEVS='$(DD)omni.dev'
++		fi
++	fi
++fi
++AC_SUBST(OMNIDIR)
++AC_SUBST(OMNIDEVS)
++
+ dnl optional X11 for display devices
+ AC_PATH_XTRA
+ if test x"$no_x" = x"yes"; then
+diff -ur ghostscript-7.05-051402/src/gomni.c ghostscript-7.05-052902/src/gomni.c
+--- ghostscript-7.05-051402/src/gomni.c	Wed May 29 14:09:11 2002
++++ ghostscript-7.05-052902/src/gomni.c	Wed May 29 14:09:14 2002
+@@ -159,6 +159,7 @@
+ typedef void * (*PFNCREATEDEVICE)      (void         *pOmni,
+                                         void        **vhDevice,
+                                         int           iUsePDC);
++typedef void * (*PFNDELETEDEVICE)      (void         *pOmni);
+ typedef long   (*PFNMONODITHER)        (PDDI          pdi,           //@@04062001
+                                         PIMAGEINFO    pimg_infos,
+                                         PBYTE        *pBuffer,
+@@ -216,6 +217,7 @@
+    PFNENDJOB             pfnEndJob;
+    PFNRASTERIZE          pfnRasterize;
+    PFNCREATEDEVICE       pfnCreateDevice;
++   PFNDELETEDEVICE       pfnDeleteDevice;
+    PFNMONODITHER         pfnMonoDither;              //@@04162001
+    PFNGIINIT             pfnGIInit;
+    PFNGITERM             pfnGITerm;
+@@ -361,14 +363,32 @@
+    int                    min_band_height;
+    int                    max_src_image_row;
+ 
+-   if (  !pDev
+-      || !pDev->hmodOmni
+-      )
++   if (fDebugOutput) fprintf (stderr, "OpenDevice: pDev = %08X, pDev->hmodOmni = %08X\n", (int)pDev, (int)pDev->hmodOmni);
++
++   if (!pDev)
++   {
++      fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++      fprintf (stderr, "Error: No pDev in OpenDevice.\n");
++      if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
++
++      return e_Fatal;
++   }
++
++   if (!pDev->hmodOmni)
++   {
++      fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++      fprintf (stderr, "Error: Could not load libomni.so\n");
++      if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
++
++      return e_Fatal;
++   }
++
++   if (!pDev->pcoreOmni->cDeviceName[0])
+    {
+-      /* SetupDevice is called before OpenDevice is called.  Therefore, the
+-      ** initial loading of the omni driver is done there.  If that has failed
+-      ** (the library handle is 0), then fail this call.
+-      */
++      fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++      fprintf (stderr, "Error: -sDeviceName=XXX was not defined\n");
++      if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
++
+       return e_Fatal;
+    }
+ 
+@@ -407,9 +427,8 @@
+    if (pDev->iSync)
+    {
+       set_dev_proc(pdev, output_page, PrintPageMultiple);
+-      pwdev->printer_procs.get_space_params = GetSpaceParams;
+-      pwdev->printer_procs.open_render_device =
+-      OpenRenderDevice;        /* Included for tutorial value */
++      pwdev->printer_procs.get_space_params   = GetSpaceParams;
++      pwdev->printer_procs.open_render_device = OpenRenderDevice;
+    }
+ 
+    /*
+@@ -434,7 +453,7 @@
+    else
+ #endif
+    {
+-      return gdev_prn_open(pdev);
++      return gdev_prn_open (pdev);
+    }
+ }
+ 
+@@ -444,28 +463,41 @@
+    gx_device_omni * const pwdev = (gx_device_omni *)pdev;
+    PDEVSTRUCT             pDev  = pwdev->pDev;
+ 
+-   if (  !pDev
+-      || !pDev->pcoreOmni->pDevice
+-      )
++   if (fDebugOutput) fprintf (stderr, "CloseDevice: pDev = %08X, pDev->pcoreOmni->pDevice = %08X\n", (int)pDev, (int)pDev->pcoreOmni->pDevice);
++
++   if (!pDev)
+    {
+-     return_error(gs_error_Fatal);  // handle no pDev
++      fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++      fprintf (stderr, "Error: No device handle in CloseDevice\n");
++      if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
++
++      return_error (gs_error_Fatal);  // handle no pDev
+    }
+ 
+-   /***
+-    *     WE NEED TO TERMINATE HERE!!!!!!!!!
+-    *     @@04162001
+-    ***/
+-   if (pDev->pfnEndJob)
++   if (  pDev->pcoreOmni
++      && pDev->pcoreOmni->pDevice
++      && pDev->pfnEndJob
++      )
+    {
+        pDev->pfnEndJob ((void*)pDev->pCallPtr);
+        pDev->pfnEndJob = 0;
+    }
+ 
+-   if (pDev->pcoreOmni->pszJobOptions)
++   if (  pDev->pcoreOmni
++      && pDev->pcoreOmni->pszJobOptions
++      )
+    {
+       gs_free (pDev->pcoreOmni->pszJobOptions, strlen (pDev->pcoreOmni->pszJobOptions) + 1, 1, "Option String");
+    }
+ 
++   if (  pDev->pcoreOmni
++      && pDev->pcoreOmni->pDevice
++      && pDev->pfnDeleteDevice
++      )
++   {
++      pDev->pfnDeleteDevice (pDev->pcoreOmni->pDevice);
++   }
++
+    if (pDev->pfnGITerm)
+    {
+       pDev->pfnGITerm (pDev->pcoreOmni);
+@@ -503,7 +535,7 @@
+ /* -------------------------------------------------------------------------*/
+ 
+ private int
+-GetDeviceParams(gx_device *pgxdev, gs_param_list *plist)
++GetDeviceParams (gx_device *pgxdev, gs_param_list *plist)
+ {
+    omni_device *const      odev                = (omni_device *) pgxdev;
+    PDEVSTRUCT              pDev                = odev->pDev;
+@@ -520,6 +552,8 @@
+    unsigned long           ulPelSizeCorrection = 100;
+    bool                    bPersist            = false;
+ 
++   if (fDebugOutput) fprintf (stderr, "GetDeviceParams: pDev = %08X\n", (int)pDev);
++
+    iReturnCode = gdev_prn_get_params (pgxdev, plist);
+ 
+    if (pDev)
+@@ -532,14 +566,16 @@
+        ulPelSizeCorrection = pDev->ulPelSizeCorrection;
+        pszMonoDither       = pDev->cMonoDither;
+        pszServer           = pDev->pcoreOmni->cServer;
+-
+-       // Return if we already did our work here
+-       if (strlen (pszDeviceName) > 0)
+-       {
+-          return iReturnCode;
+-       }
+    }
+ 
++   if (fDebugOutput) fprintf (stderr, "GetDeviceParams: pszDeviceName       = %s\n", pszDeviceName);
++   if (fDebugOutput) fprintf (stderr, "GetDeviceParams: pszDebug            = %s\n", pszDebug);
++   if (fDebugOutput) fprintf (stderr, "GetDeviceParams: pszOther            = %s\n", pszOther);
++   if (fDebugOutput) fprintf (stderr, "GetDeviceParams: pszAsync            = %s\n", pszAsync);
++   if (fDebugOutput) fprintf (stderr, "GetDeviceParams: ulPelSizeCorrection = %ld\n", ulPelSizeCorrection);
++   if (fDebugOutput) fprintf (stderr, "GetDeviceParams: pszMonoDither       = %s\n", pszMonoDither);
++   if (fDebugOutput) fprintf (stderr, "GetDeviceParams: pszServer           = %s\n", pszServer);
++
+    strdata.data = pszDeviceName;
+    strdata.size = strlen(pszDeviceName);
+    strdata.persistent = bPersist;
+@@ -589,6 +625,8 @@
+ 
+    iReturnCode = param_write_long(plist,"PelSizeCorrection",&ulPelSizeCorrection);
+ 
++   if (fDebugOutput) fprintf (stderr, "GetDeviceParams returning %d\n", iReturnCode);
++
+    return iReturnCode;
+ }
+ 
+@@ -604,7 +642,7 @@
+ /* IMPORTANT: async drivers must NOT CLOSE the device while doing put_params.*/
+ 
+ private int
+-SetupDevice(gx_device *pgxdev, gs_param_list *plist)
++SetupDevice (gx_device *pgxdev, gs_param_list *plist)
+ {
+    int                     iReturnCode,
+                            i;
+@@ -625,17 +663,10 @@
+    };
+    PRINTMODE               prtMode;           // definition of printed output Bpp ..
+    gs_param_string         fname;
+-   gs_param_string         deffname;
+-
+-   fname.data          = NULL;
+-   fname.size          = 0;
+-   fname.persistent    = false;
+-   deffname.data       = NULL;
+-   deffname.size       = 0;
+-   deffname.persistent = false;
+ 
+-   if (fDebugOutput) fprintf (stderr, "SetupDevice: pDev = %08X\n", pDev);
++   if (fDebugOutput) fprintf (stderr, "SetupDevice: pDev = %08X\n", (int)pDev);
+ 
++   // Do we have a handle?
+    if (pDev == NULL)
+    {
+       PDEVSTRUCT p;
+@@ -643,34 +674,38 @@
+       p = (PDEVSTRUCT)gs_malloc (1, sizeof (Omni_Dev), "omni/instance");
+       if (!p)
+       {
+-          fprintf (stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n");
+-          fprintf (stderr, "   Failed allocation of p in SetupDevice\n");
++          fprintf (stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++          fprintf (stderr, "Error: Failed allocation in SetupDevice\n");
++          if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
+ 
+           return_error (gs_error_VMerror);
+       }
+-      prgxdev->pDev = p;
+ 
+-      if (!(pDev = prgxdev->pDev))
+-      {
+-         return_error (gs_error_Fatal);
+-      }
+-      else
+-      {
+-         memset (pDev, 0, sizeof (Omni_Dev));
+-
+-         pDev->pcoreOmni = (core_omni_device *)gs_malloc (1, sizeof (core_omni_device), "omni/device");
++      pDev = prgxdev->pDev = p;
+ 
+-         if (!pDev->pcoreOmni)
+-            return_error(gs_error_Fatal);
++      memset (pDev, 0, sizeof (Omni_Dev));
+ 
+-         memset (pDev->pcoreOmni, 0, sizeof (core_omni_device));
++      pDev->pcoreOmni = (core_omni_device *)gs_malloc (1, sizeof (core_omni_device), "omni/device");
+ 
+-         memcpy ((void *)pDev->pcoreOmni->cSignature, (const void *)Signature, 4);
++      if (!pDev->pcoreOmni)
++      {
++          fprintf (stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++          fprintf (stderr, "Error: Failed allocation in SetupDevice\n");
++          if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
+ 
+-         pDev->pcoreOmni->cbSize = sizeof (core_omni_device);
++          return_error (gs_error_VMerror);
+       }
++
++      memset (pDev->pcoreOmni, 0, sizeof (core_omni_device));
++
++      memcpy ((void *)pDev->pcoreOmni->cSignature, (const void *)Signature, 4);
++
++      pDev->pcoreOmni->cbSize = sizeof (core_omni_device);
+    }
+ 
++   if (fDebugOutput) fprintf (stderr, "SetupDevice: pDev->hmodOmni = %08X\n", (int)pDev->hmodOmni);
++
++   // Is the handle initialized?
+    if (!pDev->hmodOmni)
+    {
+       pDev->ulPelSizeCorrection = 100;
+@@ -693,8 +728,9 @@
+       if (!pDev->hmodOmni)
+       {
+          // Failure!
+-         fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
+-         fprintf (stderr, "Error: Could not load libomni.so!\n\n");
++         fprintf (stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++         fprintf (stderr, "Error: Could not load libomni.so\n");
++         if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
+ 
+          // @TBD - why doesnt return_error(gs_error_Fatal) work?
+          //        If it is in, then we get the following:
+@@ -756,6 +792,10 @@
+ 
+       if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (CreateDevice) = 0x%08x\n", (int)pDev->pfnCreateDevice);
+ 
++      g_module_symbol (pDev->hmodOmni, "DeleteDevice", (gpointer *)&pDev->pfnDeleteDevice);
++
++      if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (DeleteDevice) = 0x%08x\n", (int)pDev->pfnDeleteDevice);
++
+       g_module_symbol (pDev->hmodOmni, "DiffusionDither", (gpointer *)&pDev->pfnMonoDither);
+ 
+       if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (DiffusionDither) = 0x%08x\n", (int)pDev->pfnMonoDither);
+@@ -769,6 +809,7 @@
+       if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (GhostscriptInferfaceTerm) = 0x%08x\n", (int)pDev->pfnGITerm);
+ 
+       if (  !pDev->pfnCreateDevice
++//       || !pDev->pfnDeleteDevice
+          || !pDev->pfnBeginJob
+          || !pDev->pfnNewFrame            //@@04162001
+          || !pDev->pfnEndJob
+@@ -781,7 +822,8 @@
+       {
+          // Failure!
+          fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
+-         fprintf (stderr, "Error: Could not load required entry point from libomni.so!\n\n");
++         fprintf (stderr, "Error: Could not load required entry points from libomni.so\n");
++         if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
+ 
+          g_module_close (pDev->hmodOmni);
+          pDev->hmodOmni = 0;
+@@ -791,20 +833,13 @@
+       }
+    }
+ 
+-   // device name in structure - need to fail if none
+-   fname = deffname;
+-   iReturnCode = param_read_string (plist, "DeviceName", &fname);
+-   if (fDebugOutput) fprintf (stderr,"param_read_string of DeviceName = %d\n", iReturnCode);
+-   if (  0 < iReturnCode
+-      && !pDev->pcoreOmni->cDeviceName[0]
+-      )
++   // device name in structure
++   if (!pDev->pcoreOmni->cDeviceName[0])
+    {
+-      fprintf (stderr, "Error: -sDeviceName=XXX must be on the command line!\n");
++      memset (&fname, 0, sizeof (fname));
++      iReturnCode = param_read_string (plist, "DeviceName", &fname);
++      if (fDebugOutput) fprintf (stderr, "param_read_string of DeviceName = %d, fname.size = %d\n", iReturnCode, fname.size);
+ 
+-      return gs_error_Fatal;
+-   }
+-   else
+-   {
+       if (  (iReturnCode < 1)
+          && (fname.size > 0)
+          )
+@@ -815,21 +850,12 @@
+    }
+ 
+    // set debugging file name
+-   fname = deffname;
+-   iReturnCode = 0;
+-   iReturnCode = param_read_string (plist, "dbgout", &fname);
+-   if (0 > iReturnCode)
+-   {
+-      pDev->pcoreOmni->cDebugFile[0] = '\0';
+-      if (iReturnCode < 0)
+-      {
+-         iReturnCode = param_read_null (plist, "dbgout");
+-         if (iReturnCode != 0)
+-            fprintf (stderr, "Error Reading dbgout parameter\n");
+-      }
+-   }
+-   else
++   if (!pDev->pcoreOmni->cDebugFile[0])
+    {
++      memset (&fname, 0, sizeof (fname));
++      iReturnCode = param_read_string (plist, "dbgout", &fname);
++      if (fDebugOutput) fprintf (stderr, "param_read_string of dbgout = %d, fname.size = %d\n", iReturnCode, fname.size);
++
+       if (  (iReturnCode < 1)
+          && (fname.size > 0)
+          )
+@@ -840,19 +866,11 @@
+    }
+ 
+    // set Async option
+-   fname = deffname;
+-   iReturnCode = 0;
+-   iReturnCode = param_read_string (plist, "async", &fname);
+-   if (0 > iReturnCode)
+-   {
+-      pDev->cAsyncOpt[0] = '\0';
+-      pDev->iSync = 0;
+-      iReturnCode = param_read_null (plist, "async");
+-      if (iReturnCode != 0)
+-        fprintf (stderr, "Error Reading async parameter\n");
+-   }
+-   else
++   if (!pDev->cAsyncOpt[0])
+    {
++      memset (&fname, 0, sizeof (fname));
++      iReturnCode = param_read_string (plist, "async", &fname);
++      if (fDebugOutput) fprintf (stderr, "param_read_string of async = %d, fname.size = %d\n", iReturnCode, fname.size);
+       if (  (iReturnCode < 1)
+          && (fname.size > 0)
+          )
+@@ -873,32 +891,17 @@
+    }
+ 
+    iReturnCode = param_read_long (plist, "PelSizeCorrection", &pDev->ulPelSizeCorrection);
+-   if (0 > iReturnCode)
+-   {
+-      if (iReturnCode < 0)
+-      {
+-         iReturnCode = param_read_null (plist, "PelSizeCorrection");
+-         if (iReturnCode != 0)
+-            fprintf (stderr, "Error Reading PelSizeCorrection parameter\n");
+-      }
+-   }
++   if (fDebugOutput) fprintf (stderr, "param_read_long of PelSizeCorrection = %d, ulPelSizeCorrection = %ld\n", iReturnCode, pDev->ulPelSizeCorrection);
+ 
+    /*
+     *  Set user options for the job
+     */
+-   fname = deffname;
+-   iReturnCode = param_read_string (plist, "properties", &fname);
+-   if (0 > iReturnCode)
+-   {
+-      if (iReturnCode < 0)
+-      {
+-         iReturnCode = param_read_null (plist,"properties");
+-         if (iReturnCode != 0)
+-            fprintf (stderr, "Error Reading properties parameter\n");
+-      }
+-   }
+-   else
++   if (!pDev->pcoreOmni->pszJobOptions)
+    {
++      memset (&fname, 0, sizeof (fname));
++      iReturnCode = param_read_string (plist, "properties", &fname);
++      if (fDebugOutput) fprintf (stderr, "param_read_string of properties = %d, fname.size = %d\n", iReturnCode, fname.size);
++
+       if (  (iReturnCode < 1)
+          && (fname.size > 0)
+          )
+@@ -910,22 +913,13 @@
+       }
+    }
+ 
+-   /*
+-    *  Set user options for monodither by GS
+-    */
+-   fname = deffname;
+-   iReturnCode = param_read_string (plist, "monodither", &fname);
+-   if (0 > iReturnCode)
+-   {
+-      if (iReturnCode < 0)
+-      {
+-         iReturnCode = param_read_null (plist, "monodither");
+-         if (iReturnCode != 0)
+-            fprintf (stderr, "Error Reading monodither parameter\n");
+-      }
+-   }
+-   else
++   // Set user options for monodither by GS
++   if (!pDev->cMonoDither[0])
+    {
++      memset (&fname, 0, sizeof (fname));
++      iReturnCode = param_read_string (plist, "monodither", &fname);
++      if (fDebugOutput) fprintf (stderr, "param_read_string of monodither = %d, fname.size = %d\n", iReturnCode, fname.size);
++
+       if (  (iReturnCode < 1)
+          && (fname.size > 0)
+          )
+@@ -946,23 +940,13 @@
+       }
+    }
+ 
+-   /*
+-    *  Set user options for client / server function
+-    */
+-   fname = deffname;                                                //@@05092001
+-   iReturnCode = param_read_string (plist, "server", &fname);       //@@05092001
++   // Set user options for client / server function
++   if (!pDev->pcoreOmni->cServer[0])
++   {
++      memset (&fname, 0, sizeof (fname));
++      iReturnCode = param_read_string (plist, "server", &fname);
++      if (fDebugOutput) fprintf (stderr, "param_read_string of server = %d, fname.size = %d\n", iReturnCode, fname.size);
+ 
+-   if (0 > iReturnCode)                                             //@@05092001
+-   {                                                                //@@05092001
+-      if (iReturnCode < 0)                                          //@@05092001
+-      {                                                             //@@05092001
+-         iReturnCode = param_read_null (plist, "server");           //@@05092001
+-         if (iReturnCode != 0)                                      //@@05092001
+-            fprintf (stderr, "Error Reading server parameter\n");   //@@05092001
+-      }                                                             //@@05092001
+-   }                                                                //@@05092001
+-   else                                                             //@@05092001
+-   {                                                                //@@05092001
+       if (  (iReturnCode < 1)
+          && (fname.size > 0)
+          )
+@@ -975,54 +959,35 @@
+ 
+          pDev->iUseServer = 1;
+       }
+-   }                                                                //@@05092001
++   }
+ 
+    /*
+     *  Set user options for dialog function
+     */
+-   fname = deffname;                                                //@@05092001
+-   iReturnCode = param_read_string (plist, "jobdialog", &fname);    //@@05092001
++   if (!pDev->iUseDialog)
++   {
++      memset (&fname, 0, sizeof (fname));
++      iReturnCode = param_read_string (plist, "jobdialog", &fname);
++      if (fDebugOutput) fprintf (stderr, "param_read_string of jobdialog = %d, fname.size = %d\n", iReturnCode, fname.size);
+ 
+-   if (0 > iReturnCode)                                             //@@05092001
+-   {                                                                //@@05092001
+-      if (iReturnCode < 0)                                          //@@05092001
+-      {                                                             //@@05092001
+-         iReturnCode = param_read_null (plist, "jobdialog");        //@@05092001
+-         if (iReturnCode != 0)                                      //@@05092001
+-            fprintf (stderr, "Error Reading jobdialog parameter\n");//@@05092001
+-      }                                                             //@@05092001
+-   }                                                                //@@05092001
+-   else                                                             //@@05092001
+-   {                                                                //@@05092001
+       if (!iReturnCode)
+       {
+          if (fDebugOutput) fprintf (stderr, "Utilizing dialog\n");
+ 
+          pDev->iUseDialog = 1;
+       }
+-   }                                                                //@@05092001
++   }
+ 
+-   if (pDev->iSetup != 1)
++   if (  pDev->pcoreOmni->cDeviceName[0]
++      && pDev->iSetup != 1
++      )
+    {
+       // create a device based on the user supplied inputs
+-      // To-Do - free the device
+-
+       if (fDebugOutput) fprintf(stderr, "setting following options on CreateDevice\n");
+       if (fDebugOutput) fprintf(stderr, "DeviceName = %s\n", pDev->pcoreOmni->cDeviceName );
+       if (fDebugOutput) fprintf(stderr, "pszJobOptions = %s\n", pDev->pcoreOmni->pszJobOptions);
+       if (fDebugOutput) fprintf(stderr, "debug parameter = %s \n", pDev->pcoreOmni->cDebugFile );
+ 
+-      /*
+-       *  Create a device definition by using the input parameters as the
+-       *  the defining factors
+-       */
+-      if (!pDev->pcoreOmni->cDeviceName[0])
+-      {
+-         bRet = gdev_prn_put_params ((gx_device *)prgxdev, plist);
+-
+-         return bRet;
+-      }
+-
+       if (pDev->iUseDialog)
+       {
+          int                       iLength                  = 0;
+@@ -1117,7 +1082,9 @@
+ 
+       if (!pDev->pcoreOmni->pDevice)
+       {
+-         fprintf (stderr, "Unable create a omni device\n");
++         fprintf (stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++         fprintf (stderr, "Error: Unable create a omni device\n");
++         if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
+ 
+          return_error (gs_error_Fatal);  // fail if no device was created
+       }
+@@ -1151,12 +1118,27 @@
+       bRet = pDev->pfnGetResolutionInfo ((void*)pDev->pCallPtr, &hwRes);
+ 
+       if (!bRet)
+-         return_error (gs_error_Fatal);
++      {
++          fprintf (stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++          fprintf (stderr, "Error: Failed GetResolutionInfo in SetupDevice\n");
++          if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
++
++          return_error (gs_error_Fatal);
++      }
+ 
+       // get the hardware page margins information
+ 
+       bRet = pDev->pfnGetMarginInfo ((void*)pDev->pCallPtr, &hwMargins);
+ 
++      if (!bRet)
++      {
++          fprintf (stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++          fprintf (stderr, "Error: Failed GetMarginInfo in SetupDevice\n");
++          if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
++
++          return_error (gs_error_Fatal);
++      }
++
+       if (fDebugOutput) fprintf (stderr, "GetMarginInfo returns %d\n", bRet);
+       if (fDebugOutput) fprintf (stderr, "GetMarginInfo.fLeftClip = %f\n", hwMargins.fLeftClip);
+       if (fDebugOutput) fprintf (stderr, "GetMarginInfo.fBottomClip = %f\n", hwMargins.fBottomClip);
+@@ -1165,9 +1147,6 @@
+       if (fDebugOutput) fprintf (stderr, "GetMarginInfo.fxWidth = %f\n", hwMargins.fxWidth);
+       if (fDebugOutput) fprintf (stderr, "GetMarginInfo.fyHeight = %f\n", hwMargins.fyHeight);
+ 
+-      if (!bRet)
+-         return_error (gs_error_Fatal);
+-
+       /*
+        *  We have to let GS know about our page and resolution parameters
+        */
+@@ -1175,6 +1154,8 @@
+       // setup the width and height of the page
+       prgxdev->width  = (int)hwMargins.fxWidth;
+       prgxdev->height = (int)hwMargins.fyHeight;
++      prgxdev->MediaSize[1] = (hwMargins.fyHeight/(float)hwRes.yRes)*72.0;
++      prgxdev->MediaSize[0] = (hwMargins.fxWidth/(float)hwRes.xRes)*72.0;
+ 
+       // does not seem like pels works correctly for margins so lets set the margins
+       // using points instead
+@@ -1226,6 +1207,8 @@
+ 
+    iReturnCode = gdev_prn_put_params ((gx_device *)prgxdev, plist);
+ 
++   if (fDebugOutput) fprintf (stderr, "SetupDevice returning %d\n", iReturnCode);
++
+    return iReturnCode;  // likely not be a failure
+ }
+ 
+@@ -1286,14 +1269,13 @@
+    ptlTrgBounds.x = 0;
+    ptlTrgBounds.y = 0;
+ 
+-   // Do a new_frame if not first page
+-
+    if (  !pDev
+       || !pDev->pcoreOmni->pDevice
+       )
+    {
+-      fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
+-      fprintf (stderr, "Error: -sDeviceName=XXX is not specified!\n\n");
++      fprintf (stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++      fprintf (stderr, "Error: -sDeviceName=XXX is not specified\n");
++      if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
+ 
+       return_error (gs_error_Fatal);
+    }
+@@ -1315,8 +1297,9 @@
+    pbmi = (PBITMAPINFO2)gs_malloc (1, iBytesToAlloc, "Bmpi Memory");
+    if (!pbmi)
+    {
+-      fprintf(stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n");
+-      fprintf(stderr, "   Failed allocation of pbmi in PrintPage\n");
++      fprintf(stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++      fprintf(stderr, "Error: Failed allocation of pbmi in PrintPage\n");
++      if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
+ 
+       return_error (gs_error_VMerror);
+    }
+@@ -1442,8 +1425,9 @@
+ 
+    if(!pBitmapMem)
+    {
+-      fprintf (stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n");
+-      fprintf (stderr, "   Failed allocation of pBitmapMem in PrintPage\n");
++      fprintf (stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++      fprintf (stderr, "Error: Failed allocation of pBitmapMem in PrintPage\n");
++      if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
+ 
+       return_error (gs_error_VMerror);
+    }
+@@ -1461,8 +1445,9 @@
+    }
+    else
+    {
+-      fprintf(stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n");
+-      fprintf(stderr, "            Bitmap memory alloc Failed \n");
++      fprintf(stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++      fprintf(stderr, "Error: Bitmap memory alloc Failed\n");
++      if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
+ 
+       return_error (gs_error_VMerror);
+    }
+@@ -1553,14 +1538,15 @@
+ 
+                   if (pMonoData)
+                   {
+-                     memset(pMonoData, 0xFF, iYBand * ImageInfo.ulTrgBytesPerLine );
++                     memset (pMonoData, 0xFF, iYBand * ImageInfo.ulTrgBytesPerLine );
+                   }
+                   else
+                   {
+-                     fprintf(stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n");
+-                     fprintf(stderr, "   Failed allocation of pMonoData in PrintPage\n");
++                     fprintf (stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++                     fprintf (stderr, "Error: Failed allocation of pMonoData in PrintPage\n");
++                     if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
+ 
+-                     return_error(gs_error_VMerror);
++                     return_error (gs_error_VMerror);
+                   }
+ 
+                   ImageInfo.pptlSrc->y = ImageInfo.pptlDst->y = iYBand;               // exclusive??
+--- ghostscript-7.05-051402/src/gomni.c	Wed May 29 14:09:11 2002
++++ ghostscript-7.05-052902/src/gomni.c	Wed May 29 14:09:14 2002
+@@ -159,6 +159,7 @@
+ typedef void * (*PFNCREATEDEVICE)      (void         *pOmni,
+                                         void        **vhDevice,
+                                         int           iUsePDC);
++typedef void * (*PFNDELETEDEVICE)      (void         *pOmni);
+ typedef long   (*PFNMONODITHER)        (PDDI          pdi,           //@@04062001
+                                         PIMAGEINFO    pimg_infos,
+                                         PBYTE        *pBuffer,
+@@ -216,6 +217,7 @@
+    PFNENDJOB             pfnEndJob;
+    PFNRASTERIZE          pfnRasterize;
+    PFNCREATEDEVICE       pfnCreateDevice;
++   PFNDELETEDEVICE       pfnDeleteDevice;
+    PFNMONODITHER         pfnMonoDither;              //@@04162001
+    PFNGIINIT             pfnGIInit;
+    PFNGITERM             pfnGITerm;
+@@ -361,14 +363,32 @@
+    int                    min_band_height;
+    int                    max_src_image_row;
+ 
+-   if (  !pDev
+-      || !pDev->hmodOmni
+-      )
++   if (fDebugOutput) fprintf (stderr, "OpenDevice: pDev = %08X, pDev->hmodOmni = %08X\n", (int)pDev, (int)pDev->hmodOmni);
++
++   if (!pDev)
++   {
++      fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++      fprintf (stderr, "Error: No pDev in OpenDevice.\n");
++      if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
++
++      return e_Fatal;
++   }
++
++   if (!pDev->hmodOmni)
++   {
++      fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++      fprintf (stderr, "Error: Could not load libomni.so\n");
++      if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
++
++      return e_Fatal;
++   }
++
++   if (!pDev->pcoreOmni->cDeviceName[0])
+    {
+-      /* SetupDevice is called before OpenDevice is called.  Therefore, the
+-      ** initial loading of the omni driver is done there.  If that has failed
+-      ** (the library handle is 0), then fail this call.
+-      */
++      fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++      fprintf (stderr, "Error: -sDeviceName=XXX was not defined\n");
++      if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
++
+       return e_Fatal;
+    }
+ 
+@@ -407,9 +427,8 @@
+    if (pDev->iSync)
+    {
+       set_dev_proc(pdev, output_page, PrintPageMultiple);
+-      pwdev->printer_procs.get_space_params = GetSpaceParams;
+-      pwdev->printer_procs.open_render_device =
+-      OpenRenderDevice;        /* Included for tutorial value */
++      pwdev->printer_procs.get_space_params   = GetSpaceParams;
++      pwdev->printer_procs.open_render_device = OpenRenderDevice;
+    }
+ 
+    /*
+@@ -434,7 +453,7 @@
+    else
+ #endif
+    {
+-      return gdev_prn_open(pdev);
++      return gdev_prn_open (pdev);
+    }
+ }
+ 
+@@ -444,28 +463,41 @@
+    gx_device_omni * const pwdev = (gx_device_omni *)pdev;
+    PDEVSTRUCT             pDev  = pwdev->pDev;
+ 
+-   if (  !pDev
+-      || !pDev->pcoreOmni->pDevice
+-      )
++   if (fDebugOutput) fprintf (stderr, "CloseDevice: pDev = %08X, pDev->pcoreOmni->pDevice = %08X\n", (int)pDev, (int)pDev->pcoreOmni->pDevice);
++
++   if (!pDev)
+    {
+-     return_error(gs_error_Fatal);  // handle no pDev
++      fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++      fprintf (stderr, "Error: No device handle in CloseDevice\n");
++      if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
++
++      return_error (gs_error_Fatal);  // handle no pDev
+    }
+ 
+-   /***
+-    *     WE NEED TO TERMINATE HERE!!!!!!!!!
+-    *     @@04162001
+-    ***/
+-   if (pDev->pfnEndJob)
++   if (  pDev->pcoreOmni
++      && pDev->pcoreOmni->pDevice
++      && pDev->pfnEndJob
++      )
+    {
+        pDev->pfnEndJob ((void*)pDev->pCallPtr);
+        pDev->pfnEndJob = 0;
+    }
+ 
+-   if (pDev->pcoreOmni->pszJobOptions)
++   if (  pDev->pcoreOmni
++      && pDev->pcoreOmni->pszJobOptions
++      )
+    {
+       gs_free (pDev->pcoreOmni->pszJobOptions, strlen (pDev->pcoreOmni->pszJobOptions) + 1, 1, "Option String");
+    }
+ 
++   if (  pDev->pcoreOmni
++      && pDev->pcoreOmni->pDevice
++      && pDev->pfnDeleteDevice
++      )
++   {
++      pDev->pfnDeleteDevice (pDev->pcoreOmni->pDevice);
++   }
++
+    if (pDev->pfnGITerm)
+    {
+       pDev->pfnGITerm (pDev->pcoreOmni);
+@@ -503,7 +535,7 @@
+ /* -------------------------------------------------------------------------*/
+ 
+ private int
+-GetDeviceParams(gx_device *pgxdev, gs_param_list *plist)
++GetDeviceParams (gx_device *pgxdev, gs_param_list *plist)
+ {
+    omni_device *const      odev                = (omni_device *) pgxdev;
+    PDEVSTRUCT              pDev                = odev->pDev;
+@@ -520,6 +552,8 @@
+    unsigned long           ulPelSizeCorrection = 100;
+    bool                    bPersist            = false;
+ 
++   if (fDebugOutput) fprintf (stderr, "GetDeviceParams: pDev = %08X\n", (int)pDev);
++
+    iReturnCode = gdev_prn_get_params (pgxdev, plist);
+ 
+    if (pDev)
+@@ -532,14 +566,16 @@
+        ulPelSizeCorrection = pDev->ulPelSizeCorrection;
+        pszMonoDither       = pDev->cMonoDither;
+        pszServer           = pDev->pcoreOmni->cServer;
+-
+-       // Return if we already did our work here
+-       if (strlen (pszDeviceName) > 0)
+-       {
+-          return iReturnCode;
+-       }
+    }
+ 
++   if (fDebugOutput) fprintf (stderr, "GetDeviceParams: pszDeviceName       = %s\n", pszDeviceName);
++   if (fDebugOutput) fprintf (stderr, "GetDeviceParams: pszDebug            = %s\n", pszDebug);
++   if (fDebugOutput) fprintf (stderr, "GetDeviceParams: pszOther            = %s\n", pszOther);
++   if (fDebugOutput) fprintf (stderr, "GetDeviceParams: pszAsync            = %s\n", pszAsync);
++   if (fDebugOutput) fprintf (stderr, "GetDeviceParams: ulPelSizeCorrection = %ld\n", ulPelSizeCorrection);
++   if (fDebugOutput) fprintf (stderr, "GetDeviceParams: pszMonoDither       = %s\n", pszMonoDither);
++   if (fDebugOutput) fprintf (stderr, "GetDeviceParams: pszServer           = %s\n", pszServer);
++
+    strdata.data = pszDeviceName;
+    strdata.size = strlen(pszDeviceName);
+    strdata.persistent = bPersist;
+@@ -589,6 +625,8 @@
+ 
+    iReturnCode = param_write_long(plist,"PelSizeCorrection",&ulPelSizeCorrection);
+ 
++   if (fDebugOutput) fprintf (stderr, "GetDeviceParams returning %d\n", iReturnCode);
++
+    return iReturnCode;
+ }
+ 
+@@ -604,7 +642,7 @@
+ /* IMPORTANT: async drivers must NOT CLOSE the device while doing put_params.*/
+ 
+ private int
+-SetupDevice(gx_device *pgxdev, gs_param_list *plist)
++SetupDevice (gx_device *pgxdev, gs_param_list *plist)
+ {
+    int                     iReturnCode,
+                            i;
+@@ -625,17 +663,10 @@
+    };
+    PRINTMODE               prtMode;           // definition of printed output Bpp ..
+    gs_param_string         fname;
+-   gs_param_string         deffname;
+-
+-   fname.data          = NULL;
+-   fname.size          = 0;
+-   fname.persistent    = false;
+-   deffname.data       = NULL;
+-   deffname.size       = 0;
+-   deffname.persistent = false;
+ 
+-   if (fDebugOutput) fprintf (stderr, "SetupDevice: pDev = %08X\n", pDev);
++   if (fDebugOutput) fprintf (stderr, "SetupDevice: pDev = %08X\n", (int)pDev);
+ 
++   // Do we have a handle?
+    if (pDev == NULL)
+    {
+       PDEVSTRUCT p;
+@@ -643,34 +674,38 @@
+       p = (PDEVSTRUCT)gs_malloc (1, sizeof (Omni_Dev), "omni/instance");
+       if (!p)
+       {
+-          fprintf (stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n");
+-          fprintf (stderr, "   Failed allocation of p in SetupDevice\n");
++          fprintf (stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++          fprintf (stderr, "Error: Failed allocation in SetupDevice\n");
++          if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
+ 
+           return_error (gs_error_VMerror);
+       }
+-      prgxdev->pDev = p;
+ 
+-      if (!(pDev = prgxdev->pDev))
+-      {
+-         return_error (gs_error_Fatal);
+-      }
+-      else
+-      {
+-         memset (pDev, 0, sizeof (Omni_Dev));
+-
+-         pDev->pcoreOmni = (core_omni_device *)gs_malloc (1, sizeof (core_omni_device), "omni/device");
++      pDev = prgxdev->pDev = p;
+ 
+-         if (!pDev->pcoreOmni)
+-            return_error(gs_error_Fatal);
++      memset (pDev, 0, sizeof (Omni_Dev));
+ 
+-         memset (pDev->pcoreOmni, 0, sizeof (core_omni_device));
++      pDev->pcoreOmni = (core_omni_device *)gs_malloc (1, sizeof (core_omni_device), "omni/device");
+ 
+-         memcpy ((void *)pDev->pcoreOmni->cSignature, (const void *)Signature, 4);
++      if (!pDev->pcoreOmni)
++      {
++          fprintf (stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++          fprintf (stderr, "Error: Failed allocation in SetupDevice\n");
++          if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
+ 
+-         pDev->pcoreOmni->cbSize = sizeof (core_omni_device);
++          return_error (gs_error_VMerror);
+       }
++
++      memset (pDev->pcoreOmni, 0, sizeof (core_omni_device));
++
++      memcpy ((void *)pDev->pcoreOmni->cSignature, (const void *)Signature, 4);
++
++      pDev->pcoreOmni->cbSize = sizeof (core_omni_device);
+    }
+ 
++   if (fDebugOutput) fprintf (stderr, "SetupDevice: pDev->hmodOmni = %08X\n", (int)pDev->hmodOmni);
++
++   // Is the handle initialized?
+    if (!pDev->hmodOmni)
+    {
+       pDev->ulPelSizeCorrection = 100;
+@@ -693,8 +728,9 @@
+       if (!pDev->hmodOmni)
+       {
+          // Failure!
+-         fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
+-         fprintf (stderr, "Error: Could not load libomni.so!\n\n");
++         fprintf (stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++         fprintf (stderr, "Error: Could not load libomni.so\n");
++         if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
+ 
+          // @TBD - why doesnt return_error(gs_error_Fatal) work?
+          //        If it is in, then we get the following:
+@@ -756,6 +792,10 @@
+ 
+       if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (CreateDevice) = 0x%08x\n", (int)pDev->pfnCreateDevice);
+ 
++      g_module_symbol (pDev->hmodOmni, "DeleteDevice", (gpointer *)&pDev->pfnDeleteDevice);
++
++      if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (DeleteDevice) = 0x%08x\n", (int)pDev->pfnDeleteDevice);
++
+       g_module_symbol (pDev->hmodOmni, "DiffusionDither", (gpointer *)&pDev->pfnMonoDither);
+ 
+       if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (DiffusionDither) = 0x%08x\n", (int)pDev->pfnMonoDither);
+@@ -769,6 +809,7 @@
+       if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (GhostscriptInferfaceTerm) = 0x%08x\n", (int)pDev->pfnGITerm);
+ 
+       if (  !pDev->pfnCreateDevice
++//       || !pDev->pfnDeleteDevice
+          || !pDev->pfnBeginJob
+          || !pDev->pfnNewFrame            //@@04162001
+          || !pDev->pfnEndJob
+@@ -781,7 +822,8 @@
+       {
+          // Failure!
+          fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
+-         fprintf (stderr, "Error: Could not load required entry point from libomni.so!\n\n");
++         fprintf (stderr, "Error: Could not load required entry points from libomni.so\n");
++         if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
+ 
+          g_module_close (pDev->hmodOmni);
+          pDev->hmodOmni = 0;
+@@ -791,20 +833,13 @@
+       }
+    }
+ 
+-   // device name in structure - need to fail if none
+-   fname = deffname;
+-   iReturnCode = param_read_string (plist, "DeviceName", &fname);
+-   if (fDebugOutput) fprintf (stderr,"param_read_string of DeviceName = %d\n", iReturnCode);
+-   if (  0 < iReturnCode
+-      && !pDev->pcoreOmni->cDeviceName[0]
+-      )
++   // device name in structure
++   if (!pDev->pcoreOmni->cDeviceName[0])
+    {
+-      fprintf (stderr, "Error: -sDeviceName=XXX must be on the command line!\n");
++      memset (&fname, 0, sizeof (fname));
++      iReturnCode = param_read_string (plist, "DeviceName", &fname);
++      if (fDebugOutput) fprintf (stderr, "param_read_string of DeviceName = %d, fname.size = %d\n", iReturnCode, fname.size);
+ 
+-      return gs_error_Fatal;
+-   }
+-   else
+-   {
+       if (  (iReturnCode < 1)
+          && (fname.size > 0)
+          )
+@@ -815,21 +850,12 @@
+    }
+ 
+    // set debugging file name
+-   fname = deffname;
+-   iReturnCode = 0;
+-   iReturnCode = param_read_string (plist, "dbgout", &fname);
+-   if (0 > iReturnCode)
+-   {
+-      pDev->pcoreOmni->cDebugFile[0] = '\0';
+-      if (iReturnCode < 0)
+-      {
+-         iReturnCode = param_read_null (plist, "dbgout");
+-         if (iReturnCode != 0)
+-            fprintf (stderr, "Error Reading dbgout parameter\n");
+-      }
+-   }
+-   else
++   if (!pDev->pcoreOmni->cDebugFile[0])
+    {
++      memset (&fname, 0, sizeof (fname));
++      iReturnCode = param_read_string (plist, "dbgout", &fname);
++      if (fDebugOutput) fprintf (stderr, "param_read_string of dbgout = %d, fname.size = %d\n", iReturnCode, fname.size);
++
+       if (  (iReturnCode < 1)
+          && (fname.size > 0)
+          )
+@@ -840,19 +866,11 @@
+    }
+ 
+    // set Async option
+-   fname = deffname;
+-   iReturnCode = 0;
+-   iReturnCode = param_read_string (plist, "async", &fname);
+-   if (0 > iReturnCode)
+-   {
+-      pDev->cAsyncOpt[0] = '\0';
+-      pDev->iSync = 0;
+-      iReturnCode = param_read_null (plist, "async");
+-      if (iReturnCode != 0)
+-        fprintf (stderr, "Error Reading async parameter\n");
+-   }
+-   else
++   if (!pDev->cAsyncOpt[0])
+    {
++      memset (&fname, 0, sizeof (fname));
++      iReturnCode = param_read_string (plist, "async", &fname);
++      if (fDebugOutput) fprintf (stderr, "param_read_string of async = %d, fname.size = %d\n", iReturnCode, fname.size);
+       if (  (iReturnCode < 1)
+          && (fname.size > 0)
+          )
+@@ -873,32 +891,17 @@
+    }
+ 
+    iReturnCode = param_read_long (plist, "PelSizeCorrection", &pDev->ulPelSizeCorrection);
+-   if (0 > iReturnCode)
+-   {
+-      if (iReturnCode < 0)
+-      {
+-         iReturnCode = param_read_null (plist, "PelSizeCorrection");
+-         if (iReturnCode != 0)
+-            fprintf (stderr, "Error Reading PelSizeCorrection parameter\n");
+-      }
+-   }
++   if (fDebugOutput) fprintf (stderr, "param_read_long of PelSizeCorrection = %d, ulPelSizeCorrection = %ld\n", iReturnCode, pDev->ulPelSizeCorrection);
+ 
+    /*
+     *  Set user options for the job
+     */
+-   fname = deffname;
+-   iReturnCode = param_read_string (plist, "properties", &fname);
+-   if (0 > iReturnCode)
+-   {
+-      if (iReturnCode < 0)
+-      {
+-         iReturnCode = param_read_null (plist,"properties");
+-         if (iReturnCode != 0)
+-            fprintf (stderr, "Error Reading properties parameter\n");
+-      }
+-   }
+-   else
++   if (!pDev->pcoreOmni->pszJobOptions)
+    {
++      memset (&fname, 0, sizeof (fname));
++      iReturnCode = param_read_string (plist, "properties", &fname);
++      if (fDebugOutput) fprintf (stderr, "param_read_string of properties = %d, fname.size = %d\n", iReturnCode, fname.size);
++
+       if (  (iReturnCode < 1)
+          && (fname.size > 0)
+          )
+@@ -910,22 +913,13 @@
+       }
+    }
+ 
+-   /*
+-    *  Set user options for monodither by GS
+-    */
+-   fname = deffname;
+-   iReturnCode = param_read_string (plist, "monodither", &fname);
+-   if (0 > iReturnCode)
+-   {
+-      if (iReturnCode < 0)
+-      {
+-         iReturnCode = param_read_null (plist, "monodither");
+-         if (iReturnCode != 0)
+-            fprintf (stderr, "Error Reading monodither parameter\n");
+-      }
+-   }
+-   else
++   // Set user options for monodither by GS
++   if (!pDev->cMonoDither[0])
+    {
++      memset (&fname, 0, sizeof (fname));
++      iReturnCode = param_read_string (plist, "monodither", &fname);
++      if (fDebugOutput) fprintf (stderr, "param_read_string of monodither = %d, fname.size = %d\n", iReturnCode, fname.size);
++
+       if (  (iReturnCode < 1)
+          && (fname.size > 0)
+          )
+@@ -946,23 +940,13 @@
+       }
+    }
+ 
+-   /*
+-    *  Set user options for client / server function
+-    */
+-   fname = deffname;                                                //@@05092001
+-   iReturnCode = param_read_string (plist, "server", &fname);       //@@05092001
++   // Set user options for client / server function
++   if (!pDev->pcoreOmni->cServer[0])
++   {
++      memset (&fname, 0, sizeof (fname));
++      iReturnCode = param_read_string (plist, "server", &fname);
++      if (fDebugOutput) fprintf (stderr, "param_read_string of server = %d, fname.size = %d\n", iReturnCode, fname.size);
+ 
+-   if (0 > iReturnCode)                                             //@@05092001
+-   {                                                                //@@05092001
+-      if (iReturnCode < 0)                                          //@@05092001
+-      {                                                             //@@05092001
+-         iReturnCode = param_read_null (plist, "server");           //@@05092001
+-         if (iReturnCode != 0)                                      //@@05092001
+-            fprintf (stderr, "Error Reading server parameter\n");   //@@05092001
+-      }                                                             //@@05092001
+-   }                                                                //@@05092001
+-   else                                                             //@@05092001
+-   {                                                                //@@05092001
+       if (  (iReturnCode < 1)
+          && (fname.size > 0)
+          )
+@@ -975,54 +959,35 @@
+ 
+          pDev->iUseServer = 1;
+       }
+-   }                                                                //@@05092001
++   }
+ 
+    /*
+     *  Set user options for dialog function
+     */
+-   fname = deffname;                                                //@@05092001
+-   iReturnCode = param_read_string (plist, "jobdialog", &fname);    //@@05092001
++   if (!pDev->iUseDialog)
++   {
++      memset (&fname, 0, sizeof (fname));
++      iReturnCode = param_read_string (plist, "jobdialog", &fname);
++      if (fDebugOutput) fprintf (stderr, "param_read_string of jobdialog = %d, fname.size = %d\n", iReturnCode, fname.size);
+ 
+-   if (0 > iReturnCode)                                             //@@05092001
+-   {                                                                //@@05092001
+-      if (iReturnCode < 0)                                          //@@05092001
+-      {                                                             //@@05092001
+-         iReturnCode = param_read_null (plist, "jobdialog");        //@@05092001
+-         if (iReturnCode != 0)                                      //@@05092001
+-            fprintf (stderr, "Error Reading jobdialog parameter\n");//@@05092001
+-      }                                                             //@@05092001
+-   }                                                                //@@05092001
+-   else                                                             //@@05092001
+-   {                                                                //@@05092001
+       if (!iReturnCode)
+       {
+          if (fDebugOutput) fprintf (stderr, "Utilizing dialog\n");
+ 
+          pDev->iUseDialog = 1;
+       }
+-   }                                                                //@@05092001
++   }
+ 
+-   if (pDev->iSetup != 1)
++   if (  pDev->pcoreOmni->cDeviceName[0]
++      && pDev->iSetup != 1
++      )
+    {
+       // create a device based on the user supplied inputs
+-      // To-Do - free the device
+-
+       if (fDebugOutput) fprintf(stderr, "setting following options on CreateDevice\n");
+       if (fDebugOutput) fprintf(stderr, "DeviceName = %s\n", pDev->pcoreOmni->cDeviceName );
+       if (fDebugOutput) fprintf(stderr, "pszJobOptions = %s\n", pDev->pcoreOmni->pszJobOptions);
+       if (fDebugOutput) fprintf(stderr, "debug parameter = %s \n", pDev->pcoreOmni->cDebugFile );
+ 
+-      /*
+-       *  Create a device definition by using the input parameters as the
+-       *  the defining factors
+-       */
+-      if (!pDev->pcoreOmni->cDeviceName[0])
+-      {
+-         bRet = gdev_prn_put_params ((gx_device *)prgxdev, plist);
+-
+-         return bRet;
+-      }
+-
+       if (pDev->iUseDialog)
+       {
+          int                       iLength                  = 0;
+@@ -1117,7 +1082,9 @@
+ 
+       if (!pDev->pcoreOmni->pDevice)
+       {
+-         fprintf (stderr, "Unable create a omni device\n");
++         fprintf (stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++         fprintf (stderr, "Error: Unable create a omni device\n");
++         if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
+ 
+          return_error (gs_error_Fatal);  // fail if no device was created
+       }
+@@ -1151,12 +1118,27 @@
+       bRet = pDev->pfnGetResolutionInfo ((void*)pDev->pCallPtr, &hwRes);
+ 
+       if (!bRet)
+-         return_error (gs_error_Fatal);
++      {
++          fprintf (stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++          fprintf (stderr, "Error: Failed GetResolutionInfo in SetupDevice\n");
++          if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
++
++          return_error (gs_error_Fatal);
++      }
+ 
+       // get the hardware page margins information
+ 
+       bRet = pDev->pfnGetMarginInfo ((void*)pDev->pCallPtr, &hwMargins);
+ 
++      if (!bRet)
++      {
++          fprintf (stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++          fprintf (stderr, "Error: Failed GetMarginInfo in SetupDevice\n");
++          if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
++
++          return_error (gs_error_Fatal);
++      }
++
+       if (fDebugOutput) fprintf (stderr, "GetMarginInfo returns %d\n", bRet);
+       if (fDebugOutput) fprintf (stderr, "GetMarginInfo.fLeftClip = %f\n", hwMargins.fLeftClip);
+       if (fDebugOutput) fprintf (stderr, "GetMarginInfo.fBottomClip = %f\n", hwMargins.fBottomClip);
+@@ -1165,9 +1147,6 @@
+       if (fDebugOutput) fprintf (stderr, "GetMarginInfo.fxWidth = %f\n", hwMargins.fxWidth);
+       if (fDebugOutput) fprintf (stderr, "GetMarginInfo.fyHeight = %f\n", hwMargins.fyHeight);
+ 
+-      if (!bRet)
+-         return_error (gs_error_Fatal);
+-
+       /*
+        *  We have to let GS know about our page and resolution parameters
+        */
+@@ -1175,6 +1154,8 @@
+       // setup the width and height of the page
+       prgxdev->width  = (int)hwMargins.fxWidth;
+       prgxdev->height = (int)hwMargins.fyHeight;
++      prgxdev->MediaSize[1] = (hwMargins.fyHeight/(float)hwRes.yRes)*72.0;
++      prgxdev->MediaSize[0] = (hwMargins.fxWidth/(float)hwRes.xRes)*72.0;
+ 
+       // does not seem like pels works correctly for margins so lets set the margins
+       // using points instead
+@@ -1226,6 +1207,8 @@
+ 
+    iReturnCode = gdev_prn_put_params ((gx_device *)prgxdev, plist);
+ 
++   if (fDebugOutput) fprintf (stderr, "SetupDevice returning %d\n", iReturnCode);
++
+    return iReturnCode;  // likely not be a failure
+ }
+ 
+@@ -1286,14 +1269,13 @@
+    ptlTrgBounds.x = 0;
+    ptlTrgBounds.y = 0;
+ 
+-   // Do a new_frame if not first page
+-
+    if (  !pDev
+       || !pDev->pcoreOmni->pDevice
+       )
+    {
+-      fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
+-      fprintf (stderr, "Error: -sDeviceName=XXX is not specified!\n\n");
++      fprintf (stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++      fprintf (stderr, "Error: -sDeviceName=XXX is not specified\n");
++      if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
+ 
+       return_error (gs_error_Fatal);
+    }
+@@ -1315,8 +1297,9 @@
+    pbmi = (PBITMAPINFO2)gs_malloc (1, iBytesToAlloc, "Bmpi Memory");
+    if (!pbmi)
+    {
+-      fprintf(stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n");
+-      fprintf(stderr, "   Failed allocation of pbmi in PrintPage\n");
++      fprintf(stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++      fprintf(stderr, "Error: Failed allocation of pbmi in PrintPage\n");
++      if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
+ 
+       return_error (gs_error_VMerror);
+    }
+@@ -1442,8 +1425,9 @@
+ 
+    if(!pBitmapMem)
+    {
+-      fprintf (stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n");
+-      fprintf (stderr, "   Failed allocation of pBitmapMem in PrintPage\n");
++      fprintf (stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++      fprintf (stderr, "Error: Failed allocation of pBitmapMem in PrintPage\n");
++      if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
+ 
+       return_error (gs_error_VMerror);
+    }
+@@ -1461,8 +1445,9 @@
+    }
+    else
+    {
+-      fprintf(stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n");
+-      fprintf(stderr, "            Bitmap memory alloc Failed \n");
++      fprintf(stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++      fprintf(stderr, "Error: Bitmap memory alloc Failed\n");
++      if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
+ 
+       return_error (gs_error_VMerror);
+    }
+@@ -1553,14 +1538,15 @@
+ 
+                   if (pMonoData)
+                   {
+-                     memset(pMonoData, 0xFF, iYBand * ImageInfo.ulTrgBytesPerLine );
++                     memset (pMonoData, 0xFF, iYBand * ImageInfo.ulTrgBytesPerLine );
+                   }
+                   else
+                   {
+-                     fprintf(stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n");
+-                     fprintf(stderr, "   Failed allocation of pMonoData in PrintPage\n");
++                     fprintf (stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
++                     fprintf (stderr, "Error: Failed allocation of pMonoData in PrintPage\n");
++                     if (fDebugOutput) fprintf (stderr, "@ line %d gomni.c\n", __LINE__);
+ 
+-                     return_error(gs_error_VMerror);
++                     return_error (gs_error_VMerror);
+                   }
+ 
+                   ImageInfo.pptlSrc->y = ImageInfo.pptlDst->y = iYBand;               // exclusive??

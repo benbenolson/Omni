@@ -1,0 +1,26 @@
+#!/bin/bash
+FILES=
+FILES="${FILES} OmniEditDevice.py"
+FILES="${FILES} OmniEditDeviceCommands.py"
+FILES="${FILES} OmniEditDeviceConnections.py"
+FILES="${FILES} OmniEditDeviceCopies.py"
+FILES="${FILES} OmniEditDeviceDatas.py"
+FILES="${FILES} OmniEditDeviceForms.py"
+FILES="${FILES} OmniEditDeviceGammaTables.py"
+FILES="${FILES} OmniEditDeviceMedias.py"
+FILES="${FILES} OmniEditDeviceNumberUps.py"
+FILES="${FILES} OmniEditDeviceOrientations.py"
+FILES="${FILES} OmniEditDeviceOutputBins.py"
+FILES="${FILES} OmniEditDevicePrintModes.py"
+FILES="${FILES} OmniEditDeviceResolutions.py"
+FILES="${FILES} OmniEditDeviceScalings.py"
+FILES="${FILES} OmniEditDeviceSheetCollates.py"
+FILES="${FILES} OmniEditDeviceSides.py"
+FILES="${FILES} OmniEditDeviceStitchings.py"
+FILES="${FILES} OmniEditDeviceStrings.py"
+FILES="${FILES} OmniEditDeviceTrays.py"
+FILES="${FILES} OmniEditDeviceTrimmings.py"
+FILES="${FILES} OmniEditLoadGtk.py"
+FILES="${FILES} OmniEditUtils.py"
+
+vs ${FILES} &

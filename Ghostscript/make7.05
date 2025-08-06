@@ -1,0 +1,77 @@
+#!/bin/bash
+#
+# IBM Omni driver
+# Copyright (c) International Business Machines Corp., 2000
+#
+# This library is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation; either version 2.1 of the License, or
+# (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+# the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+#
+
+NEWDATE=121002
+OLDDATE=071902
+
+ORIGDIR=`pwd`
+GHOSTDIR=/home/ghostscript/
+
+NEWCLEANPATCH=$ORIGDIR/7.0x/Omni-7.05-$NEWDATE-patch.clean
+if test ! -z "${OLDDATE}"; then
+	OLDCLEANPATCH=$ORIGDIR/7.0x/Omni-7.05-$OLDDATE-patch.clean
+fi
+NEWUPDATEPATCH=$ORIGDIR/7.0x/Omni-7.05-$NEWDATE-patch.update
+
+# Create clean patch
+echo "Creating clean patch"
+(
+cd $GHOSTDIR
+diff -ur gold-gs7.05/ gs7.05/ |
+	sed -e '/^Common sub/d' -e '/^Only in/d' -e 's/gold-gs7.05\///' -e 's/gs7.05\///' > $NEWCLEANPATCH
+diff -Nu gold-gs7.05/src/gomni.c gs7.05/src/gomni.c |
+        sed -e 's/gold-gs7.05\///' -e 's/gs7.05\///' >> $NEWCLEANPATCH
+diff -Nu gold-gs7.05/src/defs.h gs7.05/src/defs.h |
+	sed -e 's/gold-gs7.05\///' -e 's/gs7.05\///' >> $NEWCLEANPATCH
+)
+
+# Create update patch
+if test ! -z "${OLDDATE}"; then
+	echo "Creating update patch"
+	(
+	cd /tmp
+
+	TARBALL=$GHOSTDIR/golden/ghostscript-7.05.tar.gz
+	OLDGHOST=ghostscript-7.05-$OLDDATE
+	NEWGHOST=ghostscript-7.05-$NEWDATE
+	TARGHOST=ghostscript-7.05
+
+	rm -rf $OLDGHOST $NEWGHOST
+
+	tar xzf $TARBALL
+	(
+	cd $TARGHOST
+	patch -p0 < $OLDCLEANPATCH > /dev/null
+	)
+	mv $TARGHOST $OLDGHOST
+
+	tar xzf $TARBALL
+	(
+	cd $TARGHOST
+	patch -p0 < $NEWCLEANPATCH > /dev/null
+	)
+	mv $TARGHOST $NEWGHOST
+
+	diff -ur $OLDGHOST/ $NEWGHOST/ |
+		sed -e '/^Common sub/d' -e '/^Only in/d' -e 's/ghostscript-7.05-[0-9]*\///' -e 's/ghostscript-7.05\///' > $NEWUPDATEPATCH
+	diff -Nu $OLDGHOST/src/gomni.c $NEWGHOST/src/gomni.c >> $NEWUPDATEPATCH
+	diff -Nu $OLDGHOST/src/defs.h $NEWGHOST/src/defs.h >> $NEWUPDATEPATCH
+	)
+fi

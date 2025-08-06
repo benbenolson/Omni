@@ -1,0 +1,108 @@
+#!/bin/bash
+#
+# IBM Omni driver
+# Copyright (c) International Business Machines Corp., 2000
+#
+# This library is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation; either version 2.1 of the License, or
+# (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+# the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+#
+
+#
+# Set the BUILD_DEVICES variable either from devicesBuild.list or from the arguments
+#
+if (($# == 0)) ;
+then
+	source ./devicesBuild.list
+	BUILD_DEVICES=${DEVICELIST}
+
+	source ./devicesXML.list
+	XML_DEVICES=${DEVICELIST}
+else
+	BUILD_DEVICES="$@"
+	XML_DEVICES="$@"
+fi
+
+#
+# Setup the library path
+#
+unset LD_LIBRARY_PATH
+
+LD_LIBRARY_PATH=`pwd`/.libs:`pwd`/XMLLib/.libs
+OMNI_DEVICELIST_PATH=
+
+#
+# Add the devices to the library path
+#
+for i in ${BUILD_DEVICES} ;
+do
+	#
+	# Figure out the directory
+	#
+	DIR="`echo ${i} | sed -e 's/~//g' -e 's/_/ /g'`"
+
+	#
+	# Add the built directory for this device
+	#
+	LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:`pwd`/"${DIR}/.libs"
+
+	#
+	# Does it have a VendorSupplied equivalent as well?
+	#
+	if test -d "VendorSupplied/${DIR}"; then
+		#
+		# Append it
+		#
+		LD_LIBRARY_PATH=`pwd`/"VendorSupplied/${DIR}":${LD_LIBRARY_PATH}
+		PATH=`pwd`/"VendorSupplied/${DIR}":${PATH}
+	fi
+done
+
+#
+# Add the paths to the xml path
+#
+for i in ${XML_DEVICES} ;
+do
+	#
+	# Figure out the directory
+	#
+	DIR="`echo ${i} | sed -e 's/~//g' -e 's/_//g'`"
+
+	#
+	# Add the XML path for this device
+	#
+	if test -z "${OMNI_DEVICELIST_PATH}"; then
+		OMNI_DEVICELIST_PATH="`pwd`/${DIR}"
+	else
+		OMNI_DEVICELIST_PATH="${OMNI_DEVICELIST_PATH}:`pwd`/${DIR}"
+	fi
+
+	#
+	# Does it have a VendorSupplied equivalent as well?
+	#
+	if test -d "VendorSupplied/${DIR}"; then
+		#
+		# Append it
+		#
+		LD_LIBRARY_PATH=`pwd`/"VendorSupplied/${DIR}":${LD_LIBRARY_PATH}
+		PATH=`pwd`/"VendorSupplied/${DIR}":${PATH}
+	fi
+done
+
+export LD_LIBRARY_PATH
+export PATH=`pwd`:`pwd`/CUPS/:`pwd`/Foomatic/:${PATH}
+export OMNI_DEVICELIST_PATH
+
+echo LD_LIBRARY_PATH=${LD_LIBRARY_PATH}
+echo PATH=${PATH}
+echo OMNI_DEVICELIST_PATH=${OMNI_DEVICELIST_PATH}

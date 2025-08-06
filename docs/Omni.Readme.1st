@@ -1,0 +1,93 @@
+                                                         09-27-2004
+
+
+IBM's Linux Omni Printer Driver Framework
+http://www.ibm.com/linux/ltc/projects/omni
+Version 0.9.2
+=================================================================
+
+IMPORTANT NOTES:
+
+   - If you are using gcc 3.X, then use the latest version in CVS or an
+     official release that contains bug c++/6316 in it.
+
+   - We have changed the layout of where the omni driver is installed.
+     The new directory structure is /opt/Omni/bin for programs and
+     /opt/Omni/lib for libraries.
+
+   - We no longer place patch files in the root of the tar file because
+     there are now multiple versions of the Ghostscript patches.  Please
+     look under Omni/Ghostscript and choose the proper version based on
+     the source that you are using.
+
+   - Please backup any file changes you have made as there are a number
+     of core files that have been added or updated in this release.
+
+   - The source directory tree structure may may changed since the last
+     release.  Please delete the Omni directory before unpacking this
+     release.
+
+We have also enabled faster driver development with the ability to easily
+extend the existing device support with features of a new device through a
+well defined pluggable interface.  Additionally, The Omni driver supports
+the dynamic loading of new device support.  Once you have build this package
+with Ghostscript, printer drivers can be built separately and applied to a
+system without having to rebuild Ghostscript on the target systems.
+Accurate per device printer features are supported through command
+line options allowing the user to change multiple properties of the
+completed output. We have also provided a utility for querying the
+available options on a particular device.
+
+We will continue to improve upon this code by adding new function and
+features.  Since the driver model and code are not 100% completed yet,
+we welcome any feedback concerning the driver/driver model along with
+any problems or issues that might arise during its use.  We also would
+like to have any contributions that will increase the stability,
+performance, or feature set of the Omni driver.
+
+We have not tuned the color output on all devices.
+If your output colors are not correct, please refer to section 5 (Omni
+color adjustment) to adjust the gammas to best suit your printer, paper,
+and inks.
+
+Please see the following files in Omni's doc directory for more information:
+
+   Building
+      How to build the omni driver from source code.
+
+   Change Log
+      Changes that went into all of the versions of omni.
+
+   Color Adjustment
+      How to adjust the color for your printer.
+
+   How To Create A Device
+      How to create a new device under the omni driver.
+
+   Known Problems
+      This is a list of currently known problems in the omni driver.
+
+   Omni Rasterization Specification
+      The is a description of the rasteration interface between core omni
+      code and a device.
+
+   Omni.coding.style
+      If you add code to the omni driver, please use this guide to format it!
+
+   Omni_RPM.Readme
+      Read this for information about RedHat RPMs.
+
+   PDC Specification
+      The specification for the Printer Driver Communications.
+
+   Readme.1st
+      This file.
+
+   Reporting Bugs
+      How to report a bug.
+
+   Usage
+      How to use the omni driver.
+
+   todo
+      What still needs to be done to the omni driver.

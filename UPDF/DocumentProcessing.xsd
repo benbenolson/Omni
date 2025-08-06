@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.pwg.org/schemas/sm/1.0/" xmlns="http://www.pwg.org/schemas/sm/1.0/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.00">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">PWG Document Processing Element schema
+Copyright 2002-2004 IEEE Industry Standards and Technology Organization/Printer Working Group. 
+All rights reserved</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>NOTE: To use this schema you MUST include PwgCommon.xsd</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>Document Processing Element definition</xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="DocumentProcessing">
+		<xsd:sequence>
+			<xsd:element ref="Copies" minOccurs="0"/>
+			<xsd:element ref="CoverBack" minOccurs="0"/>
+			<xsd:element ref="CoverFront" minOccurs="0"/>
+			<xsd:element ref="FeedOrientation" minOccurs="0"/>
+			<xsd:element ref="Finishings" minOccurs="0"/>
+			<xsd:element ref="FinishingsCol" minOccurs="0"/>
+			<xsd:element ref="FontNameRequested" minOccurs="0"/>
+			<xsd:element ref="FontSizeRequested" minOccurs="0"/>
+			<xsd:element ref="ForceFrontSide" minOccurs="0"/>
+			<xsd:element ref="ImpositionTemplate" minOccurs="0"/>
+			<xsd:element ref="InsertSheet" minOccurs="0"/>
+			<xsd:choice minOccurs="0">
+				<xsd:element ref="Media" minOccurs="0"/>
+				<xsd:element ref="MediaCol" minOccurs="0"/>
+			</xsd:choice>
+			<xsd:element ref="MediaInputTrayCheck" minOccurs="0"/>
+			<xsd:element ref="NumberUp" minOccurs="0"/>
+			<xsd:element ref="OrientationRequested" minOccurs="0"/>
+			<xsd:element ref="OutputDevice" minOccurs="0"/>
+			<xsd:element ref="Overrides" minOccurs="0"/>
+			<xsd:element ref="PageDelivery" minOccurs="0"/>
+			<xsd:element ref="PageRanges" minOccurs="0"/>
+			<xsd:element ref="PdlInitFiles" minOccurs="0"/>
+			<xsd:element ref="PresentationDirectionNumberUp" minOccurs="0"/>
+			<xsd:element ref="PrintContentOptimize" minOccurs="0"/>
+			<xsd:element ref="PrinterResolution" minOccurs="0"/>
+			<xsd:element ref="PrintQuality" minOccurs="0"/>
+			<xsd:element ref="SeparatorSheets" minOccurs="0"/>
+			<xsd:element ref="SheetCollate" minOccurs="0"/>
+			<xsd:element ref="Sides" minOccurs="0"/>
+			<xsd:element ref="XImagePosition" minOccurs="0"/>
+			<xsd:element ref="XImageShift" minOccurs="0"/>
+			<xsd:element ref="XSide1ImageShift" minOccurs="0"/>
+			<xsd:element ref="XSide2ImageShift" minOccurs="0"/>
+			<xsd:element ref="YImagePosition" minOccurs="0"/>
+			<xsd:element ref="YImageShift" minOccurs="0"/>
+			<xsd:element ref="YSide1ImageShift" minOccurs="0"/>
+			<xsd:element ref="YSide2ImageShift" minOccurs="0"/>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="DocumentProcessing" type="DocumentProcessing"/>
+	<xsd:annotation>
+		<xsd:documentation>Document Description specific semantic elements</xsd:documentation>
+	</xsd:annotation>
+	<xsd:element name="Copies" type="xsd:int"/>
+	<xsd:element name="CoverBack" type="CoverCol"/>
+	<xsd:element name="CoverFront" type="CoverCol"/>
+	<xsd:element name="DocumentCopies">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="DocumentCopy" type="RangeOfInt" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Finishings" type="Finishings"/>
+	<xsd:element name="FinishingsCol" type="FinishingsCol"/>
+	<xsd:element name="FontNameRequested" type="xsd:string"/>
+	<xsd:element name="FontSizeRequested" type="xsd:int"/>
+	<xsd:element name="ForceFrontSide">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ForceFront" type="xsd:int" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ImpositionTemplate">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="255"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="InsertAfterPage" type="xsd:int"/>
+	<xsd:element name="InsertCount" type="xsd:int"/>
+	<xsd:element name="InsertSheet">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ISheet" type="ISheet" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MediaInputTrayCheck">
+		<xsd:simpleType>
+			<xsd:union memberTypes="MediaInputTrayCheckWKV MediaNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="NumberUp" type="xsd:int"/>
+	<xsd:element name="OrientationRequested">
+		<xsd:simpleType>
+			<xsd:union memberTypes="OrientationRequestedWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PageDelivery">
+		<xsd:simpleType>
+			<xsd:union memberTypes="PageDeliveryWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PageRanges">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="PageRange" type="RangeOfInt" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PdlInitFiles" type="PdlInitFiles"/>
+	<xsd:element name="PdlInitFileEntry">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="255"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PdlInitFileLocation">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="1023"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PdlInitFileName">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="255"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PresentationDirectionNumberUp">
+		<xsd:simpleType>
+			<xsd:union memberTypes="PresentationDirectionNumberUpWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PrintContentOptimize">
+		<xsd:simpleType>
+			<xsd:union memberTypes="PrintContentOptimizeWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PrintQuality">
+		<xsd:simpleType>
+			<xsd:union memberTypes="PrintQualityWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PrinterResolution" type="Resolution"/>
+	<xsd:element name="SeparatorSheets" type="SeparatorSheets"/>
+	<xsd:element name="SeparatorSheetsType">
+		<xsd:simpleType>
+			<xsd:union memberTypes="SeparatorSheetsTypeWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="SheetCollate">
+		<xsd:simpleType>
+			<xsd:union memberTypes="SheetCollateWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="Sides">
+		<xsd:simpleType>
+			<xsd:union memberTypes="SidesWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="XImagePosition">
+		<xsd:simpleType>
+			<xsd:union memberTypes="XImagePositionWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="XImageShift" type="xsd:int"/>
+	<xsd:element name="XSide1ImageShift" type="xsd:int"/>
+	<xsd:element name="XSide2ImageShift" type="xsd:int"/>
+	<xsd:element name="YImagePosition">
+		<xsd:simpleType>
+			<xsd:union memberTypes="YImagePositionWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="YImageShift" type="xsd:int"/>
+	<xsd:element name="YSide1ImageShift" type="xsd:int"/>
+	<xsd:element name="YSide2ImageShift" type="xsd:int"/>
+	<xsd:annotation>
+		<xsd:documentation>Document Description specific Complex types</xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="ISheet">
+		<xsd:sequence>
+			<xsd:element ref="InsertAfterPage" minOccurs="0"/>
+			<xsd:element ref="InsertCount" minOccurs="0"/>
+			<xsd:choice minOccurs="0">
+				<xsd:element ref="Media" minOccurs="0"/>
+				<xsd:element ref="MediaCol" minOccurs="0"/>
+			</xsd:choice>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PdlInitFiles">
+		<xsd:sequence>
+			<xsd:element name="PdlInitFile" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element ref="PdlInitFileEntry" minOccurs="0"/>
+						<xsd:element ref="PdlInitFileName" minOccurs="0"/>
+						<xsd:element ref="PdlInitFileLocation" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SeparatorSheets">
+		<xsd:sequence>
+			<xsd:element ref="SeparatorSheetsType" minOccurs="0"/>
+			<xsd:choice minOccurs="0">
+				<xsd:element ref="Media" minOccurs="0"/>
+				<xsd:element ref="MediaCol" minOccurs="0"/>
+			</xsd:choice>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,203 @@
+diff -C5 040401/gs5.50/gomni.c dynamic2/gs5.50/gomni.c
+*** 040401/gs5.50/gomni.c	Tue Apr 10 10:54:26 2001
+--- dynamic2/gs5.50/gomni.c	Tue Apr 10 10:57:30 2001
+***************
+*** 1,6 ****
+- 
+  /*
+   *   IBM Omni driver
+   *   Copyright (c) International Business Machines Corp., 2000
+   *
+   *   This library is free software; you can redistribute it and/or modify
+--- 1,5 ----
+***************
+*** 37,48 ****
+   *
+   * You should have received a copy of the GNU Lesser General Public
+   * License along with this library; if not, write to the Free Software
+   * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+   */
+- 
+- 
+  /************************************************************************/
+  /*              FILE: gomni.c                                           */
+  /*                                                                      */
+  /*                                                                      */
+  /*    Change History                                                    */
+--- 36,45 ----
+***************
+*** 340,359 ****
+      int max_width;
+      int max_raster;
+      int min_band_height;
+      int max_src_image_row;
+  
+!     if (!pDev->vhOmni)
+      {
+         /* SetupDevice is called before OpenDevice is called.  Therefore, the
+         ** initial loading of the omni driver is done there.  If that has failed
+         ** (the library handle is 0), then fail this call.
+         */
+         return e_Fatal;
+      }
+  
+!     pDev->pszOtherOptions = '\0';
+  
+      /*
+       * Set up device's printer proc vector to point to this driver, since
+       * there are no convenient macros for setting them up in static template.
+       */
+--- 337,358 ----
+      int max_width;
+      int max_raster;
+      int min_band_height;
+      int max_src_image_row;
+  
+!     if (!pDev || !pDev->vhOmni)
+      {
+         /* SetupDevice is called before OpenDevice is called.  Therefore, the
+         ** initial loading of the omni driver is done there.  If that has failed
+         ** (the library handle is 0), then fail this call.
+         */
++ 
+         return e_Fatal;
+      }
+  
+! //    if(pDev->pszOtherOptions)
+! //       *pDev->pszOtherOptions = '\0';
+  
+      /*
+       * Set up device's printer proc vector to point to this driver, since
+       * there are no convenient macros for setting them up in static template.
+       */
+***************
+*** 407,416 ****
+--- 406,419 ----
+  CloseDevice (gx_device * pdev)
+  {
+     gx_device_omni * const pwdev = (gx_device_omni *)pdev;
+     pDevStruct              pDev  = pwdev->pDev;
+  
++    if(!pDev)
++    {
++      return -1;  // handle no pDev
++    }
+  
+     if (pDev->pDevice)
+     {
+        pDev->pfnDeleteDevice (pDev->pDevice);
+        pDev->pDevice = 0;
+***************
+*** 460,472 ****
+--- 463,477 ----
+  
+     const char   *pszDeviceName       = "";
+     const char   *pszDebug            = "";
+     const char   *pszOther            = "";
+     const char   *pszAsync            = "";
++    char    pszTemp[3];
+     unsigned long ulPelSizeCorrection = 100;
+     bool          bPersist            = false;
+  
++ 
+     iReturnCode = gdev_prn_get_params ( pgxdev, plist );
+     if (pDev)
+     {
+         bPersist            = true;
+         pszDeviceName       = pDev->cDeviceName;
+***************
+*** 489,500 ****
+     strdata.data = pszDebug;
+     strdata.size = strlen(pszDebug);
+     strdata.persistent = bPersist;
+     iReturnCode = param_write_string(plist,"dbgout",&strdata);
+  
+!    strdata.data = pszOther;
+!    strdata.size = strlen(pszOther);
+     strdata.persistent = bPersist;
+     iReturnCode = param_write_string(plist,"properties",&strdata);
+  
+     strdata.data = pszAsync;
+     strdata.size = strlen(pszAsync);
+--- 494,515 ----
+     strdata.data = pszDebug;
+     strdata.size = strlen(pszDebug);
+     strdata.persistent = bPersist;
+     iReturnCode = param_write_string(plist,"dbgout",&strdata);
+  
+!    if(pDev && pDev->pszOtherOptions)
+!    {
+!        strdata.size = strlen(pszOther);
+!        strdata.data = pszOther;
+!    }
+!    else
+!    {
+!        pszTemp[0] = '\0';
+!        strdata.size = 0;
+!        strdata.data = pszTemp;
+!    }
+! 
+     strdata.persistent = bPersist;
+     iReturnCode = param_write_string(plist,"properties",&strdata);
+  
+     strdata.data = pszAsync;
+     strdata.size = strlen(pszAsync);
+***************
+*** 550,560 ****
+            return 1;
+         }
+         else
+         {
+            memset (pDev, 0, sizeof (Omni_Dev));
+!           prgxdev->pDev->pszOtherOptions = '\0';
+         }
+     }
+  
+     if (!pDev->vhOmni)
+     {
+--- 565,575 ----
+            return 1;
+         }
+         else
+         {
+            memset (pDev, 0, sizeof (Omni_Dev));
+!          // prgxdev->pDev->pszOtherOptions = '\0';
+         }
+     }
+  
+     if (!pDev->vhOmni)
+     {
+***************
+*** 617,626 ****
+--- 632,642 ----
+           dlclose (pDev->vhOmni);
+           pDev->vhOmni = 0;
+  
+           return 1;
+        }
++ 
+     }
+  
+  //   device name in structure - need to fail if none
+     fname = deffname;
+     iReturnCode = param_read_string(plist,"DeviceName",&fname);
+***************
+*** 879,888 ****
+--- 895,911 ----
+      // Get things setup to call into the driver code
+      BITMAPINFO2 *pbmi;
+  
+  
+      pDevStruct pDev = pasyncDev->pDev;
++ 
++     if(!pDev || !pDev->pDevice )
++     {
++         fprintf(stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n");
++         fprintf(stderr, "                NO DEVICE CREATED \n\n");
++         return -1;  // handle null pDev
++     }
+  
+      pDev->iPage++;
+  
+      bRet = pDev->pfnGetPrintModeInfo (pasyncDev->pDev->pDevice, &prtMode);
+  

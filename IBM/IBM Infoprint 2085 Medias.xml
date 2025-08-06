@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     IBM Omni driver
+     Copyright (c) International Business Machines Corp., 2000
+
+     This library is free software; you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published
+     by the Free Software Foundation; either version 2.1 of the License, or
+     (at your option) any later version.
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+     the GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this library; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
+
+<deviceMedias
+   xmlns="http://www.ibm.com/linux/ltc/projects/omni/"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+   xs:schemaLocation="http://www.ibm.com/linux/ltc/projects/omni/ ../OmniDevice.xsd">
+   <deviceMedia>
+      <name>MEDIA_PLAIN</name>
+      <command>_ESC_ &quot;&amp;n6WdPlain&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_RECYCLED</name>
+      <command>_ESC_ &quot;&amp;n9WdRecycled&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_SPECIAL_BLUE</name>
+      <command>_ESC_ &quot;&amp;n12WdSpecialBlue&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_SPECIAL_GREEN</name>
+      <command>_ESC_ &quot;&amp;n13WdSpecialGreen&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_SPECIAL_GREY</name>
+      <command>_ESC_ &quot;&amp;n12WdSpecialGrey&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_SPECIAL_IVORY</name>
+      <command>_ESC_ &quot;&amp;n13WdSpecialIvory&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_SPECIAL_LETTERHEAD</name>
+      <command>_ESC_ &quot;&amp;n18WdSpecialLetterhead&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_SPECIAL_ORANGE</name>
+      <command>_ESC_ &quot;&amp;n14WdSpecialOrange&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_SPECIAL_PINK</name>
+      <command>_ESC_ &quot;&amp;n12WdSpecialPink&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_SPECIAL_PURPLE</name>
+      <command>_ESC_ &quot;&amp;n14WdSpecialPurple&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_SPECIAL_RED</name>
+      <command>_ESC_ &quot;&amp;n11WdSpecialRed&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_SPECIAL</name>
+      <command>_ESC_ &quot;&amp;n8WdSpecial&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_SPECIAL_USER_COLOR</name>
+      <command>_ESC_ &quot;&amp;n17WdSpecialUserColor&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_SPECIAL_YELLOW</name>
+      <command>_ESC_ &quot;&amp;n14WdSpecialYellow&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_TABSTOCK_2</name>
+      <command>_ESC_ &quot;&amp;n10WdTabstock2&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_TABSTOCK_3</name>
+      <command>_ESC_ &quot;&amp;n10WdTabstock3&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_TABSTOCK_4</name>
+      <command>_ESC_ &quot;&amp;n10WdTabstock4&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_TABSTOCK_5</name>
+      <command>_ESC_ &quot;&amp;n10WdTabstock5&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_TABSTOCK_6</name>
+      <command>_ESC_ &quot;&amp;n10WdTabstock6&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_TABSTOCK_7</name>
+      <command>_ESC_ &quot;&amp;n10WdTabstock7&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_TABSTOCK_8</name>
+      <command>_ESC_ &quot;&amp;n10WdTabstock8&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_TABSTOCK_9</name>
+      <command>_ESC_ &quot;&amp;n10WdTabstock9&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_TABSTOCK</name>
+      <command>_ESC_ &quot;&amp;n9WdTabstock&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_THICK_BLUE</name>
+      <command>_ESC_ &quot;&amp;n10WdThickBlue&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_THICK_GREEN</name>
+      <command>_ESC_ &quot;&amp;n11WdThickGreen&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_THICK_GREY</name>
+      <command>_ESC_ &quot;&amp;n10WdThickGrey&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_THICK_IVORY</name>
+      <command>_ESC_ &quot;&amp;n11WdThickIvory&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_THICK_LETTERHEAD</name>
+      <command>_ESC_ &quot;&amp;n16WdThickLetterhead&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_THICK_ORANGE</name>
+      <command>_ESC_ &quot;&amp;n12WdThickOrange&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_THICK_PINK</name>
+      <command>_ESC_ &quot;&amp;n10WdThickPink&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_THICK_PURPLE</name>
+      <command>_ESC_ &quot;&amp;n12WdThickPurple&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_THICK_RED</name>
+      <command>_ESC_ &quot;&amp;n9WdThickRed&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_THICK</name>
+      <command>_ESC_ &quot;&amp;n10WdThickNone&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_THICK_USER_COLOR</name>
+      <command>_ESC_ &quot;&amp;n15WdThickUserColor&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_THICK_YELLOW</name>
+      <command>_ESC_ &quot;&amp;n12WdThickYellow&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_TRANSLUCENT</name>
+      <command>_ESC_ &quot;&amp;n12WdTranslucent&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_TRANSPARENCY</name>
+      <command>_ESC_ &quot;&amp;n13WdTransparency&quot;</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+   <deviceMedia>
+      <name>MEDIA_USE_PRINTER_SETTING</name>
+      <command>""</command>
+      <mediaColorAdjustRequired>0</mediaColorAdjustRequired>
+      <mediaAbsorption>MEDIA_HEAVY_ABSORPTION</mediaAbsorption>
+   </deviceMedia>
+</deviceMedias>

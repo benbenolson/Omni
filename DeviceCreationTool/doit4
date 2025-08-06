@@ -1,0 +1,2 @@
+#!/bin/bash
+(cd ../test; ../DeviceCreationTool/OmniEditDevice.py --gladePath ../DeviceCreationTool Test\ Me.xml)

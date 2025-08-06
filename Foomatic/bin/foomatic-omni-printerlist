@@ -1,0 +1,55 @@
+#! /usr/bin/perl
+
+# This is foomatic-omni-printerlist, it generates a list of printer
+# name/Foomtic ID relations for Omni's Foomatic data generator
+# "Foomatic.cpp".
+
+# (C) 2001 Till Kamppeter, GPL (www.gnu.org)
+
+use Foomatic::Defaults;
+use Foomatic::DB qw/get_overview/;
+
+my $db = new Foomatic::DB;
+
+# Get the printer overview list as a Perl data structure
+$db->get_overview();
+
+open LIST, "> foo2omni";
+
+my $printer;
+for $printer (@{$db->{'overview'}}) {
+    print "$printer->{'make'} $printer->{'model'} ($printer->{'id'})";
+    my $make = lc($printer->{'make'});
+    my $model = lc($printer->{'model'});
+    $model =~ s/ /_/g;
+    $model =~ s!/!_!g;
+    $model =~ s/plus/\+/g;
+    $model =~ s/_\+/\+/g;
+    $model =~ s/laserjet_iii/laserjet_3/g;
+    $model =~ s/laserjet_ii/laserjet_2/g;
+    $model =~ s/[\(\),]//g;
+    print " --> ${make}-${model} $printer->{'id'}\n";
+    print LIST "${make}-${model} $printer->{'id'}\n";
+}
+
+# Some manually entered relations (duplicate search keys for the same
+# Foomatic ID are no problem, the chance to find a Foomatic ID only gets
+# higher.
+
+print LIST 
+"epson-stylus_photo_785epx Epson-Stylus_Photo_785
+epson-stylus_photo_875dc Epson-Stylus_Photo_875
+okidata-ol400w 96576
+okidata-ol410e 63616
+okidata-ol600e 70016
+okidata-ol610e_ps 62944
+okidata-ol610e_s 108896
+okidata-ol800 178185
+okidata-ol810e_ps 66176
+star-starjet_sj-48 25280
+";
+
+close LIST;
+
+exit 0;
+

@@ -1,0 +1,142 @@
+Foomatic usage
+==============
+
+http://www.linuxprinting.org/
+
+To list all foomatic printer entries
+	foomatic-configure -O
+
+To list all foomatic printer entries for omni
+	foomatic-configure -X -d omni
+
+CUPS usage
+==========
+
+http://www.cups.org/
+
+http://localhost:631/
+
+/usr/lib/cups/filter/
+/usr/share/cups/model/foomatic/%driver%-%device%-cups.ppd.gz
+
+killall -HUP cupsd
+
+Ghostscript usage
+=================
+
+Run the tool OmniDevices to list all of the installed omni devices on your
+system.  This will tell you what device name to choose.
+
+   [/]$ OmniDevices
+   Brother_HJ_100i
+   Brother_HJ_400
+   ...
+   Star_ZA_250_Multi_Font
+
+Common command line paramters
+-----------------------------
+
+Run the tool OmniDeviceOptions to list all of the properties that are changeable
+on a print job basis.
+
+   [/]$ OmniDeviceOptions Brother_HJ_100i
+   orientation=
+           portrait
+   dither=
+           DITHER_LEVEL
+   ...
+   bidirectional=
+           true
+           false
+
+These options are then combined and put on the command line as follows:
+
+   -sproperties="..."
+
+For example:
+
+   -sproperties="form=FORM_A4 media=MEDIA_PLAIN printmode=PRINT_MODE_1_ANY"
+
+NOTE:
+
+  When changing the form size within the omni device, you will need to also set
+  corresponding PAPERSIZE in Ghostscript using the -sPAPERSIZE parameter or
+  the over-ride -g parameters (documented in Ghostscript).
+
+NOTE:
+
+  Also pay attention to the following line in the output:
+     For gs add the following: -sDEVICE=omni -sDeviceName=libXMLOmniDevice.so
+     -sproperties='XMLMasterFile="/opt/Omni/share/IBM Infoprint 70.xml" ...'
+     where you replace ... with the following space separated key=value
+     (* - default):
+  I will give you at least two required command line parameters.  If the
+  line has instead
+     -sproperties='...'
+  then the third command line parameter (-sproperties) is optional.
+
+Manditory command line parameters
+---------------------------------
+
+  -sDEVICE=omni
+
+     This selects the omni driver.
+
+  -sDeviceName=XXX
+
+     This selects the device library under the omni driver.  It is an actual
+     file called libXXX.so that can be loaded.  Use the output from
+     OmniDeviceOptions.
+
+PDC - Client/Server interface invocation (optional)
+---------------------------------------------------
+
+PDC stands for Printer Driver Communication.  It is a proposal that
+the driver subgroup under the Free Standards working group.  Please
+participate at http://base.freestandards.org/mailman/listinfo/printing-driver
+
+This function can be invoked by utilizing the -sserver parameter from the
+command line.  The default printer driver that is used is omni.  You
+can specify another driver with -sserver=xxx.
+
+The command line for this will look like:
+
+gs -sDEVICE=omni -sDeviceName=Epson_Stylus_Photo_790 -sserver
+   -sOutputFile=xxxx.xxx InputFileName.ps
+
+In the above example, the driver is invoked without any properties
+for the driver.  If one were to invoke the driver utilizing a
+different resolution, the command line would look like:
+
+gs -sDEVICE=omni -sDeviceName=Epson_Stylus_Photo_790 -sserver=omni
+   -sproperties="resolution=1440x720" -sOutputFile=xxxx.xxx
+   InputFileName.ps
+
+All print options need to be put into the properties string via
+the -sproperties="......" argument.  These properties will be
+communicated to the driver via the server interface.
+
+Printer Job Dialog Utilization (optional)
+-----------------------------------------
+
+Omni is providing a pluggable library for a user interface for
+selection of properties for printing a job with.
+
+The job dialog can be used to display all the options available
+for the printer driver selected and allows for the selection of
+the correct values for the print job.
+
+The command line argument for invoking the job dialog is
+-sjobdialog.  A sample command line argument for invoking the
+job dialog is:
+
+gs -sDEVICE=omni -sDeviceName=Epson_Stylus_Photo_790
+   -sjobdialog -sOutputFile=xxxx.xxx InputFileName.ps
+
+The above command line will invoke Ghostscript using the
+Omni driver and will present the job dialog to the user
+for selection of properties prior to printing the job.
+
+Debug output file (optional)
+----------------------------
+-sdbgout=xxx.err

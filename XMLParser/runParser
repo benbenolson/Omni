@@ -1,0 +1,273 @@
+#!/bin/bash
+#
+# IBM Omni driver
+# Copyright (c) International Business Machines Corp., 2000
+#
+# This library is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation; either version 2.1 of the License, or
+# (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+# the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+#
+
+#
+# @BUG - run with ./runParser does not fill in the path
+#
+EXEC_NAME=$0
+if test ${EXEC_NAME} = "./runParser"; then
+	if test -x ${EXEC_NAME}; then
+		EXEC_NAME=`pwd`/$0
+	fi
+fi
+
+#
+# do nothing on a make install
+#
+if echo "$@" | grep install 2>/dev/null 1>&2; then
+	exit
+fi
+
+PARSER_EXEC="XMLParser/parser"
+
+echo "*************************Running*XML*Parser*************************"
+echo "DEVICES=\""${DEVICES}"\""
+
+cd ..
+
+OLDDIR=`pwd`
+
+#
+# Loop through the device directories
+#
+for i in ${DEVICES}; do
+
+	#
+	# Set up the names
+	#
+	NAME="`echo ${i} | sed -e 's/~//g' -e 's/\..*//'`"
+	DIR="`echo ${i} | sed -e 's/~//g' -e 's/_/ /g'`"
+	NOSPACENAME="`echo ${i} | sed -e 's/~//g' -e 's/_//g'`"
+
+	#
+	# Skip the XMLDevice
+	#
+	if test "${DIR}" = "XMLDevice"; then
+		continue
+	fi
+
+	#
+	# Create the arguments for the parser.
+	#
+	PARSER_ARGS="-a"
+	PARSER_ARGS_EXTRA=""
+	if test "${DIR}" = "test"; then
+		#
+		# Don't install the test device
+		#
+		PARSER_ARGS_EXTRA="-i"
+	fi
+
+# 	echo "NAME        = #"${NAME}"#"
+# 	echo "NOSPACENAME = #"${NOSPACENAME}"#"
+# 	echo "DIR         = #"${DIR}"#"
+
+	#
+	# Bug: Autotools cannot handle spaces in filenames!
+	#      So create a spaceless directory name equivalent.
+	#
+	if test "${DIR}" != "${NOSPACENAME}"; then
+		if test ! -L "${NOSPACENAME}"; then
+			echo "Linking \"${DIR}\" to \"${NOSPACENAME}\""
+			ln -s "${DIR}" "${NOSPACENAME}" 2>/dev/null
+		fi
+	fi
+
+	echo cd \"${DIR}\"
+	if ! cd "${DIR}"; then
+		echo "Error: Current directory is `pwd`"
+	fi
+
+	#
+	# Create necessary files
+	#
+	if test \(  \( ! -e Makefile.am \) \
+		-o  \( ${EXEC_NAME} -nt Makefile.am \) \
+		\); then
+		echo "Creating \"${DIR}/Makefile.am\""
+		echo "#"											 > Makefile.am
+		echo "# IBM Omni driver"									>> Makefile.am
+		echo "# Copyright (c) International Business Machines Corp., 2000"				>> Makefile.am
+		echo "#"											>> Makefile.am
+		echo "# This library is free software; you can redistribute it and/or modify"			>> Makefile.am
+		echo "# it under the terms of the GNU Lesser General Public License as published"		>> Makefile.am
+		echo "# by the Free Software Foundation; either version 2.1 of the License, or"			>> Makefile.am
+		echo "# (at your option) any later version."							>> Makefile.am
+		echo "#"											>> Makefile.am
+		echo "# This library is distributed in the hope that it will be useful,"			>> Makefile.am
+		echo "# but WITHOUT ANY WARRANTY; without even the implied warranty of"				>> Makefile.am
+		echo "# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See"				>> Makefile.am
+		echo "# the GNU Lesser General Public License for more details."				>> Makefile.am
+		echo "#"											>> Makefile.am
+		echo "# You should have received a copy of the GNU Lesser General Public License"		>> Makefile.am
+		echo "# along with this library; if not, write to the Free Software"				>> Makefile.am
+		echo "# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA"		>> Makefile.am
+		echo "#"											>> Makefile.am
+		echo ""												>> Makefile.am
+		echo "pkglib_LTLIBRARIES ="									>> Makefile.am
+		echo "noinst_LTLIBRARIES ="									>> Makefile.am
+		echo "CLEANFILES ="										>> Makefile.am
+		echo ""												>> Makefile.am
+		if test "${DIR}" = "test"; then
+			echo "noinst_PROGRAMS = Tester TestGhostscript TestDeviceObjects"			>> Makefile.am
+			echo ""											>> Makefile.am
+			echo "Tester_SOURCES = Tester.cpp"							>> Makefile.am
+			echo "Tester_LDADD = @GLIB_LIBS@ @DEBUG_LIBS@ \$(top_builddir)/libomni.la"		>> Makefile.am
+			echo ""											>> Makefile.am
+			echo "TestGhostscript_SOURCES = TestGhostscript.cpp"					>> Makefile.am
+			echo "TestGhostscript_LDADD   = @GLIB_LIBS@ @DEBUG_LIBS@ $(top_builddir)/libomni.la"	>> Makefile.am
+			echo ""											>> Makefile.am
+			echo "TestDeviceObjects_SOURCES = TestDeviceObjects.cpp"				>> Makefile.am
+			echo "TestDeviceObjects_LDADD   = @GLIB_LIBS@ @DEBUG_LIBS@ $(top_builddir)/libomni.la"	>> Makefile.am
+			echo ""											>> Makefile.am
+			echo "BVT:"										>> Makefile.am
+			echo "	(if ! ./TestDeviceObjects --buildOnly --All; then echo \"Error:Build break!\"; fi) 2>&1 | tee DeviceObjects.out"	>> Makefile.am
+			echo "	(cd ..; ./OmniDevices --buildOnly)"						>> Makefile.am
+			echo "	(cd ..; ./OmniDeviceOptions --buildOnly --All)"					>> Makefile.am
+			echo "	(if ! ./TestGhostscript --buildOnly; then echo \"Error:Build break!\"; fi) 2>&1 | tee Ghostscript.out"			>> Makefile.am
+			echo ""											>> Makefile.am
+		fi
+		echo "include \$(srcdir)/libraries1.mak"							>> Makefile.am
+		echo "include \$(srcdir)/libraries2.mak"							>> Makefile.am
+		echo "include \$(srcdir)/libraries3.mak"							>> Makefile.am
+	fi
+
+       	rm /tmp/$$.a /tmp/$$.b /tmp/$$.c 2>/dev/null
+
+       	#
+       	# Save a backup of the output files
+       	#
+       	if test -e libraries1.mak; then
+       		cp libraries1.mak /tmp/$$.a
+       		touch -r libraries1.mak /tmp/$$.a
+       	fi
+       	if test -e libraries2.mak; then
+       		cp libraries2.mak /tmp/$$.b
+       		touch -r libraries2.mak /tmp/$$.b
+       	fi
+       	if test -e libraries3.mak; then
+       		cp libraries3.mak /tmp/$$.c
+       		touch -r libraries3.mak /tmp/$$.c
+       	fi
+
+	#
+	# Can we run the parser?
+	#
+	if test -x ../${PARSER_EXEC}; then
+
+		#
+		# Execute the parser
+		#
+		echo ../${PARSER_EXEC} ${PARSER_ARGS} ${PARSER_ARGS_EXTRA} \< "Device List"
+
+		../${PARSER_EXEC} ${PARSER_ARGS} ${PARSER_ARGS_EXTRA} < "Device List"
+
+#		ls -l libraries*
+#		ls -l /tmp/$$*
+
+		#
+		# Should we use the newly generated ones or the originals?
+		#
+		if test -e /tmp/$$.a; then
+			if cmp -s libraries1.mak /tmp/$$.a; then
+				echo "Same libraries1.mak"
+
+				#
+				# Restore the old date
+				#
+				touch -r /tmp/$$.a libraries1.mak
+			else
+				#
+				# Use the new one
+				#
+				echo "Different libraries1.mak"
+			fi
+		else
+			#
+			# Use the new one
+			#
+			echo "Missing libraries1.mak"
+		fi
+		if test -e /tmp/$$.b; then
+			if cmp -s libraries2.mak /tmp/$$.b; then
+				echo "Same libraries2.mak"
+
+				#
+				# Restore the old date
+				#
+				touch -r /tmp/$$.b libraries2.mak
+			else
+				#
+				# Use the new one
+				#
+				echo "Different libraries2.mak"
+			fi
+		else
+			#
+			# Use the new one
+			#
+			echo "Missing libraries2.mak"
+		fi
+		if test -s libraries3.mak; then
+			if test -e /tmp/$$.c; then
+				if cmp -s libraries3.mak /tmp/$$.c; then
+					echo "Same libraries3.mak"
+
+					#
+					# Restore the old date
+					#
+					touch -r /tmp/$$.c libraries3.mak
+				else
+					#
+					# Use the new one
+					#
+					echo "Different libraries3.mak"
+				fi
+			else
+				#
+				# Use the new one
+				#
+				echo "Missing libraries3.mak"
+			fi
+		else
+			#
+			# Use the old one
+			#
+			echo "Old libraries3.mak"
+			cp /tmp/$$.c libraries3.mak
+			touch -r /tmp/$$.c libraries3.mak
+		fi
+
+		#
+		# Clean up
+		#
+		if test -e /tmp/$$.a; then
+			rm /tmp/$$.a
+		fi
+		if test -e /tmp/$$.b; then
+			rm /tmp/$$.b
+		fi
+		if test -e /tmp/$$.c; then
+			rm /tmp/$$.c
+		fi
+	fi
+
+	cd "${OLDDIR}"
+done

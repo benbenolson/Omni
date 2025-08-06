@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.pwg.org/schemas/sm/1.0/" xmlns="http://www.pwg.org/schemas/sm/1.0/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.00">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">PWG Document Description Element schema
+Copyright 2002-2004, IEEE Industry Standards and Technology Organization/Printer Working Group. 
+All rights reserved</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>NOTE: To use this schema you MUST include PwgCommon.xsd</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>Document Description Element Definition</xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="DocumentDescription">
+		<xsd:sequence>
+			<xsd:element ref="Compression" minOccurs="0"/>
+			<xsd:element ref="DocumentCharset" minOccurs="0"/>
+			<xsd:element ref="DocumentDigitalSignature" minOccurs="0"/>
+			<xsd:element ref="DocumentFormat" minOccurs="0"/>
+			<xsd:element ref="DocumentFormatDetails" minOccurs="0"/>
+			<xsd:element ref="DocumentFormatVersion" minOccurs="0"/>
+			<xsd:element ref="DocumentMessage" minOccurs="0"/>
+			<xsd:element ref="DocumentName" minOccurs="0"/>
+			<xsd:element ref="DocumentNaturalLanguage" minOccurs="0"/>
+			<xsd:element ref="DocumentUri" minOccurs="0"/>
+			<xsd:element ref="ElementsCharset" minOccurs="0"/>
+			<xsd:element ref="ElementsNaturalLanguage" minOccurs="0"/>
+			<xsd:element ref="Impressions" minOccurs="0"/>
+			<xsd:element ref="KOctets" minOccurs="0"/>
+			<xsd:element ref="LastDocument" minOccurs="0"/>
+			<xsd:element ref="MediaSheets" minOccurs="0"/>
+			<xsd:element ref="PageOrderReceived" minOccurs="0"/>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation source="www.pwg.org">This allows vendor and site specific extentions to the Job template schema</xsd:documentation>
+				</xsd:annotation>
+			</xsd:any>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="DocumentDescription" type="DocumentDescription"/>
+	<xsd:annotation>
+		<xsd:documentation>Document Descriprion specific semantic elements</xsd:documentation>
+	</xsd:annotation>
+	<xsd:element name="DocumentMessage">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="1023"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="DocumentName">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="255"/>
+				<xsd:whiteSpace value="preserve"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="LastDocument" type="xsd:boolean"/>
+	<xsd:element name="PageOrderReceived">
+		<xsd:simpleType>
+			<xsd:union memberTypes="PageOrderReceivedWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+</xsd:schema>

@@ -1,0 +1,601 @@
+Only in current/gs5.50/: Omni
+Only in current/gs5.50/: Omni1
+Only in current/gs5.50/: Omni2
+Only in current/gs5.50/: debugobj
+diff -C5 new/gs5.50/gomni.c current/gs5.50/gomni.c
+*** new/gs5.50/gomni.c	Wed May  9 15:19:04 2001
+--- current/gs5.50/gomni.c	Wed May  9 13:49:48 2001
+***************
+*** 70,79 ****
+--- 70,85 ----
+  /*    @@04162001       Added support for newFrame                       */
+  /*                                                                      */
+  /*    @@04252001       Added support for GS mono output                 */
+  /*                     -smonodither=GSMONO on the command line          */
+  /*                                                                      */
++ /*    @@05092001       Added the ability to have a client server        */
++ /*                     interaction instead of writing the data          */
++ /*                     directly to a file                               */
++ /*                                                                      */
++ /*    @@05052001A      Update mulitplier for .0001 mm vs. .001 mm       */
++ /*                                                                      */
+  /************************************************************************/
+  
+  
+  #include "gdevprna.h"
+  #include "gdevpccm.h"
+***************
+*** 143,153 ****
+                                          BITBLT_TYPE   eType);
+  typedef void * (*PFNCREATEDEVICE)      (char         *pszDeviceName,
+                                          void         *pOutputObject,
+                                          void        **vhDevice,
+                                          void         *pszDebugFile,
+!                                         char         *pszOptions);
+  
+  typedef void   (*PFNDELETEDEVICE)      (void         *pDevice);
+  
+  typedef long   (*PFNMONODITHER)        (PDDI          pdi,           //@@04062001
+                                          PIMAGEINFO    pimg_infos,
+--- 149,161 ----
+                                          BITBLT_TYPE   eType);
+  typedef void * (*PFNCREATEDEVICE)      (char         *pszDeviceName,
+                                          void         *pOutputObject,
+                                          void        **vhDevice,
+                                          void         *pszDebugFile,
+!                                         char         *pszOptions,
+!                                         int           iUseClient,   //@@05092001
+!                                         FILE          *file);       //@@05092001
+  
+  typedef void   (*PFNDELETEDEVICE)      (void         *pDevice);
+  
+  typedef long   (*PFNMONODITHER)        (PDDI          pdi,           //@@04062001
+                                          PIMAGEINFO    pimg_infos,
+***************
+*** 160,173 ****
+  #define uint32 unsigned long
+  #define int32 long
+  
+  #define strcmpi strcasecmp
+  
+- #define DEBUG 1
+- 
+- 
+- 
+  
+  /* ------ The device descriptors ------ */
+  
+  typedef struct _DevStruct Omni_Dev,*pDevStruct; /** Type & Pointer of device-specifics */
+  typedef const Omni_Dev *opd_pc;       /** Pointer to constant device-specfics */
+--- 168,177 ----
+***************
+*** 190,199 ****
+--- 194,205 ----
+  
+     char                  cDeviceName[MAX_LENGTH];
+     char                  cDebugFile[MAX_LENGTH];   /* text value for dither */
+     char                  cAsyncOpt[MAX_LENGTH];   /* text value for dither */
+     char                  cMonoDither[MAX_LENGTH];
++    char                  cServer[32];             //@@05092001
++    char                  cServerFile[256];        //@@05092001
+     char                 *pszOtherOptions;
+     void                 *pOutputObject;            // can be used for redirecting cerr in C++ section
+     void                 *pDevice;                  // pointer to the device
+  
+     void                 *vhOmni;                   // handle to libomni.so
+***************
+*** 215,224 ****
+--- 221,232 ----
+     int                   width;
+     int                   height;
+     int                   iSync;
+     int                   iPageNumber;  //@@04162001
+     int                   iGSMono;      //@@04252001
++    int                   iUseServer;   //@@05092001
++    FILE                 *ProxyFile;    //@@05092001
+  
+     byte                 *outbuf;     /* Output-Buffer */
+  
+     int                   iPage;
+     int                   iSetup;
+***************
+*** 388,397 ****
+--- 396,406 ----
+      set_dev_proc(pdev, put_params, SetupDevice);
+      set_dev_proc(pdev, get_params, GetDeviceParams);
+  
+      if(!pDev->iGSMono)                                                  //@@04252001
+      {                                                                   //@@04252001
++         if (fDebugOutput) fprintf(stderr, "Remapping color pointers\n");
+          set_dev_proc(pdev, map_rgb_color, bmp_map_16m_rgb_color);       //@@04252001
+          set_dev_proc(pdev, map_color_rgb, bmp_map_16m_color_rgb);       //@@04252001
+      }                                                                   //@@04252001
+  
+      if(pDev->iSync)
+***************
+*** 443,457 ****
+     {
+         pDev->pfnEndJob (pDev->pDevice, pDev->pOutputObject);
+         pDev->pfnEndJob = 0;
+     }
+  
+!    if (pDev->pDevice)
+!    {
+!       pDev->pfnDeleteDevice (pDev->pDevice);
+!       pDev->pDevice = 0;
+!    }
+  
+     if (pDev->vhDevice)
+     {
+        dlclose (pDev->vhDevice);
+        pDev->vhDevice = 0;
+--- 452,466 ----
+     {
+         pDev->pfnEndJob (pDev->pDevice, pDev->pOutputObject);
+         pDev->pfnEndJob = 0;
+     }
+  
+!    if (pDev->pDevice && pDev->pfnDeleteDevice)           //@@05092001
+!    {                                                     
+!       pDev->pfnDeleteDevice (pDev->pDevice);             
+!       pDev->pDevice = 0;                                 
+!    }                                                     
+  
+     if (pDev->vhDevice)
+     {
+        dlclose (pDev->vhDevice);
+        pDev->vhDevice = 0;
+***************
+*** 466,475 ****
+--- 475,489 ----
+     if (pDev->pszOtherOptions)
+     {
+         gs_free(pDev->pszOtherOptions,strlen(pDev->pszOtherOptions)+1, 1, "Option String");
+     }
+  
++    if(pDev->ProxyFile)                                    //@@05092001
++    {                                                      //@@05092001
++        fclose(pDev->ProxyFile);                           //@@05092001
++    }                                                      //@@05092001
++ 
+     return gdev_prn_close (pdev);
+  
+  }
+  
+  
+***************
+*** 496,505 ****
+--- 510,520 ----
+     const char   *pszDeviceName       = "";
+     const char   *pszDebug            = "";
+     const char   *pszOther            = "";
+     const char   *pszAsync            = "";
+     const char   *pszMonoDither       = "";
++    const char   *pszServer           = "";
+     char    pszTemp[3];
+     unsigned long ulPelSizeCorrection = 100;
+     bool          bPersist            = false;
+  
+  
+***************
+*** 511,520 ****
+--- 526,536 ----
+         pszDebug            = pDev->cDebugFile;
+         pszOther            = pDev->pszOtherOptions;
+         pszAsync            = pDev->cAsyncOpt;
+         ulPelSizeCorrection = pDev->ulPelSizeCorrection;
+         pszMonoDither       = pDev->cMonoDither;
++        pszServer           = pDev->cServerFile;              //@@05092001
+  
+         // Return if we already did our work here
+         if(strlen(pszDeviceName) > 0)
+         {
+             return iReturnCode;
+***************
+*** 553,562 ****
+--- 569,583 ----
+     strdata.data = pszMonoDither;
+     strdata.size = strlen(pszMonoDither);
+     strdata.persistent = bPersist;
+     iReturnCode = param_write_string(plist,"monodither",&strdata);
+  
++    strdata.data = pszServer;                                      //@@05092001
++    strdata.size = strlen(pszServer);                              //@@05092001
++    strdata.persistent = bPersist;                                 //@@05092001
++    iReturnCode = param_write_string(plist,"server",&strdata);     //@@05092001
++ 
+     iReturnCode = param_write_long(plist,"PelSizeCorrection",&ulPelSizeCorrection);
+  
+     return iReturnCode;
+  }
+  
+***************
+*** 670,694 ****
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (BeginJob) = 0x%08x\n", (int)pDev->pfnBeginJob);
+  
+        pDev->pfnNewFrame = (PFNNEWFRAME)dlsym (pDev->vhOmni, "NewFrame");  //@@04162001
+  
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (NewFrame) = 0x%08x\n", (int)pDev->pfnNewFrame);
+! 
+        pDev->pfnEndJob = (PFNENDJOB)dlsym (pDev->vhOmni, "EndJob");
+! 
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (EndJob) = 0x%08x\n", (int)pDev->pfnEndJob);
+! 
+        pDev->pfnRasterize = (PFNRASTERIZE)dlsym (pDev->vhOmni, "Rasterize");
+! 
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (Rasterize) = 0x%08x\n", (int)pDev->pfnRasterize);
+! 
+        pDev->pfnCreateDevice = (PFNCREATEDEVICE)dlsym (pDev->vhOmni, "createDevice");
+! 
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (createDevice) = 0x%08x\n", (int)pDev->pfnCreateDevice);
+        //@@04062001
+        pDev->pfnMonoDither = (PFNMONODITHER)dlsym (pDev->vhOmni, "DiffusionDither__FP20_DIFFUSIONDITHERINFOP11_IMAGEINFOSPPUcUi");
+! 
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (DiffusionDither__FP20_DIFFUSIONDITHERINFOP11_IMAGEINFOSPPUcUi) = 0x%08x\n", (int)pDev->pfnMonoDither);
+  
+        if (  !pDev->pfnCreateDevice
+           || !pDev->pfnBeginJob
+           || !pDev->pfnNewFrame            //@@04162001
+--- 691,715 ----
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (BeginJob) = 0x%08x\n", (int)pDev->pfnBeginJob);
+  
+        pDev->pfnNewFrame = (PFNNEWFRAME)dlsym (pDev->vhOmni, "NewFrame");  //@@04162001
+  
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (NewFrame) = 0x%08x\n", (int)pDev->pfnNewFrame);
+!   
+        pDev->pfnEndJob = (PFNENDJOB)dlsym (pDev->vhOmni, "EndJob");
+!   
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (EndJob) = 0x%08x\n", (int)pDev->pfnEndJob);
+!   
+        pDev->pfnRasterize = (PFNRASTERIZE)dlsym (pDev->vhOmni, "Rasterize");
+!   
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (Rasterize) = 0x%08x\n", (int)pDev->pfnRasterize);
+!   
+        pDev->pfnCreateDevice = (PFNCREATEDEVICE)dlsym (pDev->vhOmni, "createDevice");
+!   
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (createDevice) = 0x%08x\n", (int)pDev->pfnCreateDevice);
+        //@@04062001
+        pDev->pfnMonoDither = (PFNMONODITHER)dlsym (pDev->vhOmni, "DiffusionDither__FP20_DIFFUSIONDITHERINFOP11_IMAGEINFOSPPUcUi");
+!   
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (DiffusionDither__FP20_DIFFUSIONDITHERINFOP11_IMAGEINFOSPPUcUi) = 0x%08x\n", (int)pDev->pfnMonoDither);
+  
+        if (  !pDev->pfnCreateDevice
+           || !pDev->pfnBeginJob
+           || !pDev->pfnNewFrame            //@@04162001
+***************
+*** 701,714 ****
+           )
+        {
+           // Failure!
+           fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
+           fprintf (stderr, "Error: Could not load required entry point from libomni.so!\n\n");
+! 
+           dlclose (pDev->vhOmni);
+           pDev->vhOmni = 0;
+! 
+           // @TBD - why doesnt return_error(gs_error_Fatal) work? (see above)
+           return 1;
+        }
+  
+     }
+--- 722,735 ----
+           )
+        {
+           // Failure!
+           fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
+           fprintf (stderr, "Error: Could not load required entry point from libomni.so!\n\n");
+!   
+           dlclose (pDev->vhOmni);
+           pDev->vhOmni = 0;
+!   
+           // @TBD - why doesnt return_error(gs_error_Fatal) work? (see above)
+           return 1;
+        }
+  
+     }
+***************
+*** 777,793 ****
+        {
+            memcpy ( pDev->cAsyncOpt, fname.data, fname.size );
+            pDev->cAsyncOpt[fname.size] = '\0';
+            if(!strcmp(pDev->cAsyncOpt, "TRUE") || !strcmp(pDev->cAsyncOpt, "true"))
+            {
+!             pDev->iSync = 1;
+            }
+            else
+            {
+                pDev->iSync = 0;
+            }
+- 
+        }
+     }
+  
+     iReturnCode = param_read_long(plist,"PelSizeCorrection",&pDev->ulPelSizeCorrection);
+     if(0 > iReturnCode)
+--- 798,813 ----
+        {
+            memcpy ( pDev->cAsyncOpt, fname.data, fname.size );
+            pDev->cAsyncOpt[fname.size] = '\0';
+            if(!strcmp(pDev->cAsyncOpt, "TRUE") || !strcmp(pDev->cAsyncOpt, "true"))
+            {
+!               pDev->iSync = 1;
+            }
+            else
+            {
+                pDev->iSync = 0;
+            }
+        }
+     }
+  
+     iReturnCode = param_read_long(plist,"PelSizeCorrection",&pDev->ulPelSizeCorrection);
+     if(0 > iReturnCode)
+***************
+*** 848,866 ****
+--- 868,920 ----
+             memcpy ( pDev->cMonoDither, fname.data, fname.size );
+             pDev->cMonoDither[fname.size] = '\0';
+  
+             if(!strcmp(pDev->cMonoDither, "GSMONO"))
+             {
++                
++                if (fDebugOutput) fprintf(stderr,"turning on GSMONO dither\n");
+                 pDev->iGSMono = 1;
+             }
+             else
+             {
+                 pDev->iGSMono = 0;
+             }
+         }
+     }
+  
++    /*
++     *  Set user options for client / server function
++     */
++ 
++    pDev->iUseServer = 0;                                            //@@05092001
++    fname = deffname;                                                //@@05092001
++    iReturnCode = param_read_string(plist,"server",&fname);          //@@05092001
++    if(0 > iReturnCode)                                              //@@05092001
++    {                                                                //@@05092001
++       if(iReturnCode < 0)                                           //@@05092001
++       {                                                             //@@05092001
++           iReturnCode = param_read_null(plist,"server");            //@@05092001
++           if(iReturnCode != 0)                                      //@@05092001
++             fprintf(stderr, "Error Reading server parameter\n");    //@@05092001
++       }                                                             //@@05092001
++    }                                                                //@@05092001
++    else                                                             //@@05092001
++    {                                                                //@@05092001
++        if((iReturnCode < 1) && (fname.size > 0))                    //@@05092001
++        {                                                            //@@05092001
++            memcpy ( pDev->cServerFile, fname.data, fname.size );    //@@05092001
++            pDev->cServerFile[fname.size] = '\0';                    //@@05092001
++                                                                     //@@05092001
++          //  if(!strcmp(pDev->cMonoDither, "TRUE"))                 //@@05092001
++            if(pDev->cServerFile[0])                                 //@@05092001
++            {                                                        //@@05092001
++                pDev->iUseServer = 1;                                //@@05092001
++            }                                                        //@@05092001
++                                                                     //@@05092001
++        }                                                            //@@05092001
++    }                                                                //@@05092001
++ 
+     if(pDev->iSetup != 1)
+     {
+        // create a device based on the user supplied inputs
+        // To-Do - free the device
+  
+***************
+*** 878,892 ****
+        {
+            bRet = gdev_prn_put_params ((gx_device *)prgxdev, plist);
+            return bRet;
+        }
+  
+        pDev->pDevice = pDev->pfnCreateDevice(pDev->cDeviceName,
+                                              pDev->pOutputObject,
+!                                             &pDev->vhDevice,
+!                                             pDev->cDebugFile,
+!                                             pDev->pszOtherOptions);
+  
+        if (!pDev->pDevice)
+        {
+           return_error(gs_error_Fatal);  // fail if no device was created
+        }
+--- 932,955 ----
+        {
+            bRet = gdev_prn_put_params ((gx_device *)prgxdev, plist);
+            return bRet;
+        }
+  
++       if(pDev->iUseServer && pDev->cServerFile[0])                  //@@05092001
++       {                                                             //@@05092001
++                                                                     //@@05092001
++         pDev->ProxyFile = fopen(pDev->cServerFile, "wb");           //@@05092001
++                                                                     //@@05092001
++       }                                                             //@@05092001
++ 
+        pDev->pDevice = pDev->pfnCreateDevice(pDev->cDeviceName,
+                                              pDev->pOutputObject,
+!                                             &pDev->vhDevice  ,
+!                                             pDev->cDebugFile ,
+!                                             pDev->pszOtherOptions,
+!                                             pDev->iUseServer,       //@@05092001
+!                                             pDev->ProxyFile);       //@@05092001
+  
+        if (!pDev->pDevice)
+        {
+           return_error(gs_error_Fatal);  // fail if no device was created
+        }
+***************
+*** 899,917 ****
+  
+        if(bRet)
+        {          // turn off Ghostscript mono if we are not in mono mode
+            if((prtMode.iBitCount > 1) && pDev->iGSMono )
+            {
+                pDev->iGSMono = 0;
+            }
+        }
+                           //** this routine is called multiple times
+        pDev->iSetup = 1;  //** don't go setting up new devices
+  
+!       pDev->pfnDeleteDevice = (PFNDELETEDEVICE)dlsym (pDev->vhDevice, "deleteDevice__FP6Device");
+! 
+!       if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (deleteDevice__FP6Device) = 0x%08x\n", (int)pDev->pfnDeleteDevice);
+  
+        // get the hardware resolution information
+  
+        bRet = pDev->pfnGetResolutionInfo (pDev->pDevice, &hwRes);
+  
+--- 962,983 ----
+  
+        if(bRet)
+        {          // turn off Ghostscript mono if we are not in mono mode
+            if((prtMode.iBitCount > 1) && pDev->iGSMono )
+            {
++               if (fDebugOutput) fprintf (stderr, "Turning off GSMONO - prtMode.iBitCount = %d\n", prtMode.iBitCount);
+                pDev->iGSMono = 0;
+            }
+        }
+                           //** this routine is called multiple times
+        pDev->iSetup = 1;  //** don't go setting up new devices
+  
+!       if(!pDev->iUseServer)                                         //@@05092001
+!       {
+!           pDev->pfnDeleteDevice = (PFNDELETEDEVICE)dlsym (pDev->vhDevice, "deleteDevice__FP6Device");
+!           if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (deleteDevice__FP6Device) = 0x%08x\n", (int)pDev->pfnDeleteDevice);
+!       }
+  
+        // get the hardware resolution information
+  
+        bRet = pDev->pfnGetResolutionInfo (pDev->pDevice, &hwRes);
+  
+***************
+*** 928,963 ****
+        /*
+         *  We have to let GS know about our page and resolution parameters
+         */
+  
+        // setup the width and height of the page
+!       prgxdev->width  = hwMargins.fxWidth;
+!       prgxdev->height = hwMargins.fyHeight;
+  
+        // does not seem like pels works correctly for margins so lets set the margins
+        // using points instead
+  
+        // left margin
+!       prgxdev->HWMargins[0] = (float) hwMargins.fLeftClip/2540.0 *72.0;
+! 
+        // bottom margin
+!       prgxdev->HWMargins[1] = (float) hwMargins.fBottomClip/2540.0 *72.0;
+  
+        // right margin
+!       prgxdev->HWMargins[2] = (float) hwMargins.fRightClip/2540.0 *72.0;
+  
+        // top margin
+!       prgxdev->HWMargins[3] = (float) hwMargins.fTopClip/2540.0 *72.0;
+  
+        // set x resolution
+        prgxdev->HWResolution[0] = (float) hwRes.xRes;
+  
+        // set y resolution
+        prgxdev->HWResolution[1] = (float) hwRes.yRes;
+  
+        prgxdev->pDev->iVertDots = (float) hwRes.fScanDots;  // fill in the scan line
+  
+        if(!pDev->iGSMono)                       //@@04252001
+        {            //1,1,1,0,2,0 - mono        //@@04252001
+                     //3, 24,255,255,5,5 -  color //@@04252001
+           if (fDebugOutput) fprintf(stderr, "depth = %d \n", prgxdev->color_info.depth              );   //@@04252001
+           if (fDebugOutput) fprintf(stderr, "num_comp = %d \n", prgxdev->color_info.num_components  );   //@@04252001
+--- 994,1034 ----
+        /*
+         *  We have to let GS know about our page and resolution parameters
+         */
+  
+        // setup the width and height of the page
+!       prgxdev->width  = (int)hwMargins.fxWidth;
+!       prgxdev->height = (int)hwMargins.fyHeight;
+  
+        // does not seem like pels works correctly for margins so lets set the margins
+        // using points instead
+  
+        // left margin
+!       prgxdev->HWMargins[0] = (float) hwMargins.fLeftClip/25400.0 *72.0;           //@@05092001A
+!                                                                                    
+        // bottom margin
+!       prgxdev->HWMargins[1] = (float) hwMargins.fBottomClip/25400.0 *72.0;         //@@05092001A
+  
+        // right margin
+!       prgxdev->HWMargins[2] = (float) hwMargins.fRightClip/25400.0 *72.0;          //@@05092001A
+  
+        // top margin
+!       prgxdev->HWMargins[3] = (float) hwMargins.fTopClip/25400.0 *72.0;            //@@05092001A
+  
+        // set x resolution
+        prgxdev->HWResolution[0] = (float) hwRes.xRes;
+  
+        // set y resolution
+        prgxdev->HWResolution[1] = (float) hwRes.yRes;
+  
+        prgxdev->pDev->iVertDots = (float) hwRes.fScanDots;  // fill in the scan line
+  
++       if (fDebugOutput) fprintf(stderr, "left margin pts   = %f \n", prgxdev->HWMargins[0]);    //@@05092001A
++       if (fDebugOutput) fprintf(stderr, "bottom margin pts = %f \n", prgxdev->HWMargins[1]);    //@@05092001A
++       if (fDebugOutput) fprintf(stderr, "right margin pts  = %f \n", prgxdev->HWMargins[2]);    //@@05092001A
++       if (fDebugOutput) fprintf(stderr, "top margin pts    = %f \n", prgxdev->HWMargins[3]);    //@@05092001A
++ 
+        if(!pDev->iGSMono)                       //@@04252001
+        {            //1,1,1,0,2,0 - mono        //@@04252001
+                     //3, 24,255,255,5,5 -  color //@@04252001
+           if (fDebugOutput) fprintf(stderr, "depth = %d \n", prgxdev->color_info.depth              );   //@@04252001
+           if (fDebugOutput) fprintf(stderr, "num_comp = %d \n", prgxdev->color_info.num_components  );   //@@04252001
+***************
+*** 973,984 ****
+            prgxdev->color_info.dither_grays   = 5;                                                       //@@04252001
+            prgxdev->color_info.dither_colors  = 5;                                                       //@@04252001
+        }
+     }                                                            // column size
+  
+- 
+- 
+     iReturnCode = gdev_prn_put_params((gx_device *)prgxdev, plist);
+  
+     return iReturnCode;  // likely not be a failure
+  }
+  
+--- 1044,1053 ----
+***************
+*** 1121,1131 ****
+              ImageInfo.ulPelSizeCorrection = pDev->ulPelSizeCorrection;
+  
+              ptlBounds.x = pasyncDev->width;             // Bounding rectangle for input bitmap
+              ptlTrgBounds.x = pasyncDev->width;          // Bounding rectangle for output bitmap
+  
+- 
+          }
+          else
+          {
+              /*
+               * add for 256 color support -- TBD...
+--- 1190,1199 ----
+***************
+*** 1335,1345 ****
+                if (fDebugOutput) fprintf(stderr, "***************************************************************\n");
+                if (fDebugOutput) fprintf(stderr, "***************************************************************\n");
+                if (fDebugOutput) fprintf(stderr, "Number of lines in band = %d\n", iYBand);
+                if (fDebugOutput) fprintf(stderr, "rectPageLocation - Top = %ld\n", rectPageLocation.yTop);
+                if (fDebugOutput) fprintf(stderr, "rectPageLocation - Bot = %ld\n", rectPageLocation.yBottom);
+- 
+                if (fDebugOutput) fprintf(stderr, "***************************************************************\n");
+                if (fDebugOutput) fprintf(stderr, "***************************************************************\n");
+  
+                pDev->pfnRasterize (pasyncDev->pDev->pDevice,
+                                    pBitmapTop - ((iYBand-1) * uiBytesPerLine),
+--- 1403,1412 ----
+Common subdirectories: new/gs5.50/jpeg and current/gs5.50/jpeg
+Common subdirectories: new/gs5.50/libpng and current/gs5.50/libpng
+Only in current/gs5.50/: obj
+Only in current/gs5.50/: temp
+Common subdirectories: new/gs5.50/zlib and current/gs5.50/zlib

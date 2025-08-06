@@ -1,0 +1,99 @@
+                Installing and Using Omni RPM Packages
+                --------------------------------------
+
+The following document will explain how to use the Omni Printer Device
+driver RPM packages.
+
+Due to the need to provide a simpler way to install and use the Omni
+Printer Driver model on a system, we have developed a way to install just
+the manufacturer of choice libraries on a system.  You will no longer
+need to build the entire Omni package.
+
+For the list of printers supported by the manufacturer, by model, please
+refer to the Omni.readme.1st on our website.
+
+Finding an RPM
+--------------
+
+There are many places where RPMs can be found.  First, look on the RedHat
+CDs under RedHat/RPMS.  Second, look the omni website at
+http://sourceforge.net/project/showfiles.php?group_id=18713 .  Third, look
+at the RPM search site at http://www.rpmfind.net/ .
+
+If you have previously installed RedHat's RHSA-2001:138-10 errata
+-----------------------------------------------------------------
+
+You may have already installed RedHat's RHSA-2001:138-10 errata at:
+   http://www.redhat.com/support/errata/RHSA-2001-138.html
+
+   rpm -Uvh foomatic-1.1-0.20011218.3.i386.rpm
+            ghostscript-6.51-16.i386.rpm
+            Omni-0.5.0-4.i386.rpm
+            Omni-foomatic-0.5.0-4.i386.rpm
+            printconf-0.3.61-3.i386.rpm
+            printconf-gui-0.3.61-3.i386.rpm
+
+If so, then add the --force option to the following install.
+
+Installing the Omni driver RPM files
+------------------------------------
+
+Install our
+      ghostscript RPM
+         ghostscript-6.51-16omni.i386.rpm
+      the entire omni build or install a specific vendor build (one of the following)
+         OmniAll-0.6.1omni-4.i386.rpm
+         OmniBrother-0.6.1omni-4.i386.rpm
+         ...
+         OmniStar-0.6.1omni-4.i386.rpm
+      the corresponding foomatic package
+         OmniAll-foomatic-0.6.1omni-4.i386.rpm
+         OmniBrother-foomatic-0.6.1omni-4.i386.rpm
+         ...
+         OmniStar-foomatic-0.6.1omni-4.i386.rpm
+      the optional Epson package
+         OmniEpsonVendor-0.6.1omni-4.i386.rpm
+      the cups package
+         cups-1.1.14-10.i386.rpm
+         cups-libs-1.1.14-10.i386.rpm
+      the misceleanous cups package requirements
+         chkconfig-1.3.4-1.i386.rpm
+         ntsysv-1.3.4-1.i386.rpm
+      and the omni dialog requirements
+         gtkmm-1.2.5-1.i386.rpm
+         libsigc++-1.0.1-0_helix_1.i386.rpm
+
+Because of dependancy issues, you will have to install all of the packages
+   at one time on the command line.
+
+   rpm -Uvh ghostscript-6.51-16omni.i386.rpm
+            OmniAll-0.6.1omni-4.i386.rpm
+            OmniAll-foomatic-0.6.1omni-4.i386.rpm
+            OmniEpsonVendor-0.6.1omni-4.i386.rpm
+            cups-1.1.14-10.i386.rpm
+            cups-libs-1.1.14-10.i386.rpm
+            chkconfig-1.3.4-1.i386.rpm
+            ntsysv-1.3.4-1.i386.rpm
+            gtkmm-1.2.5-1.i386.rpm
+            libsigc++-1.0.1-0_helix_1.i386.rpm
+
+Usage:
+======
+
+  Please refer to our file Usage for usage instructions.
+  With this installation process, you will not need to set the
+  LD_LIBRARY_PATH as stated in the Omni.readme.1st document.
+
+Removal:
+========
+
+  Remove by using the following command (following the above example):
+
+    rpm -e OmniAll-0.6.1omni
+           OmniAll-foomatic-0.6.1omni
+           OmniEpsonVendor-0.6.1omni
+
+Known problems:
+===============
+
+  Previous dependancy checking problems so you may have two installs of Omni.

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.pwg.org/schemas/sm/1.0/" xmlns="http://www.pwg.org/schemas/sm/1.0/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.00">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">PWG Job Processing Element schema
+Copyright 2002-2004, IEEE Industry Standards and Technology Organization/Printer Working Group. 
+All rights reserved</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>NOTE: To use this schema you MUST include PwgCommon.xsd</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>Job Processing Element definition</xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="JobProcessing">
+		<xsd:sequence>
+			<xsd:element ref="JobAccountingSheets" minOccurs="0"/>
+			<xsd:element ref="JobCopies" minOccurs="0"/>
+			<xsd:element ref="JobCoverBack" minOccurs="0"/>
+			<xsd:element ref="JobCoverFront" minOccurs="0"/>
+			<xsd:element ref="JobErrorSheet" minOccurs="0"/>
+			<xsd:element ref="JobFinishings" minOccurs="0"/>
+			<xsd:element ref="JobFinishingsCol" minOccurs="0"/>
+			<xsd:element ref="JobHoldUntil" minOccurs="0"/>
+			<xsd:element ref="JobHoldUntilTime" minOccurs="0"/>
+			<xsd:element ref="JobMessageToOperator" minOccurs="0"/>
+			<xsd:element ref="JobPhoneNumber" minOccurs="0"/>
+			<xsd:element ref="JobPriority" minOccurs="0"/>
+			<xsd:element ref="JobRecipientName" minOccurs="0"/>
+			<xsd:element ref="JobSaveDisposition" minOccurs="0"/>
+			<xsd:element ref="JobSheetMessage" minOccurs="0"/>
+			<xsd:element ref="JobSheets" minOccurs="0"/>
+			<xsd:element ref="JobSheetsCol" minOccurs="0"/>
+			<xsd:element ref="MultipleDocumentsHandling" minOccurs="0"/>
+			<xsd:element ref="OutputBin" minOccurs="0"/>
+			<xsd:element ref="OutputDevice" minOccurs="0"/>
+			<xsd:element ref="Overrides" minOccurs="0"/>
+			<xsd:element ref="PagesPerSubset" minOccurs="0"/>
+			<xsd:element ref="ProofPrint" minOccurs="0"/>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation source="www.pwg.org">This allows vendor and site specific extentions to the job template schema</xsd:documentation>
+				</xsd:annotation>
+			</xsd:any>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="JobProcessing" type="JobProcessing"/>
+	<xsd:annotation>
+		<xsd:documentation>Job Processing specific complex types</xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="JobAccountingSheets">
+		<xsd:sequence>
+			<xsd:element ref="JobAccountingSheetsType" minOccurs="0"/>
+			<xsd:choice minOccurs="0">
+				<xsd:element ref="Media" minOccurs="0"/>
+				<xsd:element ref="MediaCol" minOccurs="0"/>
+			</xsd:choice>
+			<xsd:element ref="JobAccountingOutputBin" minOccurs="0"/>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="JobErrorSheet">
+		<xsd:sequence>
+			<xsd:element ref="JobErrorSheetType" minOccurs="0"/>
+			<xsd:element ref="JobErrorSheetWhen" minOccurs="0"/>
+			<xsd:choice minOccurs="0">
+				<xsd:element ref="Media" minOccurs="0"/>
+				<xsd:element ref="MediaCol" minOccurs="0"/>
+			</xsd:choice>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="JobSaveDisposition">
+		<xsd:sequence>
+			<xsd:element ref="SaveDisposition" minOccurs="0"/>
+			<xsd:element ref="SaveInfo" minOccurs="0"/>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="JobSheetsCol"/>
+	<xsd:complexType name="ProofPrint">
+		<xsd:sequence>
+			<xsd:element ref="JobSheets" minOccurs="0"/>
+			<xsd:choice minOccurs="0">
+				<xsd:element ref="Media" minOccurs="0"/>
+				<xsd:element ref="MediaCol" minOccurs="0"/>
+			</xsd:choice>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SaveInfo">
+		<xsd:sequence>
+			<xsd:element ref="SaveDocumentFormat" minOccurs="0"/>
+			<xsd:element ref="SaveLocation" minOccurs="0"/>
+			<xsd:element ref="SaveName" minOccurs="0"/>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:annotation>
+		<xsd:documentation>Job Processing specific semantic elements</xsd:documentation>
+	</xsd:annotation>
+	<xsd:element name="JobAccountingOutputBin">
+		<xsd:simpleType>
+			<xsd:union memberTypes="JobAccountingOutputBinWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobAccountingSheets" type="JobAccountingSheets"/>
+	<xsd:element name="JobAccountingSheetsType">
+		<xsd:simpleType>
+			<xsd:union memberTypes="JobAccountingSheetTypeWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobCopies" type="xsd:int"/>
+	<xsd:element name="JobCoverBack" type="CoverCol"/>
+	<xsd:element name="JobCoverFront" type="CoverCol"/>
+	<xsd:element name="JobErrorSheet" type="JobErrorSheet"/>
+	<xsd:element name="JobErrorSheetType">
+		<xsd:simpleType>
+			<xsd:union memberTypes="JobErrorSheetTypeWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobErrorSheetWhen">
+		<xsd:simpleType>
+			<xsd:union memberTypes="JobErrorSheetWhenWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobFinishings" type="Finishings"/>
+	<xsd:element name="JobFinishingsCol" type="FinishingsCol"/>
+	<xsd:element name="JobHoldUntil">
+		<xsd:simpleType>
+			<xsd:union memberTypes="JobHoldUntilWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobHoldUntilTime" type="xsd:dateTime"/>
+	<xsd:element name="JobMessageToOperator">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="127"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobPhoneNumber">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="127"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobPriority">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:int">
+				<xsd:minInclusive value="1"/>
+				<xsd:maxInclusive value="100"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobRecipientName">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="255"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobSaveDisposition" type="JobSaveDisposition"/>
+	<xsd:element name="JobSheetMessage">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="1023"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobSheets">
+		<xsd:simpleType>
+			<xsd:union memberTypes="JobSheetsWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobSheetsCol" type="JobSheetsCol"/>
+	<xsd:element name="MultipleDocumentsHandling">
+		<xsd:simpleType>
+			<xsd:union memberTypes="MultipleDocumentsHandlingWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="OutputBin">
+		<xsd:simpleType>
+			<xsd:union memberTypes="OutputBinWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PagesPerSubset">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Pages" type="xsd:int" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ProofPrint" type="ProofPrint"/>
+	<xsd:element name="SaveDocumentFormat">
+		<xsd:simpleType>
+			<xsd:union memberTypes="DocumentFormatWKV StringNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="SaveInfo" type="SaveInfo"/>
+	<xsd:element name="SaveLocation" type="xsd:anyURI"/>
+	<xsd:element name="SaveName" type="xsd:string"/>
+</xsd:schema>

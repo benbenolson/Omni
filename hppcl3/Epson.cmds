@@ -1,0 +1,36 @@
+command 0x00
+{
+   "Null"
+}
+command 0x1b
+{
+   command '@'
+   {
+      "Reset"
+   }
+   headcommand 0x01 tailcommand 0x0A
+   {
+   }
+   command 'r'
+   {
+      "Set color"
+      paramB '2' "Cyan"
+      paramB '1' "Magenta"
+      paramB '4' "Yellow"
+      paramB '0' "Black"
+   }
+   command "(e"
+   {
+      "Set Dot Size"
+      paramW "Length of following"
+      paramW "Size"
+   }
+}
+command 0x0a
+{
+   "Line Feed"
+}
+command 0x0d
+{
+   "Carriage Return"
+}

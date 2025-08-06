@@ -1,0 +1,1169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.pwg.org/schemas/sm/1.0/" xmlns="http://www.pwg.org/schemas/sm/1.0/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.00">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">PWG Semantic Model Well Known Values schema (excluding Media)
+Copyright 2002-2004, IEEE Industry Standards and Technology Organization/Printer Working Group. 
+All rights reserved</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>Well known values (i.e. keywords) used by semantic elements</xsd:documentation>
+	</xsd:annotation>
+	<xsd:simpleType name="CharsetWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="63"/>
+			<xsd:enumeration value="adobe-standard-encoding"/>
+			<xsd:enumeration value="adobe-symbol-encoding"/>
+			<xsd:enumeration value="ansi-x3-110-1983"/>
+			<xsd:enumeration value="asmo-449"/>
+			<xsd:enumeration value="big5"/>
+			<xsd:enumeration value="big5-hkscs"/>
+			<xsd:enumeration value="bocu-1"/>
+			<xsd:enumeration value="bs-4730"/>
+			<xsd:enumeration value="bs-viewdata"/>
+			<xsd:enumeration value="cesu-8"/>
+			<xsd:enumeration value="csa-z243-4-1985-1"/>
+			<xsd:enumeration value="csa-z243-4-1985-2"/>
+			<xsd:enumeration value="csa-z243-4-1985-gr"/>
+			<xsd:enumeration value="csn-369103"/>
+			<xsd:enumeration value="dec-mcs"/>
+			<xsd:enumeration value="din-66003"/>
+			<xsd:enumeration value="dk-us"/>
+			<xsd:enumeration value="ds-2089"/>
+			<xsd:enumeration value="ebcdic-at-de"/>
+			<xsd:enumeration value="ebcdic-at-de-a"/>
+			<xsd:enumeration value="ebcdic-ca-fr"/>
+			<xsd:enumeration value="ebcdic-dk-no"/>
+			<xsd:enumeration value="ebcdic-dk-no-a"/>
+			<xsd:enumeration value="ebcdic-es"/>
+			<xsd:enumeration value="ebcdic-es-a"/>
+			<xsd:enumeration value="ebcdic-es-s"/>
+			<xsd:enumeration value="ebcdic-fi-se"/>
+			<xsd:enumeration value="ebcdic-fi-se-a"/>
+			<xsd:enumeration value="ebcdic-fr"/>
+			<xsd:enumeration value="ebcdic-it"/>
+			<xsd:enumeration value="ebcdic-pt"/>
+			<xsd:enumeration value="ebcdic-uk"/>
+			<xsd:enumeration value="ebcdic-us"/>
+			<xsd:enumeration value="ecma-cyrillic"/>
+			<xsd:enumeration value="es"/>
+			<xsd:enumeration value="es2"/>
+			<xsd:enumeration value="euc-jp"/>
+			<xsd:enumeration value="euc-kr"/>
+			<xsd:enumeration value="extended-unix-code-fixed-width-for-japanese"/>
+			<xsd:enumeration value="gb18030"/>
+			<xsd:enumeration value="gb-1988-80"/>
+			<xsd:enumeration value="gb2312"/>
+			<xsd:enumeration value="gb-2312-80"/>
+			<xsd:enumeration value="gbk"/>
+			<xsd:enumeration value="gost-19768-74"/>
+			<xsd:enumeration value="greek7"/>
+			<xsd:enumeration value="greek7-old"/>
+			<xsd:enumeration value="greek-ccitt"/>
+			<xsd:enumeration value="hp-desktop"/>
+			<xsd:enumeration value="hp-legal"/>
+			<xsd:enumeration value="hp-math8"/>
+			<xsd:enumeration value="hp-pi-font"/>
+			<xsd:enumeration value="hp-roman8"/>
+			<xsd:enumeration value="hz-gb-2312"/>
+			<xsd:enumeration value="ibm00858"/>
+			<xsd:enumeration value="ibm00924"/>
+			<xsd:enumeration value="ibm01140"/>
+			<xsd:enumeration value="ibm01141"/>
+			<xsd:enumeration value="ibm01142"/>
+			<xsd:enumeration value="ibm01143"/>
+			<xsd:enumeration value="ibm01144"/>
+			<xsd:enumeration value="ibm01145"/>
+			<xsd:enumeration value="ibm01146"/>
+			<xsd:enumeration value="ibm01147"/>
+			<xsd:enumeration value="ibm01148"/>
+			<xsd:enumeration value="ibm01149"/>
+			<xsd:enumeration value="ibm037"/>
+			<xsd:enumeration value="ibm038"/>
+			<xsd:enumeration value="ibm1026"/>
+			<xsd:enumeration value="ibm1047"/>
+			<xsd:enumeration value="ibm273"/>
+			<xsd:enumeration value="ibm274"/>
+			<xsd:enumeration value="ibm275"/>
+			<xsd:enumeration value="ibm277"/>
+			<xsd:enumeration value="ibm278"/>
+			<xsd:enumeration value="ibm280"/>
+			<xsd:enumeration value="ibm281"/>
+			<xsd:enumeration value="ibm284"/>
+			<xsd:enumeration value="ibm285"/>
+			<xsd:enumeration value="ibm290"/>
+			<xsd:enumeration value="ibm297"/>
+			<xsd:enumeration value="ibm420"/>
+			<xsd:enumeration value="ibm423"/>
+			<xsd:enumeration value="ibm424"/>
+			<xsd:enumeration value="ibm437"/>
+			<xsd:enumeration value="ibm500"/>
+			<xsd:enumeration value="ibm775"/>
+			<xsd:enumeration value="ibm850"/>
+			<xsd:enumeration value="ibm851"/>
+			<xsd:enumeration value="ibm852"/>
+			<xsd:enumeration value="ibm855"/>
+			<xsd:enumeration value="ibm857"/>
+			<xsd:enumeration value="ibm860"/>
+			<xsd:enumeration value="ibm861"/>
+			<xsd:enumeration value="ibm862"/>
+			<xsd:enumeration value="ibm863"/>
+			<xsd:enumeration value="ibm864"/>
+			<xsd:enumeration value="ibm865"/>
+			<xsd:enumeration value="ibm866"/>
+			<xsd:enumeration value="ibm868"/>
+			<xsd:enumeration value="ibm869"/>
+			<xsd:enumeration value="ibm870"/>
+			<xsd:enumeration value="ibm871"/>
+			<xsd:enumeration value="ibm880"/>
+			<xsd:enumeration value="ibm891"/>
+			<xsd:enumeration value="ibm903"/>
+			<xsd:enumeration value="ibm904"/>
+			<xsd:enumeration value="ibm905"/>
+			<xsd:enumeration value="ibm918"/>
+			<xsd:enumeration value="ibm-symbols"/>
+			<xsd:enumeration value="ibm-thai"/>
+			<xsd:enumeration value="iec-p27-1"/>
+			<xsd:enumeration value="inis"/>
+			<xsd:enumeration value="inis-8"/>
+			<xsd:enumeration value="inis-cyrillic"/>
+			<xsd:enumeration value="invariant"/>
+			<xsd:enumeration value="iso-10367-box"/>
+			<xsd:enumeration value="iso-10646-ucs-2"/>
+			<xsd:enumeration value="iso-10646-ucs-4"/>
+			<xsd:enumeration value="iso-10646-ucs-basic"/>
+			<xsd:enumeration value="iso-10646-unicode-latin1"/>
+			<xsd:enumeration value="iso-10646-utf-1"/>
+			<xsd:enumeration value="iso-2022-cn"/>
+			<xsd:enumeration value="iso-2022-cn-ext"/>
+			<xsd:enumeration value="iso-2022-jp"/>
+			<xsd:enumeration value="iso-2022-jp-2"/>
+			<xsd:enumeration value="iso-2022-kr"/>
+			<xsd:enumeration value="iso-2033-1983"/>
+			<xsd:enumeration value="iso-5427"/>
+			<xsd:enumeration value="iso-5427-1981"/>
+			<xsd:enumeration value="iso-5428-1980"/>
+			<xsd:enumeration value="iso-646-basic-1983"/>
+			<xsd:enumeration value="iso-646-irv-1983"/>
+			<xsd:enumeration value="iso-6937-2-25"/>
+			<xsd:enumeration value="iso-6937-2-add"/>
+			<xsd:enumeration value="iso-8859-1"/>
+			<xsd:enumeration value="iso-8859-10"/>
+			<xsd:enumeration value="iso-8859-13"/>
+			<xsd:enumeration value="iso-8859-14"/>
+			<xsd:enumeration value="iso-8859-15"/>
+			<xsd:enumeration value="iso-8859-16"/>
+			<xsd:enumeration value="iso-8859-1-windows-3-0-latin-1"/>
+			<xsd:enumeration value="iso-8859-1-windows-3-1-latin-1"/>
+			<xsd:enumeration value="iso-8859-2"/>
+			<xsd:enumeration value="iso-8859-2-windows-latin-2"/>
+			<xsd:enumeration value="iso-8859-3"/>
+			<xsd:enumeration value="iso-8859-4"/>
+			<xsd:enumeration value="iso-8859-5"/>
+			<xsd:enumeration value="iso-8859-6"/>
+			<xsd:enumeration value="iso-8859-6-e"/>
+			<xsd:enumeration value="iso-8859-6-i"/>
+			<xsd:enumeration value="iso-8859-7"/>
+			<xsd:enumeration value="iso-8859-8"/>
+			<xsd:enumeration value="iso-8859-8-e"/>
+			<xsd:enumeration value="iso-8859-8-i"/>
+			<xsd:enumeration value="iso-8859-9"/>
+			<xsd:enumeration value="iso-8859-9-windows-latin-5"/>
+			<xsd:enumeration value="iso-8859-supp"/>
+			<xsd:enumeration value="iso-ir-90"/>
+			<xsd:enumeration value="iso-unicode-ibm-1261"/>
+			<xsd:enumeration value="iso-unicode-ibm-1264"/>
+			<xsd:enumeration value="iso-unicode-ibm-1265"/>
+			<xsd:enumeration value="iso-unicode-ibm-1268"/>
+			<xsd:enumeration value="iso-unicode-ibm-1276"/>
+			<xsd:enumeration value="it"/>
+			<xsd:enumeration value="jis-c6220-1969-jp"/>
+			<xsd:enumeration value="jis-c6220-1969-ro"/>
+			<xsd:enumeration value="jis-c6226-1978"/>
+			<xsd:enumeration value="jis-c6226-1983"/>
+			<xsd:enumeration value="jis-c6229-1984-a"/>
+			<xsd:enumeration value="jis-c6229-1984-b"/>
+			<xsd:enumeration value="jis-c6229-1984-b-add"/>
+			<xsd:enumeration value="jis-c6229-1984-hand"/>
+			<xsd:enumeration value="jis-c6229-1984-hand-add"/>
+			<xsd:enumeration value="jis-c6229-1984-kana"/>
+			<xsd:enumeration value="jis-encoding"/>
+			<xsd:enumeration value="jis-x0201"/>
+			<xsd:enumeration value="jis-x0212-1990"/>
+			<xsd:enumeration value="jus-i-b1-002"/>
+			<xsd:enumeration value="jus-i-b1-003-mac"/>
+			<xsd:enumeration value="jus-i-b1-003-serb"/>
+			<xsd:enumeration value="koi8-r"/>
+			<xsd:enumeration value="koi8-u"/>
+			<xsd:enumeration value="ks-c-5601-1987"/>
+			<xsd:enumeration value="ksc5636"/>
+			<xsd:enumeration value="latin-greek"/>
+			<xsd:enumeration value="latin-greek-1"/>
+			<xsd:enumeration value="latin-lap"/>
+			<xsd:enumeration value="macintosh"/>
+			<xsd:enumeration value="microsoft-publishing"/>
+			<xsd:enumeration value="mnem"/>
+			<xsd:enumeration value="mnemonic"/>
+			<xsd:enumeration value="msz-7795-3"/>
+			<xsd:enumeration value="nats-dano"/>
+			<xsd:enumeration value="nats-dano-add"/>
+			<xsd:enumeration value="nats-sefi"/>
+			<xsd:enumeration value="nats-sefi-add"/>
+			<xsd:enumeration value="nc-nc00-10-81"/>
+			<xsd:enumeration value="nf-z-62-010"/>
+			<xsd:enumeration value="nf-z-62-010--1973-"/>
+			<xsd:enumeration value="ns-4551-1"/>
+			<xsd:enumeration value="ns-4551-2"/>
+			<xsd:enumeration value="pc8-danish-norwegian"/>
+			<xsd:enumeration value="pc8-turkish"/>
+			<xsd:enumeration value="pt"/>
+			<xsd:enumeration value="pt2"/>
+			<xsd:enumeration value="ptcp154"/>
+			<xsd:enumeration value="scsu"/>
+			<xsd:enumeration value="sen-850200-b"/>
+			<xsd:enumeration value="sen-850200-c"/>
+			<xsd:enumeration value="shift-jis"/>
+			<xsd:enumeration value="t-101-g2"/>
+			<xsd:enumeration value="t-61-7bit"/>
+			<xsd:enumeration value="t-61-8bit"/>
+			<xsd:enumeration value="tis-620"/>
+			<xsd:enumeration value="unicode-1-1"/>
+			<xsd:enumeration value="unicode-1-1-utf-7"/>
+			<xsd:enumeration value="unknown-8bit"/>
+			<xsd:enumeration value="us-ascii"/>
+			<xsd:enumeration value="us-dk"/>
+			<xsd:enumeration value="utf-16"/>
+			<xsd:enumeration value="utf-16be"/>
+			<xsd:enumeration value="utf-16le"/>
+			<xsd:enumeration value="utf-32"/>
+			<xsd:enumeration value="utf-32be"/>
+			<xsd:enumeration value="utf-32le"/>
+			<xsd:enumeration value="utf-7"/>
+			<xsd:enumeration value="utf-8"/>
+			<xsd:enumeration value="ventura-international"/>
+			<xsd:enumeration value="ventura-math"/>
+			<xsd:enumeration value="ventura-us"/>
+			<xsd:enumeration value="videotex-suppl"/>
+			<xsd:enumeration value="viqr"/>
+			<xsd:enumeration value="viscii"/>
+			<xsd:enumeration value="windows-1250"/>
+			<xsd:enumeration value="windows-1251"/>
+			<xsd:enumeration value="windows-1252"/>
+			<xsd:enumeration value="windows-1253"/>
+			<xsd:enumeration value="windows-1254"/>
+			<xsd:enumeration value="windows-1255"/>
+			<xsd:enumeration value="windows-1256"/>
+			<xsd:enumeration value="windows-1257"/>
+			<xsd:enumeration value="windows-1258"/>
+			<xsd:enumeration value="windows-31j"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="CompressionWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="Compress"/>
+			<xsd:enumeration value="Deflate"/>
+			<xsd:enumeration value="Gzip"/>
+			<xsd:enumeration value="None"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="CoverTypeWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="NoCover"/>
+			<xsd:enumeration value="PrintBack"/>
+			<xsd:enumeration value="PrintBoth"/>
+			<xsd:enumeration value="PrintFront"/>
+			<xsd:enumeration value="PrintNone"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="CoverColMemberWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="ColType"/>
+			<xsd:enumeration value="Media"/>
+			<xsd:enumeration value="MediaCol"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="CurrentPageOrderWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="1ToNOrder"/>
+			<xsd:enumeration value="NTo1Order"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="DocumentDigitalSignatureWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="Dss"/>
+			<xsd:enumeration value="None"/>
+			<xsd:enumeration value="Pgp"/>
+			<xsd:enumeration value="Smime"/>
+			<xsd:enumeration value="Xmldsig"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="DocumentFormatWKV">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+			<xsd:whiteSpace value="preserve"/>
+			<xsd:enumeration value="application/octet-stream"/>
+			<xsd:enumeration value="application/pdf"/>
+			<xsd:enumeration value="application/postscript"/>
+			<xsd:enumeration value="application/vnd.pwg-xhtml-print+xml"/>
+			<xsd:enumeration value="application/vnd.hp-PCL"/>
+			<xsd:enumeration value="image/g3fax"/>
+			<xsd:enumeration value="image/jpeg"/>
+			<xsd:enumeration value="image/tiff"/>
+			<xsd:enumeration value="image/tiff-fx"/>
+			<xsd:enumeration value="text/html"/>
+			<xsd:enumeration value="text/plain"/>
+			<xsd:enumeration value="text/plain; charset=ISO-8859-1"/>
+			<xsd:enumeration value="text/plain; charset=US-ASCII"/>
+			<xsd:enumeration value="text/plain; charset=utf-8"/>
+			<xsd:enumeration value="unknown"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="DocumentStateWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="Aborted"/>
+			<xsd:enumeration value="Canceled"/>
+			<xsd:enumeration value="Completed"/>
+			<xsd:enumeration value="Pending"/>
+			<xsd:enumeration value="Processing"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="DocumentStateReasonsWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="AbortedBySystem"/>
+			<xsd:enumeration value="CanceledAtDevice"/>
+			<xsd:enumeration value="CanceledByOperator"/>
+			<xsd:enumeration value="CanceledByUser"/>
+			<xsd:enumeration value="CompletedSuccessfully"/>
+			<xsd:enumeration value="CompletedWithErrors"/>
+			<xsd:enumeration value="CompletedWithWarnings"/>
+			<xsd:enumeration value="CompressionError"/>
+			<xsd:enumeration value="DocumentAccessError"/>
+			<xsd:enumeration value="DocumentFormatError"/>
+			<xsd:enumeration value="Incoming"/>
+			<xsd:enumeration value="Interpreting"/>
+			<xsd:enumeration value="None"/>
+			<xsd:enumeration value="Outgoing"/>
+			<xsd:enumeration value="PrinterStopped"/>
+			<xsd:enumeration value="PrinterStoppedPartly"/>
+			<xsd:enumeration value="Printing"/>
+			<xsd:enumeration value="ProcessingToStopPoint"/>
+			<xsd:enumeration value="ProofPrintWait"/>
+			<xsd:enumeration value="Queued"/>
+			<xsd:enumeration value="QueuedForMarker"/>
+			<xsd:enumeration value="QueuedInDevice"/>
+			<xsd:enumeration value="ResourcesAreNotReady"/>
+			<xsd:enumeration value="ResourcesAreNotSupported"/>
+			<xsd:enumeration value="Spooling"/>
+			<xsd:enumeration value="Streaming"/>
+			<xsd:enumeration value="SubmissionInterupted"/>
+			<xsd:enumeration value="Transforming"/>
+			<xsd:enumeration value="UnsupportedCompression"/>
+			<xsd:enumeration value="UnsupportedDocumentFormat"/>
+			<xsd:enumeration value="WarningsDetected"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="FeedOrientationWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="LongEdgeFirst"/>
+			<xsd:enumeration value="ShortEdgeFirst"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="FinishingsWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="Bale"/>
+			<xsd:enumeration value="Bind"/>
+			<xsd:enumeration value="BindBottom"/>
+			<xsd:enumeration value="BindLeft"/>
+			<xsd:enumeration value="BindRight"/>
+			<xsd:enumeration value="BindTop"/>
+			<xsd:enumeration value="BookletMaker"/>
+			<xsd:enumeration value="Cover"/>
+			<xsd:enumeration value="EdgeStitch"/>
+			<xsd:enumeration value="EdgeStitchBottom"/>
+			<xsd:enumeration value="EdgeStitchLeft"/>
+			<xsd:enumeration value="EdgeStichRight"/>
+			<xsd:enumeration value="EdgeStitchTop"/>
+			<xsd:enumeration value="Fold"/>
+			<xsd:enumeration value="JogOffset"/>
+			<xsd:enumeration value="None"/>
+			<xsd:enumeration value="Punch"/>
+			<xsd:enumeration value="SaddleStitch"/>
+			<xsd:enumeration value="Staple"/>
+			<xsd:enumeration value="StapleBottomLeft"/>
+			<xsd:enumeration value="StapleBottomRight"/>
+			<xsd:enumeration value="StapleDualBottom"/>
+			<xsd:enumeration value="StapleDualLeft"/>
+			<xsd:enumeration value="StapleDualRight"/>
+			<xsd:enumeration value="StapleDualTop"/>
+			<xsd:enumeration value="StapleTopLeft"/>
+			<xsd:enumeration value="StapleTopRight"/>
+			<xsd:enumeration value="Trim"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="FinishingsColMemberWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="FinishingTemplate"/>
+			<xsd:enumeration value="Stitching"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="JobAccountingOutputBinWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="Bottom"/>
+			<xsd:enumeration value="Center"/>
+			<xsd:enumeration value="FaceDown"/>
+			<xsd:enumeration value="FaceUp"/>
+			<xsd:enumeration value="LargeCapacity"/>
+			<xsd:enumeration value="Left"/>
+			<xsd:enumeration value="Middle"/>
+			<xsd:enumeration value="MyMailbox"/>
+			<xsd:enumeration value="Rear"/>
+			<xsd:enumeration value="Right"/>
+			<xsd:enumeration value="Side"/>
+			<xsd:enumeration value="Top"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="JobAccountingSheetTypeWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="None"/>
+			<xsd:enumeration value="Standard"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="JobCollationTypeWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="CollatedDocuments"/>
+			<xsd:enumeration value="Other"/>
+			<xsd:enumeration value="UncollatedDocuments"/>
+			<xsd:enumeration value="UncollatedSheets"/>
+			<xsd:enumeration value="Unknown"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="JobErrorSheetMemberWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="JobErrorSheetType"/>
+			<xsd:enumeration value="JobErrorSheetWhen"/>
+			<xsd:enumeration value="Media"/>
+			<xsd:enumeration value="MediaCol"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="JobErrorSheetTypeWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="None"/>
+			<xsd:enumeration value="Standard"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="JobErrorSheetWhenWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="Always"/>
+			<xsd:enumeration value="OnError"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="JobHoldUntilWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="DayTime"/>
+			<xsd:enumeration value="Evening"/>
+			<xsd:enumeration value="Indefinite"/>
+			<xsd:enumeration value="Night"/>
+			<xsd:enumeration value="NoHold"/>
+			<xsd:enumeration value="SecondShift"/>
+			<xsd:enumeration value="ThirdShift"/>
+			<xsd:enumeration value="Weekend"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="JobPasswordEncryptionWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="Md2"/>
+			<xsd:enumeration value="Md4"/>
+			<xsd:enumeration value="Md5"/>
+			<xsd:enumeration value="None"/>
+			<xsd:enumeration value="Sha"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="JobSheetsMemberWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="JobSheets"/>
+			<xsd:enumeration value="Media"/>
+			<xsd:enumeration value="MediaCol"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="JobSheetsWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="BothSheets"/>
+			<xsd:enumeration value="EndSheet"/>
+			<xsd:enumeration value="FirstPrintStreamPage"/>
+			<xsd:enumeration value="None"/>
+			<xsd:enumeration value="Standard"/>
+			<xsd:enumeration value="StartSheet"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="JobSpoolingWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="Automatic"/>
+			<xsd:enumeration value="Spool"/>
+			<xsd:enumeration value="Stream"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="JobStateWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="Aborted"/>
+			<xsd:enumeration value="Canceled"/>
+			<xsd:enumeration value="Completed"/>
+			<xsd:enumeration value="Pending"/>
+			<xsd:enumeration value="Pending-held"/>
+			<xsd:enumeration value="Processing"/>
+			<xsd:enumeration value="ProcessingStopped"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="JobStateReasonsWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="AbortedBySystem"/>
+			<xsd:enumeration value="CompressionError"/>
+			<xsd:enumeration value="DigitalSignatureDidNotVerify"/>
+			<xsd:enumeration value="DigitalSignatureTypeNotSupported"/>
+			<xsd:enumeration value="DocumentAccessError"/>
+			<xsd:enumeration value="DocumentFormatError"/>
+			<xsd:enumeration value="ErrorsDetected"/>
+			<xsd:enumeration value="JobCanceledAtDevice"/>
+			<xsd:enumeration value="JobCanceledByOperator"/>
+			<xsd:enumeration value="JobCanceledByUser"/>
+			<xsd:enumeration value="JobCompletedSuccessfully"/>
+			<xsd:enumeration value="JobCompletedWithErrors"/>
+			<xsd:enumeration value="JobCompletedWithWarnings"/>
+			<xsd:enumeration value="JobDataInsufficient"/>
+			<xsd:enumeration value="JobDigitalSignatureWait"/>
+			<xsd:enumeration value="JobHoldUntilSpecified"/>
+			<xsd:enumeration value="JobIncoming"/>
+			<xsd:enumeration value="JobInterpreting"/>
+			<xsd:enumeration value="JobOutgoing"/>
+			<xsd:enumeration value="JobPasswordWait"/>
+			<xsd:enumeration value="JobPrinting"/>
+			<xsd:enumeration value="JobQueued"/>
+			<xsd:enumeration value="JobQueueForMarker"/>
+			<xsd:enumeration value="JobRestartable"/>
+			<xsd:enumeration value="JobResuming"/>
+			<xsd:enumeration value="JobSavedSuccessfully"/>
+			<xsd:enumeration value="JobSaved-error"/>
+			<xsd:enumeration value="JobSaving"/>
+			<xsd:enumeration value="JobScheduling"/>
+			<xsd:enumeration value="JobSpooling"/>
+			<xsd:enumeration value="JobStreaming"/>
+			<xsd:enumeration value="JobSuspended"/>
+			<xsd:enumeration value="JobSuspendedByOperator"/>
+			<xsd:enumeration value="JobSuspendedBySystem"/>
+			<xsd:enumeration value="JobSuspendedByUser"/>
+			<xsd:enumeration value="JobSuspending"/>
+			<xsd:enumeration value="JobTransforming"/>
+			<xsd:enumeration value="JobWarningsDetected"/>
+			<xsd:enumeration value="None"/>
+			<xsd:enumeration value="PrinterStopped"/>
+			<xsd:enumeration value="PrinterStoppedPartly"/>
+			<xsd:enumeration value="ProcessingToStopPoint"/>
+			<xsd:enumeration value="ProofPrintWait"/>
+			<xsd:enumeration value="QueuedInDevice"/>
+			<xsd:enumeration value="ResourcesAreNotReady"/>
+			<xsd:enumeration value="ResourcesAreNotSupported"/>
+			<xsd:enumeration value="ServiceOffLine"/>
+			<xsd:enumeration value="SubmissionInterupted"/>
+			<xsd:enumeration value="UnsupportedCompression"/>
+			<xsd:enumeration value="UnsupportedDocumentFormat"/>
+			<xsd:enumeration value="WarningsDetected"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MultipleDocumentsHandlingWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="SeparateDocumentsCollatedCopies"/>
+			<xsd:enumeration value="SeparateDocumentsUncollatedCopies"/>
+			<xsd:enumeration value="SingleDocument"/>
+			<xsd:enumeration value="SingleDocumentNewSheet"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OperationsSupportedWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="ActivatePrinter"/>
+			<xsd:enumeration value="CancelCurrentJob"/>
+			<xsd:enumeration value="CancelDocument"/>
+			<xsd:enumeration value="CancelJob"/>
+			<xsd:enumeration value="CreateJob"/>
+			<xsd:enumeration value="DeactivatePrinter"/>
+			<xsd:enumeration value="DeleteDocument"/>
+			<xsd:enumeration value="DisablePrinter"/>
+			<xsd:enumeration value="EnablePrinter"/>
+			<xsd:enumeration value="GetDocumentElements"/>
+			<xsd:enumeration value="GetDocuments"/>
+			<xsd:enumeration value="GetJobElements"/>
+			<xsd:enumeration value="GetJobs"/>
+			<xsd:enumeration value="GetPrinterElements"/>
+			<xsd:enumeration value="GetPrinterSettableElementValues"/>
+			<xsd:enumeration value="HoldJob"/>
+			<xsd:enumeration value="HoldNewJobs"/>
+			<xsd:enumeration value="PausePrinter"/>
+			<xsd:enumeration value="PausePrinterAfterCurrentJob"/>
+			<xsd:enumeration value="PrintJob"/>
+			<xsd:enumeration value="PrintUri"/>
+			<xsd:enumeration value="PromoteJob"/>
+			<xsd:enumeration value="PurgeJobs"/>
+			<xsd:enumeration value="ReleaseHeldNewJobs"/>
+			<xsd:enumeration value="RestartPrinter"/>
+			<xsd:enumeration value="ResumePrinter"/>
+			<xsd:enumeration value="SendDocument"/>
+			<xsd:enumeration value="SendUri"/>
+			<xsd:enumeration value="ReleaseJob"/>
+			<xsd:enumeration value="ReprocessJob"/>
+			<xsd:enumeration value="RestartJob"/>
+			<xsd:enumeration value="ResumeJob"/>
+			<xsd:enumeration value="ScheduleJobAfter"/>
+			<xsd:enumeration value="SetDocumentElements"/>
+			<xsd:enumeration value="SetJobElements"/>
+			<xsd:enumeration value="SetPrinterElements"/>
+			<xsd:enumeration value="ShutdownPrinter"/>
+			<xsd:enumeration value="StartupPrinter"/>
+			<xsd:enumeration value="SuspendCurrentJob"/>
+			<xsd:enumeration value="ValidateDocument"/>
+			<xsd:enumeration value="ValidateJob"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="NaturalLanguageWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="ar"/>
+			<xsd:enumeration value="de"/>
+			<xsd:enumeration value="en"/>
+			<xsd:enumeration value="en-us"/>
+			<xsd:enumeration value="es"/>
+			<xsd:enumeration value="fr"/>
+			<xsd:enumeration value="hi"/>
+			<xsd:enumeration value="it"/>
+			<xsd:enumeration value="ja"/>
+			<xsd:enumeration value="pt"/>
+			<xsd:enumeration value="zh"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OperatingSystemNameWKV">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="40"/>
+			<xsd:enumeration value="AEGIS"/>
+			<xsd:enumeration value="AMIGA-OS-1.2"/>
+			<xsd:enumeration value="AMIGA-OS-1.3"/>
+			<xsd:enumeration value="AMIGA-OS-2.0"/>
+			<xsd:enumeration value="AMIGA-OS-2.1"/>
+			<xsd:enumeration value="AMIGA-OS-3.0"/>
+			<xsd:enumeration value="AMIGA-OS-3.1"/>
+			<xsd:enumeration value="AMIGA-OS-3.5"/>
+			<xsd:enumeration value="AMIGA-OS-3.9 "/>
+			<xsd:enumeration value="APOLLO"/>
+			<xsd:enumeration value="AIX/370"/>
+			<xsd:enumeration value="AIX-PS/2"/>
+			<xsd:enumeration value="BEOS-4.5.2"/>
+			<xsd:enumeration value="BEOS-5.0"/>
+			<xsd:enumeration value="BS-2000"/>
+			<xsd:enumeration value="CEDAR"/>
+			<xsd:enumeration value="CGW"/>
+			<xsd:enumeration value="CHORUS"/>
+			<xsd:enumeration value="CHRYSALIS"/>
+			<xsd:enumeration value="CMOS"/>
+			<xsd:enumeration value="CMS"/>
+			<xsd:enumeration value="COS"/>
+			<xsd:enumeration value="CPIX"/>
+			<xsd:enumeration value="CTOS"/>
+			<xsd:enumeration value="CTSS"/>
+			<xsd:enumeration value="DCN"/>
+			<xsd:enumeration value="DDNOS"/>
+			<xsd:enumeration value="DOMAIN"/>
+			<xsd:enumeration value="DOS"/>
+			<xsd:enumeration value="EDX"/>
+			<xsd:enumeration value="ELF"/>
+			<xsd:enumeration value="EMBOS"/>
+			<xsd:enumeration value="EMMOS"/>
+			<xsd:enumeration value="EPOS"/>
+			<xsd:enumeration value="FOONEX"/>
+			<xsd:enumeration value="FREEBSD"/>
+			<xsd:enumeration value="FORTH"/>
+			<xsd:enumeration value="FUZZ"/>
+			<xsd:enumeration value="GCOS"/>
+			<xsd:enumeration value="GPOS"/>
+			<xsd:enumeration value="HDOS"/>
+			<xsd:enumeration value="IMAGEN"/>
+			<xsd:enumeration value="INSTANT-INTERNET"/>
+			<xsd:enumeration value="INTERCOM"/>
+			<xsd:enumeration value="IMPRESS"/>
+			<xsd:enumeration value="INTERLISP"/>
+			<xsd:enumeration value="IOS"/>
+			<xsd:enumeration value="IRIX"/>
+			<xsd:enumeration value="ISI-68020"/>
+			<xsd:enumeration value="ITS"/>
+			<xsd:enumeration value="KOSOS"/>
+			<xsd:enumeration value="LINUX"/>
+			<xsd:enumeration value="LINUX-1.0"/>
+			<xsd:enumeration value="LINUX-1.2"/>
+			<xsd:enumeration value="LINUX-2.0"/>
+			<xsd:enumeration value="LINUX-2.2"/>
+			<xsd:enumeration value="LINUX-2.4"/>
+			<xsd:enumeration value="LISP"/>
+			<xsd:enumeration value="LISPM"/>
+			<xsd:enumeration value="LOCUS"/>
+			<xsd:enumeration value="MACOS"/>
+			<xsd:enumeration value="MINOS"/>
+			<xsd:enumeration value="MOS"/>
+			<xsd:enumeration value="MPE5"/>
+			<xsd:enumeration value="MPE/V"/>
+			<xsd:enumeration value="MPE/IX"/>
+			<xsd:enumeration value="MSDOS"/>
+			<xsd:enumeration value="MULTICS"/>
+			<xsd:enumeration value="MUSIC"/>
+			<xsd:enumeration value="MUSIC/SP"/>
+			<xsd:enumeration value="MVS"/>
+			<xsd:enumeration value="MVS/SP"/>
+			<xsd:enumeration value="NETBSD-1.0"/>
+			<xsd:enumeration value="NETBSD-1.1"/>
+			<xsd:enumeration value="NETBSD-1.2"/>
+			<xsd:enumeration value="NETBSD-1.3"/>
+			<xsd:enumeration value="NETWARE-3"/>
+			<xsd:enumeration value="NETWARE-3.11"/>
+			<xsd:enumeration value="NETWARE-4.0"/>
+			<xsd:enumeration value="NETWARE-4.1"/>
+			<xsd:enumeration value="NETWARE-5.0"/>
+			<xsd:enumeration value="NEXUS"/>
+			<xsd:enumeration value="NMS"/>
+			<xsd:enumeration value="NONSTOP"/>
+			<xsd:enumeration value="NOS-2"/>
+			<xsd:enumeration value="NTOS"/>
+			<xsd:enumeration value="OPENBSD"/>
+			<xsd:enumeration value="OPENVMS"/>
+			<xsd:enumeration value="OS/DDP"/>
+			<xsd:enumeration value="OS/2"/>
+			<xsd:enumeration value="OS4"/>
+			<xsd:enumeration value="OS86"/>
+			<xsd:enumeration value="OSX"/>
+			<xsd:enumeration value="PCDOS"/>
+			<xsd:enumeration value="PERQ/OS"/>
+			<xsd:enumeration value="PLI"/>
+			<xsd:enumeration value="PSDOS/MIT"/>
+			<xsd:enumeration value="PSOS"/>
+			<xsd:enumeration value="PRIMOS"/>
+			<xsd:enumeration value="RISC-OS"/>
+			<xsd:enumeration value="RISC-OS-3.10"/>
+			<xsd:enumeration value="RISC-OS-3.50"/>
+			<xsd:enumeration value="RISC-OS-3.60"/>
+			<xsd:enumeration value="RISC-OS-3.70"/>
+			<xsd:enumeration value="RISC-OS-4.00"/>
+			<xsd:enumeration value="RMX/RDOS"/>
+			<xsd:enumeration value="ROS"/>
+			<xsd:enumeration value="RSX11M"/>
+			<xsd:enumeration value="RTE-A"/>
+			<xsd:enumeration value="SATOPS"/>
+			<xsd:enumeration value="SINIX"/>
+			<xsd:enumeration value="SCO-OPEN-DESKTOP-1.0"/>
+			<xsd:enumeration value="SCO-OPEN-DESKTOP-1.1"/>
+			<xsd:enumeration value="SCO-OPEN-DESKTOP-2.0"/>
+			<xsd:enumeration value="SCO-OPEN-DESKTOP-3.0"/>
+			<xsd:enumeration value="SCO-OPEN-DESKTOP-LITE-3.0"/>
+			<xsd:enumeration value="SCO-OPEN-SERVER-3.0"/>
+			<xsd:enumeration value="SCO-UNIX-3.2.0"/>
+			<xsd:enumeration value="SCO-UNIX-3.2V2.0"/>
+			<xsd:enumeration value="SCO-UNIX-3.2V2.1"/>
+			<xsd:enumeration value="SCO-UNIX-3.2V4.0"/>
+			<xsd:enumeration value="SCO-UNIX-3.2V4.1"/>
+			<xsd:enumeration value="SCO-UNIX-3.2V4.2"/>
+			<xsd:enumeration value="SCO-XENIX-386-2.3.2"/>
+			<xsd:enumeration value="SCO-XENIX-386-2.3.3"/>
+			<xsd:enumeration value="SCO-XENIX-386-2.3.4"/>
+			<xsd:enumeration value="SCS"/>
+			<xsd:enumeration value="SIMP"/>
+			<xsd:enumeration value="SUN"/>
+			<xsd:enumeration value="SUN-OS-3.5"/>
+			<xsd:enumeration value="SUN-OS-4.0"/>
+			<xsd:enumeration value="SWIFT"/>
+			<xsd:enumeration value="TAC"/>
+			<xsd:enumeration value="TANDEM"/>
+			<xsd:enumeration value="TENEX"/>
+			<xsd:enumeration value="THE-MAJOR-BBS"/>
+			<xsd:enumeration value="TOPS10"/>
+			<xsd:enumeration value="TOPS20"/>
+			<xsd:enumeration value="TOS"/>
+			<xsd:enumeration value="TP3010"/>
+			<xsd:enumeration value="TRSDOS"/>
+			<xsd:enumeration value="ULTRIX"/>
+			<xsd:enumeration value="UNIX"/>
+			<xsd:enumeration value="UNIX-BSD"/>
+			<xsd:enumeration value="UNIX-V1AT"/>
+			<xsd:enumeration value="UNIX-V"/>
+			<xsd:enumeration value="UNIX-V.1"/>
+			<xsd:enumeration value="UNIX-V.2"/>
+			<xsd:enumeration value="UNIX-V.3"/>
+			<xsd:enumeration value="UNIX-PC"/>
+			<xsd:enumeration value="UNKNOWN"/>
+			<xsd:enumeration value="UT2D"/>
+			<xsd:enumeration value="V"/>
+			<xsd:enumeration value="VM"/>
+			<xsd:enumeration value="VM/370"/>
+			<xsd:enumeration value="VM/CMS"/>
+			<xsd:enumeration value="VM/SP"/>
+			<xsd:enumeration value="VMS"/>
+			<xsd:enumeration value="VMS/EUNICE"/>
+			<xsd:enumeration value="VRTX"/>
+			<xsd:enumeration value="WAITS"/>
+			<xsd:enumeration value="WANG"/>
+			<xsd:enumeration value="WIN32"/>
+			<xsd:enumeration value="WINDOWS-95"/>
+			<xsd:enumeration value="WINDOWS-95-OSR1"/>
+			<xsd:enumeration value="WINDOWS-95-OSR2"/>
+			<xsd:enumeration value="WINDOWS-98"/>
+			<xsd:enumeration value="WINDOWS-CE"/>
+			<xsd:enumeration value="WINDOWS-NT"/>
+			<xsd:enumeration value="WINDOWS-NT-2"/>
+			<xsd:enumeration value="WINDOWS-NT-3"/>
+			<xsd:enumeration value="WINDOWS-NT-3.5"/>
+			<xsd:enumeration value="WINDOWS-NT-3.51"/>
+			<xsd:enumeration value="WINDOWS-NT-4"/>
+			<xsd:enumeration value="WINDOWS-NT-5"/>
+			<xsd:enumeration value="WORLDGROUP"/>
+			<xsd:enumeration value="WYSE-WYXWARE"/>
+			<xsd:enumeration value="X11R3"/>
+			<xsd:enumeration value="XDE"/>
+			<xsd:enumeration value="XENIX"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OrientationRequestedWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="Landscape"/>
+			<xsd:enumeration value="Portrait"/>
+			<xsd:enumeration value="ReverseLandscape"/>
+			<xsd:enumeration value="ReversePortrait"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OutputBinWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="Bottom"/>
+			<xsd:enumeration value="Center"/>
+			<xsd:enumeration value="Face-down"/>
+			<xsd:enumeration value="Face-up"/>
+			<xsd:enumeration value="Large-capacity"/>
+			<xsd:enumeration value="Left"/>
+			<xsd:enumeration value="Middle"/>
+			<xsd:enumeration value="My-mailbox"/>
+			<xsd:enumeration value="Rear"/>
+			<xsd:enumeration value="Right"/>
+			<xsd:enumeration value="Side"/>
+			<xsd:enumeration value="Top"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PageDeliveryWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="ReverseOrderFaceDown"/>
+			<xsd:enumeration value="ReverseOrderFaceUp"/>
+			<xsd:enumeration value="SameOrderFaceDown"/>
+			<xsd:enumeration value="SameOrderFaceUp"/>
+			<xsd:enumeration value="SystemSpecified"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PageOrderReceivedWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="1ToNOrder"/>
+			<xsd:enumeration value="NTo1Order"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PdlOverrideSupportedWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="Attempted"/>
+			<xsd:enumeration value="Guaranteed"/>
+			<xsd:enumeration value="NotAttempted"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PresentationDirectionNumberUpWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="TobottomToleft"/>
+			<xsd:enumeration value="TobottomToright"/>
+			<xsd:enumeration value="ToleftTobottom"/>
+			<xsd:enumeration value="ToleftTotop"/>
+			<xsd:enumeration value="TorightTobottom"/>
+			<xsd:enumeration value="TorightTotop"/>
+			<xsd:enumeration value="TotopToleft"/>
+			<xsd:enumeration value="TotopToright"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PrintContentOptimizeWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="Graphics"/>
+			<xsd:enumeration value="Photo"/>
+			<xsd:enumeration value="Text"/>
+			<xsd:enumeration value="TextAndGraphics"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PrintQualityWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="Draft"/>
+			<xsd:enumeration value="High"/>
+			<xsd:enumeration value="Normal"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PrinterStateWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="Idle"/>
+			<xsd:enumeration value="Processing"/>
+			<xsd:enumeration value="Stopped"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PrinterStateReasonsWKVs">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="AttentionRequired"/>
+			<xsd:enumeration value="ConnectingToDevice"/>
+			<xsd:enumeration value="CoverOpen"/>
+			<xsd:enumeration value="Deactivated"/>
+			<xsd:enumeration value="DeveloperEmpty"/>
+			<xsd:enumeration value="DeveloperLow"/>
+			<xsd:enumeration value="DoorOpen"/>
+			<xsd:enumeration value="FuserOverTemp"/>
+			<xsd:enumeration value="FuserUnderTemp"/>
+			<xsd:enumeration value="HoldNewJobs"/>
+			<xsd:enumeration value="InputTrayMissing"/>
+			<xsd:enumeration value="InterpreterResourceUnavailable"/>
+			<xsd:enumeration value="InterlockOpen"/>
+			<xsd:enumeration value="MarkerFailure"/>
+			<xsd:enumeration value="MarkerSupplyEmpty"/>
+			<xsd:enumeration value="MarkerSupplyLow"/>
+			<xsd:enumeration value="MarkerWasteAlmostFull"/>
+			<xsd:enumeration value="MarkerWasteFull"/>
+			<xsd:enumeration value="MediaEmpty"/>
+			<xsd:enumeration value="MediaJam"/>
+			<xsd:enumeration value="MediaLow"/>
+			<xsd:enumeration value="MediaNeeded"/>
+			<xsd:enumeration value="MovingToPaused"/>
+			<xsd:enumeration value="None"/>
+			<xsd:enumeration value="OpcLifeOver"/>
+			<xsd:enumeration value="OpcNearEol"/>
+			<xsd:enumeration value="Other"/>
+			<xsd:enumeration value="OutputAreaAlmostFull"/>
+			<xsd:enumeration value="OutputAreaFull"/>
+			<xsd:enumeration value="OutputTrayMissing"/>
+			<xsd:enumeration value="Paused"/>
+			<xsd:enumeration value="Shutdown"/>
+			<xsd:enumeration value="Spool-areaFull"/>
+			<xsd:enumeration value="Stopping"/>
+			<xsd:enumeration value="StoppedPartly"/>
+			<xsd:enumeration value="TimedOut"/>
+			<xsd:enumeration value="TonerEmpty"/>
+			<xsd:enumeration value="TonerLow"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ReferenceUriSchemesWKV">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ftp://"/>
+			<xsd:enumeration value="http://"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SaveDispositionWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="None"/>
+			<xsd:enumeration value="PrintSave"/>
+			<xsd:enumeration value="SaveOnly"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SeparatorSheetsMemberWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="Media"/>
+			<xsd:enumeration value="MediaCol"/>
+			<xsd:enumeration value="SeparatorSheetsType"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SeparatorSheetsTypeWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="BothSheets"/>
+			<xsd:enumeration value="EndSheet"/>
+			<xsd:enumeration value="None"/>
+			<xsd:enumeration value="SlipSheets"/>
+			<xsd:enumeration value="StartSheet"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SheetCollateWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="Collated"/>
+			<xsd:enumeration value="Uncollated"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SidesWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="OneSided"/>
+			<xsd:enumeration value="TwoSidedLongEdge"/>
+			<xsd:enumeration value="TwoSidedShortEdge"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="StatusStringWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="ClientErrorAttributesNotSettable"/>
+			<xsd:enumeration value="ClientErrorAttributesOrValuesNotSupported"/>
+			<xsd:enumeration value="ClientErrorBadRequest"/>
+			<xsd:enumeration value="ClientErrorCharsetNotSupported"/>
+			<xsd:enumeration value="ClientErrorCompressionError"/>
+			<xsd:enumeration value="ClientErrorConflictingAttributes"/>
+			<xsd:enumeration value="ClientErrorDocumentAccessError"/>
+			<xsd:enumeration value="ClientErrorDocumentFormatError"/>
+			<xsd:enumeration value="ClientErrorDocumentFormatNotSupported"/>
+			<xsd:enumeration value="ClientErrorForbidden"/>
+			<xsd:enumeration value="ClientErrorGone"/>
+			<xsd:enumeration value="ClientErrorNotAuthenticated"/>
+			<xsd:enumeration value="ClientErrorNotAuthorized"/>
+			<xsd:enumeration value="ClientErrorNotFound"/>
+			<xsd:enumeration value="ClientErrorNotPossible"/>
+			<xsd:enumeration value="ClientErrorRequestEntityTooLarge"/>
+			<xsd:enumeration value="ClientErrorRequestValueTooLong"/>
+			<xsd:enumeration value="ClientErrorTimeout"/>
+			<xsd:enumeration value="ClientErrorUriSchemeNotSupported"/>
+			<xsd:enumeration value="ClientErrorCompressionNotSupported"/>
+			<xsd:enumeration value="ServerErrorBusy"/>
+			<xsd:enumeration value="ServerErrorDeviceError"/>
+			<xsd:enumeration value="ServerErrorInternalError"/>
+			<xsd:enumeration value="ServerErrorCanceled"/>
+			<xsd:enumeration value="ServerErrorMultipleDocumentJobsNotSupported"/>
+			<xsd:enumeration value="ServerErrorNotAcceptingJobs"/>
+			<xsd:enumeration value="ServerErrorOperationNotSupported"/>
+			<xsd:enumeration value="ServerErrorPrinterIsDeactivated"/>
+			<xsd:enumeration value="ServerErrorServiceUnavailable"/>
+			<xsd:enumeration value="ServerErrorTemporaryError"/>
+			<xsd:enumeration value="ServerErrorTooManyDocuments"/>
+			<xsd:enumeration value="ServerErrorTooManyJobs"/>
+			<xsd:enumeration value="ServerErrorVersionNotSupported"/>
+			<xsd:enumeration value="SuccessfulOk"/>
+			<xsd:enumeration value="SuccessfulOkConflictingAttributes"/>
+			<xsd:enumeration value="SuccessfulOkIgnoredOrSubstitutedAttributes"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="StitchingMemberWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="StitchingLocations"/>
+			<xsd:enumeration value="StitchingOffset"/>
+			<xsd:enumeration value="StitchingReferenceEdge"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="StitchingReferenceEdgeWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="Bottom"/>
+			<xsd:enumeration value="Left"/>
+			<xsd:enumeration value="Right"/>
+			<xsd:enumeration value="Top"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="UriAuthenticationWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="Basic"/>
+			<xsd:enumeration value="Certificate"/>
+			<xsd:enumeration value="Digest"/>
+			<xsd:enumeration value="None"/>
+			<xsd:enumeration value="RequestingUserName"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="UnitsWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="Dpcm"/>
+			<xsd:enumeration value="Dpi"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="UriSecurityWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="None"/>
+			<xsd:enumeration value="Ssl3"/>
+			<xsd:enumeration value="Tls"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="WhichJobsWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="Aborted"/>
+			<xsd:enumeration value="All"/>
+			<xsd:enumeration value="Canceled"/>
+			<xsd:enumeration value="Completed"/>
+			<xsd:enumeration value="NotCompleted"/>
+			<xsd:enumeration value="Pending"/>
+			<xsd:enumeration value="PendingHeld"/>
+			<xsd:enumeration value="Processing"/>
+			<xsd:enumeration value="ProcessingStopped"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="XImagePositionWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="Center"/>
+			<xsd:enumeration value="Left"/>
+			<xsd:enumeration value="None"/>
+			<xsd:enumeration value="Right"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="YImagePositionWKV">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:enumeration value="Bottom"/>
+			<xsd:enumeration value="Center"/>
+			<xsd:enumeration value="None"/>
+			<xsd:enumeration value="Top"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--Keyword extension federated by namespaces-->
+	<xsd:simpleType name="KeywordNsExtensionPattern">
+		<xsd:restriction base="xsd:NMTOKEN">
+                        <xsd:pattern value="\w+:[\w_\-\.]+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--Media type Keyword extension federated by MIME type names-->
+	<xsd:simpleType name="MimeExtensionPattern">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:pattern value="\w+[\w:/;_\-\\\+\.]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--Output Bin Keyword extension by numbered bins-->
+	<xsd:simpleType name="OutputBinExtensionPattern">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:maxLength value="255"/>
+			<xsd:pattern value="Mailbox(/d)+"/>
+			<xsd:pattern value="Stacker(/d)+"/>
+			<xsd:pattern value="Tray(/d)+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--Operating System Name extension per rfc952-->
+	<xsd:simpleType name="OperatingSystemNameExtensionPattern">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="40"/>
+			<xsd:pattern value="[A-Z/\.\-]+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--String extension federated by namespaces-->
+	<xsd:simpleType name="StringNsExtensionPattern">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="\w+:[\w:/;_\-\\\+\.]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

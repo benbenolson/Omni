@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     IBM Omni driver
+     Copyright (c) International Business Machines Corp., 2000
+
+     This library is free software; you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published
+     by the Free Software Foundation; either version 2.1 of the License, or
+     (at your option) any later version.
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+     the GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this library; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
+
+<deviceCommands
+   xmlns="http://www.ibm.com/linux/ltc/projects/omni/"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+   xs:schemaLocation="http://www.ibm.com/linux/ltc/projects/omni/ ../OmniDevice.xsd">
+   <command name="cmdPJLSignature">_ESC_ "%-12345X"</command>
+   <command name="cmdBeginJob">"@PJL JOB NAME=LINUX JOB" _CR_ _LF_</command>
+   <command name="cmdEndJob">"@PJL EOJ" _CR_ _LF_</command>
+   <command name="cmdEnterLanguage">"@PJL ENTER LANGUAGE=PAGES" _CR_ _LF_</command>
+   <command name="cmdRETOn">"@PJL SET RET=ON" _CR_ _LF_</command>
+   <command name="cmdRETOff">"@PJL SET RET=OFF" _CR_ _LF_</command>
+   <command name="cmdEconoModeOn">"@PJL SET ECONOMODE=ON" _CR_ _LF_</command>
+   <command name="cmdEconoModeOff">"@PJL SET ECONOMODE=OFF" _CR_ _LF_</command>
+   <command name="cmdPageProtectAuto">"@PJL SET PAGEPROTECT=AUTO" _CR_ _LF_</command>
+   <command name="cmdPageProtectOff">"@PJL SET PAGEPROTECT=OFF" _CR_ _LF_</command>
+   <command name="cmdPageProtectOn">"@PJL SET PAGEPROTECT=ON" _CR_ _LF_</command>
+   <command name="cmdJamRecoveryOn">"@PJL SET =ON" _CR_ _LF_</command>
+   <command name="cmdJamRecoveryOff">"@PJL SET =OFF" _CR_ _LF_</command>
+   <command name="cmdStapleOne">"@PJL SET =ONEPORT" _CR_ _LF_</command>
+   <command name="cmdStapleTwo">"@PJL SET =TWOPORT" _CR_ _LF_</command>
+   <command name="cmdPagesMode">_ESC_ HEX (7e) HEX (12) HEX (00) HEX (01) HEX (11)""</command>
+   <command name="cmdDuplexMode">_ESC_ HEX (7e) HEX (3b) HEX (00) HEX (04) HEX (00) HEX (00) HEX (00) "%c" ""</command>
+   <command name="cmdOffsetStack">_ESC_ HEX (7e) HEX (3c) HEX (00) HEX (08) HEX (00) HEX (00) HEX (00) HEX (01) HEX (00) HEX (00) HEX (00) HEX (00)""</command>
+   <command name="cmdCharBoxSize">_ESC_ HEX (7e) HEX (74) HEX (00) HEX (05) HEX (00) HEX (00) HEX (00) HEX (00) HEX (00)""</command>
+   <command name="cmdCharPitch">_ESC_ HEX (7e) HEX (1e) HEX (00) HEX (02) HEX (00) HEX (00)""</command>
+   <command name="cmdLinePitch">_ESC_ HEX (7e) HEX (1f) HEX (00) HEX (02) HEX (00) HEX (00)""</command>
+   <command name="cmdCharBold">_ESC_ HEX (7e) HEX (0e) HEX (00) HEX (01) HEX (00)""</command>
+   <command name="cmdCharAttrs">_ESC_ HEX (7e) HEX (76) HEX (00) HEX (01) HEX (00)""</command>
+   <command name="cmdUnderLine">_ESC_ HEX (7e) HEX (11) HEX (00) HEX (01) HEX (00)""</command>
+   <command name="cmdStrikeoutOn">_ESC_ HEX (7e) HEX (13) HEX (00) HEX (04) HEX (03) HEX (00) HEX (81) HEX (5c)""</command>
+   <command name="cmdStrikeoutOff">_ESC_ HEX (7e) HEX (13) HEX (00) HEX (01) HEX (00)""</command>
+   <command name="cmdCopies">_ESC_ HEX (7e) HEX (33) HEX (00) HEX (02) HEX (01) HEX (00)""</command>
+   <command name="cmdRectImage">_ESC_ HEX (7e) HEX (84) "%W%c%W%W"</command>
+   <command name="cmdInit">_ESC_ "~" HEX (01) HEX (00) HEX (00)</command>
+   <command name="cmdAbort">_FF_ _ESC_ "~" HEX (01) HEX (00) HEX (00)</command>
+   <command name="cmdPageEject">_FF_</command>
+   <command name="cmdPortrait">_ESC_ "~" HEX (50) HEX (00) HEX (01) HEX (00)</command>
+   <command name="cmdLandscape">_ESC_ "~" HEX (50) HEX (00) HEX (01) HEX (03)</command>
+   <command name="cmdSetXYPos">_ESC_ "~" HEX (1D) HEX (00) HEX (03) HEX (03) "%W"</command>
+   <command name="cmdSetXPos">_ESC_ "~" HEX (1C) HEX (00) HEX (03) HEX (03) "%W"</command>
+   <command name="cmdSetYPos">_ESC_ "~" HEX (1D) HEX (00) HEX (03) HEX (04) "%W"</command>
+   <command name="cmdImageControlCommandHeader">_ESC_ "~" HEX (28) "%W"</command>
+   <command name="cmdImageAreaPosition">HEX (00) HEX (0B) HEX (AC) HEX (6B) "%W%W%W%c"</command>
+   <command name="cmdImageDataDescriptor">HEX (00) HEX (0F) HEX (A6) HEX (FB) "%W%c%W%W%W%W"</command>
+   <command name="cmdImageOutputControl">HEX (10) HEX (00) "%W%c%W%W%W%c%W%W"</command>
+   <command name="cmdImageDrawCommandHeader">_ESC_ "~" HEX (89) "%W"</command>
+   <command name="cmdBeginSegment">HEX (70) HEX (04) "%d"</command>
+   <command name="cmdBeginImageContent">HEX (91) HEX (01) "%c"</command>
+   <command name="cmdImageSizeP">HEX (94) HEX (09) "%c%W%W%W%W"</command>
+   <command name="cmdImageEncodingP">HEX (95) HEX (02) "%c%c"</command>
+   <command name="cmdImageData">HEX (FE) HEX (92) "%W"</command>
+   <command name="cmdEndImageContent">HEX (93) HEX (00)</command>
+   <command name="cmdEndSegment">HEX (71) HEX (00)</command>
+   <command name="cmdSelectTray">_ESC_ HEX(7E) "F" HEX(00) HEX(05) HEX(00) HEX(00) "%c" HEX(00) HEX(00)</command>
+</deviceCommands>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     IBM Omni driver
+     Copyright (c) International Business Machines Corp., 2000
+
+     This library is free software; you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published
+     by the Free Software Foundation; either version 2.1 of the License, or
+     (at your option) any later version.
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+     the GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this library; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
+<Device xmlns="http://www.ibm.com/linux/ltc/projects/omni/" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" name="Epson MJ-800C" xs:schemaLocation="http://www.ibm.com/linux/ltc/projects/omni/ ../OmniDevice.xsd">
+   <DriverName>Epson</DriverName>
+   <Capability type="COLOR"/>
+   <Capability type="MONOCHROME"/>
+   <Capability type="MIRROR"/>
+   <RasterCapabilities type="TOP_TO_BOTTOM"/>
+   <PDL level="PDL_Epson" sublevel="LEVEL_ESCP_2" major="1" minor="0"/>
+   <Uses>Epson Generic ESC2P Commands.xml</Uses>
+   <Has>Epson Orientations.xml</Has>
+   <Has>Epson Stylus Color 300 Resolutions.xml</Has>
+   <Has>Epson DLQ-3000+ PrintModes.xml</Has>
+   <Has>Epson Stylus 200 Trays.xml</Has>
+   <Has>Epson Stylus 820 Forms.xml</Has>
+   <Has>Epson Stylus 200 Medias.xml</Has>
+   <Has>Epson Stylus 200 Connections.xml</Has>
+   <Has>Epson MJ-800C Gammas.xml</Has>
+   <Has>Epson Copies.xml</Has>
+   <Has>Epson NUps.xml</Has>
+   <Has>Epson OutputBins.xml</Has>
+   <Has>Epson Scalings.xml</Has>
+   <Has>Epson SheetCollates.xml</Has>
+   <Has>Epson Sides.xml</Has>
+   <Has>Epson Stitchings.xml</Has>
+   <Has>Epson Trimmings.xml</Has>
+   <Instance>Epson ESCP2 Instance.hpp</Instance>
+   <Instance>Epson ESCP2 Instance.cpp</Instance>
+   <Blitter>Epson ESCP2 Blitter.hpp</Blitter>
+   <Blitter>Epson ESCP2 Blitter.cpp</Blitter>
+   <DefaultJobProperties>
+      <Copies>1</Copies>
+      <dither>DITHER_STUCKI_DIFFUSION</dither>
+      <Form>na_letter_8.50x11.00in</Form>
+      <omniForm>FORM_LETTER</omniForm>
+      <media>MEDIA_PLAIN</media>
+      <NumberUp>
+         <NumberUp FORMAT="XbyY">
+            <x>1</x>
+            <y>1</y>
+         </NumberUp>
+         <NumberUpDirection>TorightTobottom</NumberUpDirection>
+      </NumberUp>
+      <Rotation>Portrait</Rotation>
+      <omniOrientation>ORIENTATION_PORTRAIT</omniOrientation>
+      <OutputBin>Top</OutputBin>
+      <printmode>PRINT_MODE_24_CMYK</printmode>
+      <Resolution>360x360</Resolution>
+      <omniResolution>RESOLUTION_360_X_360</omniResolution>
+      <Scaling>
+         <ScalingPercentage>100</ScalingPercentage>
+         <ScalingType>None</ScalingType>
+      </Scaling>
+      <SheetCollate>SheetUncollated</SheetCollate>
+      <Sides>OneSidedFront</Sides>
+      <Stitching>
+         <StitchingPosition>0</StitchingPosition>
+         <StitchingReferenceEdge>Top</StitchingReferenceEdge>
+         <StitchingType>None</StitchingType>
+         <StitchingCount>0</StitchingCount>
+         <StitchingAngle>0</StitchingAngle>
+      </Stitching>
+      <InputTray>Continuous</InputTray>
+      <omniTray>TRAY_AUTO_FEEDER</omniTray>
+      <Trimming>None</Trimming>
+   </DefaultJobProperties>
+</Device>

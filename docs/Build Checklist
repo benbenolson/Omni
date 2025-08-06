@@ -1,0 +1,14 @@
+Make sure that all clone devices use the latest code
+	./copyFromAll
+Make sure that the XMLDevice uses the latest code
+	cd XMLDevice; ./cleanStart
+update configure.ac AC_INIT version
+update version.mak version
+update /home/sourceforge/tarit
+create /home/sourceforge/Omni-x.y.z
+diff source tree with /home/sourceforge/Omni (CVS source directory)
+diff /home/sourceforge/Omni /home/sourceforge/Omni-x.y.z (tarball source directory)
+build source tarballs
+	cd /home/sourceforge; ./tarit
+build RPMs
+	cd /home/Omni/autotools/RedHat; /bin/rm errors; ./buildOmni 2>&1 | tee errors

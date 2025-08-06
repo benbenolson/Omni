@@ -1,0 +1,323 @@
+Set up your device's XML structure
+==================================
+
+Read "How To Create A Device" for more information.
+
+Instead of the device XML containing:
+  <Instance>...</Instance>
+  <Instance>...</Instance>
+  <Blitter>...</Blitter>
+  <Blitter>...</Blitter>
+
+It will contain:
+  <PluggableInstance
+     exename="..."
+     data="deviceKey1=deviceValue1 deviceKey2=deviceValue2 ..."
+  />
+  <PluggableBlitter/>
+
+The exename field will contain the name of an executable that will
+support the PDC protocol for pluggable blitters.  The executable is
+created by linking your object code with PDCBlitterClient.o.
+
+The data field will contain default device job properties.  These are in
+the form of space separated key=value pairs.  These entries will only have
+meaning for your device code.
+
+You also have the ability to add device value mappings to omni XML
+entries.  When you add forms to the form XML file, you can add an extra
+<deviceID>...</deviceID> tag to each entry.
+
+For example:
+  <deviceForm>
+    <name>FORM_LETTER</name>
+    <formCapabilities>NO_CAPABILITIES</formCapabilities>
+    <command>_NUL_</command>
+    <hardCopyCap>
+      <hardCopyCapLeft>3000</hardCopyCapLeft>
+      <hardCopyCapTop>3000</hardCopyCapTop>
+      <hardCopyCapRight>3000</hardCopyCapRight>
+      <hardCopyCapBottom>14000</hardCopyCapBottom>
+    </hardCopyCap>
+    <deviceID>LT</deviceID>
+  </deviceForm>
+
+This will allow omni to handle form management for you.  Then, when you
+receive your job properties, you will get a form=LT key/value pair.  You
+will also get a DeviceObjectHolder that you can query using the omni
+interface for DeviceForm.
+
+Set up the hook points
+======================
+
+There are a number of functions that the omni driver will use to interface
+with you.  They are as follows:
+
+/*8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---*/
+
+void
+initializePDCBlitter (PPDC_B_HOOKPOINTS pHookPoints)
+
+This function must be defined.
+
+It will set the individual hook points in the pHookPoints structure.
+
+/*8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---*/
+
+GModule *
+initializeInstance (char    *pszDeviceName,
+                    PHANDLE  phInstance)
+
+This function must be defined.
+
+This function will be called when a new omni device is created and
+information or action is needed by omni.  This can be when a print job is
+performed or when a dialog is displayed.
+
+pszDeviceName will contain the name of the device.  This comes from the
+<Device name="..."> tag in the printer's xml file.
+
+On success, return the module handle that was returned from g_module_open.
+Also, fill in the pointer to your instance data structure.
+
+On failure, return 0.
+
+/*8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---*/
+
+bool
+freeInstance (GModule *hmodDevice,
+              HANDLE   hInstance)
+
+This function must be defined.
+
+This function is called when the omni driver is done with what ever
+actions were asked by the user.
+
+hmodDevice will contain a pointer to your module handle.
+hInstance will contain a pointer to your instance data.
+
+First free your instance data structure.  Then call g_module_close with
+hmodDevice.
+
+On success, return true.
+
+On failure, return false.
+
+/*8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---*/
+
+bool
+setJobProperties (HANDLE              hInstance,
+                  char               *pszJobProperties,
+                  DeviceObjectHolder *pDOH)
+
+This function must be defined.
+
+This function is called after the instance is successfully created.
+
+hInstance will contain a pointer to your instance data.
+pszJobProperties will contain the job properties.
+pDOH will contain a pointer to a class that contains all of the omni objects.
+   With this class, you can query the current
+      DeviceOrientation with getCurrentOrientation ()
+      DeviceForm        with getCurrentForm ()
+      DeviceTray        with getCurrentTray ()
+      DeviceMedia       with getCurrentMedia ()
+      DeviceResolution  with getCurrentResolution ()
+      DevicePrintMode   with getCurrentPrintMode ()
+      DeviceGamma       with getCurrentGamma ()
+
+On success, return true.
+
+On failure, return false.
+
+/*8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---*/
+
+string *
+listDeviceJobPropertyKeys (HANDLE hInstance)
+
+This function may be defined.
+
+This function is called when an application wants to know what device job
+properties that you support.  If you support extra job properties, then
+return a space separated list of key names.
+
+hInstance will contain a pointer to your instance data.
+
+On success, return a new string of the job property keys.
+
+On failure, return 0.
+
+/*8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---*/
+
+string *
+listJobPropertyKeyValues (HANDLE  hInstance,
+                          char   *pszKey)
+
+This function may be defined.
+
+This function is called when an application wants to know what device job
+values there are for a specific key.  These are space separated.
+
+hInstance will contain a pointer to your instance data.
+pszKey will contain the key name (returned from listDeviceJobPropertyKeys).
+
+On success, return a new string of the job property values.
+
+On failure, return 0.
+
+/*8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---*/
+
+string *
+getJobPropertyType (HANDLE  hInstance,
+                    char   *pszKey)
+
+This function may be defined.
+
+This function is called when an application wants to know what the type is
+for a specific key.  The format is as follows:
+   type          - can be one of boolean, integer, float, or string.
+   default value - is the default value for this key.
+   minimum range - for integer or float.  this is optional.
+   maximum range - for integer or float.  this is optional.
+
+hInstance will contain a pointer to your instance data.
+pszKey will contain the key name.
+
+On success, return a new string of the job property type.
+
+On failure, return 0.
+
+/*8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---*/
+
+char *
+getJobProperty (HANDLE  hInstance,
+                char   *pszKey)
+
+This function may be defined.
+
+This function is called when an application wants to know what the value is
+for the specified key.
+
+hInstance will contain a pointer to your instance data.
+pszKey will contain the key name.
+
+On success, return a new string of the job property value.
+
+On failure, return 0.
+
+/*8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---*/
+
+bool
+startPage (HANDLE hInstance)
+
+This function must be defined.
+
+This function is called at the start of a page.
+
+hInstance will contain a pointer to your instance data.
+
+On success, return true.
+
+On failure, return false.
+
+/*8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---*/
+
+bool
+endPage (HANDLE hInstance,
+         int    iCanceled)
+
+This function must be defined.
+
+This function is called at the end of a page.
+
+hInstance will contain a pointer to your instance data.
+
+On success, return true.
+
+On failure, return false.
+
+/*8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---*/
+
+bool
+beginJob (HANDLE hInstance)
+
+This function must be defined.
+
+This function is called at the start of a job.
+
+hInstance will contain a pointer to your instance data.
+
+On success, return true.
+
+On failure, return false.
+
+/*8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---*/
+
+bool
+endJob (HANDLE hInstance)
+
+This function must be defined.
+
+This function is called at the end of a job.
+
+hInstance will contain a pointer to your instance data.
+
+On success, return true.
+
+On failure, return false.
+
+/*8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---*/
+
+bool
+abortJob (HANDLE hInstance)
+
+This function must be defined.
+
+This function is called when a print job is aborted.
+
+hInstance will contain a pointer to your instance data.
+
+On success, return true.
+
+On failure, return false.
+
+/*8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---*/
+
+int
+rasterize (HANDLE       hInstance,
+           PBYTE        pbBits,
+           PBITMAPINFO2 pbmi2,
+           PRECTL       prectlPageLocation,
+           BITBLT_TYPE  eType)
+
+This function must be defined.
+
+Read the documentation file "Omni Rasterization Specification" for more
+information on the format of the bitmap bits.
+
+hInstance will contain a pointer to your instance data.
+pbBits
+pbmi2
+prectlPageLocation
+eType
+
+On success, return true.
+
+On failure, return false.
+
+/*8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---8<---*/
+
+bool
+setOutputStream (HANDLE hInstance,
+                 int    fdHandle)
+
+This function may be defined.
+
+This function is called when a the output stream is changed.
+
+hInstance will contain a pointer to your instance data.
+fdHandle contains an integer of the unix file handle.
+
+On success, return true.
+
+On failure, return false.

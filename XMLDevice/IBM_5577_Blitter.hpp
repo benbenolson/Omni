@@ -1,0 +1,73 @@
+/*
+ *   IBM Omni driver
+ *   Copyright (c) International Business Machines Corp., 2000
+ *
+ *   This library is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU Lesser General Public License as published
+ *   by the Free Software Foundation; either version 2.1 of the License, or
+ *   (at your option) any later version.
+ *
+ *   This library is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+ *   the GNU Lesser General Public License for more details.
+ *
+ *   You should have received a copy of the GNU Lesser General Public License
+ *   along with this library; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+#ifndef _IBM_5577_Blitter
+#define _IBM_5577_Blitter
+
+#include "Device.hpp"
+
+#define MAX_CX_BYTES_5577 8192
+
+extern "C" {
+   DeviceBlitter *createBlitter (PrintDevice   *pDevice);
+   void           deleteBlitter (DeviceBlitter *pBlitter);
+};
+
+class IBM_5577_Blitter : public DeviceBlitter
+{
+public:
+                        IBM_5577_Blitter               (PrintDevice            *pDevice);
+   virtual             ~IBM_5577_Blitter               ();
+
+   void                 initializeInstance             ();
+
+   virtual bool         rasterize                      (PBYTE                   pbBits,
+                                                        PBITMAPINFO2            pbmi,
+                                                        PRECTL                  prectlPageLocation,
+                                                        BITBLT_TYPE             eType);
+
+#ifndef RETAIL
+   virtual void         outputSelf                     ();
+#endif
+   virtual std::string  toString                       (std::ostringstream&     oss);
+   friend std::ostream& operator<<                     (std::ostream&           os,
+                                                        const IBM_5577_Blitter& device);
+
+private:
+   bool                 ibmMonoRasterize               (PBYTE                   pbBits,
+                                                        PBITMAPINFO2            pbmi,
+                                                        PRECTL                  prectlPageLocation,
+                                                        BITBLT_TYPE             eType);
+   bool                 moveToYPosition                (int                     iWorldY,
+                                                        bool                    fAbsolute);
+
+   void                 transparentMatrix              (PBYTE                   src,
+                                                        PBYTE                   dst,
+                                                        int                     width,
+                                                        int                     height);
+
+   PBYTE           restPbBit;
+   PBYTE           restPbBitBak;
+   int             restNumScanLines;
+   int             restScanLineY;
+
+   bool            fHaveInitialized_d;
+   bool            fGraphicsHaveBeenSent_d;
+};
+
+#endif

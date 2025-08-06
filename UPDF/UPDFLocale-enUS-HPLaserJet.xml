@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 2 (http://www.xmlspy.com) by Norbert Schade (private) -->
+<!-- Copyright (c) 2002 Norbert Schade                                     -->
+<!--                                                                       -->
+<!-- Permission is hereby granted, free of charge, to any person obtaining -->
+<!-- a copy of this software and associated documentation files (the       -->
+<!-- "Software"), to deal in the Software without restriction, including   -->
+<!-- without limitation the rights to use, copy, modify, merge, publish,   -->
+<!-- distribute, sublicense, and/or sell copies of the Software,           -->
+<!-- and to permit persons to whom the Software is furnished to do so,     -->
+<!-- subject to the following conditions: The above copyright notice and   -->
+<!-- this permission notice shall be included in all copies                -->
+<!-- or substantial portions of the Software.                              -->
+<!--                                                                       -->
+<!-- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,       -->
+<!-- EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES       -->
+<!-- OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND              -->
+<!-- NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE-->
+<!-- LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION-->
+<!-- OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION -->
+<!-- WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.       -->
+<Locale FileTypeIdentification="Locale" xmlns="http://www.pwg.org/updf/" xmlns:wildcard="UPDFWildcards.xsd" xmlns:pwg="http://www.pwg.org/schemas/sm/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.pwg.org/updf/ UPDFLocale.xsd">
+  <LocaleIdentifier>
+    <Language>en-English</Language>
+    <Country>US-United_States</Country>
+  </LocaleIdentifier>
+  <LocaleElements>
+    <LocaleElement StringIDRef="ColorMode" LocalizedString="dummy string for hidden element"/>
+    <LocaleElement StringIDRef="Monochrome" LocalizedString="dummy string for hidden record"/>
+    <LocaleElement StringIDRef="ModelName" LocalizedString="HP LaserJet 9000 pcl 5e"/>
+    <LocaleElement StringIDRef="Input_Underneath" LocalizedString="Optional Paper Sources:"/>
+    <LocaleElement StringIDRef="NoConnector" LocalizedString="(None)"/>
+    <LocaleElement StringIDRef="PrinterResolution" LocalizedString="Resolution:"/>
+    <LocaleElement StringIDRef="PrinterResolution_300dpi" LocalizedString="300 dpi"/>
+    <LocaleElement StringIDRef="PrinterResolution_600dpi" LocalizedString="600 dpi"/>
+    <LocaleElement StringIDRef="RasterResolution" LocalizedString="Resolution:"/>
+    <LocaleElement StringIDRef="Raster_600dpi" LocalizedString="600 dpi"/>
+    <LocaleElement StringIDRef="Raster_300dpi" LocalizedString="300 dpi"/>
+    <LocaleElement StringIDRef="Copies" LocalizedString="Copies"/>
+    <LocaleElement StringIDRef="SheetCollate" LocalizedString="Mopier Enabled"/>
+    <LocaleElement StringIDRef="Collation_On" LocalizedString="On"/>
+    <LocaleElement StringIDRef="Collation_Off" LocalizedString="Off"/>
+    <LocaleElement StringIDRef="OrientationRequested" LocalizedString="Orientation"/>
+    <LocaleElement StringIDRef="Orientation_Portrait" LocalizedString="Portrait"/>
+    <LocaleElement StringIDRef="Orientation_Landscape" LocalizedString="Landscape"/>
+    <LocaleElement StringIDRef="MediaPageRotation" LocalizedString="Rotated"/>
+    <LocaleElement StringIDRef="PageRotation_Standard" LocalizedString="Off"/>
+    <LocaleElement StringIDRef="PageRotation_Reverse" LocalizedString="On"/>
+    <LocaleElement StringIDRef="MediaSize" LocalizedString="Size is:"/>
+    <LocaleElement StringIDRef="Size_Letter" LocalizedString="Letter"/>
+    <LocaleElement StringIDRef="Size_Legal" LocalizedString="Legal"/>
+    <LocaleElement StringIDRef="Size_Executive" LocalizedString="Executive"/>
+    <LocaleElement StringIDRef="Size_A5" LocalizedString="A5"/>
+    <LocaleElement StringIDRef="Size_A4" LocalizedString="A4"/>
+    <LocaleElement StringIDRef="Size_A3" LocalizedString="A3"/>
+    <LocaleElement StringIDRef="Size_Com10" LocalizedString="Envelope #10"/>
+    <LocaleElement StringIDRef="Size_DL" LocalizedString="Envelope DL"/>
+    <LocaleElement StringIDRef="Size_C5" LocalizedString="Envelope C5"/>
+    <LocaleElement StringIDRef="Size_B5" LocalizedString="Envelope B5"/>
+    <LocaleElement StringIDRef="Size_Monarch" LocalizedString="Envelope Monarch"/>
+    <LocaleElement StringIDRef="Size_Ledger" LocalizedString="11x17"/>
+    <LocaleElement StringIDRef="Size_JISB4" LocalizedString="B4 (JIS)"/>
+    <LocaleElement StringIDRef="Size_JISB5" LocalizedString="B5 (JIS)"/>
+    <LocaleElement StringIDRef="Size_DoublePostcard" LocalizedString="Double Post card"/>
+    <LocaleElement StringIDRef="Size_JISEXEC" LocalizedString="Executive (JIS)"/>
+    <LocaleElement StringIDRef="Size_ROC16K" LocalizedString="16K"/>
+    <LocaleElement StringIDRef="Size_ROC8K" LocalizedString="8K"/>
+    <LocaleElement StringIDRef="Size_CustomSize" LocalizedString="Untitled"/>
+    <LocaleElement StringIDRef="MediaType" LocalizedString="Type is:"/>
+    <LocaleElement StringIDRef="Type_Auto" LocalizedString="Auto Select"/>
+    <LocaleElement StringIDRef="Type_Plain" LocalizedString="Plain"/>
+    <LocaleElement StringIDRef="Type_Preprinted" LocalizedString="Preprinted"/>
+    <LocaleElement StringIDRef="Type_Letterhead" LocalizedString="Letterhead"/>
+    <LocaleElement StringIDRef="Type_Transparency" LocalizedString="Transparency"/>
+    <LocaleElement StringIDRef="Type_Prepunched" LocalizedString="Prepunched"/>
+    <LocaleElement StringIDRef="Type_Labels" LocalizedString="Labels"/>
+    <LocaleElement StringIDRef="Type_Bond" LocalizedString="Bond"/>
+    <LocaleElement StringIDRef="Type_Recycled" LocalizedString="Recycled"/>
+    <LocaleElement StringIDRef="Type_Color" LocalizedString="Color"/>
+    <LocaleElement StringIDRef="Type_CardStock" LocalizedString="Card Stock"/>
+    <LocaleElement StringIDRef="Type_Rough" LocalizedString="Rough"/>
+    <LocaleElement StringIDRef="MediaInputTrayCheck" LocalizedString="Source is:"/>
+    <LocaleElement StringIDRef="Source_Auto" LocalizedString="Auto Select"/>
+    <LocaleElement StringIDRef="Source_Tray2" LocalizedString="Tray 2"/>
+    <LocaleElement StringIDRef="Source_Tray3" LocalizedString="Tray 3"/>
+    <LocaleElement StringIDRef="OutputBin" LocalizedString="Bin:"/>
+    <LocaleElement StringIDRef="Destination_Top" LocalizedString="Top Bin (Face-Down)"/>
+    <LocaleElement StringIDRef="Destination_Left" LocalizedString="Left Bin (Face-Up)"/>
+    <LocaleElement StringIDRef="Destination_Left_FaceDown" LocalizedString="Left Bin (Face-Down)"/>
+    <LocaleElement StringIDRef="FinishingStapling" LocalizedString="Number of Staples"/>
+    <LocaleElement StringIDRef="Stapling_Off" LocalizedString="No Staple"/>
+    <LocaleElement StringIDRef="Stapling_1" LocalizedString="One Staple"/>
+    <LocaleElement StringIDRef="Stapling_1Angled" LocalizedString="One Staple Angled"/>
+    <LocaleElement StringIDRef="Stapling_2" LocalizedString="Two Staples"/>
+    <LocaleElement StringIDRef="Stapling_3" LocalizedString="Three Staples"/>
+    <LocaleElement StringIDRef="Stapling_6" LocalizedString="Six Staples"/>
+    <LocaleElement StringIDRef="Stapling_Custom" LocalizedString="Custom"/>
+    <LocaleElement StringIDRef="FinishingJogging" LocalizedString="Options:"/>
+    <LocaleElement StringIDRef="Jogging_Off" LocalizedString="(None)"/>
+    <LocaleElement StringIDRef="Jogging_On" LocalizedString="Offsetting"/>
+    <LocaleElement StringIDRef="Sides" LocalizedString="Duplex:"/>
+    <LocaleElement StringIDRef="Simplex" LocalizedString="Simplex"/>
+    <LocaleElement StringIDRef="Duplex_LongEdge" LocalizedString="Long Edge"/>
+    <LocaleElement StringIDRef="Duplex_ShortEdge" LocalizedString="Short Edge"/>
+    <LocaleElement StringIDRef="FinishingBooklet" LocalizedString="Booklet Printing:"/>
+    <LocaleElement StringIDRef="Booklet_Off" LocalizedString="Off"/>
+    <LocaleElement StringIDRef="Booklet_On" LocalizedString="On"/>
+    <LocaleElement StringIDRef="NumberUp" LocalizedString="Pages per Sheet"/>
+    <LocaleElement StringIDRef="NUp1" LocalizedString="1"/>
+    <LocaleElement StringIDRef="NUp2" LocalizedString="2"/>
+    <LocaleElement StringIDRef="NUp4" LocalizedString="4"/>
+    <LocaleElement StringIDRef="NUp6" LocalizedString="6"/>
+    <LocaleElement StringIDRef="NUp9" LocalizedString="9"/>
+    <LocaleElement StringIDRef="NUp16" LocalizedString="16"/>
+    <LocaleElement StringIDRef="NumberNUpBorder" LocalizedString="Print Page Borders"/>
+    <LocaleElement StringIDRef="NUpBorder_Off" LocalizedString="No"/>
+    <LocaleElement StringIDRef="NUpBorder_On" LocalizedString="Yes"/>
+    <LocaleElement StringIDRef="PresentationDirectionNumberUp" LocalizedString="Page Order:"/>
+    <LocaleElement StringIDRef="NUpPageOrder_TopLeftRow" LocalizedString="Right, then Down"/>
+    <LocaleElement StringIDRef="NUpPageOrder_TopLeftColumn" LocalizedString="Down, then Right"/>
+    <LocaleElement StringIDRef="NUpPageOrder_TopRightRow" LocalizedString="Left, then Down"/>
+    <LocaleElement StringIDRef="NUpPageOrder_TopRightColumn" LocalizedString="Down, then Left"/>
+    <LocaleElement StringIDRef="MediaTargetSize" LocalizedString="Print Document On:"/>
+    <LocaleElement StringIDRef="TargetSize_Identical" LocalizedString="Paper Size Selected On Paper Dialog"/>
+    <LocaleElement StringIDRef="TargetSize_Letter" LocalizedString="Letter"/>
+    <LocaleElement StringIDRef="TargetSize_Legal" LocalizedString="Legal"/>
+    <LocaleElement StringIDRef="TargetSize_Executive" LocalizedString="Executive"/>
+    <LocaleElement StringIDRef="TargetSize_A5" LocalizedString="A5"/>
+    <LocaleElement StringIDRef="TargetSize_A4" LocalizedString="A4"/>
+    <LocaleElement StringIDRef="TargetSize_A3" LocalizedString="A3"/>
+    <LocaleElement StringIDRef="TargetSize_Com10" LocalizedString="Envelope #10"/>
+    <LocaleElement StringIDRef="TargetSize_DL" LocalizedString="Envelope DL"/>
+    <LocaleElement StringIDRef="TargetSize_C5" LocalizedString="Envelope C5"/>
+    <LocaleElement StringIDRef="TargetSize_B5" LocalizedString="Envelope B5"/>
+    <LocaleElement StringIDRef="TargetSize_Monarch" LocalizedString="Envelope Monarch"/>
+    <LocaleElement StringIDRef="TargetSize_Ledger" LocalizedString="11x17"/>
+    <LocaleElement StringIDRef="TargetSize_JISB4" LocalizedString="B4 (JIS)"/>
+    <LocaleElement StringIDRef="TargetSize_JISB5" LocalizedString="B5 (JIS)"/>
+    <LocaleElement StringIDRef="TargetSize_DoublePostcard" LocalizedString="Double Post card"/>
+    <LocaleElement StringIDRef="TargetSize_JISEXEC" LocalizedString="Executive (JIS)"/>
+    <LocaleElement StringIDRef="TargetSize_ROC16K" LocalizedString="16K"/>
+    <LocaleElement StringIDRef="TargetSize_ROC8K" LocalizedString="8K"/>
+    <LocaleElement StringIDRef="MediaScaling" LocalizedString="Scale to Fit"/>
+    <LocaleElement StringIDRef="Scaling_Off" LocalizedString="No"/>
+    <LocaleElement StringIDRef="Scaling_On" LocalizedString="Yes"/>
+    <LocaleElement StringIDRef="MediaPercentage" LocalizedString="% of Normal Size"/>
+    <LocaleElement StringIDRef="RET" LocalizedString="Resolution Enhancement technology (REt)"/>
+    <LocaleElement StringIDRef="RET_On" LocalizedString="On"/>
+    <LocaleElement StringIDRef="RET_Off" LocalizedString="Off"/>
+    <LocaleElement StringIDRef="EconoMode" LocalizedString="EconoMode (saves toner only with genuine HP print cartridges)"/>
+    <LocaleElement StringIDRef="EconoMode_On" LocalizedString="On"/>
+    <LocaleElement StringIDRef="EconoMode_Off" LocalizedString="Off"/>
+    <LocaleElement StringIDRef="PageProtect" LocalizedString="Complex Graphics:"/>
+    <LocaleElement StringIDRef="PageProtect_Auto" LocalizedString="Use HP MEt"/>
+    <LocaleElement StringIDRef="PageProtect_On" LocalizedString="Use More Memory"/>
+    <LocaleElement StringIDRef="EdgeToEdge" LocalizedString="Edge-To-Edge Printing"/>
+    <LocaleElement StringIDRef="EdgeToEdge_On" LocalizedString="On"/>
+    <LocaleElement StringIDRef="EdgeToEdge_Off" LocalizedString="Off"/>
+    <LocaleElement StringIDRef="CF_Media" LocalizedString="Media"/>
+    <LocaleElement StringIDRef="CF_Media1" LocalizedString="Stationery Letter from Tray1"/>
+    <LocaleElement StringIDRef="CF_Media2" LocalizedString="Stationery Letter from Tray2"/>
+    <LocaleElement StringIDRef="CF_DriverDefaults" LocalizedString="Driver Defaults"/>
+    <LocaleElement StringIDRef="Upright" LocalizedString="Upright"/>
+    <LocaleElement StringIDRef="Italic" LocalizedString="Italic"/>
+    <LocaleElement StringIDRef="Normal" LocalizedString="Normal"/>
+    <LocaleElement StringIDRef="Bold" LocalizedString="Bold"/>
+    <LocaleElement StringIDRef="RAM" LocalizedString="Total Memory"/>
+    <LocaleElement StringIDRef="RAM_64" LocalizedString="64"/>
+    <LocaleElement StringIDRef="RAM_80" LocalizedString="80"/>
+    <LocaleElement StringIDRef="RAM_96" LocalizedString="96"/>
+    <LocaleElement StringIDRef="RAM_112" LocalizedString="112"/>
+    <LocaleElement StringIDRef="RAM_128" LocalizedString="128"/>
+    <LocaleElement StringIDRef="RAM_144" LocalizedString="144"/>
+    <LocaleElement StringIDRef="RAM_160" LocalizedString="160"/>
+    <LocaleElement StringIDRef="RAM_176" LocalizedString="176"/>
+    <LocaleElement StringIDRef="RAM_192" LocalizedString="192"/>
+    <LocaleElement StringIDRef="RAM_208" LocalizedString="208"/>
+    <LocaleElement StringIDRef="RAM_224" LocalizedString="224"/>
+    <LocaleElement StringIDRef="RAM_240" LocalizedString="240"/>
+    <LocaleElement StringIDRef="RAM_256" LocalizedString="256"/>
+    <LocaleElement StringIDRef="AvailableMemory" LocalizedString="(DWS)"/>
+    <LocaleElement StringIDRef="MS_Windows_1252-Western" LocalizedString="Western"/>
+  </LocaleElements>
+  <LocaleDefaults>
+    <!-- @NORBERT
+    <LocaleDefault DefaultFeature="PrinterResolution" DefaultSetting="PrinterResolution_600dpi"/>
+    -->
+    <LocaleDefault DefaultFeature="PrinterResolution" DefaultSetting="Resolution_600dpi"/>
+    <LocaleDefault DefaultFeature="RasterGraphic" DefaultSetting="Raster_600dpi"/>
+    <LocaleDefault DefaultFeature="Copies" DefaultSetting="1"/>
+    <LocaleDefault DefaultFeature="SheetCollate" DefaultSetting="Collation_Off"/>
+    <LocaleDefault DefaultFeature="OrientationRequested" DefaultSetting="Orientation_Portrait"/>
+    <LocaleDefault DefaultFeature="MediaPageRotation" DefaultSetting="PageRotation_Standard"/>
+    <LocaleDefault DefaultFeature="MediaSize" DefaultSetting="Size_Letter"/>
+    <LocaleDefault DefaultFeature="MediaType" DefaultSetting="Type_Auto"/>
+    <LocaleDefault DefaultFeature="MediaInputTrayCheck" DefaultSetting="Source_Auto"/>
+    <LocaleDefault DefaultFeature="OutputBin" DefaultSetting="Destination_Top"/>
+    <LocaleDefault DefaultFeature="FinishingStapling" DefaultSetting="Stapling_Off"/>
+    <LocaleDefault DefaultFeature="FinishingJogging" DefaultSetting="Jogging_Off"/>
+    <LocaleDefault DefaultFeature="Sides" DefaultSetting="Simplex"/>
+    <LocaleDefault DefaultFeature="FinishingBooklet" DefaultSetting="Booklet_Off"/>
+    <!-- @NORBERT
+    <LocaleDefault DefaultFeature="NumberUp" DefaultSetting="1Up"/>
+    -->
+    <LocaleDefault DefaultFeature="NumberUp" DefaultSetting="NUp1"/>
+    <LocaleDefault DefaultFeature="NumberUpBorder" DefaultSetting="NUpBorder_Off"/>
+    <LocaleDefault DefaultFeature="PresentationDirectionNumberUp" DefaultSetting="NUpPageOrder_TopLeftRow"/>
+    <LocaleDefault DefaultFeature="MediaTargetSize" DefaultSetting="TargetSize_Identical"/>
+    <LocaleDefault DefaultFeature="MediaScaling" DefaultSetting="Scaling_Off"/>
+    <LocaleDefault DefaultFeature="MediaPercentage" DefaultSetting="100"/>
+    <LocaleDefault DefaultFeature="RAM" DefaultSetting="RAM_64"/>
+    <LocaleDefault DefaultFeature="AvailableMemory" DefaultSetting="DownloadMemory"/>
+    <LocaleDefault DefaultFeature="CF_Media" DefaultSetting="CF_Media1"/>
+    <LocaleDefault DefaultFeature="CF_MediaSize" DefaultSetting="Set1"/>
+  </LocaleDefaults>
+</Locale>

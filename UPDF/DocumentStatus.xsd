@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.pwg.org/schemas/sm/1.0/" xmlns="http://www.pwg.org/schemas/sm/1.0/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.00">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">PWG Document State Element schema
+Copyright 2002-2004, IEEE Industry Standards and Technology Organization/Printer Working Group. 
+All rights reserved</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>NOTE: To use this schema you MUST include PwgCommon.xsd</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>Document Status Element definition</xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="DocumentStatus">
+		<xsd:sequence>
+			<xsd:element ref="CurrentPageOrder" minOccurs="0"/>
+			<xsd:element ref="DateTimeAtCompleted" minOccurs="0"/>
+			<xsd:element ref="DateTimeAtCreation" minOccurs="0"/>
+			<xsd:element ref="DateTimeAtProcessing" minOccurs="0"/>
+			<xsd:element ref="DetailedStatusMessages" minOccurs="0"/>
+			<xsd:element ref="DocumentAccessErrors" minOccurs="0"/>
+			<xsd:element ref="DocumentFormatDetailsDetected" minOccurs="0"/>
+			<xsd:element ref="DocumentFormatDetected" minOccurs="0"/>
+			<xsd:element ref="DocumentFormatVersionDetected" minOccurs="0"/>
+			<xsd:element ref="DocumentNumber" minOccurs="0"/>
+			<xsd:element ref="DocumentState" minOccurs="0"/>
+			<xsd:element ref="DocumentStateMessage" minOccurs="0"/>
+			<xsd:element ref="DocumentStateReasons" minOccurs="0"/>
+			<xsd:element ref="ErrorsCount" minOccurs="0"/>
+			<xsd:element ref="ImpressionsCompleted" minOccurs="0"/>
+			<xsd:element ref="ImpressionsCompletedCurrentCopy" minOccurs="0"/>
+			<xsd:element ref="JobId" minOccurs="0"/>
+			<xsd:element ref="JobUri" minOccurs="0"/>
+			<xsd:element ref="KOctetsProcessed" minOccurs="0"/>
+			<xsd:element ref="MediaSheetsCompleted" minOccurs="0"/>
+			<xsd:element ref="MoreInfo" minOccurs="0"/>
+			<xsd:element ref="OutputDeviceAssigned" minOccurs="0"/>
+			<xsd:element ref="PrinterUpTime" minOccurs="0"/>
+			<xsd:element ref="PrinterUri" minOccurs="0"/>
+			<xsd:element ref="SheetCompletedCopyNumber" minOccurs="0"/>
+			<xsd:element ref="TimeAtCompleted" minOccurs="0"/>
+			<xsd:element ref="TimeAtCreation" minOccurs="0"/>
+			<xsd:element ref="TimeAtProcessing" minOccurs="0"/>
+			<xsd:element ref="WarningsCount" minOccurs="0"/>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation source="www.pwg.org">This allows vendor and site specific extentions to the Job template schema</xsd:documentation>
+				</xsd:annotation>
+			</xsd:any>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="DocumentStatus" type="DocumentStatus"/>
+	<xsd:annotation>
+		<xsd:documentation>Document Status specific semantic elements</xsd:documentation>
+	</xsd:annotation>
+	<xsd:element name="CurrentPageOrder">
+		<xsd:simpleType>
+			<xsd:union memberTypes="CurrentPageOrderWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="DocumentFormatDetailsDetected">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="DocumentFormatDetail" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DocumentFormatDetected">
+		<xsd:simpleType>
+			<xsd:union memberTypes="DocumentFormatWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="DocumentFormatVersionDetected">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="127"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="DocumentState" type="DocumentStateWKV"/>
+	<xsd:element name="DocumentStateMessage">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="1023"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="DocumentStateReasons">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="DocumentStateReason" minOccurs="0" maxOccurs="unbounded">
+					<xsd:simpleType>
+						<xsd:union memberTypes="DocumentStateReasonsWKV KeywordNsExtensionPattern"/>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

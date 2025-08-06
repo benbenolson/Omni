@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     IBM Omni driver
+     Copyright (c) International Business Machines Corp., 2000
+
+     This library is free software; you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published
+     by the Free Software Foundation; either version 2.1 of the License, or
+     (at your option) any later version.
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+     the GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this library; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
+<deviceGammaTables xmlns="http://www.ibm.com/linux/ltc/projects/omni/" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:schemaLocation="http://www.ibm.com/linux/ltc/projects/omni/ ../OmniDevice.xsd">
+   <deviceGammaTable>
+      <Resolution>360x360</Resolution>
+      <omniResolution>RESOLUTION_360_X_360</omniResolution>
+      <media>MEDIA_PLAIN</media>
+      <printmode>PRINT_MODE_24_CMYK</printmode>
+      <gammaTableDitherCatagory>DITHER_CATAGORY_DIFFUSION</gammaTableDitherCatagory>
+      <gammaTableCGamma>10</gammaTableCGamma>
+      <gammaTableMGamma>11</gammaTableMGamma>
+      <gammaTableYGamma>12</gammaTableYGamma>
+      <gammaTableKGamma>13</gammaTableKGamma>
+      <gammaTableCBias>1</gammaTableCBias>
+      <gammaTableMBias>2</gammaTableMBias>
+      <gammaTableYBias>3</gammaTableYBias>
+      <gammaTableKBias>4</gammaTableKBias>
+   </deviceGammaTable>
+</deviceGammaTables>

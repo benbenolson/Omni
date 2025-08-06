@@ -1,0 +1,8 @@
+cat "../Epson/Epson ESC Instance.hpp" | sed -e s/Epson_/Star_/g -e s/epson/star/ > "Star ESC Instance.hpp"
+cat "../Epson/Epson ESC Instance.cpp" | sed -e s/Epson_/Star_/g -e s/epson/star/ > "Star ESC Instance.cpp"
+cat "../Epson/Epson ESC Blitter.hpp" | sed -e s/Epson_/Star_/g -e s/epson/star/ > "Star ESC Blitter.hpp"
+cat "../Epson/Epson ESC Blitter.cpp" | sed -e s/Epson_/Star_/g -e s/epson/star/ > "Star ESC Blitter.cpp"
+cat "../Epson/Epson ESCP2 Instance.hpp" | sed -e s/Epson_/Star_/g -e s/epson/star/ > "Star ESCP2 Instance.hpp"
+cat "../Epson/Epson ESCP2 Instance.cpp" | sed -e s/Epson_/Star_/g -e s/epson/star/ > "Star ESCP2 Instance.cpp"
+cat "../Epson/Epson ESCP2 Blitter.hpp" | sed -e s/Epson_/Star_/g -e s/epson/star/ > "Star ESCP2 Blitter.hpp"
+cat "../Epson/Epson ESCP2 Blitter.cpp" | sed -e s/Epson_/Star_/g -e s/epson/star/ > "Star ESCP2 Blitter.cpp"

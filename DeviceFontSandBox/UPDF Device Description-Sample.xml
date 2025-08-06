@@ -1,0 +1,109 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<!--
+     This configuration file is a stripped down sample that contains
+     just enough information to be useful for testing the Device
+     Font Manager package.
+     
+     David Wagner
+     Nov 21, 2002
+-->
+
+<DeviceCapabilities FileTypeIdentification = "Master description of device or optional unit" 
+                    xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" 
+                    xsi:noNamespaceSchemaLocation = "UPDF.xsd">  
+  <UPDFVersion SchemaVersion = "1.00"/>
+  <Device_Header UnitName = "UI_String_ModelName" ProductName = "Sample" Manufacturer = "IBM" DescriptionVersion = "0.01">    
+  </Device_Header>
+  <Device_Features>
+    <PrintCapabilities>
+      <Objects>
+        <FontObjects>
+          <DeviceFontList>
+
+            <!-- The Courier family of fonts -->
+
+            <DeviceFont ID = "Courier" Font_Family = "COURIER" Font_Vendor = "Adobe"
+                        Encoding = "two_byte-Unicode" Font_Command_Sequence_ID="Courier">
+              <Panose Panose_Family_Type = "PAN_FAMILY_TEXT_DISPLAY" Panose_Serif_Style = "PAN_SERIF_NORMAL_SQUARE" Panose_Weight = "PAN_WEIGHT_MEDIUM" Panose_Proportion = "PAN_PROP_MONOSPACED" Panose_Contrast = "PAN_CONTRAST_NONE" Panose_Arm_Style = "PAN_ANY" Panose_Midline = "PAN_ANY" Panose_X_Height = "PAN_ANY" Panose_Letterform = "PAN_LETT_NORMAL_BOXED" Panose_Stroke_Variation = "PAN_ANY"/>
+            </DeviceFont>
+
+            <DeviceFont ID = "Courier Bold" Font_Family = "COURIER" Font_Vendor = "Adobe"
+                        Encoding = "two_byte-Unicode" Font_Command_Sequence_ID="Courier_Bold">
+              <Panose Panose_Family_Type = "PAN_FAMILY_TEXT_DISPLAY" Panose_Serif_Style = "PAN_SERIF_NORMAL_SQUARE" Panose_Weight = "PAN_WEIGHT_BOLD" Panose_Proportion = "PAN_PROP_MONOSPACED" Panose_Contrast = "PAN_CONTRAST_NONE" Panose_Arm_Style = "PAN_ANY" Panose_Midline = "PAN_ANY" Panose_X_Height = "PAN_ANY" Panose_Letterform = "PAN_LETT_OBLIQUE_BOXED" Panose_Stroke_Variation = "PAN_ANY"/>
+            </DeviceFont>
+
+            <DeviceFont ID = "Courier Italic" Font_Family = "COURIER" Font_Vendor = "Adobe"
+                        Encoding = "two_byte-Unicode" Font_Command_Sequence_ID="Courier_Italic">
+              <Panose Panose_Family_Type = "PAN_FAMILY_TEXT_DISPLAY" Panose_Serif_Style = "PAN_SERIF_NORMAL_SQUARE" Panose_Weight = "PAN_WEIGHT_MEDIUM" Panose_Proportion = "PAN_PROP_MONOSPACED" Panose_Contrast = "PAN_CONTRAST_NONE" Panose_Arm_Style = "PAN_ANY" Panose_Midline = "PAN_ANY" Panose_X_Height = "PAN_ANY" Panose_Letterform = "PAN_LETT_NORMAL_BOXED" Panose_Stroke_Variation = "PAN_ANY"/>
+            </DeviceFont>
+
+            <DeviceFont ID = "Courier Bold Italic" Font_Family = "COURIER" Font_Vendor = "Adobe"
+                        Encoding = "two_byte-Unicode" Font_Command_Sequence_ID="Courier_Bold_Italic">
+              <Panose Panose_Family_Type = "PAN_FAMILY_TEXT_DISPLAY" Panose_Serif_Style = "PAN_SERIF_NORMAL_SQUARE" Panose_Weight = "PAN_WEIGHT_BOLD" Panose_Proportion = "PAN_PROP_MONOSPACED" Panose_Contrast = "PAN_CONTRAST_NONE" Panose_Arm_Style = "PAN_ANY" Panose_Midline = "PAN_ANY" Panose_X_Height = "PAN_ANY" Panose_Letterform = "PAN_LETT_OBLIQUE_BOXED" Panose_Stroke_Variation = "PAN_ANY"/>
+            </DeviceFont>
+                                                
+
+            <!-- The Times family of fonts -->
+
+            <DeviceFont ID = "Times Roman" Font_Family = "TIMES" Font_Vendor = "Adobe"
+                        Encoding = "two_byte-Unicode" Font_Command_Sequence_ID ="Times_Roman">
+              <Panose Panose_Family_Type = "PAN_FAMILY_TEXT_DISPLAY" Panose_Serif_Style = "PAN_SERIF_NORMAL_SQUARE" Panose_Weight = "PAN_WEIGHT_MEDIUM" Panose_Proportion = "PROP_MODERN" Panose_Contrast = "PAN_CONTRAST_HIGH" Panose_Stroke_Variation = "PAN_STROKE_GRADUAL_TRAN" Panose_Arm_Style = "PAN_ARMS_HORZ" Panose_Letterform = "PAN_NORMAL_CONTACT" Panose_Midline = "PAN_STANDARD_TRMMED" Panose_X_Height = "PAN_CONSTANT_STD"/>
+            </DeviceFont>  
+
+            <DeviceFont ID = "Times Italic" Font_Family = "TIMES" Font_Vendor = "Adobe"
+                        Encoding = "two_byte-Unicode" Font_Command_Sequence_ID ="Times_Italic">
+              <Panose Panose_Family_Type = "PAN_FAMILY_TEXT_DISPLAY" Panose_Serif_Style = "PAN_SERIF_NORMAL_SQUARE" Panose_Weight = "PAN_WEIGHT_MEDIUM" Panose_Proportion = "PROP_MODERN" Panose_Contrast = "PAN_CONTRAST_HIGH" Panose_Stroke_Variation = "PAN_STROKE_GRADUAL_TRAN" Panose_Arm_Style = "PAN_ARMS_HORZ" Panose_Letterform = "PAN_LETT_OBLIQUE_BOXED" Panose_Midline = "PAN_STANDARD_TRMMED" Panose_X_Height = "PAN_CONSTANT_STD"/>
+            </DeviceFont>  
+
+            <DeviceFont ID = "Times Bold" Font_Family = "TIMES" Font_Vendor = "Adobe"
+                        Encoding = "two_byte-Unicode" Font_Command_Sequence_ID ="Times_Bold">
+              <Panose Panose_Family_Type = "PAN_FAMILY_TEXT_DISPLAY" Panose_Serif_Style = "PAN_SERIF_NORMAL_SQUARE" Panose_Weight = "PAN_WEIGHT_BOLD" Panose_Proportion = "PROP_MODERN" Panose_Contrast = "PAN_CONTRAST_HIGH" Panose_Stroke_Variation = "PAN_STROKE_GRADUAL_TRAN" Panose_Arm_Style = "PAN_ARMS_HORZ" Panose_Letterform = "PAN_NORMAL_CONTACT" Panose_Midline = "PAN_STANDARD_TRMMED" Panose_X_Height = "PAN_CONSTANT_STD"/>
+            </DeviceFont>  
+
+            <DeviceFont ID = "Times Bold Italic" Font_Family = "TIMES" Font_Vendor = "Adobe"
+                        Encoding = "two_byte-Unicode" Font_Command_Sequence_ID ="Times_Bold_Italic">
+              <Panose Panose_Family_Type = "PAN_FAMILY_TEXT_DISPLAY" Panose_Serif_Style = "PAN_SERIF_NORMAL_SQUARE" Panose_Weight = "PAN_WEIGHT_BOLD" Panose_Proportion = "PROP_MODERN" Panose_Contrast = "PAN_CONTRAST_HIGH" Panose_Stroke_Variation = "PAN_STROKE_GRADUAL_TRAN" Panose_Arm_Style = "PAN_ARMS_HORZ" Panose_Letterform = "PAN_LETT_OBLIQUE_BOXED" Panose_Midline = "PAN_STANDARD_TRMMED" Panose_X_Height = "PAN_CONSTANT_STD"/>
+            </DeviceFont>  
+
+
+
+            <!-- The Helvetica family of fonts -->
+
+            <DeviceFont ID = "Helvetica" Font_Family = "HELVETICA" Font_Vendor = "Adobe"
+                        Encoding = "two_byte-Unicode" Font_Command_Sequence_ID ="Helvetica">
+              <Panose Panose_Family_Type = "PAN_FAMILY_TEXT_DISPLAY" Panose_Serif_Style = "PAN_SERIF_NORMAL_SANS" Panose_Weight = "PAN_WEIGHT_MEDIUM" Panose_Proportion = "PROP_MODERN" Panose_Contrast = "PAN_CONTRAST_LOW" Panose_Arm_Style = "PAN_STRAIGHT_ARMS_HORZ" Panose_Midline = "PAN_HIGH_TRIMMED" Panose_X_Height = "PAN_CONSTANT_STD" Panose_Letterform = "PAN_LETT_NORMAL_BOXED" Panose_Stroke_Variation = "PAN_NO_FIT"/>
+            </DeviceFont>
+
+            <DeviceFont ID = "Helvetica Oblique" Font_Family = "HELVETICA" Font_Vendor = "Adobe"
+                        Encoding = "two_byte-Unicode" Font_Command_Sequence_ID ="Helvetica_Oblique">
+              <Panose Panose_Family_Type = "PAN_FAMILY_TEXT_DISPLAY" Panose_Serif_Style = "PAN_SERIF_NORMAL_SANS" Panose_Weight = "PAN_WEIGHT_MEDIUM" Panose_Proportion = "PROP_MODERN" Panose_Contrast = "PAN_CONTRAST_LOW" Panose_Arm_Style = "PAN_STRAIGHT_ARMS_HORZ" Panose_Midline = "PAN_HIGH_TRIMMED" Panose_X_Height = "PAN_CONSTANT_STD" Panose_Letterform = "PAN_LETT_NORMAL_BOXED" Panose_Stroke_Variation = "PAN_NO_FIT"/>
+            </DeviceFont>
+
+            <DeviceFont ID = "Helvetica Bold" Font_Family = "HELVETICA" Font_Vendor = "Adobe"
+                        Encoding = "two_byte-Unicode" Font_Command_Sequence_ID ="Helvetica_Bold">
+              <Panose Panose_Family_Type = "PAN_FAMILY_TEXT_DISPLAY" Panose_Serif_Style = "PAN_SERIF_NORMAL_SANS" Panose_Weight = "PAN_WEIGHT_BOLD" Panose_Proportion = "PROP_MODERN" Panose_Contrast = "PAN_CONTRAST_LOW" Panose_Arm_Style = "PAN_STRAIGHT_ARMS_HORZ" Panose_Midline = "PAN_HIGH_TRIMMED" Panose_X_Height = "PAN_CONSTANT_STD" Panose_Letterform = "PAN_LETT_OBLIQUE_BOXED" Panose_Stroke_Variation = "PAN_NO_FIT"/>
+            </DeviceFont>
+
+            <DeviceFont ID = "Helvetica Bold Oblique" Font_Family = "HELVETICA" Font_Vendor = "Adobe"
+                        Encoding = "two_byte-Unicode" Font_Command_Sequence_ID ="Helvetica_Bold_Oblique">
+              <Panose Panose_Family_Type = "PAN_FAMILY_TEXT_DISPLAY" Panose_Serif_Style = "PAN_SERIF_NORMAL_SANS" Panose_Weight = "PAN_WEIGHT_BOLD" Panose_Proportion = "PROP_MODERN" Panose_Contrast = "PAN_CONTRAST_LOW" Panose_Arm_Style = "PAN_STRAIGHT_ARMS_HORZ" Panose_Midline = "PAN_HIGH_TRIMMED" Panose_X_Height = "PAN_CONSTANT_STD" Panose_Letterform = "PAN_LETT_OBLIQUE_BOXED" Panose_Stroke_Variation = "PAN_NO_FIT"/>
+            </DeviceFont>
+          </DeviceFontList>
+        </FontObjects>
+      </Objects>
+
+
+      <Events>
+        <Event ID = "JCL_Init" Event_StartEnd = "AtStartOf" Event_ID = "Job" CommandSequence_ID = "JCL_Init"/>
+        <Event ID = "PDL_Init" Event_StartEnd = "AtStartOf" Event_ID = "Document" CommandSequence_ID = "PDL_Init"/>
+        <Event ID = "PDL_StartPage" Event_StartEnd = "AtStartOf" Event_ID = "PhysicalPage" CommandSequence_ID = "PDL_StartPage"/>
+        <Event ID = "PDL_StartText" Event_StartEnd = "AtStartOf" Event_ID = "FontObjects" CommandSequence_ID = "PDL_StartText"/>
+        <Event ID = "PDL_EndText"  Event_StartEnd = "AtEndOf" Event_ID = "FontObjects" CommandSequence_ID = "PDL_EndText"/>
+        <Event ID = "PDL_Eject" Event_StartEnd = "AtEndOf" Event_ID = "PhysicalPage" CommandSequence_ID = "PDL_Eject"/>
+        <Event ID = "PDL_DeInit" Event_StartEnd = "AtEndOf" Event_ID = "Document" CommandSequence_ID = "PDL_DeInit"/>
+        <Event ID = "JCL_DeInit" Event_StartEnd = "AtEndOf" Event_ID = "Job" CommandSequence_ID = "JCL_UEL"/>
+      </Events>      
+    </PrintCapabilities>  
+  </Device_Features>
+</DeviceCapabilities>

@@ -1,0 +1,77 @@
+#!/bin/bash
+#
+# IBM Omni driver
+# Copyright (c) International Business Machines Corp., 2000
+#
+# This library is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation; either version 2.1 of the License, or
+# (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+# the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+#
+
+NEWDATE=121002
+OLDDATE=052902
+
+ORIGDIR=`pwd`
+GHOSTDIR=/home/ghostscript/
+
+NEWCLEANPATCH=$ORIGDIR/6.51/Omni-6.51-$NEWDATE-patch.clean
+if test ! -z "${OLDDATE}"; then
+	OLDCLEANPATCH=$ORIGDIR/6.51/Omni-6.51-$OLDDATE-patch.clean
+fi
+NEWUPDATEPATCH=$ORIGDIR/6.51/Omni-6.51-$NEWDATE-patch.update
+
+# Create clean patch
+echo "Creating clean patch"
+(
+cd $GHOSTDIR
+
+mv gs6.51/Makefile gs6.51/.Makefile
+mv gs6.51/src/time_.h gs6.51/src/.time_.h
+
+diff -ur gold-gs6.51/ gs6.51/ |
+   sed -e '/^Common sub/d' -e '/^Only in/d' -e 's/gold-gs6.51\///' -e 's/gs6.51\///' > $NEWCLEANPATCH
+
+mv gs6.51/.Makefile gs6.51/Makefile
+mv gs6.51/src/.time_.h gs6.51/src/time_.h
+)
+
+# Create update patch
+if test ! -z "${OLDDATE}"; then
+	echo "Creating update patch"
+	(
+	cd /tmp
+
+	TARBALL=$GHOSTDIR/golden/ghostscript-6.51.tar.gz
+	OLDGHOST=ghostscript-6.51-$OLDDATE
+	NEWGHOST=ghostscript-6.51-$NEWDATE
+
+	rm -rf $OLDGHOST $NEWGHOST
+
+	tar xzf $TARBALL
+	(
+	cd ghostscript-6.51
+	patch -p0 < $OLDCLEANPATCH > /dev/null
+	)
+	mv ghostscript-6.51 $OLDGHOST
+
+	tar xzf $TARBALL
+	(
+	cd ghostscript-6.51
+	patch -p0 < $NEWCLEANPATCH > /dev/null
+	)
+	mv ghostscript-6.51 $NEWGHOST
+
+	diff -ur $OLDGHOST/ $NEWGHOST/ |
+		sed -e '/^Common sub/d' -e '/^Only in/d' -e 's/ghostscript-6.51-[0-9]*\///' -e 's/gs6.51\///' > $NEWUPDATEPATCH
+	)
+fi

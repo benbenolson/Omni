@@ -1,0 +1,47 @@
+#!/usr/bin/perl
+
+# $input = $FixUp;
+# open (input);
+# @contents = <input>;
+# print @contents;
+# close (input);
+
+@ZipList = glob 'private/omniexe/*.zip';
+
+foreach $ZipFile (@ZipList)
+{
+   system "unzip -oa $ZipFile";
+
+   @FixUpList = glob '*/FIX-UP';
+
+   foreach $FixUp (@FixUpList)
+   {
+      @SplitFixUp = split /[\/]/, $FixUp;
+
+      $directory = $SplitFixUp[0];
+      $file      = $SplitFixUp[1];
+
+      next if $directory eq "XMLParser";
+
+      $DeviceList  = "$directory/Device List";
+      $DeviceList2 = "$directory/Device List2";
+
+      print "Processing $directory ...";
+
+      if (-e $DeviceList && -f $DeviceList)
+      {
+         print "Merging FIX-UP with \"Device List\"\n";
+
+         system "mv \"$DeviceList\" \"$DeviceList2\"";
+         system "cat \"$FixUp\" \"$DeviceList2\" | sort | uniq > \"$DeviceList\"";
+         system "rm \"$DeviceList2\"";
+         system "rm \"$FixUp\"";
+      }
+      else
+      {
+         print "Renaming FIX-UP to \"Device List\"\n";
+
+         system "mv \"$FixUp\" \"$DeviceList\"";
+      }
+   }
+}

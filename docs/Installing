@@ -1,0 +1,16 @@
+From source code
+================
+
+Read "Building"
+
+Next, run the install script
+   make install;
+
+Make sure that the omni libraries are in the library path
+
+Make sure that the omni executables are in the path
+
+From RedHat RPMs
+================
+
+Read "RPM Readme"

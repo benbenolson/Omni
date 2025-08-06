@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     IBM Omni driver
+     Copyright (c) International Business Machines Corp., 2000
+
+     This library is free software; you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published
+     by the Free Software Foundation; either version 2.1 of the License, or
+     (at your option) any later version.
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+     the GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this library; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
+<deviceResolutions xmlns="http://www.ibm.com/linux/ltc/projects/omni/" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:schemaLocation="http://www.ibm.com/linux/ltc/projects/omni/ ../OmniDevice.xsd">
+   <deviceResolution>
+      <name>1200x1200</name>
+      <omniName>RESOLUTION_1200_X_1200</omniName>
+      <xRes>1200</xRes>
+      <yRes>1200</yRes>
+      <command>_ESC_ &quot;*t1200R&quot;</command>
+      <resolutionCapability>NO_CAPABILITIES</resolutionCapability>
+      <resolutionDestinationBitsPerPel>1</resolutionDestinationBitsPerPel>
+      <resolutionScanlineMultiple>1</resolutionScanlineMultiple>
+   </deviceResolution>
+   <deviceResolution>
+      <name>600x600</name>
+      <omniName>RESOLUTION_600_X_600</omniName>
+      <xRes>600</xRes>
+      <yRes>600</yRes>
+      <command>_ESC_ &quot;*t600R&quot;</command>
+      <resolutionCapability>NO_CAPABILITIES</resolutionCapability>
+      <resolutionDestinationBitsPerPel>1</resolutionDestinationBitsPerPel>
+      <resolutionScanlineMultiple>1</resolutionScanlineMultiple>
+   </deviceResolution>
+</deviceResolutions>

@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.pwg.org/schemas/sm/1.0/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.pwg.org/schemas/sm/1.0/" elementFormDefault="qualified" version="1.00">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">PWG Processing Supported Element schema
+Copyright 2002-2004, IEEE Industry Standards and Technology Organization/Printer Working Group. 
+All rights reserved</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>NOTE: To use this schema you MUST include PwgCommon.xsd, DocumentProcessing.xsd, JobProcessing.xsd</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>Processing Supported Element definition</xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="ProcessingSupported">
+		<xsd:sequence>
+			<xsd:element name="DocumentProcessingSupported" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element ref="CopiesSupported" minOccurs="0"/>
+						<xsd:element ref="CoverBackSupported" minOccurs="0"/>
+						<xsd:element ref="CoverFrontSupported" minOccurs="0"/>
+						<xsd:element ref="FinishingsColSupported" minOccurs="0"/>
+						<xsd:element ref="FinishingsSupported" minOccurs="0"/>
+						<xsd:element ref="ForceFrontSideSupported" minOccurs="0"/>
+						<xsd:element ref="ImpositionTemplateSupported" minOccurs="0"/>
+						<xsd:element ref="InsertSheetSupported" minOccurs="0"/>
+						<xsd:element ref="MediaColSupported" minOccurs="0"/>
+						<xsd:element ref="MediaInputTrayCheckSupported" minOccurs="0"/>
+						<xsd:element ref="MediaSupported" minOccurs="0"/>
+						<xsd:element ref="NumberUpSupported" minOccurs="0"/>
+						<xsd:element ref="OrientationRequestedSupported" minOccurs="0"/>
+						<xsd:element ref="OverridesSupported" minOccurs="0"/>
+						<xsd:element ref="PageDeliverySupported" minOccurs="0"/>
+						<xsd:element ref="PageRangesSupported" minOccurs="0"/>
+						<xsd:element ref="PagesPerSubsetSupported" minOccurs="0"/>
+						<xsd:element ref="PdlInitFileSupported" minOccurs="0"/>
+						<xsd:element ref="PresentationDirectionNumberUpSupported" minOccurs="0"/>
+						<xsd:element ref="PrinterResolutionSupported" minOccurs="0"/>
+						<xsd:element ref="PrintQualitySupported" minOccurs="0"/>
+						<xsd:element ref="SeparatorSheetsSupported" minOccurs="0"/>
+						<xsd:element ref="SheetCollateSupported" minOccurs="0"/>
+						<xsd:element ref="SidesSupported" minOccurs="0"/>
+						<xsd:element ref="XImagePositionSupported" minOccurs="0"/>
+						<xsd:element ref="XImageShiftSupported" minOccurs="0"/>
+						<xsd:element ref="XSide1ImageShiftSupported" minOccurs="0"/>
+						<xsd:element ref="XSide2ImageShiftSupported" minOccurs="0"/>
+						<xsd:element ref="YImagePositionSupported" minOccurs="0"/>
+						<xsd:element ref="YImageShiftSupported" minOccurs="0"/>
+						<xsd:element ref="YSide1ImageShiftSupported" minOccurs="0"/>
+						<xsd:element ref="YSide2ImageShiftSupported" minOccurs="0"/>
+						<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="JobProcessingSupported" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element ref="JobAccountingSheetsSupported" minOccurs="0"/>
+						<xsd:element ref="JobCopiesSupported" minOccurs="0"/>
+						<xsd:element ref="JobCoverBackSupported" minOccurs="0"/>
+						<xsd:element ref="JobCoverFrontSupported" minOccurs="0"/>
+						<xsd:element ref="JobErrorSheetSupported" minOccurs="0"/>
+						<xsd:element ref="JobFinishingsColSupported" minOccurs="0"/>
+						<xsd:element ref="JobFinishingsSupported" minOccurs="0"/>
+						<xsd:element ref="JobHoldUntilSupported" minOccurs="0"/>
+						<xsd:element ref="JobMessageToOperatorSupported" minOccurs="0"/>
+						<xsd:element ref="JobPhoneNumberSupported" minOccurs="0"/>
+						<xsd:element ref="JobPrioritySupported" minOccurs="0"/>
+						<xsd:element ref="JobRecipientNameSupported" minOccurs="0"/>
+						<xsd:element ref="JobSaveDispositionSupported" minOccurs="0"/>
+						<xsd:element ref="JobSheetMessageSupported" minOccurs="0"/>
+						<xsd:element ref="JobSheetsColSupported" minOccurs="0"/>
+						<xsd:element ref="JobSheetsSupported" minOccurs="0"/>
+						<xsd:element ref="MultipleDocumentsHandlingSupported" minOccurs="0"/>
+						<xsd:element ref="OutputBinSupported" minOccurs="0"/>
+						<xsd:element ref="OutputDeviceSupported" minOccurs="0"/>
+						<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="ProcessingSupported" type="ProcessingSupported"/>
+	<xsd:annotation>
+		<xsd:documentation>Processing Supported specific semantic elements</xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="CoverColSupported">
+		<xsd:sequence>
+			<xsd:element ref="CoverTypeSupported" minOccurs="0"/>
+			<xsd:choice minOccurs="0">
+				<xsd:element ref="MediaSupported" minOccurs="0"/>
+				<xsd:element ref="MediaColSupported" minOccurs="0"/>
+			</xsd:choice>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="FinishingsColSupported">
+		<xsd:sequence>
+			<xsd:element ref="FinishingTemplateSupported" minOccurs="0"/>
+			<xsd:element ref="StitchingSupported" minOccurs="0"/>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="InsertSheetSupported">
+		<xsd:sequence>
+			<xsd:element ref="InsertAfterPageSupported" minOccurs="0"/>
+			<xsd:element ref="InsertCountSupported" minOccurs="0"/>
+			<xsd:choice minOccurs="0">
+				<xsd:element ref="MediaSupported" minOccurs="0"/>
+				<xsd:element ref="MediaColSupported" minOccurs="0"/>
+			</xsd:choice>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="JobAccountingSheetSupported">
+		<xsd:sequence>
+			<xsd:element ref="JobAccountingSheetTypeSupported" minOccurs="0"/>
+			<xsd:choice minOccurs="0">
+				<xsd:element ref="MediaSupported" minOccurs="0"/>
+				<xsd:element ref="MediaColSupported" minOccurs="0"/>
+			</xsd:choice>
+			<xsd:element ref="JobAccountingOutputBinSupported" minOccurs="0"/>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="JobErrorSheetSupported">
+		<xsd:sequence>
+			<xsd:element ref="JobErrorSheetTypeSupported" minOccurs="0"/>
+			<xsd:element ref="JobErrorSheetWhenSupported" minOccurs="0"/>
+			<xsd:choice minOccurs="0">
+				<xsd:element ref="MediaSupported" minOccurs="0"/>
+				<xsd:element ref="MediaColSupported" minOccurs="0"/>
+			</xsd:choice>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="JobSaveDispositionSupported">
+		<xsd:sequence>
+			<xsd:element ref="SaveDispositionSupported" minOccurs="0"/>
+			<xsd:element ref="SaveInfoSupported" minOccurs="0"/>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="JobSheetsColSupported">
+		<xsd:sequence>
+			<xsd:element ref="JobSheetsSupported" minOccurs="0"/>
+			<xsd:choice minOccurs="0">
+				<xsd:element ref="MediaSupported" minOccurs="0"/>
+				<xsd:element ref="MediaColSupported" minOccurs="0"/>
+			</xsd:choice>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PdlInitFileSupported">
+		<xsd:sequence>
+			<xsd:element ref="PdlInitFileEntrySupported" minOccurs="0"/>
+			<xsd:element ref="PdlInitFileLocationSupported" minOccurs="0"/>
+			<xsd:element ref="PdlInitFileNameSupported" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ProofProntSupported">
+		<xsd:sequence>
+			<xsd:element ref="JobSheetsSupported" minOccurs="0"/>
+			<xsd:choice minOccurs="0">
+				<xsd:element ref="MediaSupported" minOccurs="0"/>
+				<xsd:element ref="MediaColSupported" minOccurs="0"/>
+			</xsd:choice>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SaveInfoSupported">
+		<xsd:sequence>
+			<xsd:element ref="SaveDocumentFormatSupported" minOccurs="0"/>
+			<xsd:element ref="SaveLocationSupported" minOccurs="0"/>
+			<xsd:element ref="SaveNameSupported" minOccurs="0"/>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SeparatorSheetsSupported">
+		<xsd:sequence>
+			<xsd:element ref="SeparatorSheetsTypeSupported" minOccurs="0"/>
+			<xsd:choice minOccurs="0">
+				<xsd:element ref="MediaSupported" minOccurs="0"/>
+				<xsd:element ref="MediaColSupported" minOccurs="0"/>
+			</xsd:choice>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="StitchingSupported">
+		<xsd:sequence>
+			<xsd:element ref="StitchingReferenceEdgeSupported" minOccurs="0"/>
+			<xsd:element ref="StitchingOffsetSupported" minOccurs="0"/>
+			<xsd:element ref="StitchingLocationsSupported" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="CopiesSupported" type="RangeOfInt"/>
+	<xsd:element name="CoverBackSupported" type="CoverColSupported"/>
+	<xsd:element name="CoverFrontSupported" type="CoverColSupported"/>
+	<xsd:element name="CoverTypeSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="CoverType" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="FeedOrientationSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="FeedOrientation" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="FinishingsColSupported" type="FinishingsColSupported"/>
+	<xsd:element name="FinishingsSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Finishings" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="FinishingTemplateSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="FinishingTemplate" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="FontNameRequestedSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="FontNameRequested" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="FontSizeRequestedSupported" type="RangeOfInt"/>
+	<xsd:element name="ForceFrontSideSupported" type="RangeOfInt"/>
+	<xsd:element name="ImpositionTemplateSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="ImpositionTemplate" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="InsertAfterPageSupported" type="RangeOfInt"/>
+	<xsd:element name="InsertCountSupported" type="RangeOfInt"/>
+	<xsd:element name="InsertSheetSupported" type="InsertSheetSupported"/>
+	<xsd:element name="JobAccountingOutputBinSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobAccountingOutputBin" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobAccountingSheetsSupported" type="JobAccountingSheetSupported"/>
+	<xsd:element name="JobAccountingSheetTypeSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobAccountingSheetsType" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobCopiesSupported" type="RangeOfInt"/>
+	<xsd:element name="JobCoverBackSupported" type="CoverColSupported"/>
+	<xsd:element name="JobCoverFrontSupported" type="CoverColSupported"/>
+	<xsd:element name="JobErrorSheetSupported" type="JobErrorSheetSupported"/>
+	<xsd:element name="JobErrorSheetTypeSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobErrorSheetType" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobErrorSheetWhenSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobErrorSheetWhen" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobFinishingsColSupported" type="FinishingsColSupported"/>
+	<xsd:element name="JobFinishingsSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Finishing" minOccurs="0" maxOccurs="unbounded">
+					<xsd:simpleType>
+						<xsd:union memberTypes="FinishingsWKV KeywordNsExtensionPattern"/>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobHoldUntilSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobHoldUntil" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobMessageToOperatorSupported" type="xsd:boolean"/>
+	<xsd:element name="JobPhoneNumberSupported" type="xsd:boolean"/>
+	<xsd:element name="JobPrioritySupported" type="RangeOfInt"/>
+	<xsd:element name="JobRecipientNameSupported" type="xsd:boolean"/>
+	<xsd:element name="JobSaveDispositionSupported" type="JobSaveDispositionSupported"/>
+	<xsd:element name="JobSheetMessageSupported" type="xsd:boolean"/>
+	<xsd:element name="JobSheetsColSupported" type="JobSheetsColSupported"/>
+	<xsd:element name="JobSheetsSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobSheets" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MediaInputTrayCheckSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="MediaInputTrayCheck" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MultipleDocumentsHandlingSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="MultipleDocumentsHandling" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="NumberUpSupported" type="RangeOfInt"/>
+	<xsd:element name="OrientationRequestedSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="OrientationRequested" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="OutputBinSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="OutputBin" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="OutputDeviceSupported">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="127"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="OverridesSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="OverrideElement" minOccurs="0" maxOccurs="unbounded">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:NMTOKEN">
+							<xsd:maxLength value="255"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PageDeliverySupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="PageDelivery" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PageRangesSupported" type="xsd:boolean"/>
+	<xsd:element name="PagesPerSubsetSupported" type="xsd:boolean"/>
+	<xsd:element name="PdlInitFileEntrySupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="PdlInitFileEntry" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PdlInitFileLocationSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="PdlInitFileLocation" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PdlInitFileNameSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="PdlInitFileName" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PdlInitFileSupported" type="PdlInitFileSupported"/>
+	<xsd:element name="PresentationDirectionNumberUpSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="PresentationDirectionNumberUp" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PrintQualitySupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="PrintQuality" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PrinterResolutionSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="PrinterResolution" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ProofPrintSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="ProofPrintCopiesSupported" minOccurs="0"/>
+				<xsd:choice minOccurs="0">
+					<xsd:element ref="MediaSupported" minOccurs="0"/>
+					<xsd:element ref="MediaColorSupported" minOccurs="0"/>
+				</xsd:choice>
+				<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ProofPrintCopiesSupported" type="RangeOfInt"/>
+	<xsd:element name="SaveDispositionSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="SaveDisposition" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="SaveDocumentFormatSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="SaveDocumentFormat" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="SaveInfoSupported" type="SaveInfoSupported"/>
+	<xsd:element name="SaveLocationSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="SaveLocation" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="SaveNameSupported" type="xsd:boolean"/>
+	<xsd:element name="SeparatorSheetsSupported" type="SeparatorSheetsSupported"/>
+	<xsd:element name="SeparatorSheetsTypeSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="SeparatorSheetsType" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="SheetCollateSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="SheetCollate" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="SidesSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Sides" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="StitchingLocationsSupported" type="RangeOfInt"/>
+	<xsd:element name="StitchingOffsetSupported" type="RangeOfInt"/>
+	<xsd:element name="StitchingReferenceEdgeSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="StitchingReferenceEdge" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="StitchingSupported" type="StitchingSupported"/>
+	<xsd:element name="XImagePositionSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="XImagePosition" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="XImageShiftSupported" type="RangeOfInt"/>
+	<xsd:element name="XSide1ImageShiftSupported" type="RangeOfInt"/>
+	<xsd:element name="XSide2ImageShiftSupported" type="RangeOfInt"/>
+	<xsd:element name="YImagePositionSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="YImagePosition" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="YImageShiftSupported" type="RangeOfInt"/>
+	<xsd:element name="YSide1ImageShiftSupported" type="RangeOfInt"/>
+	<xsd:element name="YSide2ImageShiftSupported" type="RangeOfInt"/>
+</xsd:schema>

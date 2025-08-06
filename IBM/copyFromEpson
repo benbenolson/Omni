@@ -1,0 +1,4 @@
+cat "../Epson/Epson ESC Instance.hpp" | sed -e s/Epson_/IBM_/g -e s/epson/ibm/ > "IBM ESC Instance.hpp"
+cat "../Epson/Epson ESC Instance.cpp" | sed -e s/Epson_/IBM_/g -e s/epson/ibm/ > "IBM ESC Instance.cpp"
+cat "../Epson/Epson ESC Blitter.hpp" | sed -e s/Epson_/IBM_/g -e s/epson/ibm/ > "IBM ESC Blitter.hpp"
+cat "../Epson/Epson ESC Blitter.cpp" | sed -e s/Epson_/IBM_/g -e s/epson/ibm/ > "IBM ESC Blitter.cpp"

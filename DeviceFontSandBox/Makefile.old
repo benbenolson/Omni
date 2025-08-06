@@ -1,0 +1,171 @@
+#
+#  Makefile for the Linux Device Font Library
+#  Julie Zhuo
+#  Jan 06, 2003
+#  
+#
+
+#
+# Specify the locations of all of the parser components needed
+#
+ROOTDIR=$(HOME)/parser_dev
+PARSERDIR_XML4C=$(ROOTDIR)/xml4c
+PARSERDIR_XERCES=$(ROOTDIR)/xerces
+PARSERDIR_LIBXML=$(ROOTDIR)/libxml
+UPDFDIR=UPDF
+#
+#  Set this to your favorite C++ compiler for the specific parser:
+#
+CC_XML4C=c++ -c -g0 -Wall  -I $(XERCESCROOT)  -I $(ROOTDIR) -I $(PARSERDIR_XML4C)
+CC_XERCES=c++ -c -g0 -Wall  -I $(XERCESCROOT)  -I $(ROOTDIR) -I $(PARSERDIR_XERCES)
+CC_LIBXML=c++ -c -g0  -Wall -I $(LIBXMLROOT)  -I $(ROOTDIR) -I $(PARSERDIR_LIBXML)
+LD_XERCES=c++ -L/usr/lib -L/usr/local/lib -L$(XERCESCLIB) -lxerces-c
+LD_XML4C=c++ -L/usr/lib -L/usr/local/lib -L$(XERCESCLIB) -lxerces-c
+LD_LIBXML=c++ -L/usr/lib -L/usr/local/lib -L$(LIBXMLLIB) -lxml2
+#
+#  Define object groups
+#
+LIBXMLPARSER=$(PARSERDIR_LIBXML)/UPDFFontParser.o $(PARSERDIR_LIBXML)/XmlFile.o
+XERCESPARSER=$(PARSERDIR_XERCES)/MyDOMErrorHandler.o $(PARSERDIR_XERCES)/UPDFFontParser.o $(PARSERDIR_XERCES)/XmlFile.o
+XML4CPARSER=$(PARSERDIR_XML4C)/MyDOMErrorHandler.o $(PARSERDIR_XML4C)/UPDFFontParser.o $(PARSERDIR_XML4C)/XmlFile.o
+DEVFONT=ByteArray.o CommandSequence.o DeviceFont.o DeviceFontException.o DeviceFontMgr.o Event.o FontParser.o Panose.o Parameter.o 
+UPDF=$(UPDFDIR)/ParameterConverter.o $(UPDFDIR)/Expression.o $(UPDFDIR)/ExpressionException.o
+#
+# Set source files of specific parser
+#
+SOURCE_GENERAL= ByteArray.hpp ByteArray.cpp \
+                CommandSequence.hpp CommandSequence.cpp \
+                DeviceFont.hpp DeviceFont.cpp \
+                DeviceFontException.hpp DeviceFontException.cpp \
+                DeviceFontMgr.hpp DeviceFontMgr.cpp \
+                Event.hpp Event.cpp \
+                FontParser.hpp FontParser.cpp \
+                Panose.hpp Panose.cpp \
+                Parameter.hpp Parameter.cpp
+
+LIBXMLPARSER_SOURCE= $(PARSERDIR_LIBXML)/UPDFFontParser.hpp $(PARSERDIR_LIBXML)/UPDFFontParser.cpp \
+                     $(PARSERDIR_LIBXML)/XmlFile.hpp $(PARSERDIR_LIBXML)/XmlFile.cpp
+
+XERCESPARSER_SOURCE= $(PARSERDIR_XERCES)/UPDFFontParser.hpp $(PARSERDIR_XERCES)/UPDFFontParser.cpp \
+                     $(PARSERDIR_XERCES)/XmlFile.hpp $(PARSERDIR_XERCES)/XmlFile.cpp \
+	             $(PARSERDIR_XERCES)/MyDOMErrorHandler.hpp $(PARSERDIR_XERCES)/MyDOMErrorHandler.cpp
+
+XML4CPARSER_SOURCE= $(PARSERDIR_XML4C)/UPDFFontParser.hpp $(PARSERDIR_XML4C)/UPDFFontParser.cpp \
+                    $(PARSERDIR_XML4C)/XmlFile.hpp  $(PARSERDIR_XML4C)/XmlFile.cpp \
+	            $(PARSERDIR_XML4C)/MyDOMErrorHandler.hpp $(PARSERDIR_XML4C)/MyDOMErrorHandler.cpp 
+
+SOURCE_LIBXML= $(SOURCE_GENERAL) \
+               $(LIBXMLPARSER_SOURCE)
+
+SOURCE_XERCES= $(SOURCE_GENERAL) \
+	       $(XERCESPARSER_SOURCE)
+
+SOURCE_XML4C= $(SOURCE_GENERAL) \
+	      $(XML4CPARSER_SOURCE)
+#
+#  Print targets for different Parser
+#
+libxml: $(LIBXMLPARSER) DEVFONTlibxml
+	$(LD_LIBXML) -v -o Print Print.o $(DEVFONT) $(UPDF) $(LIBXMLPARSER)
+	$(LD_LIBXML) -v -o TestDeviceFontMgr TestDeviceFontMgr.o $(DEVFONT) $(UPDF) $(LIBXMLPARSER)
+	$(LD_LIBXML) -v -shared -o libDevFontLib.so $(DEVFONT) $(UPDF) $(LIBXMLPARSER)
+
+xerces: $(XERCESPARSER) DEVFONTxerces
+	$(LD_XERCES) -o Print Print.o $(DEVFONT) $(UPDF) $(XERCESPARSER)
+	$(LD_XERCES) -o TestDeviceFontMgr TestDeviceFontMgr.o $(DEVFONT) $(UPDF) $(XERCESPARSER)
+	$(LD_XERCES) -v -shared -o libDevFontLib.so $(DEVFONT) $(UPDF) $(XERCESPARSER)
+
+xml4c:  $(XML4CPARSER) DEVFONTxml4c
+	$(LD_XML4C) -o Print Print.o $(DEVFONT) $(UPDF) $(XML4CPARSER)
+	$(LD_XML4C) -o TestDeviceFontMgr TestDeviceFontMgr.o $(DEVFONT) $(UPDF) $(XML4CPARSER)
+	$(LD_XML4C) -v -shared -o libDevFontLib.so $(DEVFONT) $(UPDF) $(XML4CPARSER)
+
+#
+#  Library Objects for specifc parser
+#
+DEVFONTlibxml: $(SOURCE_LIBXML)
+	$(CC_LIBXML) -o Print.o Print.cpp
+	$(CC_LIBXML) -o TestDeviceFontMgr.o TestDeviceFontMgr.cpp 
+	$(CC_LIBXML) -o ByteArray.o ByteArray.cpp
+	$(CC_LIBXML) -o CommandSequence.o CommandSequence.cpp 
+	$(CC_LIBXML) -o DeviceFont.o DeviceFont.cpp 
+	$(CC_LIBXML) -o DeviceFontException.o DeviceFontException.cpp 
+	$(CC_LIBXML) -o DeviceFontMgr.o DeviceFontMgr.cpp 
+	$(CC_LIBXML) -o Event.o Event.cpp 
+	$(CC_LIBXML) -o FontParser.o FontParser.cpp 
+	$(CC_LIBXML) -o Panose.o Panose.cpp 
+	$(CC_LIBXML) -o Parameter.o Parameter.cpp
+
+DEVFONTxerces: $(SOURCE_XERCES)
+	$(CC_XERCES) -o Print.o Print.cpp
+	$(CC_XERCES) -o TestDeviceFontMgr.o TestDeviceFontMgr.cpp 
+	$(CC_XERCES) -o ByteArray.o ByteArray.cpp
+	$(CC_XERCES) -o CommandSequence.o CommandSequence.cpp 
+	$(CC_XERCES) -o DeviceFont.o DeviceFont.cpp
+	$(CC_XERCES) -o DeviceFontException.o DeviceFontException.cpp  
+	$(CC_XERCES) -o DeviceFontMgr.o DeviceFontMgr.cpp 
+	$(CC_XERCES) -o Event.o Event.cpp
+	$(CC_XERCES) -o FontParser.o FontParser.cpp
+	$(CC_XERCES) -o Panose.o Panose.cpp
+	$(CC_XERCES) -o Parameter.o Parameter.cpp
+
+DEVFONTxml4c: $(SOURCE_XML4C)
+	$(CC_XML4C) -o Print.o Print.cpp
+	$(CC_XML4C) -o TestDeviceFontMgr.o TestDeviceFontMgr.cpp 
+	$(CC_XML4C) -o ByteArray.o ByteArray.cpp
+	$(CC_XML4C) -o CommandSequence.o CommandSequence.cpp 
+	$(CC_XML4C) -o DeviceFont.o DeviceFont.cpp 
+	$(CC_XML4C) -o DeviceFontException.o DeviceFontException.cpp
+	$(CC_XML4C) -o DeviceFontMgr.o DeviceFontMgr.cpp 
+	$(CC_XML4C) -o Event.o Event.cpp
+	$(CC_XML4C) -o FontParser.o FontParser.cpp
+	$(CC_XML4C) -o Panose.o Panose.cpp
+	$(CC_XML4C) -o Parameter.o Parameter.cpp
+
+#
+#  All Parser Objects
+#
+$(PARSERDIR_LIBXML)/UPDFFontParser.o: $(PARSERDIR_LIBXML)/UPDFFontParser.cpp $(PARSERDIR_LIBXML)/UPDFFontParser.hpp DeviceFont.hpp FontParser.hpp Panose.hpp $(PARSERDIR_LIBXML)/XmlFile.hpp Event.hpp CommandSequence.hpp Parameter.hpp
+	$(CC_LIBXML) -o $(PARSERDIR_LIBXML)/UPDFFontParser.o $(PARSERDIR_LIBXML)/UPDFFontParser.cpp
+
+$(PARSERDIR_LIBXML)/XmlFile.o: $(PARSERDIR_LIBXML)/XmlFile.cpp $(PARSERDIR_LIBXML)/XmlFile.hpp DeviceFontException.hpp
+	$(CC_LIBXML) -o $(PARSERDIR_LIBXML)/XmlFile.o $(PARSERDIR_LIBXML)/XmlFile.cpp
+
+$(PARSERDIR_XERCES)/MyDOMErrorHandler.o:  $(PARSERDIR_XERCES)/MyDOMErrorHandler.cpp $(PARSERDIR_XERCES)/MyDOMErrorHandler.hpp
+	$(CC_XERCES) -o $(PARSERDIR_XERCES)/MyDOMErrorHandler.o $(PARSERDIR_XERCES)/MyDOMErrorHandler.cpp
+
+$(PARSERDIR_XERCES)/UPDFFontParser.o:  $(PARSERDIR_XERCES)/UPDFFontParser.cpp $(PARSERDIR_XERCES)/UPDFFontParser.hpp DeviceFont.hpp FontParser.hpp Panose.hpp $(PARSERDIR_XERCES)/XmlFile.hpp $(PARSERDIR_XERCES)/MyDOMErrorHandler.hpp Event.hpp CommandSequence.hpp Parameter.hpp
+	$(CC_XERCES) -o $(PARSERDIR_XERCES)/UPDFFontParser.o $(PARSERDIR_XERCES)/UPDFFontParser.cpp
+
+$(PARSERDIR_XERCES)/XmlFile.o:  $(PARSERDIR_XERCES)/XmlFile.cpp $(PARSERDIR_XERCES)/XmlFile.hpp DeviceFontException.hpp
+	$(CC_XERCES) -o $(PARSERDIR_XERCES)/XmlFile.o $(PARSERDIR_XERCES)/XmlFile.cpp
+
+$(PARSERDIR_XML4C)/MyDOMErrorHandler.o: $(PARSERDIR_XML4C)/MyDOMErrorHandler.cpp $(PARSERDIR_XML4C)/MyDOMErrorHandler.hpp
+	$(CC_XML4C) -o $(PARSERDIR_XML4C)/MyDOMErrorHandler.o $(PARSERDIR_XML4C)/MyDOMErrorHandler.cpp
+
+$(PARSERDIR_XML4C)/UPDFFontParser.o:  $(PARSERDIR_XML4C)/UPDFFontParser.cpp $(PARSERDIR_XML4C)/UPDFFontParser.hpp DeviceFont.hpp FontParser.hpp Panose.hpp $(PARSERDIR_XML4C)/XmlFile.hpp $(PARSERDIR_XML4C)/MyDOMErrorHandler.hpp Event.hpp CommandSequence.hpp Parameter.hpp
+	$(CC_XML4C) -o $(PARSERDIR_XML4C)/UPDFFontParser.o $(PARSERDIR_XML4C)/UPDFFontParser.cpp
+
+$(PARSERDIR_XML4C)/XmlFile.o:  $(PARSERDIR_XML4C)/XmlFile.cpp $(PARSERDIR_XML4C)/XmlFile.hpp DeviceFontException.hpp
+	$(CC_XML4C) -o $(PARSERDIR_XML4C)/XmlFile.o $(PARSERDIR_XML4C)/XmlFile.cpp
+
+#
+#  Remove all object files
+#
+clean:
+	rm -f *.o 
+	rm -f libxml/*.o
+	rm -f xerces/*.o
+	rm -f xml4c/*.o
+	rm -f TestDeviceFontMgr
+	rm -f Print
+
+#
+#  Install the library. You will need to have root level authority?? depends on where do we decide to put the lib 
+#
+
+install:
+	cp libDevFontLib.so /usr/local/lib
+
+
+

@@ -1,0 +1,7 @@
+break scanline.cpp:1245
+run ..\output
+display iBytesToReplace
+display iOffset
+display cbScanData
+display cbTo
+display (*pbScanData & 255)

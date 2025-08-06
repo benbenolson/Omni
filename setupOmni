@@ -1,0 +1,610 @@
+#!/bin/bash
+#
+# IBM Omni driver
+# Copyright (c) International Business Machines Corp., 2000
+#
+# This library is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation; either version 2.1 of the License, or
+# (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+# the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+#
+
+#
+# Initialize our variables
+#
+CONFIGURE_ARGS=
+MAKE_ARGS=
+NEW_DEVICES=
+BUILD_COMPILED_DEVICE=0
+BUILD_XML_DEVICE=1
+BUILD_UPDF_DEVICE=0
+BUILD_VENDORSUPPLIED=0
+BUILD_TEST_DEVICE=0
+
+#
+# Loop through the arguments and search for configure arguments and make arguments
+#
+until [ -z "$1" ]
+do
+	case "$1" in
+        --prefix* | --exec-prefix* | --bindir* | --sbindir* | --libexecdir*)
+		CONFIGURE_ARGS="${CONFIGURE_ARGS} ${1}";
+	;;
+	--datadir* | --sysconfdir* | --sharedstatedir* | --localstatedir*)
+		CONFIGURE_ARGS="${CONFIGURE_ARGS} ${1}";
+	;;
+	--libdir* | --includedir* | --oldincludedir* | --infodir* | --mandir*)
+		CONFIGURE_ARGS="${CONFIGURE_ARGS} ${1}";
+	;;
+	--program-prefix* | --program-suffix* | --program-transform-name*)
+		CONFIGURE_ARGS="${CONFIGURE_ARGS} ${1}";
+	;;
+	--build* | --host* | --with-PACKAGE* | --without-PACKAGE*)
+		CONFIGURE_ARGS="${CONFIGURE_ARGS} ${1}";
+	;;
+	--with-gnu-ld* | --with-pic*)
+		CONFIGURE_ARGS="${CONFIGURE_ARGS} ${1}";
+	;;
+	--disable-devicexml*)
+		BUILD_XML_DEVICE=0
+		CONFIGURE_ARGS="${CONFIGURE_ARGS} ${1}";
+	;;
+	--enable-devicexml*)
+		ARG=${1:18}
+		if test ! -z "${ARG}"; then
+			if test ${ARG:0:1} = "="; then
+				ARG=${ARG:1}
+			fi
+		fi
+		if test -z "${ARG}" -o "${ARG}" = "true" -o "${ARG}" = "yes"; then
+			BUILD_XML_DEVICE=1
+		elif test "${ARG}" = "false" -o "${ARG}" = "no"; then
+			BUILD_XML_DEVICE=0
+		fi
+		CONFIGURE_ARGS="${CONFIGURE_ARGS} ${1}";
+	;;
+	--disable-deviceupdf*)
+		BUILD_UPDF_DEVICE=0
+		CONFIGURE_ARGS="${CONFIGURE_ARGS} ${1}";
+	;;
+	--enable-deviceupdf*)
+		ARG=${1:18}
+		if test ! -z "${ARG}"; then
+			if test ${ARG:0:1} = "="; then
+				ARG=${ARG:1}
+			fi
+		fi
+		if test -z "${ARG}" -o "${ARG}" = "true" -o "${ARG}" = "yes"; then
+			BUILD_UPDF_DEVICE=1
+		elif test "${ARG}" = "false" -o "${ARG}" = "no"; then
+			BUILD_UPDF_DEVICE=0
+		fi
+		CONFIGURE_ARGS="${CONFIGURE_ARGS} ${1}";
+	;;
+	--disable-devicecompile*)
+		BUILD_COMPILED_DEVICE=0
+		CONFIGURE_ARGS="${CONFIGURE_ARGS} ${1}";
+	;;
+	--enable-devicecompile*)
+		ARG=${1:22}
+		if test ! -z "${ARG}"; then
+			if test ${ARG:0:1} = "="; then
+				ARG=${ARG:1}
+			fi
+		fi
+		if test -z "${ARG}" -o "${ARG}" = "true" -o "${ARG}" = "yes"; then
+			BUILD_COMPILED_DEVICE=1
+		elif test "${ARG}" = "false" -o "${ARG}" = "no"; then
+			BUILD_COMPILED_DEVICE=0
+		fi
+		CONFIGURE_ARGS="${CONFIGURE_ARGS} ${1}";
+	;;
+	--disable-testdevice*)
+		BUILD_TEST_DEVICE=0
+		CONFIGURE_ARGS="${CONFIGURE_ARGS} ${1}";
+	;;
+	--enable-testdevice*)
+		ARG=${1:22}
+		if test ! -z "${ARG}"; then
+			if test ${ARG:0:1} = "="; then
+				ARG=${ARG:1}
+			fi
+		fi
+		if test -z "${ARG}" -o "${ARG}" = "true" -o "${ARG}" = "yes"; then
+			BUILD_TEST_DEVICE=1
+		elif test "${ARG}" = "false" -o "${ARG}" = "no"; then
+			BUILD_TEST_DEVICE=0
+		fi
+		CONFIGURE_ARGS="${CONFIGURE_ARGS} ${1}";
+	;;
+	--disable-* | --enable-*)
+		CONFIGURE_ARGS="${CONFIGURE_ARGS} ${1}";
+	;;
+	DEVICES=*)
+		MA=${1:8}
+		NEW_DEVICES="${NEW_DEVICES} ${MA}"
+#		MAKE_ARGS="${MAKE_ARGS} DEVICES=\"${MA}\"";
+	;;
+	--help*)
+		echo "arguments that can be passed to $0 are as follows:"
+		echo "	DEVICES=xxx"
+		echo
+		echo "arguments that can be passed to configure are as follows:"
+		echo
+		./configure --help
+		exit
+	;;
+	*)
+		echo "Warning: Ignoring $1";
+	;;
+	esac
+
+	shift
+done
+
+#
+# Check for the existance of Vendor Supplied devices
+#
+BUILD_VENDORSUPPLIED=0
+VENDOR_DIRS=`find VendorSupplied/ -name Makefile.am 2>/dev/null | wc | awk '{print $1;}'`
+echo "Found ${VENDOR_DIRS} Vendor Makefiles (includes vendor root)."
+if [ ${VENDOR_DIRS} -gt 0 ]; then
+	BUILD_VENDORSUPPLIED=1
+else
+	echo "Removing VendorSupplied from configure.ac"
+	VENDOR_TMP=/tmp/$$
+	if test -f ${VENDOR_TMP}; then
+		rm -rf ${VENDOR_TMP}
+	fi
+	awk '
+BEGIN                  { notskip = 1
+                         skipone = 0
+                       }
+/^[d]nl @BEGIN-HACK-3/ { notskip = 0
+                       }
+/^[d]nl @END-HACK-3/   { skipone = 1
+                       }
+                       { if (notskip)
+                         {
+                            print $0
+                         }                     
+                         if (skipone)
+                         {
+                            skipone = 0
+                            notskip = 1
+                         }
+                       }' < configure.ac > ${VENDOR_TMP}
+	cp ${VENDOR_TMP} configure.ac
+	rm -rf ${VENDOR_TMP}
+fi
+
+#
+# Print out what the variables are set to
+#
+echo "CONFIGURE_ARGS=\"${CONFIGURE_ARGS}\""
+echo "MAKE_ARGS=\"${MAKE_ARGS}\""
+echo "NEW_DEVICES=\"${NEW_DEVICES}\""
+echo "BUILD_COMPILED_DEVICE=${BUILD_COMPILED_DEVICE}"
+echo "BUILD_XML_DEVICE=${BUILD_XML_DEVICE}"
+echo "BUILD_UPDF_DEVICE=${BUILD_UPDF_DEVICE}"
+echo "BUILD_VENDORSUPPLIED=${BUILD_VENDORSUPPLIED}"
+echo "BUILD_TEST_DEVICE=${BUILD_TEST_DEVICE}"
+
+#
+# Clean up files from a previous build
+#
+rm -rf missing ltmain.sh install-sh depcomp autom4te.cache/ aclocal.m4 config.h stamp-h*
+rm -rf config.guess config.sub config.log config.status configure mkinstalldirs
+find . \( -name \*.lo -o -name \*.o -o -name \*.la -o -name \*.lai -o -name \*.a \) -exec rm {} \;
+
+#
+# Setup the list of devices
+#
+BUILD_DEVICELIST=
+XML_DEVICELIST=
+if test -z "${NEW_DEVICES}"; then
+	#
+	# Load in the list of every possible device
+	#
+	source ./devicesAll.list
+
+	BUILD_DEVICELIST=${DEVICELIST}
+	XML_DEVICELIST=${DEVICELIST}
+else
+	#
+	# Set the list to the supplied devices
+	#
+	BUILD_DEVICELIST=${NEW_DEVICES}
+	XML_DEVICELIST=${NEW_DEVICES}
+fi
+
+echo "XML_DEVICELIST=${XML_DEVICELIST}"
+XML_DEVICES="${XML_DEVICELIST}"
+if test ${BUILD_VENDORSUPPLIED} = 1; then
+	if ! echo ${XML_DEVICES} | grep Epson.PDC 1>/dev/null 2>&1; then
+		XML_DEVICES="${XML_DEVICES} Epson.PDC~"
+	fi
+fi
+
+echo "XML_DEVICES=${XML_DEVICES}"
+# initialize the command line for $1 $2 ...
+set -- ${XML_DEVICES}
+
+#
+# Generate devicesXML.list
+#
+echo "# NOTE: This is a generated file!  Do not edit!"                             > devicesXML.list
+echo "#"                                                                          >> devicesXML.list
+echo "# IBM Omni driver"                                                          >> devicesXML.list
+echo "# Copyright (c) International Business Machines Corp., 2000"                >> devicesXML.list
+echo "#"                                                                          >> devicesXML.list
+echo "# This library is free software; you can redistribute it and/or modify"     >> devicesXML.list
+echo "# it under the terms of the GNU Lesser General Public License as published" >> devicesXML.list
+echo "# by the Free Software Foundation; either version 2.1 of the License, or"   >> devicesXML.list
+echo "# (at your option) any later version."                                      >> devicesXML.list
+echo "#"                                                                          >> devicesXML.list
+echo "# This library is distributed in the hope that it will be useful,"          >> devicesXML.list
+echo "# but WITHOUT ANY WARRANTY; without even the implied warranty of"           >> devicesXML.list
+echo "# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See"                >> devicesXML.list
+echo "# the GNU Lesser General Public License for more details."                  >> devicesXML.list
+echo "#"                                                                          >> devicesXML.list
+echo "# You should have received a copy of the GNU Lesser General Public License" >> devicesXML.list
+echo "# along with this library; if not, write to the Free Software"              >> devicesXML.list
+echo "# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA"  >> devicesXML.list
+echo "#"                                                                          >> devicesXML.list
+echo ""                                                                           >> devicesXML.list
+echo "# NOTE: underscores will be replaced with spaces"                           >> devicesXML.list
+echo "#"                                                                          >> devicesXML.list
+echo ""                                                                           >> devicesXML.list
+
+START=true
+HEAD1="DEVICELIST=\""
+TAIL1=" \\"
+HEAD2="            "
+TAIL2="\""
+
+if test -z "$1"; then
+	echo -n "${HEAD1}" >> devicesXML.list
+	echo "${TAIL2}"    >> devicesXML.list
+fi
+
+until [ -z "$1" ]
+do
+	if ${START}; then
+		echo -n "${HEAD1}" >> devicesXML.list
+		START=false
+	else
+		echo -n "${HEAD2}" >> devicesXML.list
+	fi
+
+	echo -n $1                 >> devicesXML.list
+
+	shift
+
+	if test -z "$1"; then
+		echo "${TAIL2}"    >> devicesXML.list
+	else
+		echo "${TAIL1}"    >> devicesXML.list
+	fi
+done
+
+BUILD_DEVICES=
+if test ${BUILD_XML_DEVICE} = 1; then
+	BUILD_DEVICES="${BUILD_DEVICES} XMLDevice~"
+fi
+if test ${BUILD_COMPILED_DEVICE} = 1; then
+	BUILD_DEVICES="${BUILD_DEVICES} ${BUILD_DEVICELIST}"
+fi
+if test	${BUILD_TEST_DEVICE} = 1; then
+	BUILD_DEVICES="${BUILD_DEVICES} test~"
+fi
+if test ${BUILD_VENDORSUPPLIED} = 1 -a ${BUILD_COMPILED_DEVICE} = 1; then
+	if ! echo ${XML_DEVICES} | grep Epson.PDC 1>/dev/null 2>&1; then
+		BUILD_DEVICES="${BUILD_DEVICES} Epson.PDC~"
+	fi
+fi
+
+echo "BUILD_DEVICES=${BUILD_DEVICES}"
+# initialize the command line for $1 $2 ...
+set -- ${BUILD_DEVICES}
+
+#
+# Generate devicesBuild.list
+#
+echo "# NOTE: This is a generated file!  Do not edit!"                             > devicesBuild.list
+echo "#"                                                                          >> devicesBuild.list
+echo "# IBM Omni driver"                                                          >> devicesBuild.list
+echo "# Copyright (c) International Business Machines Corp., 2000"                >> devicesBuild.list
+echo "#"                                                                          >> devicesBuild.list
+echo "# This library is free software; you can redistribute it and/or modify"     >> devicesBuild.list
+echo "# it under the terms of the GNU Lesser General Public License as published" >> devicesBuild.list
+echo "# by the Free Software Foundation; either version 2.1 of the License, or"   >> devicesBuild.list
+echo "# (at your option) any later version."                                      >> devicesBuild.list
+echo "#"                                                                          >> devicesBuild.list
+echo "# This library is distributed in the hope that it will be useful,"          >> devicesBuild.list
+echo "# but WITHOUT ANY WARRANTY; without even the implied warranty of"           >> devicesBuild.list
+echo "# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See"                >> devicesBuild.list
+echo "# the GNU Lesser General Public License for more details."                  >> devicesBuild.list
+echo "#"                                                                          >> devicesBuild.list
+echo "# You should have received a copy of the GNU Lesser General Public License" >> devicesBuild.list
+echo "# along with this library; if not, write to the Free Software"              >> devicesBuild.list
+echo "# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA"  >> devicesBuild.list
+echo "#"                                                                          >> devicesBuild.list
+echo ""                                                                           >> devicesBuild.list
+echo "# NOTE: underscores will be replaced with spaces"                           >> devicesBuild.list
+echo "#"                                                                          >> devicesBuild.list
+echo ""                                                                           >> devicesBuild.list
+
+START=true
+HEAD1="DEVICELIST=\""
+TAIL1=" \\"
+HEAD2="            "
+TAIL2="\""
+
+until [ -z "$1" ]
+do
+	if ${START}; then
+		echo -n "${HEAD1}" >> devicesBuild.list
+		START=false
+	else
+		echo -n "${HEAD2}" >> devicesBuild.list
+	fi
+
+	echo -n $1                 >> devicesBuild.list
+
+	shift
+
+	if test -z "$1"; then
+		echo "${TAIL2}"    >> devicesBuild.list
+	else
+		echo "${TAIL1}"    >> devicesBuild.list
+	fi
+done
+
+#
+# Load in the list of all of the devices
+#
+source ./devicesAll.list
+
+#
+# Loop through the devices, set up some variables, and make symbolic links
+#
+for i in ${DEVICELIST}; do
+	#
+	# Set up the names
+	#
+	NAME="`echo ${i} | sed -e 's/~//g' -e 's/\..*//'`"
+	DIR="`echo ${i} | sed -e 's/~//g' -e 's/_/ /g'`"
+	NOSPACENAME="`echo ${i} | sed -e 's/~//g' -e 's/_//g'`"
+
+	#
+	# Bug: Autotools cannot handle spaces in filenames!
+	#      So create a spaceless directory name equivalent.
+	#
+	if test "${DIR}" != "${NOSPACENAME}"; then
+		if test ! -L "${NOSPACENAME}"; then
+			echo "Linking \"${DIR}\" to \"${NOSPACENAME}\""
+			ln -s "${DIR}" "${NOSPACENAME}" 2>/dev/null
+		fi
+	fi
+done
+
+#
+# Detect XML version
+#
+xml_version=
+if which xml2-config >/dev/null; then
+	xml_version=libxml2
+elif which xml-config >/dev/null; then
+	xml_version=libxml
+#elif which xerces @TBD
+#elif which xml4c  @TBD
+fi
+
+if test -z "${xml_version}"; then
+	echo "Error: XML parser is undetected!"
+	exit
+fi
+
+#
+# Copy the correct version of XML in the XMLLib directory
+#
+filelist_libxml="XMLInterface.hpp XMLInterface.cpp"
+filelist_xerces1_3="XMLInterface.hpp XMLInterface.cpp"
+filelist_xml4c3_1_0="XMLInterface.hpp XMLInterface.cpp"
+case ${xml_version} in
+libxml*)	filelist=$filelist_libxml;	dir=libxml		;;
+xerces1_3)	filelist=$filelist_xerces1_3;	dir=xerces-c1_3_0-linux	;;
+xml4c3_1_0)	filelist=$filelist_xml4c3_1_0;	dir=xml4c3_1_0-linux	;;
+*)		echo "Error: should not be here!"; exit			;;
+esac
+cd XMLLib;
+success=1
+for i in $filelist; do
+	if test ! -f $i; then
+		success=0
+		echo "Missing: $i"
+		break
+	fi
+	cmp -s $i $dir/$i
+	if test $? != 0; then
+		success=0
+		echo "Different: $i"
+		break
+	fi
+done
+if test $success != 1; then
+	for i in $filelist; do
+		echo "Copying: $dir/$i"
+		cp $dir/$i .
+	done		
+fi
+cd ..
+
+#
+# Check auto* versions.  We need
+#    automake greater than or equal to 1.6
+if ! which automake 2>/dev/null 1>&2; then
+	echo "Error: Please install automake version 1.6 or greater"
+	exit
+fi
+automake --version | awk -v version="1.6" '
+BEGIN {
+   found        = 0
+   valid        = 0
+   foundversion = a
+}
+/^automake [(]GNU automake[)]/ {
+   found        = 1
+   foundversion = $4
+   if (foundversion >= version)
+   {
+      valid = 1
+   }
+}
+END {
+   if (!found)
+   {
+      print "Error: Could not understand automake version"
+   }
+
+   if (!valid)
+   {
+      print "Error: The current automake version is "foundversion". Please install version "version" or greater"
+      exit 0
+   }
+   else
+   {
+      exit 1
+   }
+}
+'
+rc=$?
+if test ${rc} = 0; then
+	exit
+fi
+#    autoconf greater than or equal to 2.52
+if ! which autoconf 2>/dev/null 1>&2; then
+	echo "Error: Please install automake version 2.52 or greater"
+	exit
+fi
+autoconf --version | awk -v version="2.52" '
+BEGIN {
+   found        = 0
+   valid        = 0
+   foundversion = a
+}
+/^autoconf [(]GNU Autoconf[)]/ {
+   found        = 1
+   foundversion = $4
+   if (foundversion >= version)
+   {
+      valid = 1
+   }
+}
+END {
+   if (!found)
+   {
+      print "Error: Could not understand autoconf version"
+   }
+
+   if (!valid)
+   {
+      print "Error: The current autoconf version is "foundversion". Please install version "version" or greater"
+      exit 0
+   }
+   else
+   {
+      exit 1
+   }
+}
+'
+rc=$?
+if test ${rc} = 0; then
+	exit
+fi
+#    libtool
+if ! which libtool 2>/dev/null 1>&2; then
+	echo "Error: Please install libtool version 1.4 or greater"
+	exit
+fi
+libtool --version | awk -v version="1.4" '
+BEGIN {
+   found        = 0
+   valid        = 0
+   foundversion = a
+}
+/^ltmain.sh [(]GNU libtool[)]/ {
+   found        = 1
+   foundversion = $4
+   if (foundversion >= version)
+   {
+      valid = 1
+   }
+}
+END {
+   if (!found)
+   {
+      print "Error:  Could not understand libtool version"
+   }
+
+   if (!valid)
+   {
+      print "Error: The current libtool version is "foundversion". Please install version "version" or greater"
+      exit 0
+   }
+   else
+   {
+      exit 1
+   }
+}
+'
+rc=$?
+if test ${rc} = 0; then
+	exit
+fi
+
+#
+#
+#
+if test -f aclocal.m4; then
+	rm aclocal.m4*
+fi
+
+echo "Running aclocal [`aclocal --version | head -n 1`]..."
+aclocal || exit
+
+echo "Running autoheader [`autoheader --version | head -n 1`]..."
+autoheader || exit
+
+echo "Running libtoolize [`libtoolize --version | head -n 1`]..."
+libtoolize || exit
+
+echo "Running automake [`automake --version | head -n 1`]..."
+automake --gnu --add-missing || exit
+
+echo "Running autoconf [`autoconf --version | head -n 1`]..."
+autoconf || exit
+
+echo "Running configure "${CONFIGURE_ARGS}" "CFLAGS=\"${CFLAGS}\"" ..."
+./configure ${CONFIGURE_ARGS} CFLAGS="${CFLAGS}" || exit
+
+if test ${BUILD_XML_DEVICE} = 1; then
+	echo "Configuring XMLDevices..."
+	(cd XMLLib; make; cd ../XMLDevice; ./cleanStart)
+fi
+
+echo "Running make "${MAKE_ARGS}" ..."
+# @BUG - running "make ${MAKE_ARGS}" vs "eval make ${MAKE_ARGS}" produces different results!
+eval make ${MAKE_ARGS} || exit
+
+echo "Success!"

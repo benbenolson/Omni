@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     IBM Omni driver
+     Copyright (c) International Business Machines Corp., 2000
+
+     This library is free software; you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published
+     by the Free Software Foundation; either version 2.1 of the License, or
+     (at your option) any later version.
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+     the GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this library; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
+
+<deviceCommands
+   xmlns="http://www.ibm.com/linux/ltc/projects/omni/"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+   xs:schemaLocation="http://www.ibm.com/linux/ltc/projects/omni/ ../OmniDevice.xsd">
+   <command name="cmdSetPageID">_ESC_ "(q" HEX2S(00,01) HEX(01)</command>
+   <command name="cmdBJLInit">_NUL_ _NUL_ _NUL_ _ESC_ "[K" HEX2S(00,02) HEX(00) HEX(1f)</command>
+   <command name="cmdBJLCommon">"ControlMode=Common" _LF_</command>
+   <command name="cmdBJLModeBJ">"ControlMode=BJ" _LF_</command>
+   <command name="cmdBJLModeLQ">"ControlMode=LQ" _LF_</command>
+   <command name="cmdBJLStart">_NUL_ _NUL_ _NUL_ "BJLSTART" _LF_</command>
+   <command name="cmdBJLEnd">"BJLEND" _LF_</command>
+   <command name="cmdInit">_NUL_ _NUL_ _NUL_ _ESC_ "[K" HEX (02) _NUL_ _NUL_ HEX (0F) _ESC_ "(a" HEX (01) _NUL_ HEX (01)</command>
+   <command name="cmdTerm">_ESC_ "(a" HEX (01) _NUL_ _NUL_ _ESC_ "(b" HEX (01) _NUL_ _NUL_ _ESC_ "@"</command>
+   <command name="cmdReset">_ESC_ "(a" HEX (01) _NUL_ _NUL_ _ESC_ "(b" HEX (01) _NUL_ _NUL_ _ESC_ "@"</command>
+   <command name="cmdAbort">_ESC_ "(a" HEX (01) _NUL_ _NUL_ _ESC_ "(b" HEX (01) _NUL_ _NUL_ _ESC_ "@"</command>
+   <command name="cmdPageEject">_FF_</command>
+   <command name="cmdSetYPos">_ESC_ "(e" HEX2S(00,02) "%W"</command>
+   <command name="cmdEndRasterGraphicsLine">_CR_</command>
+   <command name="cmdSkipNumLines">_ESC_ "(e" HEX(02) _NUL_ _NUL_ "%w"</command>
+   <command name="cmdMoveToNextRasterGraphicsLine">_ESC_ "(e" HEX (02) _NUL_ _NUL_ HEX (01)</command>
+   <command name="cmdSetCompression">_ESC_ "(b" HEX2S(00,01) "%c"</command>
+   <command name="cmdTransferRasterPlane">_ESC_ "(A" "%w%c"</command>
+   <command name="marker">"SMOSER=" "%i"</command>
+</deviceCommands>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     IBM Omni driver
+     Copyright (c) International Business Machines Corp., 2000
+
+     This library is free software; you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published
+     by the Free Software Foundation; either version 2.1 of the License, or
+     (at your option) any later version.
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+     the GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this library; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
+<deviceForms xmlns="http://www.ibm.com/linux/ltc/projects/omni/" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:schemaLocation="http://www.ibm.com/linux/ltc/projects/omni/ ../OmniDevice.xsd">
+   <deviceForm>
+      <name>na_letter_8.50x11.00in</name>
+      <omniName>FORM_LETTER</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>0</hardCopyCapLeft>
+         <hardCopyCapTop>3390</hardCopyCapTop>
+         <hardCopyCapRight>14000</hardCopyCapRight>
+         <hardCopyCapBottom>4000</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>na_legal_8.50x14.00in</name>
+      <omniName>FORM_LEGAL</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>0</hardCopyCapLeft>
+         <hardCopyCapTop>20000</hardCopyCapTop>
+         <hardCopyCapRight>3390</hardCopyCapRight>
+         <hardCopyCapBottom>4000</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>iso_a3_297.00x420.00mm</name>
+      <omniName>FORM_A3</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>0</hardCopyCapLeft>
+         <hardCopyCapTop>3390</hardCopyCapTop>
+         <hardCopyCapRight>14000</hardCopyCapRight>
+         <hardCopyCapBottom>0</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>iso_a4_210.00x297.00mm</name>
+      <omniName>FORM_A4</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>0</hardCopyCapLeft>
+         <hardCopyCapTop>3390</hardCopyCapTop>
+         <hardCopyCapRight>10000</hardCopyCapRight>
+         <hardCopyCapBottom>0</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>iso_a5_148.00x210.00mm</name>
+      <omniName>FORM_A5</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>0</hardCopyCapLeft>
+         <hardCopyCapTop>3390</hardCopyCapTop>
+         <hardCopyCapRight>0</hardCopyCapRight>
+         <hardCopyCapBottom>0</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>iso_b5_176.00x250.00mm</name>
+      <omniName>FORM_B5</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>0</hardCopyCapLeft>
+         <hardCopyCapTop>3390</hardCopyCapTop>
+         <hardCopyCapRight>0</hardCopyCapRight>
+         <hardCopyCapBottom>0</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>iso_b4_250.00x353.00mm</name>
+      <omniName>FORM_B4</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>0</hardCopyCapLeft>
+         <hardCopyCapTop>3390</hardCopyCapTop>
+         <hardCopyCapRight>0</hardCopyCapRight>
+         <hardCopyCapBottom>0</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>na_executive_7.25x10.50in</name>
+      <omniName>FORM_EXECUTIVE</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>2960</hardCopyCapLeft>
+         <hardCopyCapTop>3390</hardCopyCapTop>
+         <hardCopyCapRight>2960</hardCopyCapRight>
+         <hardCopyCapBottom>14040</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>na_c5_6.38x9.02in</name>
+      <omniName>FORM_C5_ENVELOPE</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>2960</hardCopyCapLeft>
+         <hardCopyCapTop>3390</hardCopyCapTop>
+         <hardCopyCapRight>2960</hardCopyCapRight>
+         <hardCopyCapBottom>14040</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>na_dl_4.33x8.66in</name>
+      <omniName>FORM_DL_ENVELOPE</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>2960</hardCopyCapLeft>
+         <hardCopyCapTop>3390</hardCopyCapTop>
+         <hardCopyCapRight>2960</hardCopyCapRight>
+         <hardCopyCapBottom>14040</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>na_5x8-card_5.00x8.00in</name>
+      <omniName>FORM_5_X_8_CARD</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>2960</hardCopyCapLeft>
+         <hardCopyCapTop>9000</hardCopyCapTop>
+         <hardCopyCapRight>2960</hardCopyCapRight>
+         <hardCopyCapBottom>14040</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>na_8x10-card_8.00x10.00in</name>
+      <omniName>FORM_8_X_10_CARD</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>2960</hardCopyCapLeft>
+         <hardCopyCapTop>9000</hardCopyCapTop>
+         <hardCopyCapRight>2960</hardCopyCapRight>
+         <hardCopyCapBottom>14040</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>na_postcard_3.93x5.79in</name>
+      <omniName>FORM_POSTCARD</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>2960</hardCopyCapLeft>
+         <hardCopyCapTop>9000</hardCopyCapTop>
+         <hardCopyCapRight>2960</hardCopyCapRight>
+         <hardCopyCapBottom>14040</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+</deviceForms>

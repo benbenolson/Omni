@@ -1,0 +1,50 @@
+TODO.txt
+David L. Wagner
+Nov 13, 2002
+$Id: TODO.txt,v 1.6 2002/11/14 06:01:48 rcktscientist Exp $
+
+-------------
+Things to do:
+
+* There is a new Print command whose intention is to demonstrate
+  taking a plain text file and then converting it into a printer
+  file with a user-selectable font.  This will be a good testbed
+  for handling UPDF, and already brings up issues such as the
+  exact variables that must be stored by the "driver" program.
+  There are also too many things hardwired (like the number of
+  lines per page, etc. but this might be OK for a simple demo).
+
+* At the moment, the software is hardwired to use the Xerces C++
+  parser.  We need to make it so one can plug in different XML
+  parsers.  Julie is working on that now.
+
+* There is a new Parameter class which will hold UPDF parameter
+  strings.  The DeviceFontMgr class handles them now, except that
+  preliminary tests seem to indicate that we don't know how to make
+  the Parameter Converter use them properly.  More research needs to
+  be done here.
+
+* We currently use the Parameter Converter that comes with Omni;
+  however, if this device font code is intended as an independent
+  library of code, we will have to steal the Parameter Converter code
+  or make it a separate project.
+
+* The sample UPDF files that are on the UPDF web site do not show any
+  actual examples of a command sequence to set a font.  We will need
+  to create a sample UPDF file that illustrates this, otherwise there
+  isn't much to demonstrate with this software.
+
+* The new Panose class encapsulates all the Panose values for a
+  font.  One could fill in the desired value, and then use methods in
+  this class to find the font with the closest match to the desired
+  values, using the DeviceFontMgr::getFont(Panose *) method.  The
+  Panose::diff(Panose &) function is not very intelligent though.
+
+* We are using the DOC++ style of internal documentation; however, we
+  haven't yet checked to see if the documentation is working, so this
+  will almost certainly have to be fixed.
+
+* The exception handling seems to work differently between darwin
+  and linux (even for the same version of Xerces).  Apparently,
+  it works in the expected fashion on linux, so we're going to
+  leave it the way it is for now.

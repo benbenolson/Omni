@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     IBM Omni driver
+     Copyright (c) International Business Machines Corp., 2000
+
+     This library is free software; you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published
+     by the Free Software Foundation; either version 2.1 of the License, or
+     (at your option) any later version.
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+     the GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this library; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
+<deviceForms xmlns="http://www.ibm.com/linux/ltc/projects/omni/" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:schemaLocation="http://www.ibm.com/linux/ltc/projects/omni/ ../OmniDevice.xsd">
+   <deviceForm>
+      <name>na_letter_8.50x11.00in</name>
+      <omniName>FORM_LETTER</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>4000</hardCopyCapLeft>
+         <hardCopyCapTop>3500</hardCopyCapTop>
+         <hardCopyCapRight>8700</hardCopyCapRight>
+         <hardCopyCapBottom>11110</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>na_legal_8.50x14.00in</name>
+      <omniName>FORM_LEGAL</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>4000</hardCopyCapLeft>
+         <hardCopyCapTop>3500</hardCopyCapTop>
+         <hardCopyCapRight>8700</hardCopyCapRight>
+         <hardCopyCapBottom>11110</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>iso_a3_297.00x420.00mm</name>
+      <omniName>FORM_A3</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>4000</hardCopyCapLeft>
+         <hardCopyCapTop>3500</hardCopyCapTop>
+         <hardCopyCapRight>5090</hardCopyCapRight>
+         <hardCopyCapBottom>11110</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>iso_a4_210.00x297.00mm</name>
+      <omniName>FORM_A4</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>4000</hardCopyCapLeft>
+         <hardCopyCapTop>3500</hardCopyCapTop>
+         <hardCopyCapRight>2780</hardCopyCapRight>
+         <hardCopyCapBottom>11110</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>iso_b4_250.00x353.00mm</name>
+      <omniName>FORM_B4</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>4000</hardCopyCapLeft>
+         <hardCopyCapTop>3500</hardCopyCapTop>
+         <hardCopyCapRight>5120</hardCopyCapRight>
+         <hardCopyCapBottom>11110</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>iso_b5_176.00x250.00mm</name>
+      <omniName>FORM_B5</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>4000</hardCopyCapLeft>
+         <hardCopyCapTop>3500</hardCopyCapTop>
+         <hardCopyCapRight>2810</hardCopyCapRight>
+         <hardCopyCapBottom>11110</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>na_c10_4.12x9.50in</name>
+      <omniName>FORM_C10_ENVELOPE</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>6000</hardCopyCapLeft>
+         <hardCopyCapTop>6400</hardCopyCapTop>
+         <hardCopyCapRight>7310</hardCopyCapRight>
+         <hardCopyCapBottom>21540</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>na_ledger_17.00x11.00in</name>
+      <omniName>FORM_LEDGER</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>12700</hardCopyCapLeft>
+         <hardCopyCapTop>12700</hardCopyCapTop>
+         <hardCopyCapRight>12700</hardCopyCapRight>
+         <hardCopyCapBottom>22000</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+</deviceForms>

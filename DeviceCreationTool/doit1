@@ -1,0 +1,12 @@
+#!/bin/bash
+cd test1
+find . -name \*.new -exec rm {} \;
+./doit || exit
+echo "doit1: done!"
+for i in *.new; do
+	if test -f "$i"; then
+		echo "======================================================================"
+		cat "$i"
+		echo "======================================================================"
+	fi
+done

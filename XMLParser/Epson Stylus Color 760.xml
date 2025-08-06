@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     IBM Omni driver
+     Copyright (c) International Business Machines Corp., 2000
+
+     This library is free software; you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published
+     by the Free Software Foundation; either version 2.1 of the License, or
+     (at your option) any later version.
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+     the GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this library; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
+<Device xmlns:omni="http://www.ibm.com/linux/ltc/projects/omni/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:targetNamespace="omni" xsi:schemaLocation="http://www.ibm.com/linux/ltc/projects/omni/ ../OmniDevice.xsd" name="Epson Stylus Color 760">
+   <DriverName>Epson</DriverName>
+   <Capability type="COLOR"/>
+   <Capability type="MONOCHROME"/>
+   <Capability type="MIRROR"/>
+   <RasterCapabilities type="TOP_TO_BOTTOM"/>
+   <DeviceOptions type="USB_PORT_SUPPORT"/>
+   <PDL level="PDL_Epson" sublevel="LEVEL_ESCP_2" major="1" minor="0"/>
+   <Has>Epson Copies.xml</Has>
+   <Has>Epson Stylus Color 660 Forms.xml</Has>
+   <Has>Epson Stylus 200 Medias.xml</Has>
+   <Has>Epson NUps.xml</Has>
+   <Has>Epson Orientations.xml</Has>
+   <Has>Epson Output Bins.xml</Has>
+   <Has>Epson DLQ-3000+ PrintModes.xml</Has>
+   <Has>Epson Stylus Color 660 Resolutions.xml</Has>
+   <Has>Epson Scalings.xml</Has>
+   <Has>Epson Sheet Collates.xml</Has>
+   <Has>Epson Sides.xml</Has>
+   <Has>Epson Stitchings.xml</Has>
+   <Has>Epson Stylus 200 Trays.xml</Has>
+   <Has>Epson Trimmings.xml</Has>
+   <Has>Epson Stylus Color 660 Connections.xml</Has>
+   <Has>Epson Stylus Color 760 Gammas.xml</Has>
+   <Uses>Epson Generic ESC2P Commands.xml</Uses>
+   <Has>Epson Stylus Color 760 Data.xml</Has>
+   <Has>Epson Strings.xml</Has>
+   <Instance>Epson ESCP2 Instance.hpp</Instance>
+   <Instance>Epson ESCP2 Instance.cpp</Instance>
+   <Blitter>Epson ESCP2 Blitter.hpp</Blitter>
+   <Blitter>Epson ESCP2 Blitter.cpp</Blitter>
+   <!--
+   <PluggableInstance exename="OmniEpsonBlitter"/>
+   <PluggableBlitter/>
+   -->
+   <DefaultJobProperties>
+      <Copies>2</Copies>
+      <dither>DITHER_STUCKI_DIFFUSION</dither>
+      <Form>na_letter_8.50x11.00in</Form>
+      <omniForm>FORM_LETTER</omniForm>
+      <media>MEDIA_PLAIN</media>
+      <NumberUp>
+         <NumberUp FORMAT="XbyY">
+            <x>2</x>
+            <y>2</y>
+         </NumberUp>
+         <NumberUpDirection>TorightTobottom</NumberUpDirection>
+      </NumberUp>
+      <Rotation>Portrait</Rotation>
+      <omniOrientation>ORIENTATION_PORTRAIT</omniOrientation>
+      <OutputBin>Center</OutputBin>
+      <printmode>PRINT_MODE_24_CMYK</printmode>
+      <Resolution>360x360</Resolution>
+      <omniResolution>RESOLUTION_360_X_360</omniResolution>
+      <Scaling>
+         <ScalingPercentage>75</ScalingPercentage>
+         <ScalingType>FitToPage</ScalingType>
+      </Scaling>
+      <SheetCollate>SheetCollated</SheetCollate>
+      <Sides>OneSidedFront</Sides>
+      <Stitching>
+         <StitchingPosition>1</StitchingPosition>
+         <StitchingReferenceEdge>Top</StitchingReferenceEdge>
+         <StitchingType>Corner</StitchingType>
+         <StitchingCount>1</StitchingCount>
+         <StitchingAngle>0</StitchingAngle>
+      </Stitching>
+      <InputTray>Continuous</InputTray>
+      <omniTray>TRAY_CSF</omniTray>
+      <Trimming>Tab</Trimming>
+
+      <other>MediaScaling.MediaScaling_Global_ID=off-centered</other>
+   </DefaultJobProperties>
+</Device>

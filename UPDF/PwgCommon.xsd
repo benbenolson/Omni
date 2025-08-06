@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.pwg.org/schemas/sm/1.0/" xmlns="http://www.pwg.org/schemas/sm/1.0/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.00">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">PWG Common Element and Types schema 
+Copyright 2002-2004, IEEE Industry Standards and Technology Organization/Printer Working Group. 
+All rights reserved</xsd:documentation>
+	</xsd:annotation>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/PwgWellKnownValues.xsd"/>
+	<xsd:annotation>
+		<xsd:documentation>NOTE: To use this schema you MUST include MediaElements.xsd</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>Semantic elements used in more than one sub-schema or used directly in an interface</xsd:documentation>
+	</xsd:annotation>
+	<xsd:element name="Compression">
+		<xsd:simpleType>
+			<xsd:union memberTypes="CompressionWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="CoverType">
+		<xsd:simpleType>
+			<xsd:union memberTypes="CoverTypeWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="DateTimeAtCompleted" type="xsd:dateTime"/>
+	<xsd:element name="DateTimeAtCreation" type="xsd:dateTime"/>
+	<xsd:element name="DateTimeAtProcessing" type="xsd:dateTime"/>
+	<xsd:element name="DetailedStatusMessages">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="DetailedStatusMessage" type="xsd:string" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DeviceId">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="1023"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="DocumentAccessErrors">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="DocumentAccessError" type="xsd:string" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DocumentCharset">
+		<xsd:simpleType>
+			<xsd:union memberTypes="CharsetWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="DocumentSourceApplicationName" type="xsd:string"/>
+	<xsd:element name="DocumentSourceApplicationVersion" type="xsd:string"/>
+	<xsd:element name="DocumentSourceOsName">
+		<xsd:simpleType>
+			<xsd:union memberTypes="OperatingSystemNameWKV OperatingSystemNameExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="DocumentSourceOsVersion" type="xsd:string"/>
+	<xsd:element name="DocumentDigitalSignature">
+		<xsd:simpleType>
+			<xsd:union memberTypes="DocumentDigitalSignatureWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="DocumentFormat">
+		<xsd:simpleType>
+			<xsd:union memberTypes="DocumentFormatWKV MimeExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="DocumentFormatDeviceId">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="1023"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="DocumentNaturalLanguage">
+		<xsd:simpleType>
+			<xsd:union memberTypes="NaturalLanguageWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="DocumentNumber">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:int">
+				<xsd:minInclusive value="1"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="DocumentFormatDetail" type="DocumentFormatDetail"/>
+	<xsd:element name="DocumentFormatDetails">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="DocumentFormatDetail" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DocumentFormatVersion" type="xsd:string"/>
+	<xsd:element name="DocumentUri" type="xsd:anyURI"/>
+	<xsd:element name="ElementsCharset" type="CharsetWKV"/>
+	<xsd:element name="ElementsNaturalLanguage" type="NaturalLanguageWKV"/>
+	<xsd:element name="ErrorsCount" type="xsd:int"/>
+	<xsd:element name="FeedOrientation">
+		<xsd:simpleType>
+			<xsd:union memberTypes="FeedOrientationWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="FinishingTemplate" type="xsd:string"/>
+	<xsd:element name="Impressions" type="xsd:int"/>
+	<xsd:element name="ImpressionsCompleted" type="xsd:int"/>
+	<xsd:element name="ImpressionsCompletedCurrentCopy" type="xsd:int"/>
+	<xsd:element name="JobId" type="xsd:int"/>
+	<xsd:element name="JobRequestingUserName">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="255"/>
+				<xsd:whiteSpace value="preserve"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobUri">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:anyURI">
+				<xsd:maxLength value="1023"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="KOctets" type="xsd:int"/>
+	<xsd:element name="KOctetsProcessed" type="xsd:int"/>
+	<xsd:element name="Limit" type="xsd:int"/>
+	<xsd:element name="MediaSheets" type="xsd:int"/>
+	<xsd:element name="MediaSheetsCompleted" type="xsd:int"/>
+	<xsd:element name="Message">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="127"/>
+				<xsd:whiteSpace value="preserve"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MoreInfo" type="xsd:string"/>
+	<xsd:element name="MyJobs" type="xsd:boolean"/>
+	<xsd:element name="Operation">
+		<xsd:simpleType>
+			<xsd:union memberTypes="OperationsSupportedWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="OutputDevice">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="127"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="OutputDeviceAssigned">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="127"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="Overrides" type="Overrides"/>
+	<xsd:element name="PrinterDriverInstaller" type="xsd:anyURI">
+		<xsd:annotation>
+			<xsd:documentation source="www.pwg.org">Deprecated</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="PrinterMakeAndModel">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="127"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PrinterUpTime" type="xsd:int"/>
+	<xsd:element name="PrinterUri">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:anyURI">
+				<xsd:maxLength value="1023"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="ProofPrintCopies" type="xsd:int"/>
+	<xsd:element name="RequestedElements">
+		<xsd:annotation>
+			<xsd:documentation source="www.pwg.org">Any element name in any namespace</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Name" type="xsd:NMTOKEN" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="SaveDisposition">
+		<xsd:simpleType>
+			<xsd:union memberTypes="SaveDispositionWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="SheetCompletedCopyNumber" type="xsd:int"/>
+	<xsd:element name="StatusMessage">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="255"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="StatusString" type="StatusString">
+		<xsd:annotation>
+			<xsd:documentation>Element for return value on Actions</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="Stitching" type="Stitching"/>
+	<xsd:element name="StitchingLocations" type="xsd:int"/>
+	<xsd:element name="StitchingOffset" type="xsd:int"/>
+	<xsd:element name="StitchingReferenceEdge">
+		<xsd:simpleType>
+			<xsd:union memberTypes="StitchingReferenceEdgeWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="TimeAtCompleted" type="xsd:int"/>
+	<xsd:element name="TimeAtCreation" type="xsd:int"/>
+	<xsd:element name="TimeAtProcessing" type="xsd:int"/>
+	<xsd:element name="UnsupportedElements" type="UnsupportedElements"/>
+	<xsd:element name="Version">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:pattern value="[0,9]\.[0,9]+"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="WarningsCount" type="xsd:int"/>
+	<xsd:element name="WhichJobs">
+		<xsd:simpleType>
+			<xsd:union memberTypes="WhichJobsWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:annotation>
+		<xsd:documentation>Complex types used by semantic elements</xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="CoverCol">
+		<xsd:sequence>
+			<xsd:element ref="CoverType" minOccurs="0"/>
+			<xsd:choice minOccurs="0">
+				<xsd:element ref="Media" minOccurs="0"/>
+				<xsd:element ref="MediaCol" minOccurs="0"/>
+			</xsd:choice>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DocumentOverrides">
+		<xsd:annotation>
+			<xsd:documentation>Deprecate this and use document object</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:choice minOccurs="0">
+				<xsd:element name="InputDocuments" type="RangeOfInt" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element name="OutputDocuments" type="RangeOfInt" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:choice>
+			<xsd:element name="Copies" type="xsd:int" minOccurs="0"/>
+			<xsd:element ref="DocumentFormat" minOccurs="0"/>
+			<xsd:element name="DocumentName" type="xsd:string" minOccurs="0"/>
+			<xsd:element ref="Compression" minOccurs="0"/>
+			<xsd:element ref="DocumentNaturalLanguage" minOccurs="0"/>
+			<xsd:element name="PageRangesSupported" type="RangeOfInt" minOccurs="0"/>
+			<xsd:any namespace="##any" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="DocumentFormatDetail">
+		<xsd:sequence>
+			<xsd:element ref="DocumentSourceApplicationName" minOccurs="0"/>
+			<xsd:element ref="DocumentSourceApplicationVersion" minOccurs="0"/>
+			<xsd:element ref="DocumentSourceOsName" minOccurs="0"/>
+			<xsd:element ref="DocumentSourceOsVersion" minOccurs="0"/>
+			<xsd:element ref="DocumentFormat" minOccurs="0"/>
+			<xsd:element ref="DocumentFormatDeviceId" minOccurs="0"/>
+			<xsd:element ref="DocumentFormatVersion" minOccurs="0"/>
+			<xsd:element name="DocumentNaturalLanguages" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element ref="DocumentNaturalLanguage" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Finishings">
+		<xsd:sequence>
+			<xsd:element name="Finishing" minOccurs="0" maxOccurs="unbounded">
+				<xsd:simpleType>
+					<xsd:union memberTypes="FinishingsWKV KeywordNsExtensionPattern"/>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="FinishingsCol">
+		<xsd:sequence>
+			<xsd:element ref="FinishingTemplate" minOccurs="0"/>
+			<xsd:element ref="Stitching" minOccurs="0"/>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Overrides">
+		<xsd:sequence>
+			<xsd:element name="Pages" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="PageRange" type="RangeOfInt" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="DocumentNumbers" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="NumberRange" type="RangeOfInt" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="DocumentCopies" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="CopiesRange" type="RangeOfInt" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Stitching">
+		<xsd:sequence>
+			<xsd:element ref="StitchingReferenceEdge" minOccurs="0"/>
+			<xsd:element ref="StitchingOffset" minOccurs="0"/>
+			<xsd:element ref="StitchingLocations" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:annotation>
+		<xsd:documentation>Complex base types used by semantic elements</xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="UnsupportedElements">
+		<xsd:sequence>
+			<xsd:any namespace="##any" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="RangeOfInt">
+		<xsd:sequence>
+			<xsd:element name="Lowerbound" type="xsd:int"/>
+			<xsd:element name="Upperbound" type="xsd:int"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Resolution">
+		<xsd:sequence>
+			<xsd:element name="CrossFeedDir">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:int">
+						<xsd:minInclusive value="1"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="FeedDir">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:int">
+						<xsd:minInclusive value="1"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Units">
+				<xsd:simpleType>
+					<xsd:union memberTypes="UnitsWKV KeywordNsExtensionPattern"/>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:annotation>
+		<xsd:documentation>Base types used by semantic elements</xsd:documentation>
+	</xsd:annotation>
+	<xsd:simpleType name="StatusString">
+		<xsd:annotation>
+			<xsd:documentation>Type for return value on Actions</xsd:documentation>
+		</xsd:annotation>
+		<xsd:union memberTypes="StatusStringWKV KeywordNsExtensionPattern"/>
+	</xsd:simpleType>
+</xsd:schema>

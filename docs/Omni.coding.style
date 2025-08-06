@@ -1,0 +1,186 @@
+The following is the Omni project's coding standard/style.
+A common coding style causes less difficulties when trying
+to maintain code.
+
+Do not block mark changed code.  This only clutters the file.  CVS should
+be able to give you version history of when changes went into code.
+Don't:
+   if (i == 0) // @FIX01
+   {           // @FIX01
+      ...      // @FIX01
+   }           // @FIX01
+
+Tabs are not used and the indentation level should be three spaces.
+
+Function declarations are as follows:
+
+/***************************************************************************/
+/* Documentation of inputs/outputs/returns of the function and what it     */
+/* does.                                                                   */
+/***************************************************************************/
+int
+function (char *pszName,
+          int   iValue)
+{
+   int   i         = 0;
+   char  achId[64];
+   int   j         = 20;
+
+   ...
+}
+
+   - The return type and class name are on the first line
+   - The name of the function is on the first column of the second line
+   - The type identifiers are aligned and the parameters are aligned.  The
+     same holds true of initialization values.
+   - returns should not look like function calls.
+     yes: return 0;          no: return( 0 );  or return (0);
+
+Function prototypes:
+
+   The names and parameters should be aligned.
+
+   void      functionOne       (int   iParam1);
+   int       functionTwo       (char *pszName);
+
+If statements:
+
+   The tests should look like:
+      if (i == k)
+   and not like
+      if( i == k )
+   or
+      if ( i == k )
+
+   A sample if statement looks like:
+
+   if (i > 5)
+   {
+      ...
+   }
+   else
+   {
+      ...
+   }
+
+   - Simple if statements that have one statement do not need braces.  However, 
+     when one of the sections is complex and requires braces, the other section
+     should have one as well.
+
+                                  if (y != 0)
+                                     y--;
+
+     if (i > 5)          vs.      if (i > 5)
+        fSet = true;              {
+     else                            fSet = true;
+     {                            }
+        ...                       else
+     }                            {
+                                     ...
+                                  }
+
+   - When there are multiple tests in a if/else statement, then the following
+     structure should be used.
+
+     if (  j < 4        or    if (  (  pszValue1      or    if (  i < 2
+        && i == 2                   && *pszValue1              && j >= 3
+        )                           )                          && k == 0
+     {                           || (  pszValue2               && l != 1
+        ...                         && *pszValue2              )
+     }                              )                       {
+                              {                                ...
+                                 ...                        }
+                              }                             else if (  i == 0
+                                                                    || j == 0
+                                                                    )
+                                                            {
+                                                               ...
+                                                            }
+
+While statements have the same format as if statements.
+
+    while (i > 0)
+    {
+       ...
+    }
+
+Switch/Case statements:
+
+    The case is on the same indentation level as the switch.  This helps
+    keep the code from "migrating" too far across the screen.
+    A simple switch looks like:
+
+    switch (i)
+    {
+    case 0: j = 2; break;
+    case 1: j = 1; break;
+    case 2: j = 0; break;
+    }
+
+    While a complex switch looks like:
+
+    switch (i)
+    {
+    case 0:
+    case 1:
+    {
+       ...
+    }
+
+    case 2:
+    {
+       ...
+    }
+
+    default:
+    {
+       ...
+    }
+    }
+
+Function calls:
+
+    Should look like:
+       fillcode (4);
+    and not like
+       fillcode( 4 );
+    or
+       fillcode ( 4 );
+
+    Multiple parameters can on the same line:
+       fillcode (i, j, k);
+
+    However, if the length of the line becomes too long, then it should be aligned:
+       fillcode (iNumberOfRequestedElements,
+                 pRoot,
+                 &iNumberOfHits);
+
+Hungarian notation:
+
+   Variables should use Hungarian notation (except for simple loop variables
+   like i or j, etc..., or return codes such as rc).
+
+   Array                                      a
+   Character                                  ch
+   Integer                                    i
+   Long Integer                               l
+   Unsigned                                   u
+   Byte                                       b
+   Boolean                                    f
+   Global                                     v
+   Pointer                                    p
+   Pointer to a zero terminated String        psz
+
+   Class variables should have a _d postfix!
+
+Header files:
+
+   Header files should have ifdefs to protect against multiple inclusions.
+   For example:
+
+   #ifndef _NewFile
+   #define _NewFile
+
+   ...
+
+   #endif

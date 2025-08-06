@@ -1,0 +1,1800 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<DeviceCapabilities FileTypeIdentification = "Master description of device or optional unit" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation = "UPDF.xsd">  
+        
+	<UPDFVersion SchemaVersion = "1.00"/>  
+        <Device_Header UnitName = "UI_String_ModelName" ProductName = "HP LaserJet 9000" Manufacturer = "Hewlett-Packard" DescriptionVersion = "0.80">    
+		<Connectors>      
+                        <ConnectorsForChildUnits>        
+                                
+                                
+                                <ConnectorForChildUnit ID = "Input_Underneath" Name_ID = "UI_String_Connector_InputUnderneath"/>                                
+                                <ConnectorForChildUnit ID = "NoConnector" Name_ID = "UI_String_ConnectorUnused"/>      
+                        </ConnectorsForChildUnits>    
+		</Connectors>  
+	</Device_Header>  
+	<Device_Features>    
+		<PrintCapabilities>
+			<Header>        
+				<Languages>          
+					<PageDescriptionLanguage PDLMajorLevel = "PCL5e" PDLMinorLevel = "0"/>          
+					<JobControlLanguage JCLMajorLevel = "PJL" JCLMinorLevel = "0"/>        
+				</Languages>
+				<VirtualUnits Predefined_ID = "virtualUnits_7200x7200"/>      
+                        
+			</Header>      
+                        
+			<Features>
+                                <RAM Name_ID = "UI_String_RAM_Label" ID = "RAM">
+                                        <RAM_Record ID = "RAM_64"  KB = "65536" Name_ID = "UI_String_RAM_64" AvailableMemory_ID = "DownloadMemory"/>
+                                        <RAM_Record ID = "RAM_80"  KB = "81920" Name_ID = "UI_String_RAM_80" AvailableMemory_ID = "DownloadMemory"/>
+                                        <RAM_Record ID = "RAM_96"  KB = "98304" Name_ID = "UI_String_RAM_96" AvailableMemory_ID = "DownloadMemory"/>
+                                        <RAM_Record ID = "RAM_112" KB = "114688" Name_ID = "UI_String_RAM_112" AvailableMemory_ID = "DownloadMemory"/>
+                                        <RAM_Record ID = "RAM_128" KB = "131072" Name_ID = "UI_String_RAM_128" AvailableMemory_ID = "DownloadMemory"/>
+                                        <RAM_Record ID = "RAM_144" KB = "147456" Name_ID = "UI_String_RAM_144" AvailableMemory_ID = "DownloadMemory"/>
+                                        <RAM_Record ID = "RAM_160" KB = "163840" Name_ID = "UI_String_RAM_160" AvailableMemory_ID = "DownloadMemory"/>
+                                        <RAM_Record ID = "RAM_176" KB = "180224" Name_ID = "UI_String_RAM_176" AvailableMemory_ID = "DownloadMemory"/>
+                                        <RAM_Record ID = "RAM_192" KB = "196608" Name_ID = "UI_String_RAM_192" AvailableMemory_ID = "DownloadMemory"/>
+                                        <RAM_Record ID = "RAM_208" KB = "212992" Name_ID = "UI_String_RAM_208" AvailableMemory_ID = "DownloadMemory"/>
+                                        <RAM_Record ID = "RAM_224" KB = "229376" Name_ID = "UI_String_RAM_224" AvailableMemory_ID = "DownloadMemory"/>
+                                        <RAM_Record ID = "RAM_240" KB = "245760" Name_ID = "UI_String_RAM_240" AvailableMemory_ID = "DownloadMemory"/>
+                                        <RAM_Record ID = "RAM_256" KB = "264144" Name_ID = "UI_String_RAM_256" AvailableMemory_ID = "DownloadMemory"/>
+                                </RAM>                
+                                <AvailableMemory Name_ID = "UI_String_DWS_Label" ID = "AvailableMemory">
+                                        <AvailableMemory_Record ID = "DownloadMemory" KB = "7925" Name_ID = "UI_String_DownloadMemory" Available_Minimum = "10" Available_Maximum = "51200"/>
+                                </AvailableMemory>                                
+                                <DeviceResolution Name_ID = "UI_String_DeviceResolution_Label" ID = "DeviceResolution" Non_Dominant_Representative = "DeviceResolution_600dpi">          
+                                        
+                                        <DeviceResolution_Record ID = "DeviceResolution_300dpi" Name_ID = "UI_String_DeviceResolution_300dpi" Predefined_ID = "proprietary-value" Proprietary_ID = "deviceResolution_300x300">
+						<Command CommandSequence_ID = "JCL_DeviceResolution" Parameter_ID = "Param_300"/>
+						<Command CommandSequence_ID = "PDL_DeviceResolution" Parameter_ID = "Param_300"/>            
+                                                          
+                                        </DeviceResolution_Record>          
+                                        
+                                        <DeviceResolution_Record Name_ID = "UI_String_DeviceResolution_600dpi" ID = "DeviceResolution_600dpi" Predefined_ID = "deviceResolution_600x600">
+						<Command CommandSequence_ID = "JCL_DeviceResolution" Parameter_ID = "Param_600"/>
+						<Command CommandSequence_ID = "PDL_DeviceResolution" Parameter_ID = "Param_600"/>            
+                                                          
+                                        </DeviceResolution_Record>        
+                                </DeviceResolution>                                
+                                
+				<ColorHandling ID = "ColorMode" Name_ID = "UI_String_Dummy" Appearance = "Hidden" Non_Dominant_Representative = "Monochrome">                                        
+					<ColorMode ID = "Monochrome" Name_ID = "UI_String_Dummy" Predefined_ID = "monochrome" PlaneImplementation = "PerPixel"/>                  
+                                
+				</ColorHandling>        
+				<PrintMediaHandling>          
+                                        
+                                        
+					<MediaCopy ID = "MediaCopy" Name_ID = "UI_String_MediaCopies_Label" MaximumValue = "999" DeviceFeature = "true"/>                                        
+                                        <MediaCollation Name_ID = "UI_String_MediaCollation_Label" ID = "MediaCollation" Non_Dominant_Representative = "Collation_Off">            
+                                                
+                                                <MediaCollation_Record Name_ID = "UI_String_Collation_Off" DeviceFeature = "false" ID = "Collation_Off" Predefined_ID = "uncollated"/>            
+                                                
+                                                <MediaCollation_Record Name_ID = "UI_String_Collation_On" ID = "Collation_On" Predefined_ID = "tray-collation" DeviceFeature = "true"/>
+                                                                    
+                                        </MediaCollation>          
+                                        
+                                        <MediaPageOrientation Name_ID = "UI_String_MediaOrientation_Label" ID = "MediaPageOrientation" Non_Dominant_Representative = "Orientation_Portrait">            
+                                                
+                                                
+                                                <MediaPageOrientation_Record Name_ID = "UI_String_Portrait" ID = "Orientation_Portrait" Predefined_ID = "portrait" DeviceFeature = "true">
+							<Command CommandSequence_ID = "PDL_MediaPageOrientation" Parameter_ID = "Param_Portrait"/>
+                                                </MediaPageOrientation_Record>            
+                                                
+                                                
+                                                <MediaPageOrientation_Record Name_ID = "UI_String_Landscape" ID = "Orientation_Landscape" Predefined_ID = "landscape" DeviceFeature = "true">
+							<Command CommandSequence_ID = "PDL_MediaPageOrientation" Parameter_ID = "Param_Landscape"/>
+                                                </MediaPageOrientation_Record>            
+                                                          
+                                        </MediaPageOrientation>
+                                        <MediaPageRotation Name_ID = "UI_String_PageRotation_Label" ID = "MediaPageRotation" Non_Dominant_Representative = "PageRotation_Standard">                                                
+                                                <MediaPageRotation_Record Predefined_ID = "standard" ID = "PageRotation_Standard" Name_ID = "UI_String_PageRotationOff" DeviceFeature = "true"/>
+                                                <MediaPageRotation_Record Predefined_ID = "reverse" ID = "PageRotation_Reverse" Name_ID = "UI_String_PageRotationOn" DeviceFeature = "false"/>
+                                        </MediaPageRotation>
+                                        
+                                        <MediaSize Name_ID = "UI_String_MediaSize_Label" ID = "MediaSize">            
+                                                
+                                                <MediaSize_Record Predefined_ID = "na_letter_8.5x11in" ID = "Size_Letter" Name_ID = "UI_String_Letter">
+							<Command CommandSequence_ID = "PDL_MediaSize" Parameter_ID = "Param_Letter"/>              
+                                                        
+							<MediaSizeHardwareMargins Left = "0.250in" Top = "0.166in" Right = "0.250in" Bottom = "0.166in" Orientation = "portrait"/>                                                        
+							<MediaSizeHardwareMargins Top = "0.166in" Bottom = "0.166in" Right = "0.200in" Left = "0.200in" Orientation = "landscape"/>
+                                                </MediaSize_Record>            
+                                                
+                                                <MediaSize_Record Predefined_ID = "na_legal_8.5x14in" ID = "Size_Legal" Name_ID = "UI_String_Legal">
+							<Command CommandSequence_ID = "PDL_MediaSize" Parameter_ID = "Param_Legal"/>              
+                                                        
+							<MediaSizeHardwareMargins Left = "0.250in" Top = "0.166in" Right = "0.250in" Bottom = "0.166in" Orientation = "portrait"/>                                                        
+							<MediaSizeHardwareMargins Top = "0.166in" Bottom = "0.166in" Right = "0.200in" Left = "0.200in" Orientation = "landscape"/>
+                                                </MediaSize_Record>            
+                                                
+                                                <MediaSize_Record Predefined_ID = "na_executive_7.25x10.5in" ID = "Size_Executive" Name_ID = "UI_String_Executive">
+							<Command CommandSequence_ID = "PDL_MediaSize" Parameter_ID = "Param_Executive"/>              
+                                                        
+							<MediaSizeHardwareMargins Left = "0.250in" Top = "0.166in" Right = "0.250in" Bottom = "0.166in" Orientation = "portrait"/>                                                        
+							<MediaSizeHardwareMargins Top = "0.166in" Bottom = "0.166in" Right = "0.200in" Left = "0.200in" Orientation = "landscape"/>            
+                                                </MediaSize_Record>            
+                                                
+                                                <MediaSize_Record Predefined_ID = "iso_a5_148x210mm" ID = "Size_A5" Name_ID = "UI_String_A5">
+							<Command CommandSequence_ID = "PDL_MediaSize" Parameter_ID = "Param_A5"/>              
+                                                        
+							<MediaSizeHardwareMargins Top = "0.166in" Left = "0.236in" Right = "0.236in" Bottom = "0.166in" Orientation = "portrait"/>              
+                                                        
+							<MediaSizeHardwareMargins Left = "0.196in" Top = "0.166in" Right = "0.196in" Bottom = "0.166in" Orientation = "landscape"/>            
+                                                </MediaSize_Record>            
+                                                
+                                                <MediaSize_Record Predefined_ID = "iso_a4_210x297mm" ID = "Size_A4" Name_ID = "UI_String_A4">
+							<Command CommandSequence_ID = "PDL_MediaSize" Parameter_ID = "Param_A4"/>              
+                                                        
+							<MediaSizeHardwareMargins Top = "0.166in" Left = "0.236in" Right = "0.236in" Bottom = "0.166in" Orientation = "portrait"/>                                                        
+							<MediaSizeHardwareMargins Left = "0.196in" Top = "0.166in" Right = "0.196in" Bottom = "0.166in" Orientation = "landscape"/>            
+                                                </MediaSize_Record>            
+                                                
+                                                <MediaSize_Record Predefined_ID = "iso_a3_297x420mm" ID = "Size_A3" Name_ID = "UI_String_A3">
+							<Command CommandSequence_ID = "PDL_MediaSize" Parameter_ID = "Param_A3"/>              
+                                                        
+							<MediaSizeHardwareMargins Top = "0.166in" Left = "0.236in" Right = "0.236in" Bottom = "0.166in" Orientation = "portrait"/>                                                        
+							<MediaSizeHardwareMargins Left = "0.196in" Top = "0.166in" Right = "0.196in" Bottom = "0.166in" Orientation = "landscape"/>            
+                                                </MediaSize_Record>            
+                                                
+                                                <MediaSize_Record Predefined_ID = "na_number-10_4.125x9.5in" ID = "Size_Com10" Name_ID = "UI_String_Com10">
+							<Command CommandSequence_ID = "PDL_MediaSize" Parameter_ID = "Param_Com10"/>              
+                                                        
+							<MediaSizeHardwareMargins Left = "0.250in" Top = "0.166in" Right = "0.250in" Bottom = "0.166in" Orientation = "portrait"/>                                                        
+							<MediaSizeHardwareMargins Top = "0.166in" Bottom = "0.166in" Right = "0.200in" Left = "0.200in" Orientation = "landscape"/>            
+                                                </MediaSize_Record>            
+                                                
+                                                <MediaSize_Record Predefined_ID = "iso_dl_110x220mm" ID = "Size_DL" Name_ID = "UI_String_DL">
+							<Command CommandSequence_ID = "PDL_MediaSize" Parameter_ID = "Param_DL"/>              
+                                                        
+							<MediaSizeHardwareMargins Top = "0.166in" Left = "0.236in" Right = "0.236in" Bottom = "0.166in" Orientation = "portrait"/>                                                        
+							<MediaSizeHardwareMargins Left = "0.196in" Top = "0.166in" Right = "0.196in" Bottom = "0.166in" Orientation = "landscape"/>            
+                                                </MediaSize_Record>            
+                                                
+                                                <MediaSize_Record Predefined_ID = "iso_c5_162x229mm" ID = "Size_C5" Name_ID = "UI_String_C5">
+							<Command CommandSequence_ID = "PDL_MediaSize" Parameter_ID = "Param_C5"/>              
+                                                        
+							<MediaSizeHardwareMargins Top = "0.166in" Left = "0.236in" Right = "0.236in" Bottom = "0.166in" Orientation = "portrait"/>                                                        
+							<MediaSizeHardwareMargins Left = "0.196in" Top = "0.166in" Right = "0.196in" Bottom = "0.166in" Orientation = "landscape"/>            
+                                                </MediaSize_Record>            
+                                                
+                                                <MediaSize_Record Predefined_ID = "iso_b5_176x250mm" ID = "Size_B5" Name_ID = "UI_String_B5">
+							<Command CommandSequence_ID = "PDL_MediaSize" Parameter_ID = "Param_B5"/>              
+                                                        
+							<MediaSizeHardwareMargins Top = "0.166in" Left = "0.236in" Right = "0.236in" Bottom = "0.166in" Orientation = "portrait"/>                                                        
+							<MediaSizeHardwareMargins Left = "0.196in" Top = "0.166in" Right = "0.196in" Bottom = "0.166in" Orientation = "landscape"/>            
+                                                </MediaSize_Record>            
+                                                
+                                                <MediaSize_Record Predefined_ID = "na_monarch_3.875x7.5in" ID = "Size_Monarch" Name_ID = "UI_String_Monarch">
+							<Command CommandSequence_ID = "PDL_MediaSize" Parameter_ID = "Param_Monarch"/>              
+                                                        
+							<MediaSizeHardwareMargins Left = "0.250in" Top = "0.166in" Right = "0.250in" Bottom = "0.166in" Orientation = "portrait"/>                                                        
+							<MediaSizeHardwareMargins Top = "0.166in" Bottom = "0.166in" Right = "0.200in" Left = "0.200in" Orientation = "landscape"/>            
+                                                </MediaSize_Record>            
+                                                
+                                                <MediaSize_Record Predefined_ID = "na_ledger_11x17in" ID = "Size_Ledger" Name_ID = "UI_String_Ledger">
+							<Command CommandSequence_ID = "PDL_MediaSize" Parameter_ID = "Param_Ledger"/>              
+                                                        
+							<MediaSizeHardwareMargins Top = "0.166in" Left = "0.166in" Right = "0.166in" Bottom = "0.166in" Orientation = "portrait-landscape"/>
+                                                </MediaSize_Record>            
+                                                
+                                                <MediaSize_Record Predefined_ID = "jis_b4_257x364mm" ID = "Size_JISB4" Name_ID = "UI_String_JISB4">
+							<Command CommandSequence_ID = "PDL_MediaSize" Parameter_ID = "Param_JISB4"/>              
+                                                        
+							<MediaSizeHardwareMargins Top = "0.166in" Left = "0.166in" Right = "0.166in" Bottom = "0.166in" Orientation = "portrait-landscape"/>
+                                                </MediaSize_Record>            
+                                                
+                                                <MediaSize_Record Predefined_ID = "jis_b5_182x257mm" ID = "Size_JISB5" Name_ID = "UI_String_JISB5">
+							<Command CommandSequence_ID = "PDL_MediaSize" Parameter_ID = "Param_JISB5"/>              
+                                                        
+							<MediaSizeHardwareMargins Top = "0.166in" Left = "0.236in" Right = "0.236in" Bottom = "0.166in" Orientation = "portrait"/>                                                        
+							<MediaSizeHardwareMargins Left = "0.236in" Top = "0.166in" Right = "0.236in" Bottom = "0.166in" Orientation = "landscape"/>
+                                                </MediaSize_Record>            
+                                                
+                                                <MediaSize_Record Predefined_ID = "jpn_oufuku_148x200mm" ID = "Size_DoublePostcard" Name_ID = "UI_String_DoublePostcard">
+							<Command CommandSequence_ID = "PDL_MediaSize" Parameter_ID = "Param_DoublePostcard"/>              
+                                                        
+							<MediaSizeHardwareMargins Top = "0.166in" Left = "0.166in" Right = "0.166in" Bottom = "0.166in" Orientation = "portrait-landscape"/>
+                                                </MediaSize_Record>            
+                                                
+                                                <MediaSize_Record Predefined_ID = "na_foolscap_8.5x13in" ID = "Size_JISEXEC" Name_ID = "UI_String_JISEXEC">
+							<Command CommandSequence_ID = "PDL_MediaSize" Parameter_ID = "Param_JISEXEC"/>              
+                                                        
+							<MediaSizeHardwareMargins Left = "0.250in" Top = "0.166in" Right = "0.250in" Bottom = "0.166in" Orientation = "portrait"/>                                                        
+							<MediaSizeHardwareMargins Top = "0.166in" Bottom = "0.166in" Right = "0.200in" Left = "0.200in" Orientation = "landscape"/>
+                                                </MediaSize_Record>            
+                                                
+                                                <MediaSize_Record Predefined_ID = "roc_16k_7.75x10.25in" ID = "Size_ROC16K" Name_ID = "UI_String_ROC16K">
+							<Command CommandSequence_ID = "PDL_MediaSize" Parameter_ID = "Param_ROC16K"/>              
+                                                        
+							<MediaSizeHardwareMargins Left = "0.250in" Top = "0.166in" Right = "0.250in" Bottom = "0.166in" Orientation = "portrait"/>                                                        
+							<MediaSizeHardwareMargins Top = "0.166in" Bottom = "0.166in" Right = "0.200in" Left = "0.200in" Orientation = "landscape"/>
+                                                </MediaSize_Record>            
+                                                
+                                                <MediaSize_Record Predefined_ID = "roc_8k_10.75x15.5in" ID = "Size_ROC8K" Name_ID = "UI_String_ROC8K">
+							<Command CommandSequence_ID = "PDL_MediaSize" Parameter_ID = "Param_ROC8K"/>              
+                                                        
+							<MediaSizeHardwareMargins Top = "0.166in" Left = "0.166in" Right = "0.166in" Bottom = "0.166in" Orientation = "portrait-landscape"/>
+                                                </MediaSize_Record>            
+                                                
+                                                <MediaSize_Record Name_ID = "UI_String_CustomSize" ID = "Size_CustomSize" Predefined_ID = "custom-media-size">
+							<Command CommandSequence_ID = "PDL_MediaSize" Parameter_ID = "Param_CustomSize"/>              
+                                                        
+							<MediaSizeHardwareMargins Top = "0.166in" Left = "0.166in" Right = "0.166in" Bottom = "0.166in" Orientation = "portrait-landscape"/>
+                                                </MediaSize_Record>          
+                                        </MediaSize>          
+                                        
+                                        <MediaType Name_ID = "UI_String_MediaType_Label" ID = "MediaType" Non_Dominant_Representative = "Type_Auto">            
+                                                
+                                                <MediaType_Record Name_ID = "UI_String_Auto" ID = "Type_Auto" Predefined_ID = "device-setting"/>            
+                                                
+                                                <MediaType_Record ID = "Type_Plain" Name_ID = "UI_String_Plain" Predefined_ID = "stationery">
+							<Command CommandSequence_ID = "PDL_MediaType" Parameter_ID = "Param_Plain"/>
+                                                </MediaType_Record>            
+                                                
+                                                <MediaType_Record ID = "Type_Preprinted" Predefined_ID = "stationery-preprinted" Name_ID = "UI_String_Preprinted">
+							<Command CommandSequence_ID = "PDL_MediaType" Parameter_ID = "Param_Preprinted"/>
+                                                </MediaType_Record>            
+                                                
+                                                <MediaType_Record ID = "Type_Letterhead" Predefined_ID = "stationery-letterhead" Name_ID = "UI_String_Letterhead">
+							<Command CommandSequence_ID = "PDL_MediaType" Parameter_ID = "Param_Letterhead"/>
+                                                </MediaType_Record>            
+                                                
+                                                <MediaType_Record ID = "Type_Transparency" Predefined_ID = "transparency" Name_ID = "UI_String_Transparency">
+							<Command CommandSequence_ID = "PDL_MediaType" Parameter_ID = "Param_Transparency"/>
+                                                </MediaType_Record>            
+                                                
+                                                <MediaType_Record ID = "Type_Prepunched" Predefined_ID = "stationery-prepunched" Name_ID = "UI_String_Prepunched">
+							<Command CommandSequence_ID = "PDL_MediaType" Parameter_ID = "Param_Prepunched"/>
+                                                </MediaType_Record>            
+                                                
+                                                <MediaType_Record ID = "Type_Labels" Predefined_ID = "labels" Name_ID = "UI_String_Labels">
+							<Command CommandSequence_ID = "PDL_MediaType" Parameter_ID = "Param_Labels"/>
+                                                </MediaType_Record>            
+                                                
+                                                
+                                                <MediaType_Record ID = "Type_Bond" Predefined_ID = "proprietary-value" Proprietary_ID = "custom-media-type-bond" Name_ID = "UI_String_Bond">
+							<Command CommandSequence_ID = "PDL_MediaType" Parameter_ID = "Param_Bond"/>
+                                                </MediaType_Record>            
+                                                
+                                                
+                                                <MediaType_Record ID = "Type_Recycled" Predefined_ID = "proprietary-value" Proprietary_ID = "custom-media-type-recycled" Name_ID = "UI_String_Recycled">
+							<Command CommandSequence_ID = "PDL_MediaType" Parameter_ID = "Param_Recycled"/>
+                                                </MediaType_Record>            
+                                                
+                                                
+                                                <MediaType_Record ID = "Type_Color" Predefined_ID = "proprietary-value" Proprietary_ID = "custom-media-type-color" Name_ID = "UI_String_Color">
+							<Command CommandSequence_ID = "PDL_MediaType" Parameter_ID = "Param_Color"/>
+                                                </MediaType_Record>            
+                                                
+                                                <MediaType_Record ID = "Type_CardStock" Predefined_ID = "cardstock" Name_ID = "UI_String_CardStock">
+							<Command CommandSequence_ID = "PDL_MediaType" Parameter_ID = "Param_CardStock"/>
+                                                </MediaType_Record>            
+                                                
+                                                
+                                                <MediaType_Record ID = "Type_Rough" Predefined_ID = "proprietary-value" Proprietary_ID = "custom-media-type-rough" Name_ID = "UI_String_Rough">
+							<Command CommandSequence_ID = "PDL_MediaType" Parameter_ID = "Param_Rough"/>
+                                                </MediaType_Record>          
+                                        </MediaType>          
+                                        
+                                        <MediaSource Name_ID = "UI_String_MediaSource_Label" ID = "MediaSource" Non_Dominant_Representative = "Source_Auto">            
+                                                
+                                                <MediaSource_Record ID = "Source_Auto" Name_ID = "UI_String_Auto" Predefined_ID = "device-setting">
+							<Command CommandSequence_ID = "PDL_MediaSource" Parameter_ID = "Param_Auto"/>
+                                                </MediaSource_Record>            
+                                                
+                                                <MediaSource_Record ID = "Source_Tray2" Name_ID = "UI_String_Tray2" Predefined_ID = "cut-sheet">
+							<Command CommandSequence_ID = "PDL_MediaSource" Parameter_ID = "Param_Tray2"/>
+                                                </MediaSource_Record>            
+                                                
+                                                <MediaSource_Record ID = "Source_Tray3" Name_ID = "UI_String_Tray3" Predefined_ID = "cut-sheet">
+							<Command CommandSequence_ID = "PDL_MediaSource" Parameter_ID = "Param_Tray3"/>
+                                                </MediaSource_Record>          
+                                        </MediaSource>          
+                                        
+                                        <MediaDestination Name_ID = "UI_String_MediaDestination_Label" ID = "MediaDestination" Non_Dominant_Representative = "Destination_Top">            
+                                                
+                                                <MediaDestination_Record Name_ID = "UI_String_OutputTop" ID = "Destination_Top" Predefined_ID = "standard">
+							<Command CommandSequence_ID = "JCL_MediaDestination" Parameter_ID = "Param_DestUpper"/>              
+                                                                    
+                                                </MediaDestination_Record>            
+                                                
+                                                
+                                                <MediaDestination_Record ID = "Destination_Left" Predefined_ID = "proprietary-value" Proprietary_ID = "Destination_Left" Name_ID = "UI_String_OutputLeft">
+							<Command CommandSequence_ID = "JCL_MediaDestination" Parameter_ID = "Param_DestLower"/>              
+                                                                    
+                                                </MediaDestination_Record>            
+                                                
+                                                
+                                                <MediaDestination_Record ID = "Destination_Left_FaceDown" Predefined_ID = "proprietary-value" Proprietary_ID = "Destination_Left_FaceDown" Name_ID = "UI_String_OutputLeft_FaceDown">
+							<Command CommandSequence_ID = "JCL_MediaDestination" Parameter_ID = "Param_DestOptional2"/>              
+                                                                    
+                                                </MediaDestination_Record>          
+                                        </MediaDestination>          
+                                        
+                                        
+                                        <MediaStapling Name_ID = "UI_String_MediaStapling_Label" ID = "MediaStapling" Non_Dominant_Representative = "Stapling_Off" MaximumPacketSize = "50">            
+                                                
+                                                
+                                                <MediaStapling_Record ID = "Stapling_Off" Predefined_ID = "0" Name_ID = "UI_String_StaplingOff">
+							<Command CommandSequence_ID = "JCL_MediaStapling" Parameter_ID = "Param_StapleOff"/>              
+                                                                    
+                                                </MediaStapling_Record>            
+                                                
+                                                
+                                                <MediaStapling_Record ID = "Stapling_1" Predefined_ID = "1" Name_ID = "UI_String_Stapling1" StapleOrientation = "vertical" HorizontalPlacement = "left" VerticalPlacement = "top">
+							<Command CommandSequence_ID = "JCL_MediaStapling" Parameter_ID = "Param_StapleOn"/>
+							<Command CommandSequence_ID = "JCL_MediaStapleOption" Parameter_ID = "Param_Staple1"/>              
+                                                                      
+                                                                    
+                                                </MediaStapling_Record>            
+                                                
+                                                
+                                                
+                                                <MediaStapling_Record ID = "Stapling_1Angled" Predefined_ID = "proprietary-value" Name_ID = "UI_String_Stapling1Angled" StapleOrientation = "slant-forward" HorizontalPlacement = "left" VerticalPlacement = "top" Proprietary_ID = "1angled">
+							<Command CommandSequence_ID = "JCL_MediaStapling" Parameter_ID = "Param_StapleOn"/>
+							<Command CommandSequence_ID = "JCL_MediaStapleOption" Parameter_ID = "Param_Staple1A"/>              
+                                                                      
+                                                                    
+                                                </MediaStapling_Record>            
+                                                
+                                                
+                                                <MediaStapling_Record ID = "Stapling_2" Predefined_ID = "2" Name_ID = "UI_String_Stapling2" StapleOrientation = "vertical" HorizontalPlacement = "left" VerticalPlacement = "one-third">
+							<Command CommandSequence_ID = "JCL_MediaStapling" Parameter_ID = "Param_StapleOn"/>
+							<Command CommandSequence_ID = "JCL_MediaStapleOption" Parameter_ID = "Param_Staple2"/>              
+                                                                      
+                                                                    
+                                                </MediaStapling_Record>            
+                                                
+                                                
+                                                <MediaStapling_Record ID = "Stapling_3" Predefined_ID = "3" Name_ID = "UI_String_Stapling3" StapleOrientation = "vertical" HorizontalPlacement = "left" VerticalPlacement = "top">
+							<Command CommandSequence_ID = "JCL_MediaStapling" Parameter_ID = "Param_StapleOn"/>
+							<Command CommandSequence_ID = "JCL_MediaStapleOption" Parameter_ID = "Param_Staple3"/>              
+                                                                      
+                                                                    
+                                                </MediaStapling_Record>            
+                                                
+                                                
+                                                <MediaStapling_Record ID = "Stapling_6" Predefined_ID = "6" Name_ID = "UI_String_Stapling6" StapleOrientation = "vertical" HorizontalPlacement = "left" VerticalPlacement = "top">
+							<Command CommandSequence_ID = "JCL_MediaStapling" Parameter_ID = "Param_StapleOn"/>
+							<Command CommandSequence_ID = "JCL_MediaStapleOption" Parameter_ID = "Param_Staple6"/>              
+                                                                      
+                                                                    
+                                                </MediaStapling_Record>            
+                                                
+                                                
+                                                <MediaStapling_Record ID = "Stapling_Custom" Predefined_ID = "proprietary-value" Proprietary_ID = "staples-custom" Name_ID = "UI_String_StaplingCustom" StapleOrientation = "vertical" HorizontalPlacement = "left" VerticalPlacement = "top">
+							<Command CommandSequence_ID = "JCL_MediaStapling" Parameter_ID = "Param_StapleOn"/>
+							<Command CommandSequence_ID = "JCL_MediaStapleOption" Parameter_ID = "Param_StapleCustom"/>              
+                                                                      
+                                                                    
+                                                </MediaStapling_Record>          
+                                        </MediaStapling>          
+                                        
+                                        <MediaJogging Name_ID = "UI_String_MediaJogging_Label" ID = "MediaJogging" Non_Dominant_Representative = "Jogging_Off">            
+                                                
+                                                
+                                                <MediaJogging_Record ID = "Jogging_Off" Predefined_ID = "false" Name_ID = "UI_String_JoggingOff">
+							<Command CommandSequence_ID = "JCL_MediaJogging" Parameter_ID = "Param_JoggingOff"/>              
+                                                                    
+                                                </MediaJogging_Record>            
+                                                
+                                                
+                                                <MediaJogging_Record ID = "Jogging_On" Predefined_ID = "true" Name_ID = "UI_String_JoggingOn">
+							<Command CommandSequence_ID = "JCL_MediaJogging" Parameter_ID = "Param_JoggingOn"/>              
+                                                                    
+                                                </MediaJogging_Record>          
+                                        </MediaJogging>          
+                                        
+                                        <MediaDuplex Name_ID = "UI_String_MediaDuplex_Label" ID = "MediaDuplex" Non_Dominant_Representative = "Simplex">            
+                                                
+                                                <MediaDuplex_Record Name_ID = "UI_String_Simplex" ID = "Simplex" Predefined_ID = "simplex">                                                        
+							<Command CommandSequence_ID = "JCL_MediaDuplex" Parameter_ID = "Param_DuplexOff"/>              
+                                                                    
+                                                </MediaDuplex_Record>            
+                                                
+                                                <MediaDuplex_Record Name_ID = "UI_String_LongEdge" ID = "Duplex_LongEdge" Predefined_ID = "duplex-long-edge">                                                        
+							<Command CommandSequence_ID = "JCL_MediaDuplex" Parameter_ID = "Param_DuplexOn"/>
+							<Command CommandSequence_ID = "JCL_MediaBinding" Parameter_ID = "Param_LongEdge"/>              
+                                                                      
+                                                                    
+                                                </MediaDuplex_Record>            
+                                                
+                                                <MediaDuplex_Record Name_ID = "UI_String_ShortEdge" ID = "Duplex_ShortEdge" Predefined_ID = "duplex-short-edge">                                                        
+							<Command CommandSequence_ID = "JCL_MediaDuplex" Parameter_ID = "Param_DuplexOn"/>
+							<Command CommandSequence_ID = "JCL_MediaBinding" Parameter_ID = "Param_ShortEdge"/>              
+                                                                      
+                                                                    
+                                                </MediaDuplex_Record>          
+                                        </MediaDuplex>          
+                                        
+                                        <MediaBooklet Name_ID = "UI_String_MediaBooklet_Label" ID = "MediaBooklet" Non_Dominant_Representative = "Booklet_Off">            
+                                                
+                                                
+                                                
+                                                <MediaBooklet_Record ID = "Booklet_Off" Predefined_ID = "booklet-off" DeviceFeature = "true" Name_ID = "UI_String_BookletOff"/>            
+                                                
+                                                
+                                                
+                                                <MediaBooklet_Record ID = "Booklet_On" Predefined_ID = "booklet-on" DeviceFeature = "false" Name_ID = "UI_String_BookletOn"/>            
+                                                          
+                                        </MediaBooklet>          
+                                        
+                                        <MediaNUp Name_ID = "UI_String_MediaNUp_Label" ID = "MediaNUp" Non_Dominant_Representative = "1Up">            
+                                                
+                                                
+                                                
+                                                <MediaNUp_Record ID = "1Up" Name_ID = "UI_String_1Up" DeviceFeature = "true" Predefined_ID = "nup_1x1"/>            
+                                                
+                                                
+                                                
+                                                <MediaNUp_Record ID = "2Up" Name_ID = "UI_String_2Up" DeviceFeature = "false" Predefined_ID = "nup_2x1"/>            
+                                                
+                                                
+                                                
+                                                <MediaNUp_Record ID = "4Up" Name_ID = "UI_String_4Up" DeviceFeature = "false" Predefined_ID = "nup_2x2"/>            
+                                                
+                                                
+                                                
+                                                <MediaNUp_Record ID = "6Up" Name_ID = "UI_String_6Up" DeviceFeature = "false" Predefined_ID = "nup_3x2"/>            
+                                                
+                                                
+                                                
+                                                <MediaNUp_Record ID = "9Up" Name_ID = "UI_String_9Up" DeviceFeature = "false" Predefined_ID = "nup_3x3"/>            
+                                                
+                                                
+                                                
+                                                <MediaNUp_Record ID = "16Up" Name_ID = "UI_String_16Up" DeviceFeature = "false" Predefined_ID = "nup_4x4"/>          
+                                        </MediaNUp>          
+                                        
+                                        <MediaNUpBorder Name_ID = "UI_String_MediaNUpBorder_Label" ID = "MediaNUpBorder" Non_Dominant_Representative = "NUpBorder_Off">            
+                                                
+                                                
+                                                <MediaNUpBorder_Record Name_ID = "UI_String_NUpBorderOff" Predefined_ID = "false" DeviceFeature = "true" ID = "NUpBorder_Off"/>            
+                                                
+                                                
+                                                <MediaNUpBorder_Record Name_ID = "UI_String_NUpBorderOn" Predefined_ID = "true" DeviceFeature = "false" ID = "NUpBorder_On"/>          
+                                        </MediaNUpBorder>          
+                                        
+                                        <MediaNUpPageOrder Name_ID = "UI_String_MediaNUpPageOrder_Label" ID = "MediaNUpPageOrder" Non_Dominant_Representative = "NUpPageorder_TopLeftRow">            
+                                                
+                                                
+                                                <MediaNUpPageOrder_Record Predefined_ID = "top_left-row_major" Name_ID = "UI_String_NUpPageOrder_TopLeftRow" DeviceFeature = "false" ID = "NUpPageorder_TopLeftRow"/>            
+                                                
+                                                
+                                                <MediaNUpPageOrder_Record Predefined_ID = "top_left-column_major" Name_ID = "UI_String_NUpPageOrder_TopLeftColumn" DeviceFeature = "false" ID = "NUpPageorder_TopLeftColumn"/>            
+                                                
+                                                
+                                                <MediaNUpPageOrder_Record Predefined_ID = "top_right-row_major" Name_ID = "UI_String_NUpPageOrder_TopRightRow" DeviceFeature = "false" ID = "NUpPageorder_TopRightRow"/>            
+                                                
+                                                
+                                                <MediaNUpPageOrder_Record Predefined_ID = "top_right-column_major" Name_ID = "UI_String_NUpPageOrder_TopRightColumn" DeviceFeature = "false" ID = "NUpPageorder_TopRightColumn"/>          
+                                        </MediaNUpPageOrder>          
+                                        
+                                        
+                                        <MediaTargetSize Name_ID = "UI_String_MediaZoomingBySize_Label" ID = "MediaTargetSize" Non_Dominant_Representative = "TargetSize_Identical">            
+                                                
+                                                <MediaTargetSize_Record Predefined_ID = "identical-size" ID = "TargetSize_Identical" Name_ID = "UI_String_ZoomingOff"/>            
+                                                
+                                                <MediaTargetSize_Record ID = "TargetSize_Letter" Name_ID = "UI_String_Letter" Predefined_ID = "na_letter_8.5x11in"/>            
+                                                
+                                                <MediaTargetSize_Record ID = "TargetSize_Legal" Predefined_ID = "na_legal_8.5x14in" Name_ID = "UI_String_Legal"/>            
+                                                
+                                                <MediaTargetSize_Record ID = "TargetSize_Executive" Predefined_ID = "na_executive_7.25x10.5in" Name_ID = "UI_String_Executive"/>            
+                                                
+                                                <MediaTargetSize_Record ID = "TargetSize_A5" Predefined_ID = "iso_a5_148x210mm" Name_ID = "UI_String_A5"/>            
+                                                
+                                                <MediaTargetSize_Record ID = "TargetSize_A4" Predefined_ID = "iso_a4_210x297mm" Name_ID = "UI_String_A4"/>            
+                                                
+                                                <MediaTargetSize_Record ID = "TargetSize_A3" Predefined_ID = "iso_a3_297x420mm" Name_ID = "UI_String_A3"/>            
+                                                
+                                                <MediaTargetSize_Record ID = "TargetSize_Com10" Predefined_ID = "na_number-10_4.125x9.5in" Name_ID = "UI_String_Com10"/>            
+                                                
+                                                <MediaTargetSize_Record ID = "TargetSize_DL" Name_ID = "UI_String_DL" Predefined_ID = "iso_dl_110x220mm"/>            
+                                                
+                                                <MediaTargetSize_Record ID = "TargetSize_C5" Predefined_ID = "iso_c5_162x229mm" Name_ID = "UI_String_C5"/>            
+                                                
+                                                <MediaTargetSize_Record ID = "TargetSize_B5" Name_ID = "UI_String_B5" Predefined_ID = "iso_b5_176x250mm"/>            
+                                                
+                                                <MediaTargetSize_Record ID = "TargetSize_Monarch" Name_ID = "UI_String_Monarch" Predefined_ID = "na_monarch_3.875x7.5in"/>            
+                                                
+                                                <MediaTargetSize_Record ID = "TargetSize_Ledger" Predefined_ID = "na_ledger_11x17in" Name_ID = "UI_String_Ledger"/>            
+                                                
+                                                <MediaTargetSize_Record ID = "TargetSize_JISB4" Predefined_ID = "jis_b4_257x364mm" Name_ID = "UI_String_JISB4"/>            
+                                                
+                                                <MediaTargetSize_Record ID = "TargetSize_JISB5" Predefined_ID = "jis_b5_182x257mm" Name_ID = "UI_String_JISB5"/>            
+                                                
+                                                <MediaTargetSize_Record ID = "TargetSize_DoublePostcard" Name_ID = "UI_String_DoublePostcard" Predefined_ID = "jpn_oufuku_148x200mm"/>            
+                                                
+                                                <MediaTargetSize_Record ID = "TargetSize_JISEXEC" Predefined_ID = "na_foolscap_8.5x13in" Name_ID = "UI_String_JISEXEC"/>            
+                                                
+                                                <MediaTargetSize_Record ID = "TargetSize_ROC16K" Name_ID = "UI_String_ROC16K" Predefined_ID = "roc_16k_7.75x10.25in"/>            
+                                                
+                                                <MediaTargetSize_Record ID = "TargetSize_ROC8K" Name_ID = "UI_String_ROC8K" Predefined_ID = "roc_8k_10.75x15.5in"/>          
+                                        
+                                        </MediaTargetSize>          
+                                        
+                                        
+                                        <MediaScaling Name_ID = "UI_String_MediaZoomingAutomaticScaling_Label" ID = "MediaScaling" Non_Dominant_Representative = "Scaling_Off">            
+                                                
+                                                
+                                                <MediaScaling_Record DeviceFeature = "false" Predefined_ID = "off-centered" ID = "Scaling_Off" Name_ID = "UI_String_ScalingOff"/>            
+                                                
+                                                
+                                                <MediaScaling_Record ID = "Scaling_On" Predefined_ID = "on-centered" DeviceFeature = "true" Name_ID = "UI_String_ScalingOn"/>          
+                                        
+                                        </MediaScaling>          
+                                        
+                                        
+					<MediaZoomingByPercentage ID = "MediaPercentage" Name_ID = "UI_String_MediaZoomingByPercentage_Label" MinimumValue = "25" MaximumValue = "400" IncrementValue = "25" DeviceFeature = "false"/>            
+                                        <MediaMinimumMargins Name_ID = "UI_String_EdgeToEdge_Label" Non_Dominant_Representative = "EdgeToEdge_Off" ID = "EdgeToEdge">
+                                                <MediaMinimumMargins_Record Name_ID = "UI_String_EdgeToEdge_Off" ID = "EdgeToEdge_Off" Predefined_ID = "standard-device-margins">
+							<Command CommandSequence_ID = "JCL_MediaMinimumMargins" Parameter_ID = "Param_StandardMargins"/>
+                                                </MediaMinimumMargins_Record>
+                                                <MediaMinimumMargins_Record Name_ID = "UI_String_EdgeToEdge_On" ID = "EdgeToEdge_On" Predefined_ID = "edge-to-edge">
+							<Command CommandSequence_ID = "JCL_MediaMinimumMargins" Parameter_ID = "Param_EdgeToEdge"/>
+                                                </MediaMinimumMargins_Record>
+                                        </MediaMinimumMargins>        
+				</PrintMediaHandling>        
+				<GenericFeatures>                                        
+                                        
+                                        <GenericFeature Name_ID = "UI_String_RET_Label" ID = "RET" Non_Dominant_Representative = "RET_On">
+                                                <GenericFeature_Record ID = "RET_Off" Name_ID = "UI_String_RET_Off">
+							<Command CommandSequence_ID = "JCL_GenericRET" Parameter_ID = "Param_RET_Off"/>                                                        
+                                                </GenericFeature_Record>
+                                                <GenericFeature_Record ID = "RET_On" Name_ID = "UI_String_RET_On">
+							<Command CommandSequence_ID = "JCL_GenericRET" Parameter_ID = "Param_RET_On"/>                                                        
+                                                </GenericFeature_Record>                                        
+                                        </GenericFeature>                                        
+                                        
+                                        <GenericFeature Name_ID = "UI_String_EconoMode_Label" ID = "EconoMode" Non_Dominant_Representative = "EconoMode_Off">
+                                                <GenericFeature_Record ID = "EconoMode_Off" Name_ID = "UI_String_EconoMode_Off">
+							<Command CommandSequence_ID = "JCL_GenericEconoMode" Parameter_ID = "Param_EconoOff"/>                                                        
+                                                </GenericFeature_Record>
+                                                <GenericFeature_Record ID = "EconoMode_On" Name_ID = "UI_String_EconoMode_On">
+							<Command CommandSequence_ID = "JCL_GenericEconoMode" Parameter_ID = "Param_EconoOn"/>                                                        
+                                                </GenericFeature_Record>                                        
+                                        </GenericFeature>                                        
+                                        
+                                        <GenericFeature Name_ID = "UI_String_PageProtect_Label" ID = "PageProtect" Non_Dominant_Representative = "PageProtect_Auto">
+                                                <GenericFeature_Record ID = "PageProtect_Auto" Name_ID = "UI_String_PageProtect_Auto">
+							<Command CommandSequence_ID = "JCL_GenericPageProtect" Parameter_ID = "Param_ProtectOff"/>                                                        
+                                                </GenericFeature_Record>
+                                                <GenericFeature_Record ID = "PageProtect_On" Name_ID = "UI_String_PageProtect_On">
+							<Command CommandSequence_ID = "JCL_GenericPageProtect" Parameter_ID = "Param_ProtectOn"/>                                                        
+                                                </GenericFeature_Record>                                        
+                                        </GenericFeature>                                        
+                                        
+				</GenericFeatures>        
+                                
+                                
+				<CompositeFeatures>          
+                                        
+                                        
+                                        <CompositeFeature Name_ID = "UI_String_Media_Label" ID = "Media" UserExtensible = "true" DominantFeature = "MediaSize">            
+                                                
+                                                
+                                                <CompositeFeature_Record ID = "CF_Media1" Name_ID = "UI_String_Media1">              
+                                                        
+							<Component ComponentFeature = "MediaSize.ID" ComponentFeatureSetting = "Size_Letter"/>              
+                                                        
+							<Component ComponentFeature = "MediaType.ID" ComponentFeatureSetting = "Type_Plain"/>              
+                                                        
+							<Component ComponentFeature = "MediaSource.ID" ComponentFeatureSetting = "Source_Auto"/>            
+                                                
+                                                </CompositeFeature_Record>            
+                                                
+                                                
+                                                <CompositeFeature_Record ID = "CF_Media2" Name_ID = "UI_String_Media2">              
+                                                        
+							<Component ComponentFeature = "MediaSize.ID" ComponentFeatureSetting = "Size_Letter"/>              
+                                                        
+							<Component ComponentFeature = "MediaType.ID" ComponentFeatureSetting = "Type_Plain"/>              
+                                                        
+							<Component ComponentFeature = "MediaSource.ID" ComponentFeatureSetting = "Source_Tray2"/>            
+                                                
+                                                </CompositeFeature_Record>            
+                                                          
+                                        
+                                        </CompositeFeature>        
+                                
+                                
+				</CompositeFeatures>                
+                        
+                                
+			</Features>                              
+                        
+			<Objects>                              
+                                <Positioning ID = "Positioning">
+                                        <Positioning_Record ID = "PDL_AbsolutePositioning_600dpi" Reference = "absolute-from-logical-x-physical-y-edge" Direction = "positive" Predefined_ID = "position_600x600" MaximumValue = "32768x32768">
+						<Command CommandSequence_ID = "PDL_Positioning" Parameter_ID = "Param_Positioning"/>
+                                        </Positioning_Record>
+                                        <Positioning_Record ID = "PDL_AbsolutePositioning_300dpi" Reference = "absolute-from-logical-x-physical-y-edge" Direction = "positive" Predefined_ID = "position_300x300" MaximumValue = "32768x32768">
+						<Command CommandSequence_ID = "PDL_Positioning" Parameter_ID = "Param_Positioning"/>
+                                        </Positioning_Record>
+                                        <Positioning_Record ID = "PDL_RelativePositioning_600dpi" Reference = "relative" Direction = "positive-negative" Predefined_ID = "position_600x600" MaximumValue = "32768x32768">
+						<Command CommandSequence_ID = "PDL_Positioning" Parameter_ID = "Param_Positioning"/>
+                                        </Positioning_Record>
+                                        <Positioning_Record ID = "PDL_RelativePositioning_300dpi" Reference = "relative" Direction = "positive-negative" Predefined_ID = "position_300x300" MaximumValue = "32768x32768">
+						<Command CommandSequence_ID = "PDL_Positioning" Parameter_ID = "Param_Positioning"/>
+                                        </Positioning_Record>
+                                </Positioning>        
+                                
+                                
+				<RasterObjects Name_ID = "UI_String_RasterResolution_Label" ID = "RasterGraphic" Non_Dominant_Representative = "Raster_600dpi">          
+                                        
+                                        
+                                        
+					<RasterObject ID = "Raster_600dpi" Name_ID = "UI_String_Raster_600dpi" Byte_Orientation = "Horizontal" CAP = "TopLeft" Predefined_ID = "rasterResolution_600x600">                                                
+						<Compression ID = "AdaptiveCompression" CompressionMode = "PCL5_Adaptive">
+							<Command CommandSequence_ID = "PDL_RasterCompression" Parameter_ID = "Param_Compression_Adaptive"/>
+						</Compression>            
+                                                
+						<Padding ByteAlignment = "4" RightMargin = "false" LeftMargin = "false"/>          
+                                                
+						<Command CommandSequence_ID = "PDL_RasterResolution" Parameter_ID = "Param_RasterResolution_600dpi"/>                                                                                        
+					</RasterObject>        
+                                        
+                                        
+					<RasterObject ID = "Raster_300dpi" Name_ID = "UI_String_Raster_300dpi" Byte_Orientation = "Horizontal" CAP = "TopLeft" Predefined_ID = "rasterResolution_300x300">            
+                                                
+						<Compression ID = "AdaptiveCompression" CompressionMode = "PCL5_Adaptive">
+							<Command CommandSequence_ID = "PDL_RasterCompression" Parameter_ID = "Param_Compression_Adaptive"/>                                                
+						</Compression>            
+                                                
+						<Padding RightMargin = "false" LeftMargin = "false" ByteAlignment = "4"/>          
+                                                
+						<Command CommandSequence_ID = "PDL_RasterResolution" Parameter_ID = "Param_RasterResolution_300dpi"/>                                                                                        
+					</RasterObject>                                
+                                
+				</RasterObjects>        
+
+                                
+				<FontObjects>          
+					<ModifyingAttributes>            
+						<Rotation AntiClockwise = "a" Escapement_Affected = "a"/>            
+						<Color>              
+							<DeviceColor Red = "a" Green = "a" Blue = "a"/>            
+						</Color>            
+						<GlobalTextCapabilities Show_Bitmap_Fonts = "a" Show_Vector_Fonts = "a" Character_Output_Precision = "a" Character_Clipping_Precision = "a">              
+							<Scaling Anisotropic = "a" Integer = "a" Continuous = "a" Doubling = "a"/>            
+						</GlobalTextCapabilities>          
+					</ModifyingAttributes>          
+					<DeviceFontList>            
+                                                
+						<DeviceFont ID = "Courier_New_Bold_Italic" Font_Family = "MODERN" Font_Vendor = "AGFA" Encoding = "two_byte-Unicode">              
+							<IFIMETRICS_Info TECH_BITMAP = "a" TECH_STROKE = "a" TECH_OUTLINE_NOT_TRUETYPE = "a" ARB_XFORMS = "a" _1BPP = "a" _4BPP = "a" _8BPP = "a" _16BPP = "a" _24BPP = "a" _32BPP = "a" INTEGER_WIDTH = "a" NOT_CONTIGUOUS = "a" UNICODE_COMPLIANT = "a" RIGHT_HANDED = "a" INTEGRAL_SCALING = "a" _90DEGREE_ROTATIONS = "a" OPTICALLY_FIXED_PITCH = "a" DO_NOT_ENUMERATE = "a" ISOTROPIC_SCALING_ONLY = "a" ANISOTROPIC_SCALING_ONLY = "a" TID_EMBEDDED = "a" FAMILY_EQUIV = "a" DBCS_FIXED_PITCH = "a" NONNEGATIVE_AC = "a" IGNORE_TC_RA_ABLE = "a"/>              
+							<IFIMETRICS_Selection UNDERSCORE = "a" NEGATIVE = "a" OUTLINED = "a" STRIKEOUT = "a"/>              
+                                                        
+							<GlobalMetrics Units_Per_Em = "1" Points_Per_Inch = "2" Spacing = "3" Minimum_Height = "4" Maximum_Height = "5" HeightStep = "6" Slant = "7" WindowsWeight = "8" Windows_Ascender = "9" Windows_Descender = "0" Mac_Ascender = "1" Mac_Descender = "2" Mac_Line_Gap = "3" Typographic_Ascender = "4" Typographic_Descender = "5" Typographic_Line_Gap = "6" Average_Character_Width = "7" Maximum_Character_Increment = "8" Cap_Height = "9" x_Height = "0" Subscript_X_Size = "1" Subscript_Y_Size = "2" Subscript_X_Offset = "3" Subscript_Y_Offset = "4" Superscript_X_Size = "5" Superscript_Y_Size = "6" Superscript_X_Offset = "7" Superscript_Y_Offset = "8" Underscore_Size = "9" Underscore_Offset = "0" Underscore_Absolute_Values = "1" Strikeout_Size = "2" Strikeout_Offset = "3" Strikeout_Absolute_Values = "4" Baseline = "5" Aspect = "a" Caret = "6" Orientation = "7" Degree = "8">
+								<CharacterWidth A_Value = "0" B_Value = "600" C_Value = "0"/>
+							</GlobalMetrics>              
+							<Panose Panose_Family_Type = "PAN_FAMILY_TEXT_DISPLAY" Panose_Serif_Style = "PAN_SERIF_NORMAL_SANS" Panose_Weight = "PAN_WEIGHT_BOLD" Panose_Proportion = "PAN_PROP_MONOSPACED" Panose_Contrast = "PAN_CONTRAST_NONE" Panose_Arm_Style = "PAN_ANY" Panose_Midline = "PAN_ANY" Panose_X_Height = "PAN_ANY" Panose_Letterform = "PAN_ANY" Panose_Stroke_Variation = "PAN_ANY"/>              
+							<CharacterList>                
+                                                                
+								<Character ID = "0020" Character_PrintOutput = "20">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "002E" Character_PrintOutput = "2E">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0041" Character_PrintOutput = "41">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0042" Character_PrintOutput = "42">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0043" Character_PrintOutput = "43">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0044" Character_PrintOutput = "44">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0045" Character_PrintOutput = "45">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0046" Character_PrintOutput = "46">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0047" Character_PrintOutput = "47">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0048" Character_PrintOutput = "48">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0049" Character_PrintOutput = "49">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004A" Character_PrintOutput = "4A">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004B" Character_PrintOutput = "4B">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004C" Character_PrintOutput = "4C">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004D" Character_PrintOutput = "4D">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004E" Character_PrintOutput = "4E">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004F" Character_PrintOutput = "4F">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0050" Character_PrintOutput = "50">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0051" Character_PrintOutput = "51">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0052" Character_PrintOutput = "52">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0053" Character_PrintOutput = "53">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0054" Character_PrintOutput = "54">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0055" Character_PrintOutput = "55">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0056" Character_PrintOutput = "56">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0057" Character_PrintOutput = "57">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0058" Character_PrintOutput = "58">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0059" Character_PrintOutput = "59">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "005A" Character_PrintOutput = "5A">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "00A0" Character_PrintOutput = "A0">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>              
+							</CharacterList>              
+							<NameIDs>
+								<FaceName Name_ID = "UI_String_Courier_New"/>
+								<FamilyName Name_ID = "UI_String_Courier_New"/>
+								<UniqueName Name_ID = "UI_String_Courier_New"/>
+								<AliasName Name_ID = "UI_String_Courier_New"/>
+								<AliasName Name_ID = "Courier"/>
+								<SlantName Name_ID = "UI_String_Italic"/>
+								<WeightName Name_ID = "UI_String_Bold"/>                
+                                                                              
+							</NameIDs>              
+							<CharacterHandling Non_Breaking_Space = "00A0" Dummy_Character = "002E">                
+                                                                
+								<OSCharacterSet ID = "MS_Windows_1252-Western" Name_ID = "UI_String_MS_Windows_1252-Western"/>              
+							</CharacterHandling>            
+						</DeviceFont>            
+                                                
+						<DeviceFont ID = "Times New Roman" Font_Family = "ROMAN" Font_Vendor = "AGFA Monotype" Encoding = "two_byte-Unicode">              
+							<IFIMETRICS_Info TECH_BITMAP = "a" TECH_STROKE = "a" TECH_OUTLINE_NOT_TRUETYPE = "a" ARB_XFORMS = "a" _1BPP = "a" _4BPP = "a" _8BPP = "a" _16BPP = "a" _24BPP = "a" _32BPP = "a" INTEGER_WIDTH = "a" NOT_CONTIGUOUS = "a" UNICODE_COMPLIANT = "a" RIGHT_HANDED = "a" INTEGRAL_SCALING = "a" _90DEGREE_ROTATIONS = "a" OPTICALLY_FIXED_PITCH = "a" DO_NOT_ENUMERATE = "a" ISOTROPIC_SCALING_ONLY = "a" ANISOTROPIC_SCALING_ONLY = "a" TID_EMBEDDED = "a" FAMILY_EQUIV = "a" DBCS_FIXED_PITCH = "a" NONNEGATIVE_AC = "a" IGNORE_TC_RA_ABLE = "a"/>              
+							<IFIMETRICS_Selection UNDERSCORE = "a" NEGATIVE = "a" OUTLINED = "a" STRIKEOUT = "a"/>              
+
+
+                                                        
+							<GlobalMetrics Units_Per_Em = "0" Points_Per_Inch = "1" Spacing = "2" Minimum_Height = "3" Maximum_Height = "4" HeightStep = "5" Slant = "6" WindowsWeight = "7" Windows_Ascender = "8" Windows_Descender = "9" Mac_Ascender = "0" Mac_Descender = "1" Mac_Line_Gap = "2" Typographic_Ascender = "3" Typographic_Descender = "4" Typographic_Line_Gap = "5" Average_Character_Width = "6" Maximum_Character_Increment = "7" Cap_Height = "8" x_Height = "9" Subscript_X_Size = "0" Subscript_Y_Size = "1" Subscript_X_Offset = "2" Subscript_Y_Offset = "3" Superscript_X_Size = "4" Superscript_Y_Size = "5" Superscript_X_Offset = "6" Superscript_Y_Offset = "7" Underscore_Size = "8" Underscore_Offset = "9" Underscore_Absolute_Values = "0" Strikeout_Size = "1" Strikeout_Offset = "2" Strikeout_Absolute_Values = "3" Baseline = "4" Aspect = "5" Caret = "6" Orientation = "7" Degree = "8"/>              
+							<Panose Panose_Family_Type = "PAN_FAMILY_TEXT_DISPLAY" Panose_Serif_Style = "PAN_SERIF_PERP_SANS" Panose_Weight = "PAN_WEIGHT_MEDIUM" Panose_Proportion = "PAN_PROP_OLD_STYLE" Panose_Contrast = "PAN_CONTRAST_HIGH" Panose_Stroke_Variation = "PAN_STROKE_GRADUAL_TRAN" Panose_Arm_Style = "PAN_ARMS_HORZ" Panose_Letterform = "PAN_NORMAL_CONTACT" Panose_Midline = "PAN_STANDARD_TRMMED" Panose_X_Height = "PAN_CONSTANT_STD"/>              
+							<CharacterList>                
+                                                                
+								<Character ID = "0020" Character_PrintOutput = "20">
+									<CharacterWidth A_Value = "0" B_Value = "569" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "002E" Character_PrintOutput = "2E">
+									<CharacterWidth A_Value = "0" B_Value = "569" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0041" Character_PrintOutput = "41">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0042" Character_PrintOutput = "42">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0043" Character_PrintOutput = "43">
+									<CharacterWidth A_Value = "0" B_Value = "1479" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0044" Character_PrintOutput = "44">
+									<CharacterWidth A_Value = "0" B_Value = "1479" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0045" Character_PrintOutput = "45">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0046" Character_PrintOutput = "46">
+									<CharacterWidth A_Value = "0" B_Value = "1251" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0047" Character_PrintOutput = "47">
+									<CharacterWidth A_Value = "0" B_Value = "1593" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0048" Character_PrintOutput = "48">
+									<CharacterWidth A_Value = "0" B_Value = "1479" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0049" Character_PrintOutput = "49">
+									<CharacterWidth A_Value = "0" B_Value = "569" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004A" Character_PrintOutput = "4A">
+									<CharacterWidth A_Value = "0" B_Value = "1024" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004B" Character_PrintOutput = "4B">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004C" Character_PrintOutput = "4C">
+									<CharacterWidth A_Value = "0" B_Value = "1139" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004D" Character_PrintOutput = "4D">
+									<CharacterWidth A_Value = "0" B_Value = "1706" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004E" Character_PrintOutput = "4E">
+									<CharacterWidth A_Value = "0" B_Value = "1479" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004F" Character_PrintOutput = "4F">
+									<CharacterWidth A_Value = "0" B_Value = "1593" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0050" Character_PrintOutput = "50">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0051" Character_PrintOutput = "51">
+									<CharacterWidth A_Value = "0" B_Value = "1593" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0052" Character_PrintOutput = "52">
+									<CharacterWidth A_Value = "0" B_Value = "1479" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0053" Character_PrintOutput = "53">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0054" Character_PrintOutput = "54">
+									<CharacterWidth A_Value = "0" B_Value = "1251" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0055" Character_PrintOutput = "55">
+									<CharacterWidth A_Value = "0" B_Value = "1479" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0056" Character_PrintOutput = "56">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0057" Character_PrintOutput = "57">
+									<CharacterWidth A_Value = "0" B_Value = "1933" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0058" Character_PrintOutput = "58">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0059" Character_PrintOutput = "59">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "005A" Character_PrintOutput = "5A">
+									<CharacterWidth A_Value = "0" B_Value = "1251" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "00A0" Character_PrintOutput = "A0">
+									<CharacterWidth A_Value = "0" B_Value = "569" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>              
+							</CharacterList>              
+							<NameIDs>
+								<FaceName Name_ID = "UI_String_Times_New_Roman"/>
+								<FamilyName Name_ID = "UI_String_Times_New_Roman"/>
+								<UniqueName Name_ID = "UI_String_Times_New_Roman"/>
+								<AliasName Name_ID = "UI_String_Times_New_Roman"/>
+								<AliasName Name_ID = "Times_New_Roman"/>
+								<SlantName Name_ID = "UI_String_Upright"/>
+								<WeightName Name_ID = "UI_String_Normal"/>                
+                                                                              
+							</NameIDs>              
+							<CharacterHandling Non_Breaking_Space = "00A0" Dummy_Character = "002E">                
+                                                                
+								<OSCharacterSet ID = "MS_Windows_1252-Western" Name_ID = "UI_String_MS_Windows_1252-Western"/>              
+							</CharacterHandling>            
+						</DeviceFont>  
+
+						<DeviceFont ID = "Letter Gothic Bold Oblique" Font_Family = "DECORATIVE" Font_Vendor = "MicroSoft" Encoding = "two_byte-Unicode">              
+							<IFIMETRICS_Info TECH_BITMAP = "a" TECH_STROKE = "a" TECH_OUTLINE_NOT_TRUETYPE = "a" ARB_XFORMS = "a" _1BPP = "a" _4BPP = "a" _8BPP = "a" _16BPP = "a" _24BPP = "a" _32BPP = "a" INTEGER_WIDTH = "a" NOT_CONTIGUOUS = "a" UNICODE_COMPLIANT = "a" RIGHT_HANDED = "a" INTEGRAL_SCALING = "a" _90DEGREE_ROTATIONS = "a" OPTICALLY_FIXED_PITCH = "a" DO_NOT_ENUMERATE = "a" ISOTROPIC_SCALING_ONLY = "a" ANISOTROPIC_SCALING_ONLY = "a" TID_EMBEDDED = "a" FAMILY_EQUIV = "a" DBCS_FIXED_PITCH = "a" NONNEGATIVE_AC = "a" IGNORE_TC_RA_ABLE = "a"/>              
+							<IFIMETRICS_Selection UNDERSCORE = "a" NEGATIVE = "a" OUTLINED = "a" STRIKEOUT = "a"/>              
+                                                        
+
+							<GlobalMetrics Units_Per_Em = "1" Points_Per_Inch = "2" Spacing = "3" Minimum_Height = "4" Maximum_Height = "5" HeightStep = "6" Slant = "7" WindowsWeight = "8" Windows_Ascender = "9" Windows_Descender = "0" Mac_Ascender = "1" Mac_Descender = "2" Mac_Line_Gap = "3" Typographic_Ascender = "4" Typographic_Descender = "5" Typographic_Line_Gap = "6" Average_Character_Width = "7" Maximum_Character_Increment = "8" Cap_Height = "9" x_Height = "0" Subscript_X_Size = "1" Subscript_Y_Size = "2" Subscript_X_Offset = "3" Subscript_Y_Offset = "4" Superscript_X_Size = "5" Superscript_Y_Size = "6" Superscript_X_Offset = "7" Superscript_Y_Offset = "8" Underscore_Size = "9" Underscore_Offset = "0" Underscore_Absolute_Values = "1" Strikeout_Size = "2" Strikeout_Offset = "3" Strikeout_Absolute_Values = "4" Baseline = "5" Aspect = "a" Caret = "6" Orientation = "7" Degree = "8">
+								<CharacterWidth A_Value = "0" B_Value = "600" C_Value = "0"/>
+							</GlobalMetrics>              
+
+
+							<Panose Panose_Family_Type = "PAN_FAMILY_TEXT_DISPLAY" Panose_Serif_Style = "PAN_SERIF_NORMAL_SANS" Panose_Weight = "PAN_WEIGHT_BOLD" Panose_Proportion = "PAN_PROP_MONOSPACED" Panose_Contrast = "PAN_CONTRAST_LOW" Panose_Arm_Style = "PAN_STRAIGHT_ARMS_HORZ" Panose_Midline = "PAN_HIGH_TRIMMED" Panose_X_Height = "PAN_CONSTANT_STD" Panose_Letterform = "PAN_OBLIQUE_SQUARE" Panose_Stroke_Variation = "PAN_NO_FIT"/>              
+							<CharacterList>                
+                                                                
+								<Character ID = "0020" Character_PrintOutput = "20">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "002E" Character_PrintOutput = "2E">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0041" Character_PrintOutput = "41">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0042" Character_PrintOutput = "42">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0043" Character_PrintOutput = "43">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0044" Character_PrintOutput = "44">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0045" Character_PrintOutput = "45">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0046" Character_PrintOutput = "46">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0047" Character_PrintOutput = "47">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0048" Character_PrintOutput = "48">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0049" Character_PrintOutput = "49">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004A" Character_PrintOutput = "4A">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004B" Character_PrintOutput = "4B">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004C" Character_PrintOutput = "4C">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004D" Character_PrintOutput = "4D">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004E" Character_PrintOutput = "4E">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004F" Character_PrintOutput = "4F">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0050" Character_PrintOutput = "50">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0051" Character_PrintOutput = "51">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0052" Character_PrintOutput = "52">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0053" Character_PrintOutput = "53">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0054" Character_PrintOutput = "54">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0055" Character_PrintOutput = "55">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0056" Character_PrintOutput = "56">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0057" Character_PrintOutput = "57">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0058" Character_PrintOutput = "58">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0059" Character_PrintOutput = "59">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "005A" Character_PrintOutput = "5A">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "00A0" Character_PrintOutput = "A0">
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>              
+							</CharacterList>              
+							<NameIDs>
+								<FaceName Name_ID = "UI_String_Letter_Gothic_Bold_Oblique"/>
+								<FamilyName Name_ID = "UI_String_Letter_Gothic_Bold_Oblique"/>
+								<UniqueName Name_ID = "UI_String_Letter_Gothic_Bold_Oblique"/>
+								<AliasName Name_ID = "UI_String_Letter_Gothic_Bold_Oblique"/>
+								<AliasName Name_ID = "Gothic"/>
+								<SlantName Name_ID = "UI_String_Italic"/>
+								<WeightName Name_ID = "UI_String_Bold"/>                
+                                                                              
+							</NameIDs>              
+							<CharacterHandling Non_Breaking_Space = "00A0" Dummy_Character = "002E">                
+                                                                
+								<OSCharacterSet ID = "MS_Windows_1252-Western" Name_ID = "UI_String_MS_Windows_1252-Western"/>              
+							</CharacterHandling>            
+						</DeviceFont>            
+                                                
+
+						<DeviceFont ID = "Script" Font_Family = "SCRIPT" Font_Vendor = "Graphx" Encoding = "two_byte-Unicode">              
+							<IFIMETRICS_Info TECH_BITMAP = "a" TECH_STROKE = "a" TECH_OUTLINE_NOT_TRUETYPE = "a" ARB_XFORMS = "a" _1BPP = "a" _4BPP = "a" _8BPP = "a" _16BPP = "a" _24BPP = "a" _32BPP = "a" INTEGER_WIDTH = "a" NOT_CONTIGUOUS = "a" UNICODE_COMPLIANT = "a" RIGHT_HANDED = "a" INTEGRAL_SCALING = "a" _90DEGREE_ROTATIONS = "a" OPTICALLY_FIXED_PITCH = "a" DO_NOT_ENUMERATE = "a" ISOTROPIC_SCALING_ONLY = "a" ANISOTROPIC_SCALING_ONLY = "a" TID_EMBEDDED = "a" FAMILY_EQUIV = "a" DBCS_FIXED_PITCH = "a" NONNEGATIVE_AC = "a" IGNORE_TC_RA_ABLE = "a"/>              
+							<IFIMETRICS_Selection UNDERSCORE = "a" NEGATIVE = "a" OUTLINED = "a" STRIKEOUT = "a"/>              
+
+
+                                                        
+							<GlobalMetrics Units_Per_Em = "0" Points_Per_Inch = "1" Spacing = "2" Minimum_Height = "3" Maximum_Height = "4" HeightStep = "5" Slant = "6" WindowsWeight = "7" Windows_Ascender = "8" Windows_Descender = "9" Mac_Ascender = "0" Mac_Descender = "1" Mac_Line_Gap = "2" Typographic_Ascender = "3" Typographic_Descender = "4" Typographic_Line_Gap = "5" Average_Character_Width = "6" Maximum_Character_Increment = "7" Cap_Height = "8" x_Height = "9" Subscript_X_Size = "0" Subscript_Y_Size = "1" Subscript_X_Offset = "2" Subscript_Y_Offset = "3" Superscript_X_Size = "4" Superscript_Y_Size = "5" Superscript_X_Offset = "6" Superscript_Y_Offset = "7" Underscore_Size = "8" Underscore_Offset = "9" Underscore_Absolute_Values = "0" Strikeout_Size = "1" Strikeout_Offset = "2" Strikeout_Absolute_Values = "3" Baseline = "4" Aspect = "5" Caret = "6" Orientation = "7" Degree = "8"/>              
+
+							<Panose Panose_Family_Type = "PAN_FAMILY_SCRIPT" Panose_Serif_Style = "PAN_SERIF_EXAGGERATED" Panose_Weight = "PAN_WEIGHT_LIGHT" Panose_Proportion = "PAN_PROP_MODERN" Panose_Contrast = "PAN_CONTRAST_VERY_HIGHT" Panose_Arm_Style = "PAN_BENT_ARMS_DOUBLE_SERIF" Panose_Midline = "PAN_HIGH_SERIFED" Panose_X_Height = "PAN_DUCKING_LARGE" Panose_Letterform = "PAN_OBLIQUE_ROUNDED" Panose_Stroke_Variation = "PAN_RAPID_VERT"/>           							<CharacterList>                
+                                                                
+								<Character ID = "0020" Character_PrintOutput = "20">
+									<CharacterWidth A_Value = "0" B_Value = "569" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "002E" Character_PrintOutput = "2E">
+									<CharacterWidth A_Value = "0" B_Value = "569" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0041" Character_PrintOutput = "41">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0042" Character_PrintOutput = "42">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0043" Character_PrintOutput = "43">
+									<CharacterWidth A_Value = "0" B_Value = "1479" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0044" Character_PrintOutput = "44">
+									<CharacterWidth A_Value = "0" B_Value = "1479" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0045" Character_PrintOutput = "45">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0046" Character_PrintOutput = "46">
+									<CharacterWidth A_Value = "0" B_Value = "1251" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0047" Character_PrintOutput = "47">
+									<CharacterWidth A_Value = "0" B_Value = "1593" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0048" Character_PrintOutput = "48">
+									<CharacterWidth A_Value = "0" B_Value = "1479" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0049" Character_PrintOutput = "49">
+									<CharacterWidth A_Value = "0" B_Value = "569" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004A" Character_PrintOutput = "4A">
+									<CharacterWidth A_Value = "0" B_Value = "1024" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004B" Character_PrintOutput = "4B">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004C" Character_PrintOutput = "4C">
+									<CharacterWidth A_Value = "0" B_Value = "1139" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004D" Character_PrintOutput = "4D">
+									<CharacterWidth A_Value = "0" B_Value = "1706" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004E" Character_PrintOutput = "4E">
+									<CharacterWidth A_Value = "0" B_Value = "1479" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004F" Character_PrintOutput = "4F">
+									<CharacterWidth A_Value = "0" B_Value = "1593" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0050" Character_PrintOutput = "50">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0051" Character_PrintOutput = "51">
+									<CharacterWidth A_Value = "0" B_Value = "1593" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0052" Character_PrintOutput = "52">
+									<CharacterWidth A_Value = "0" B_Value = "1479" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0053" Character_PrintOutput = "53">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0054" Character_PrintOutput = "54">
+									<CharacterWidth A_Value = "0" B_Value = "1251" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0055" Character_PrintOutput = "55">
+									<CharacterWidth A_Value = "0" B_Value = "1479" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0056" Character_PrintOutput = "56">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0057" Character_PrintOutput = "57">
+									<CharacterWidth A_Value = "0" B_Value = "1933" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0058" Character_PrintOutput = "58">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0059" Character_PrintOutput = "59">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "005A" Character_PrintOutput = "5A">
+									<CharacterWidth A_Value = "0" B_Value = "1251" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "00A0" Character_PrintOutput = "A0">
+									<CharacterWidth A_Value = "0" B_Value = "569" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>              
+							</CharacterList>              
+							<NameIDs>
+                                                                <FaceName Name_ID = "UI_String_Script"/>
+								<FamilyName Name_ID = "UI_String_Script"/>
+								<UniqueName Name_ID = "UI_String_Script"/>
+								<AliasName Name_ID = "UI_String_Script"/>
+								<AliasName Name_ID = "Adina"/>
+								<SlantName Name_ID = "UI_String_Italic"/>
+								<WeightName Name_ID = "UI_String_Normal"/>    
+							                                                                              
+							</NameIDs>              
+							<CharacterHandling Non_Breaking_Space = "00A0" Dummy_Character = "002E">                
+                                                                
+								<OSCharacterSet ID = "MS_Windows_1252-Western" Name_ID = "UI_String_MS_Windows_1252-Western"/>              
+							</CharacterHandling>            
+						</DeviceFont>  
+
+
+						<DeviceFont ID = "Arial" Font_Family = "SWISS" Font_Vendor = "Graphx" Encoding = "two_byte-Unicode">              
+							<IFIMETRICS_Info TECH_BITMAP = "a" TECH_STROKE = "a" TECH_OUTLINE_NOT_TRUETYPE = "a" ARB_XFORMS = "a" _1BPP = "a" _4BPP = "a" _8BPP = "a" _16BPP = "a" _24BPP = "a" _32BPP = "a" INTEGER_WIDTH = "a" NOT_CONTIGUOUS = "a" UNICODE_COMPLIANT = "a" RIGHT_HANDED = "a" INTEGRAL_SCALING = "a" _90DEGREE_ROTATIONS = "a" OPTICALLY_FIXED_PITCH = "a" DO_NOT_ENUMERATE = "a" ISOTROPIC_SCALING_ONLY = "a" ANISOTROPIC_SCALING_ONLY = "a" TID_EMBEDDED = "a" FAMILY_EQUIV = "a" DBCS_FIXED_PITCH = "a" NONNEGATIVE_AC = "a" IGNORE_TC_RA_ABLE = "a"/>              
+							<IFIMETRICS_Selection UNDERSCORE = "a" NEGATIVE = "a" OUTLINED = "a" STRIKEOUT = "a"/>              
+
+
+                                                        
+							<GlobalMetrics Units_Per_Em = "0" Points_Per_Inch = "1" Spacing = "2" Minimum_Height = "3" Maximum_Height = "4" HeightStep = "5" Slant = "6" WindowsWeight = "7" Windows_Ascender = "8" Windows_Descender = "9" Mac_Ascender = "0" Mac_Descender = "1" Mac_Line_Gap = "2" Typographic_Ascender = "3" Typographic_Descender = "4" Typographic_Line_Gap = "5" Average_Character_Width = "6" Maximum_Character_Increment = "7" Cap_Height = "8" x_Height = "9" Subscript_X_Size = "0" Subscript_Y_Size = "1" Subscript_X_Offset = "2" Subscript_Y_Offset = "3" Superscript_X_Size = "4" Superscript_Y_Size = "5" Superscript_X_Offset = "6" Superscript_Y_Offset = "7" Underscore_Size = "8" Underscore_Offset = "9" Underscore_Absolute_Values = "0" Strikeout_Size = "1" Strikeout_Offset = "2" Strikeout_Absolute_Values = "3" Baseline = "4" Aspect = "5" Caret = "6" Orientation = "7" Degree = "8"/>              
+
+							<Panose Panose_Family_Type = "PAN_FAMILY_SCRIPT" Panose_Serif_Style = "PAN_SERIF_NORMAL_SANS" Panose_Weight = "PAN_WEIGHT_MEDIUM" Panose_Proportion = "PAN_PROP_EVEN_WIDTH" Panose_Contrast = "PAN_CONTRAST_NONE" Panose_Arm_Style = "PAN_ANY" Panose_Midline = "PAN_ANY" Panose_X_Height = "PAN_ANY" Panose_Letterform = "PAN_ANY" Panose_Stroke_Variation = "PAN_ANY"/>   
+
+	                        	<CharacterList>                
+                                                                
+								<Character ID = "0020" Character_PrintOutput = "20">
+									<CharacterWidth A_Value = "0" B_Value = "569" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "002E" Character_PrintOutput = "2E">
+									<CharacterWidth A_Value = "0" B_Value = "569" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0041" Character_PrintOutput = "41">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0042" Character_PrintOutput = "42">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0043" Character_PrintOutput = "43">
+									<CharacterWidth A_Value = "0" B_Value = "1479" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0044" Character_PrintOutput = "44">
+									<CharacterWidth A_Value = "0" B_Value = "1479" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0045" Character_PrintOutput = "45">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0046" Character_PrintOutput = "46">
+									<CharacterWidth A_Value = "0" B_Value = "1251" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0047" Character_PrintOutput = "47">
+									<CharacterWidth A_Value = "0" B_Value = "1593" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0048" Character_PrintOutput = "48">
+									<CharacterWidth A_Value = "0" B_Value = "1479" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0049" Character_PrintOutput = "49">
+									<CharacterWidth A_Value = "0" B_Value = "569" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004A" Character_PrintOutput = "4A">
+									<CharacterWidth A_Value = "0" B_Value = "1024" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004B" Character_PrintOutput = "4B">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004C" Character_PrintOutput = "4C">
+									<CharacterWidth A_Value = "0" B_Value = "1139" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004D" Character_PrintOutput = "4D">
+									<CharacterWidth A_Value = "0" B_Value = "1706" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004E" Character_PrintOutput = "4E">
+									<CharacterWidth A_Value = "0" B_Value = "1479" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "004F" Character_PrintOutput = "4F">
+									<CharacterWidth A_Value = "0" B_Value = "1593" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0050" Character_PrintOutput = "50">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0051" Character_PrintOutput = "51">
+									<CharacterWidth A_Value = "0" B_Value = "1593" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0052" Character_PrintOutput = "52">
+									<CharacterWidth A_Value = "0" B_Value = "1479" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0053" Character_PrintOutput = "53">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0054" Character_PrintOutput = "54">
+									<CharacterWidth A_Value = "0" B_Value = "1251" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0055" Character_PrintOutput = "55">
+									<CharacterWidth A_Value = "0" B_Value = "1479" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0056" Character_PrintOutput = "56">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0057" Character_PrintOutput = "57">
+									<CharacterWidth A_Value = "0" B_Value = "1933" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0058" Character_PrintOutput = "58">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "0059" Character_PrintOutput = "59">
+									<CharacterWidth A_Value = "0" B_Value = "1366" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "005A" Character_PrintOutput = "5A">
+									<CharacterWidth A_Value = "0" B_Value = "1251" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>                
+                                                                
+								<Character ID = "00A0" Character_PrintOutput = "A0">
+									<CharacterWidth A_Value = "0" B_Value = "569" C_Value = "0"/>
+									<SymbolSet>
+										<Command CommandSequence_ID = "PDL_SymbolSet" Parameter_ID = "Param_Windows_Latin1"/>
+									</SymbolSet>
+								</Character>              
+							</CharacterList>              
+							<NameIDs>
+								<FaceName Name_ID = "UI_String_Arial"/>
+								<FamilyName Name_ID = "UI_String_Arial"/>
+								<UniqueName Name_ID = "UI_String_Arial"/>
+								<AliasName Name_ID = "UI_String_Arial"/>
+								<AliasName Name_ID = "Arial"/>
+								<SlantName Name_ID = "UI_String_Upright"/>
+								<WeightName Name_ID = "UI_String_Normal"/>                                                                 
+							</NameIDs>              
+							<CharacterHandling Non_Breaking_Space = "00A0" Dummy_Character = "002E">                
+                                                                
+								<OSCharacterSet ID = "MS_Windows_1252-Western" Name_ID = "UI_String_MS_Windows_1252-Western"/>              
+							</CharacterHandling>            
+						</DeviceFont>  
+        
+					</DeviceFontList>        
+                                
+				</FontObjects>        
+                        
+			</Objects>                              
+                        <Events>                                
+                                <Event ID = "JCL_Init" Event_StartEnd = "AtStartOf" Event_ID = "Job" CommandSequence_ID = "JCL_UEL"/>                                
+                                <Event ID = "JCL_MediaCopy" Event_StartEnd = "AtStartOf" Event_ID = "Job" CommandSequence_ID = "JCL_MediaCopy"/>                                
+                                <Event ID = "JCL_RET" Event_StartEnd = "AtStartOf" Event_ID = "Job" CommandSequence_ID = "JCL_GenericRET"/>                                
+                                <Event ID = "JCL_MediaDuplex" Event_StartEnd = "AtStartOf" Event_ID = "Job" CommandSequence_ID = "JCL_MediaDuplex"/>                                
+                                <Event ID = "JCL_MediaBinding" Event_StartEnd = "AtStartOf" Event_ID = "Job" CommandSequence_ID = "JCL_MediaBinding"/>                                
+                                <Event ID = "JCL_EconoMode" Event_StartEnd = "AtStartOf" Event_ID = "Job" CommandSequence_ID = "JCL_GenericEconoMode"/>                                
+                                <Event ID = "JCL_MediaDestination" Event_StartEnd = "AtStartOf" Event_ID = "Job" CommandSequence_ID = "JCL_MediaDestination"/>                                
+                                <Event ID = "JCL_MediaStapling" Event_StartEnd = "AtStartOf" Event_ID = "Job" CommandSequence_ID = "JCL_MediaStapling"/>                                
+                                <Event ID = "JCL_MediaStapling2" Event_StartEnd = "AtStartOf" Event_ID = "Job" CommandSequence_ID = "JCL_MediaStapleOption"/>                                
+                                <Event ID = "JCL_MediaJogging" Event_StartEnd = "AtStartOf" Event_ID = "Job" CommandSequence_ID = "JCL_MediaJogging"/>                                
+                                <Event ID = "JCL_PageProtect" Event_StartEnd = "AtStartOf" Event_ID = "Job" CommandSequence_ID = "JCL_GenericPageProtect"/>                                
+                                <Event ID = "JCL_DeviceResolution" Event_StartEnd = "AtStartOf" Event_ID = "Job" CommandSequence_ID = "JCL_DeviceResolution"/>                                
+                                <Event ID = "JCL_EdgeToEdge" Event_StartEnd = "AtStartOf" Event_ID = "Job" CommandSequence_ID = "JCL_MediaMinimumMargins"/>                                
+                                <Event ID = "JCL_Language_PCL5e" Event_StartEnd = "AtStartOf" Event_ID = "Job" CommandSequence_ID = "JCL_Language_PCL5e"/>                                
+                                <Event ID = "PDL_Init" Event_StartEnd = "AtStartOf" Event_ID = "Document" CommandSequence_ID = "PDL_Init"/>                                
+                                <Event ID = "PDL_DeviceResolution" Event_StartEnd = "AtStartOf" Event_ID = "Document" CommandSequence_ID = "PDL_DeviceResolution"/>                                
+                                <Event ID = "PDL_RasterResolution" Event_StartEnd = "AtStartOf" Event_ID = "Document" CommandSequence_ID = "PDL_RasterResolution"/>                                
+                                <Event ID = "PDL_MediaPageOrientation" Event_StartEnd = "AtStartOf" Event_ID = "PhysicalPage" CommandSequence_ID = "PDL_MediaPageOrientation"/>
+                                <Event ID = "PDL_MediaSource" Event_StartEnd = "AtStartOf" Event_ID = "PhysicalPage" CommandSequence_ID = "PDL_MediaSource"/>                                
+                                <Event ID = "PDL_MediaType" Event_StartEnd = "AtStartOf" Event_ID = "PhysicalPage" CommandSequence_ID = "PDL_MediaType"/>                                
+                                <Event ID = "PDL_MediaSize" Event_StartEnd = "AtStartOf" Event_ID = "PhysicalPage" CommandSequence_ID = "PDL_MediaSize"/>                                
+                                <Event ID = "PDL_RasterPosition" Event_StartEnd = "AtStartOf" Event_ID = "RasterObject" CommandSequence_ID = "PDL_Positioning"/>                                
+                                <Event ID = "PDL_RasterPosition" Event_StartEnd = "AtStartOf" Event_ID = "VectorObjects" CommandSequence_ID = "PDL_Positioning"/>                                
+                                <Event ID = "PDL_RasterPosition" Event_StartEnd = "AtStartOf" Event_ID = "FontObjects" CommandSequence_ID = "PDL_Positioning"/>                                
+                                <Event ID = "PDL_GL_1" Event_StartEnd = "AtStartOf" Event_ID = "Objects" CommandSequence_ID = "PDL_GL_Placeholder"/>                                
+                                <Event ID = "PDL_GL_2" Event_StartEnd = "AtStartOf" Event_ID = "Objects" CommandSequence_ID = "PDL_GL_Placeholder"/>                                
+                                <Event ID = "PDL_GL_3" Event_StartEnd = "AtStartOf" Event_ID = "Objects" CommandSequence_ID = "PDL_GL_Placeholder"/>
+                                <Event ID = "Raster_Compression" Event_StartEnd = "AtStartOf" Event_ID = "RasterObject" CommandSequence_ID = "PDL_RasterCompression"/>
+                                <Event ID = "RasterScanline_Start" Event_StartEnd = "AtStartOf" Event_ID = "RasterObject_Scanline" CommandSequence_ID = "PDL_RasterStart"/>
+                                <Event ID = "RasterObject_End" Event_StartEnd = "AtEndOf" Event_ID = "RasterObject" CommandSequence_ID = "PDL_RasterEnd"/>                                
+                                <Event ID = "PDL_GL_DeInit" Event_StartEnd = "AtEndOf" Event_ID = "PhysicalPage" CommandSequence_ID = "PDL_GL_Placeholder"/>                                
+                                <Event ID = "PDL_MediaCopy" Event_StartEnd = "AtEndOf" Event_ID = "Media" CommandSequence_ID = "PDL_MediaCopy"/>
+                                <Event ID = "PDL_Eject" Event_StartEnd = "AtEndOf" Event_ID = "PhysicalPage" CommandSequence_ID = "PDL_Eject"/>                                
+                                <Event ID = "JCL_DeInit" Event_StartEnd = "AtEndOf" Event_ID = "Job" CommandSequence_ID = "JCL_UEL"/>
+                        </Events>      
+		</PrintCapabilities>  
+	</Device_Features>
+</DeviceCapabilities>

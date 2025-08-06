@@ -1,0 +1,28 @@
+- Additional clean up of code
+
+- Fix all color dithering algorithms to use a consistent color space
+  conversion.
+
+- Add device specific color dithering algorithms.
+
+- Implement Ghostscript banding in the Ghostscript render and out of
+  core Omni.
+
+- performance improvements
+
+- Add support for additional input bitmap support. Currently there
+  is only support for mono and 24bpp output.
+
+- Copies function to be added
+
+- Stucki Diffusion (default dither) provides the best quality output at
+  this point in time.  Using a high quality coated paper should be used
+  when printing high quality image output.
+
+    Some of the other dithering code that needs completion are:
+           Steinberg
+           Level
+           Smooth
+           HSV
+           Ordered Square
+           Void Cluster

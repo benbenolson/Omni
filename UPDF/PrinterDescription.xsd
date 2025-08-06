@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.pwg.org/schemas/sm/1.0/" xmlns="http://www.pwg.org/schemas/sm/1.0/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.00">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">PWG Printer Description Element schema
+Copyright 2002-2004, IEEE Industry Standards and Technology Organization/Printer Working Group. 
+All rights reserved</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>NOTE: To use this schema you MUST include PwgCommon.xsd</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>Printer Description Element definition</xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="PrinterDescription">
+		<xsd:sequence>
+			<xsd:element ref="CharsetConfigured" minOccurs="0"/>
+			<xsd:element ref="CharsetSupported" minOccurs="0"/>
+			<xsd:element ref="ColorSupported" minOccurs="0"/>
+			<xsd:element ref="CompressionSupported" minOccurs="0"/>
+			<xsd:element ref="DeviceId" minOccurs="0"/>
+			<xsd:element ref="DocumentCharsetDefault" minOccurs="0"/>
+			<xsd:element ref="DocumentCharsetSupported" minOccurs="0"/>
+			<xsd:element ref="DocumentCreationElementsSupported" minOccurs="0"/>
+			<xsd:element ref="DocumentDigitalSignatureDefault" minOccurs="0"/>
+			<xsd:element ref="DocumentDigitalSignatureSupported" minOccurs="0"/>
+			<xsd:element ref="DocumentFormatDefault" minOccurs="0"/>
+			<xsd:element ref="DocumentFormatDetailsDefault" minOccurs="0"/>
+			<xsd:element ref="DocumentFormatDetailsSupported" minOccurs="0"/>
+			<xsd:element ref="DocumentFormatSupported" minOccurs="0"/>
+			<xsd:element ref="DocumentFormatVaryingElements" minOccurs="0"/>
+			<xsd:element ref="DocumentFormatVersionDefault" minOccurs="0"/>
+			<xsd:element ref="DocumentFormatVersionSupported" minOccurs="0"/>
+			<xsd:element ref="DocumentNaturalLanguageDefault" minOccurs="0"/>
+			<xsd:element ref="DocumentNaturalLanguageSupported" minOccurs="0"/>
+			<xsd:element ref="GeneratedNaturalLanguageSupported" minOccurs="0"/>
+			<xsd:element ref="GetEventLife" minOccurs="0"/>
+			<xsd:element ref="ImpressionsSupported" minOccurs="0"/>
+			<xsd:element ref="JobCreationElementsSupported" minOccurs="0"/>
+			<xsd:element ref="JobPasswordEncryptionSupported" minOccurs="0"/>
+			<xsd:element ref="JobPasswordSupported" minOccurs="0"/>
+			<xsd:element ref="JobSettableElementsSupported" minOccurs="0"/>
+			<xsd:element ref="JobSpoolingSupported" minOccurs="0"/>
+			<xsd:element ref="KOctetsSupported" minOccurs="0"/>
+			<xsd:element ref="MaxSaveInfoSupported" minOccurs="0"/>
+			<xsd:element ref="MaxStitchingLocationsSupported" minOccurs="0"/>
+			<xsd:element ref="MediaColDatabase" minOccurs="0"/>
+			<xsd:element ref="MediaSheetsSupported" minOccurs="0"/>
+			<xsd:element ref="MultipleDocumentJobsSupported" minOccurs="0"/>
+			<xsd:element ref="MultipleOperationTimeOut" minOccurs="0"/>
+			<xsd:element ref="NaturalLanguageConfigured" minOccurs="0"/>
+			<xsd:element ref="OperationsSupported" minOccurs="0"/>
+			<xsd:element ref="PagesPerMinute" minOccurs="0"/>
+			<xsd:element ref="PagesPerMinuteColor" minOccurs="0"/>
+			<xsd:element ref="ParentPrintersSupported" minOccurs="0"/>
+			<xsd:element ref="PdlOverrideSupported" minOccurs="0"/>
+			<xsd:element ref="PrinterAuthenticationSupported" minOccurs="0"/>
+			<xsd:element ref="PrinterDetailedStatusMessages" minOccurs="0"/>
+			<xsd:element ref="PrinterInfo" minOccurs="0"/>
+			<xsd:element ref="PrinterLocation" minOccurs="0"/>
+			<xsd:element ref="PrinterMakeAndModel" minOccurs="0"/>
+			<xsd:element ref="PrinterMessageFromOperator" minOccurs="0"/>
+			<xsd:element ref="PrinterMoreInfo" minOccurs="0"/>
+			<xsd:element ref="PrinterMoreInfoManufacturer" minOccurs="0"/>
+			<xsd:element ref="PrinterName" minOccurs="0"/>
+			<xsd:element ref="PrinterSecuritySupported" minOccurs="0"/>
+			<xsd:element ref="PrinterSettableElementsSupported" minOccurs="0"/>
+			<xsd:element ref="PrinterUriSupported" minOccurs="0"/>
+			<xsd:element ref="PrinterXriSupported" minOccurs="0"/>
+			<xsd:element ref="ReferenceUriSchemesSupported" minOccurs="0"/>
+			<xsd:element ref="RepertoiresSupported" minOccurs="0"/>
+			<xsd:element ref="SubordinatePrintersSupported" minOccurs="0"/>
+			<xsd:element ref="UriAuthenticationSupported" minOccurs="0"/>
+			<xsd:element ref="UriSecuritySupported" minOccurs="0"/>
+			<xsd:element ref="UserDefinedValuesSupported" minOccurs="0"/>
+			<xsd:element ref="VersionsSupported" minOccurs="0"/>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="PrinterDescription" type="PrinterDescription"/>
+	<xsd:annotation>
+		<xsd:documentation>Printer Description specific semantic elements</xsd:documentation>
+	</xsd:annotation>
+	<xsd:element name="CharsetConfigured" type="CharsetWKV"/>
+	<xsd:element name="CharsetSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Charset" type="CharsetWKV" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ColorSupported" type="xsd:boolean"/>
+	<xsd:element name="CompressionSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Compression" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DocumentCharsetDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="CharsetWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="DocumentCharsetSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="DocumentCharset" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DocumentCreationElementsSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="CreationElements" minOccurs="0" maxOccurs="unbounded">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:NMTOKEN">
+							<xsd:maxLength value="255"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DocumentDigitalSignatureDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="DocumentDigitalSignatureWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="DocumentDigitalSignatureSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="DocumentDigitalSignature" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DocumentFormatDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="DocumentFormatWKV MimeExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="DocumentFormatDetailsDefault" type="DocumentFormatDetail"/>
+	<xsd:element name="DocumentFormatDetailsSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="DocumentFormatDetail" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DocumentFormatSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="DocumentFormat" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DocumentFormatVaryingElements">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="VaryingElement" type="xsd:NMTOKEN" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DocumentFormatVersionDefault" type="xsd:NMTOKEN"/>
+	<xsd:element name="DocumentFormatVersionSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="DocumentFormatVersion" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DocumentNaturalLanguageDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="NaturalLanguageWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="DocumentNaturalLanguageSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="DocumentNaturalLanguage" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="GeneratedNaturalLanguageSupported">
+		<xsd:simpleType>
+			<xsd:union memberTypes="NaturalLanguageWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="GetEventLife">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:int">
+				<xsd:minInclusive value="15"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="ImpressionsSupported" type="xsd:int"/>
+	<xsd:element name="JobCreationElementsSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="CreationElements" minOccurs="0" maxOccurs="unbounded">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:NMTOKEN">
+							<xsd:maxLength value="255"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobPasswordEncryptionSupported">
+		<xsd:simpleType>
+			<xsd:union memberTypes="JobPasswordEncryptionWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobPasswordSupported" type="xsd:int"/>
+	<xsd:element name="JobSettableElementsSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="SettableElements" minOccurs="0" maxOccurs="unbounded">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:NMTOKEN">
+							<xsd:maxLength value="255"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobSpoolingSupported">
+		<xsd:simpleType>
+			<xsd:union memberTypes="JobSpoolingWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="KOctetsSupported" type="xsd:int"/>
+	<xsd:element name="MaxSaveInfoSupported" type="xsd:int"/>
+	<xsd:element name="MaxStitchingLocationsSupported" type="xsd:int"/>
+	<xsd:element name="MediaColDatabase">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="MediaCol" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MediaSheetsSupported" type="RangeOfInt"/>
+	<xsd:element name="MultipleDocumentJobsSupported" type="xsd:boolean"/>
+	<xsd:element name="MultipleOperationTimeOut" type="xsd:int"/>
+	<xsd:element name="NaturalLanguageConfigured">
+		<xsd:simpleType>
+			<xsd:union memberTypes="NaturalLanguageWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="OperationsSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Operation" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PagesPerMinute" type="xsd:int"/>
+	<xsd:element name="PagesPerMinuteColor" type="xsd:int"/>
+	<xsd:element name="ParentPrintersSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Printer" type="xsd:anyURI" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PdlOverrideSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="PdlOverride" minOccurs="0" maxOccurs="unbounded">
+					<xsd:simpleType>
+						<xsd:union memberTypes="PdlOverrideSupportedWKV KeywordNsExtensionPattern"/>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PrinterAuthenticationSupported">
+		<xsd:annotation>
+			<xsd:documentation source="pwg.org">rfc2911 form of PrinterXriSupported</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleType>
+			<xsd:union memberTypes="UriAuthenticationWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PrinterDetailedStatusMessages">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="DetailedStatusMessage" minOccurs="0" maxOccurs="unbounded">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="1023"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PrinterInfo">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="127"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PrinterLocation">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="127"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PrinterMessageFromOperator">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="127"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PrinterMoreInfo" type="xsd:anyURI"/>
+	<xsd:element name="PrinterMoreInfoManufacturer" type="xsd:anyURI"/>
+	<xsd:element name="PrinterName">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="127"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PrinterSecuritySupported">
+		<xsd:annotation>
+			<xsd:documentation source="pwg.org">rfc2911 form of PrinterXriSupported</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleType>
+			<xsd:union memberTypes="UriSecurityWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PrinterSettableElementsSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="SettableElements" minOccurs="0" maxOccurs="unbounded">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:NMTOKEN">
+							<xsd:maxLength value="255"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PrinterUriSupported">
+		<xsd:annotation>
+			<xsd:documentation source="pwg">rfc2911 form of PrinterXriSupported</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:anyURI">
+				<xsd:maxLength value="1023"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PrinterXriSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="PrinterXri" minOccurs="0" maxOccurs="unbounded">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="XriUri">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:anyURI">
+										<xsd:maxLength value="1023"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="XriAuthentication">
+								<xsd:simpleType>
+									<xsd:union memberTypes="UriAuthenticationWKV KeywordNsExtensionPattern"/>
+								</xsd:simpleType>
+							</xsd:element>
+							<xsd:element name="XriSecurity">
+								<xsd:simpleType>
+									<xsd:union memberTypes="UriSecurityWKV KeywordNsExtensionPattern"/>
+								</xsd:simpleType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ReferenceUriSchemesSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ReferenceUriScheme" minOccurs="0" maxOccurs="unbounded">
+					<xsd:simpleType>
+						<xsd:union memberTypes="ReferenceUriSchemesWKV StringNsExtensionPattern"/>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="RepertoiresSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Repertoire" minOccurs="0" maxOccurs="unbounded">
+					<xsd:simpleType>
+						<xsd:restriction>
+							<xsd:simpleType>
+								<xsd:restriction base="StringNsExtensionPattern"/>
+							</xsd:simpleType>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="SubordinatePrintersSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="SubordinatePrinter" type="xsd:anyURI" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="UriAuthenticationSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="UriAuthentication" minOccurs="0" maxOccurs="unbounded">
+					<xsd:simpleType>
+						<xsd:union memberTypes="UriAuthenticationWKV KeywordNsExtensionPattern"/>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="UriSecuritySupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="UriSecurity" minOccurs="0" maxOccurs="unbounded">
+					<xsd:simpleType>
+						<xsd:union memberTypes="UriSecurityWKV KeywordNsExtensionPattern"/>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="UserDefinedValuesSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="UserDefinedValues" minOccurs="0" maxOccurs="unbounded">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:NMTOKEN">
+							<xsd:maxLength value="255"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="VersionsSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Version" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

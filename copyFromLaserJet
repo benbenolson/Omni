@@ -1,0 +1,5 @@
+(cd Brother ; ./copyFromLaserJet)
+(cd Epson ; ./copyFromLaserJet)
+(cd IBM ; ./copyFromLaserJet)
+(cd Kyocera ; ./copyFromLaserJet)
+(cd Okidata ; ./copyFromLaserJet)

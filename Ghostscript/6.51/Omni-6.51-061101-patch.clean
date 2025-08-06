@@ -1,0 +1,160 @@
+Only in /gs651/gs6.51/src: Omni
+Only in /gs651/gs6.51/src: temp
+diff -C5 /gs652/gs6.51/src/ugcclib.mak /gs651/gs6.51/src/ugcclib.mak
+*** /gs652/gs6.51/src/ugcclib.mak	Tue Jun  5 01:39:06 2001
+--- /gs651/gs6.51/src/ugcclib.mak	Tue Jun  5 14:31:03 2001
+***************
+*** 72,82 ****
+  CFLAGS_DEBUG=-g -O
+  CFLAGS_PROFILE=-pg -O2
+  CFLAGS=$(CFLAGS_DEBUG) $(GCFLAGS) $(XCFLAGS)
+  LDFLAGS=$(XLDFLAGS)
+  STDLIBS=-lm
+! EXTRALIBS=
+  XINCLUDE=-I/usr/local/X/include
+  XLIBDIRS=-L/usr/X11/lib
+  XLIBDIR=
+  XLIBS=Xt Xext X11
+  
+--- 72,82 ----
+  CFLAGS_DEBUG=-g -O
+  CFLAGS_PROFILE=-pg -O2
+  CFLAGS=$(CFLAGS_DEBUG) $(GCFLAGS) $(XCFLAGS)
+  LDFLAGS=$(XLDFLAGS)
+  STDLIBS=-lm
+! EXTRALIBS=dl
+  XINCLUDE=-I/usr/local/X/include
+  XLIBDIRS=-L/usr/X11/lib
+  XLIBDIR=
+  XLIBS=Xt Xext X11
+  
+***************
+*** 139,151 ****
+  
+  # The following replaces unixlink.mak
+  
+  LIB_ONLY=$(GLOBJ)gslib.$(OBJ) $(GLOBJ)gsnogc.$(OBJ) $(GLOBJ)gconfig.$(OBJ) $(GLOBJ)gscdefs.$(OBJ)
+  ldt_tr=$(GLOBJ)ldt.tr
+  $(GS_XE): $(ld_tr) $(ECHOGS_XE) $(LIB_ALL) $(DEVS_ALL) $(LIB_ONLY)
+! 	$(ECHOGS_XE) -w $(ldt_tr) -n - $(CCLD) $(LDFLAGS) -o $(GS_XE)
+  	$(ECHOGS_XE) -a $(ldt_tr) -n -s $(LIB_ONLY) -s
+  	cat $(ld_tr) >>$(ldt_tr)
+  	$(ECHOGS_XE) -a $(ldt_tr) -s - $(EXTRALIBS) $(STDLIBS)
+  	if [ x$(XLIBDIR) != x ]; then LD_RUN_PATH=$(XLIBDIR); export LD_RUN_PATH; fi; $(SH) <$(ldt_tr)
+  
+  include $(GLSRCDIR)/unix-end.mak
+--- 139,154 ----
+  
+  # The following replaces unixlink.mak
+  
+  LIB_ONLY=$(GLOBJ)gslib.$(OBJ) $(GLOBJ)gsnogc.$(OBJ) $(GLOBJ)gconfig.$(OBJ) $(GLOBJ)gscdefs.$(OBJ)
+  ldt_tr=$(GLOBJ)ldt.tr
++ LIBFLAG=-L
+  $(GS_XE): $(ld_tr) $(ECHOGS_XE) $(LIB_ALL) $(DEVS_ALL) $(LIB_ONLY)
+! 	$(ECHOGS_XE) -w $(ldt_tr) -n - $(CCLDPLUS) $(LDFLAGS) -o $(GS_XE)
+  	$(ECHOGS_XE) -a $(ldt_tr) -n -s $(LIB_ONLY) -s
+  	cat $(ld_tr) >>$(ldt_tr)
++  	$(ECHOGS_XE) -a $(ldt_tr) -s - $(OMNIDIR) -q $(OMNIDIR)OmniInterface.o -s
++  	$(ECHOGS_XE) -a $(ldt_tr) -s - $(LIBFLAG) -s $(OMNIDIR) -s
+  	$(ECHOGS_XE) -a $(ldt_tr) -s - $(EXTRALIBS) $(STDLIBS)
+  	if [ x$(XLIBDIR) != x ]; then LD_RUN_PATH=$(XLIBDIR); export LD_RUN_PATH; fi; $(SH) <$(ldt_tr)
+  
+  include $(GLSRCDIR)/unix-end.mak
+diff -C5 /gs652/gs6.51/src/unix-gcc.mak /gs651/gs6.51/src/unix-gcc.mak
+*** /gs652/gs6.51/src/unix-gcc.mak	Tue Jun  5 02:54:10 2001
+--- /gs651/gs6.51/src/unix-gcc.mak	Tue Jun  5 12:52:44 2001
+***************
+*** 182,196 ****
+--- 182,198 ----
+  # ------ Platform-specific options ------ #
+  
+  # Define the name of the C compiler.
+  
+  CC=gcc
++ CCPLUS=c++
+  
+  # Define the name of the linker for the final link step.
+  # Normally this is the same as the C compiler.
+  
+  CCLD=$(CC)
++ CCLDPLUS=$(CCPLUS)
+  
+  # Define the default gcc flags.
+  # Note that depending whether or not we are running a version of gcc with
+  # the 2.7.0-2.7.2 optimizer bug, either "-Dconst=" or
+  # "-Wcast-qual -Wwrite-strings" is automatically included.
+***************
+*** 367,380 ****
+  #DEVICE_DEVS18=
+  #DEVICE_DEVS19=
+  #DEVICE_DEVS20=
+  
+  DEVICE_DEVS1=$(DD)bmpmono.dev $(DD)bmpgray.dev $(DD)bmpsep1.dev $(DD)bmpsep8.dev $(DD)bmp16.dev $(DD)bmp256.dev $(DD)bmp16m.dev $(DD)bmp32b.dev
+! DEVICE_DEVS2=
+  DEVICE_DEVS3=$(DD)deskjet.dev $(DD)djet500.dev $(DD)laserjet.dev $(DD)ljetplus.dev $(DD)ljet2p.dev $(DD)ljet3.dev $(DD)ljet3d.dev $(DD)ljet4.dev $(DD)ljet4d.dev $(DD)lj5mono.dev $(DD)lj5gray.dev
+  DEVICE_DEVS4=$(DD)cdeskjet.dev $(DD)cdjcolor.dev $(DD)cdjmono.dev $(DD)cdj550.dev $(DD)pj.dev $(DD)pjxl.dev $(DD)pjxl300.dev
+! DEVICE_DEVS5=$(DD)uniprint.dev
+  DEVICE_DEVS6=$(DD)bj10e.dev $(DD)bj200.dev $(DD)bjc600.dev $(DD)bjc800.dev
+  DEVICE_DEVS7=$(DD)faxg3.dev $(DD)faxg32d.dev $(DD)faxg4.dev
+  DEVICE_DEVS8=$(DD)pcxmono.dev $(DD)pcxgray.dev $(DD)pcx16.dev $(DD)pcx256.dev $(DD)pcx24b.dev $(DD)pcxcmyk.dev
+  DEVICE_DEVS9=$(DD)pbm.dev $(DD)pbmraw.dev $(DD)pgm.dev $(DD)pgmraw.dev $(DD)pgnm.dev $(DD)pgnmraw.dev $(DD)pnm.dev $(DD)pnmraw.dev $(DD)ppm.dev $(DD)ppmraw.dev $(DD)pkm.dev $(DD)pkmraw.dev $(DD)pksm.dev $(DD)pksmraw.dev
+  DEVICE_DEVS10=$(DD)tiffcrle.dev $(DD)tiffg3.dev $(DD)tiffg32d.dev $(DD)tiffg4.dev $(DD)tifflzw.dev $(DD)tiffpack.dev
+--- 369,382 ----
+  #DEVICE_DEVS18=
+  #DEVICE_DEVS19=
+  #DEVICE_DEVS20=
+  
+  DEVICE_DEVS1=$(DD)bmpmono.dev $(DD)bmpgray.dev $(DD)bmpsep1.dev $(DD)bmpsep8.dev $(DD)bmp16.dev $(DD)bmp256.dev $(DD)bmp16m.dev $(DD)bmp32b.dev
+! DEVICE_DEVS2=$(DD)omni.dev
+  DEVICE_DEVS3=$(DD)deskjet.dev $(DD)djet500.dev $(DD)laserjet.dev $(DD)ljetplus.dev $(DD)ljet2p.dev $(DD)ljet3.dev $(DD)ljet3d.dev $(DD)ljet4.dev $(DD)ljet4d.dev $(DD)lj5mono.dev $(DD)lj5gray.dev
+  DEVICE_DEVS4=$(DD)cdeskjet.dev $(DD)cdjcolor.dev $(DD)cdjmono.dev $(DD)cdj550.dev $(DD)pj.dev $(DD)pjxl.dev $(DD)pjxl300.dev
+! DEVICE_DEVS5=$(DD)uniprint.dev 
+  DEVICE_DEVS6=$(DD)bj10e.dev $(DD)bj200.dev $(DD)bjc600.dev $(DD)bjc800.dev
+  DEVICE_DEVS7=$(DD)faxg3.dev $(DD)faxg32d.dev $(DD)faxg4.dev
+  DEVICE_DEVS8=$(DD)pcxmono.dev $(DD)pcxgray.dev $(DD)pcx16.dev $(DD)pcx256.dev $(DD)pcx24b.dev $(DD)pcxcmyk.dev
+  DEVICE_DEVS9=$(DD)pbm.dev $(DD)pbmraw.dev $(DD)pgm.dev $(DD)pgmraw.dev $(DD)pgnm.dev $(DD)pgnmraw.dev $(DD)pnm.dev $(DD)pnmraw.dev $(DD)ppm.dev $(DD)ppmraw.dev $(DD)pkm.dev $(DD)pkmraw.dev $(DD)pksm.dev $(DD)pksmraw.dev
+  DEVICE_DEVS10=$(DD)tiffcrle.dev $(DD)tiffg3.dev $(DD)tiffg32d.dev $(DD)tiffg4.dev $(DD)tifflzw.dev $(DD)tiffpack.dev
+Only in /gs651/gs6.51/src: unix-gcc.mak.old
+diff -C5 /gs652/gs6.51/src/unixlink.mak /gs651/gs6.51/src/unixlink.mak
+*** /gs652/gs6.51/src/unixlink.mak	Tue Jun  5 01:39:06 2001
+--- /gs651/gs6.51/src/unixlink.mak	Tue Jun  5 10:53:27 2001
+***************
+*** 61,75 ****
+  # Here is the final link step.  The stuff with LD_RUN_PATH is for SVR4
+  # systems with dynamic library loading; I believe it's harmless elsewhere.
+  # The resetting of the environment variables to empty strings is for SCO Unix,
+  # which has limited environment space.
+  ldt_tr=$(PSOBJ)ldt.tr
+  $(GS_XE): $(ld_tr) $(ECHOGS_XE) $(XE_ALL)
+! 	$(ECHOGS_XE) -w $(ldt_tr) -n - $(CCLD) $(LDFLAGS) -o $(GS_XE)
+  	$(ECHOGS_XE) -a $(ldt_tr) -n -s $(PSOBJ)gs.$(OBJ) -s
+  	cat $(ld_tr) >>$(ldt_tr)
+! 	$(ECHOGS_XE) -a $(ldt_tr) -s - $(EXTRALIBS) $(STDLIBS)
+  	if [ x$(XLIBDIR) != x ]; then LD_RUN_PATH=$(XLIBDIR); export LD_RUN_PATH; fi; \
+  	XCFLAGS= XINCLUDE= XLDFLAGS= XLIBDIRS= XLIBS= \
+  	FEATURE_DEVS= DEVICE_DEVS= DEVICE_DEVS1= DEVICE_DEVS2= DEVICE_DEVS3= \
+  	DEVICE_DEVS4= DEVICE_DEVS5= DEVICE_DEVS6= DEVICE_DEVS7= DEVICE_DEVS8= \
+  	DEVICE_DEVS9= DEVICE_DEVS10= DEVICE_DEVS11= DEVICE_DEVS12= \
+--- 61,82 ----
+  # Here is the final link step.  The stuff with LD_RUN_PATH is for SVR4
+  # systems with dynamic library loading; I believe it's harmless elsewhere.
+  # The resetting of the environment variables to empty strings is for SCO Unix,
+  # which has limited environment space.
+  ldt_tr=$(PSOBJ)ldt.tr
++  
++ # @TBD - what to do on systems that dont have dlopen?
++ LIBDLOPEN= -ldl
++ # @TBD - we still need the stdc++ library otherwise we trap in exit() in gp_unix.c:60
++ LIBPATHCPP= -L/usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66
++ LIBCPP= -lstdc++
+  $(GS_XE): $(ld_tr) $(ECHOGS_XE) $(XE_ALL)
+! 	$(ECHOGS_XE) -w $(ldt_tr) -n - $(CCLDPLUS) $(LDFLAGS) $(XLIBDIRS) $(LIBFLAG) -o $(GS_XE)
+  	$(ECHOGS_XE) -a $(ldt_tr) -n -s $(PSOBJ)gs.$(OBJ) -s
+  	cat $(ld_tr) >>$(ldt_tr)
+! 	$(ECHOGS_XE) -a $(ldt_tr) -n - $(LIBDLOPEN) $(LIBCPP)
+! 	$(ECHOGS_XE) -a $(ldt_tr) -s  - $(EXTRALIBS) -lm
+  	if [ x$(XLIBDIR) != x ]; then LD_RUN_PATH=$(XLIBDIR); export LD_RUN_PATH; fi; \
+  	XCFLAGS= XINCLUDE= XLDFLAGS= XLIBDIRS= XLIBS= \
+  	FEATURE_DEVS= DEVICE_DEVS= DEVICE_DEVS1= DEVICE_DEVS2= DEVICE_DEVS3= \
+  	DEVICE_DEVS4= DEVICE_DEVS5= DEVICE_DEVS6= DEVICE_DEVS7= DEVICE_DEVS8= \
+  	DEVICE_DEVS9= DEVICE_DEVS10= DEVICE_DEVS11= DEVICE_DEVS12= \

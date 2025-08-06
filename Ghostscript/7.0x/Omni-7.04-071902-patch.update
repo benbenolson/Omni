@@ -1,0 +1,101 @@
+diff -ur ghostscript-7.04-052902/src/gomni.c ghostscript-7.04-071902/src/gomni.c
+--- ghostscript-7.04-052902/src/gomni.c	Fri Jul 19 10:20:53 2002
++++ ghostscript-7.04-071902/src/gomni.c	Fri Jul 19 10:20:54 2002
+@@ -480,7 +480,6 @@
+       )
+    {
+        pDev->pfnEndJob ((void*)pDev->pCallPtr);
+-       pDev->pfnEndJob = 0;
+    }
+ 
+    if (  pDev->pcoreOmni
+@@ -496,6 +495,7 @@
+       )
+    {
+       pDev->pfnDeleteDevice (pDev->pcoreOmni->pDevice);
++      pDev->pcoreOmni->pDevice = 0;
+    }
+ 
+    if (pDev->pfnGITerm)
+@@ -720,7 +720,17 @@
+           if (pszDeviceLib)
+           {
+               sprintf (pszDeviceLib, "%s%s", apszLibraryPaths[i], cOmnilib);
++
++              if (fDebugOutput) fprintf (stderr, "trying to load %s\n", pszDeviceLib);
++
+               pDev->hmodOmni = g_module_open (pszDeviceLib, (GModuleFlags)0);
++
++              if (  !pDev->hmodOmni
++                 && fDebugOutput
++                 )
++              {
++                 fprintf (stderr, "error: %s\n", g_module_error ());
++              }
+           }
+           gs_free (pszDeviceLib, strlen (pszDeviceLib) + 1, 1, "Devicestring");
+       }
+@@ -1012,6 +1022,13 @@
+                 if (fDebugOutput) fprintf (stderr, "attempting to load - %s\n", pszDeviceLib);
+ 
+                 pModule = g_module_open (pszDeviceLib, (GModuleFlags)0);
++
++                if (  !pModule
++                   && fDebugOutput
++                   )
++                {
++                   fprintf (stderr, "error: %s\n", g_module_error ());
++                }
+             }
+             gs_free (pszDeviceLib, strlen (pszDeviceLib) + 1, 1, "Devicestring");
+          }
+--- ghostscript-7.04-052902/src/gomni.c	Fri Jul 19 10:20:53 2002
++++ ghostscript-7.04-071902/src/gomni.c	Fri Jul 19 10:20:54 2002
+@@ -480,7 +480,6 @@
+       )
+    {
+        pDev->pfnEndJob ((void*)pDev->pCallPtr);
+-       pDev->pfnEndJob = 0;
+    }
+ 
+    if (  pDev->pcoreOmni
+@@ -496,6 +495,7 @@
+       )
+    {
+       pDev->pfnDeleteDevice (pDev->pcoreOmni->pDevice);
++      pDev->pcoreOmni->pDevice = 0;
+    }
+ 
+    if (pDev->pfnGITerm)
+@@ -720,7 +720,17 @@
+           if (pszDeviceLib)
+           {
+               sprintf (pszDeviceLib, "%s%s", apszLibraryPaths[i], cOmnilib);
++
++              if (fDebugOutput) fprintf (stderr, "trying to load %s\n", pszDeviceLib);
++
+               pDev->hmodOmni = g_module_open (pszDeviceLib, (GModuleFlags)0);
++
++              if (  !pDev->hmodOmni
++                 && fDebugOutput
++                 )
++              {
++                 fprintf (stderr, "error: %s\n", g_module_error ());
++              }
+           }
+           gs_free (pszDeviceLib, strlen (pszDeviceLib) + 1, 1, "Devicestring");
+       }
+@@ -1012,6 +1022,13 @@
+                 if (fDebugOutput) fprintf (stderr, "attempting to load - %s\n", pszDeviceLib);
+ 
+                 pModule = g_module_open (pszDeviceLib, (GModuleFlags)0);
++
++                if (  !pModule
++                   && fDebugOutput
++                   )
++                {
++                   fprintf (stderr, "error: %s\n", g_module_error ());
++                }
+             }
+             gs_free (pszDeviceLib, strlen (pszDeviceLib) + 1, 1, "Devicestring");
+          }

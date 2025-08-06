@@ -1,0 +1,282 @@
+*** update.817/tmp/gomni.c	Mon Aug 21 12:01:31 2000
+--- gs5.50/gomni.c	Wed Nov  1 10:47:26 2000
+***************
+*** 50,69 ****
+  /*                                                                      */
+  /*    @@08162000       Changed device PageCount value so that we could  */
+  /*                     print multiple pages.  The PageCount value was   */
+  /*                     not being updated internal to Ghostscript        */
+  /*                                                                      */
+  /*                                                                      */
+  /*                                                                      */
+  /*                                                                      */
+! /*                                                                      */
+! /*                                                                      */
+! /*                                                                      */
+! /*                                                                      */
+! /*                                                                      */
+! /*                                                                      */
+! /*                                                                      */
+  /*                                                                      */
+  /*                                                                      */
+  /*                                                                      */
+  /*                                                                      */
+  /*                                                                      */
+--- 50,69 ----
+  /*                                                                      */
+  /*    @@08162000       Changed device PageCount value so that we could  */
+  /*                     print multiple pages.  The PageCount value was   */
+  /*                     not being updated internal to Ghostscript        */
+  /*                                                                      */
++ /*    @@10172000       changed to flip coordinates from zero based top  */
++ /*                     to actual top of page                            */
+  /*                                                                      */
++ /*    @@10192000       adjusted dot size correction values for          */
++ /*                     monochrome mode                                  */
+  /*                                                                      */
++ /*    @@10252000       added code to make sure that we have a full band */
++ /*                     of data.  Rendering high res is slow.            */
+  /*                                                                      */
+! /*    @@10312000       correct line decrement and get_bits of a line    */
+  /*                                                                      */
+  /*                                                                      */
+  /*                                                                      */
+  /*                                                                      */
+  /*                                                                      */
+***************
+*** 280,290 ****
+  
+      /*
+       * Determine MAXIMUM parameters this device will have to support over
+       * lifetime.  See comments for GetSpaceParams().
+       */
+!     max_width = DEFAULT_WIDTH_10THS * 60 * 4;   /* figure max wid = default @ 600dpi */
+                                         /* multiplied by 2 for 1200 dpi */
+      min_band_height = max(1, (DEFAULT_HEIGHT_10THS * 60) / 100);
+      max_raster = (max_width * pwdev->color_info.depth) / 8;	/* doesn't need to be super accurate */
+      max_src_image_row = max_width * 3 * 2;
+  
+--- 280,290 ----
+  
+      /*
+       * Determine MAXIMUM parameters this device will have to support over
+       * lifetime.  See comments for GetSpaceParams().
+       */
+!     max_width = DEFAULT_WIDTH_10THS * 60 * 16;   /* figure max wid = default @ 600dpi */
+                                         /* multiplied by 2 for 1200 dpi */
+      min_band_height = max(1, (DEFAULT_HEIGHT_10THS * 60) / 100);
+      max_raster = (max_width * pwdev->color_info.depth) / 8;	/* doesn't need to be super accurate */
+      max_src_image_row = max_width * 3 * 2;
+  
+***************
+*** 453,463 ****
+              ImageInfo.ulTrgBytesPerLine /= 8;
+              ImageInfo.ulcTrgClrs   = 2;
+              ImageInfo.ulTrgClrType = 0;
+              ImageInfo.pargb2Trg    = NULL;
+              ImageInfo.ulOptions    = 0;            // options
+!             ImageInfo.ulPelSizeCorrection  = 300;
+  
+              ptlBounds.x = pasyncDev->width;             // Bounding rectangle for input bitmap
+              ptlTrgBounds.x = pasyncDev->width;          // Bounding rectangle for output bitmap
+  
+  
+--- 453,464 ----
+              ImageInfo.ulTrgBytesPerLine /= 8;
+              ImageInfo.ulcTrgClrs   = 2;
+              ImageInfo.ulTrgClrType = 0;
+              ImageInfo.pargb2Trg    = NULL;
+              ImageInfo.ulOptions    = 0;            // options
+! //          ImageInfo.ulPelSizeCorrection  = 300;  //@@10192000
+!             ImageInfo.ulPelSizeCorrection  = 100;   //@@10192000
+  
+              ptlBounds.x = pasyncDev->width;             // Bounding rectangle for input bitmap
+              ptlTrgBounds.x = pasyncDev->width;          // Bounding rectangle for output bitmap
+  
+  
+***************
+*** 553,572 ****
+  
+     rectPageLocation.xRight   = pasyncDev->width ;
+  
+     BeginJob(pasyncDev->pDev->pDevice, prn_stream);
+  
+!    rectPageLocation.yTop = rectPageLocation.yBottom  = 0;
+  
+     /*
+      *    Banding Implementation based on bandsize - need to put bits in place so that we can
+      *    tell if this is a top to down or bottom to top printer.
+      */
+  
+     {  //BEGIN BLOCK for Banding code
+  
+!       int iCurTop = 0, iCurBot = 0;
+  
+        /*
+         *  Since this band needs to be flipped, we need to get a pointer to the top of memory
+         *  so that we can copy from the top down into the band
+         *  We also need to seek to the end of the file because this type of printer needs the
+--- 554,575 ----
+  
+     rectPageLocation.xRight   = pasyncDev->width ;
+  
+     BeginJob(pasyncDev->pDev->pDevice, prn_stream);
+  
+! //   rectPageLocation.yTop = rectPageLocation.yBottom  = 0;  @@10172000
+! 
+!      rectPageLocation.yTop =  pasyncDev->height-1;       // @@10172000
+  
+     /*
+      *    Banding Implementation based on bandsize - need to put bits in place so that we can
+      *    tell if this is a top to down or bottom to top printer.
+      */
+  
+     {  //BEGIN BLOCK for Banding code
+  
+! //      int iCurTop = 0, iCurBot = 0;  @@10172000
+  
+        /*
+         *  Since this band needs to be flipped, we need to get a pointer to the top of memory
+         *  so that we can copy from the top down into the band
+         *  We also need to seek to the end of the file because this type of printer needs the
+***************
+*** 580,603 ****
+        // Call DiffusionDither to setup pBuffer - quick in and out
+        DiffusionDither(&DiffInfo, &ImageInfo, &pBuffer, (unsigned long) GDM_DITHER_BEGIN);
+  
+        // Go through the bitmap that we have been given
+        for(y = pasyncDev->height - 1; y >= 0; y--)
+!       {
+!          if ( ((code = dev_proc(pgx_dev, get_bits)(pgx_dev, pasyncDev->height - 1 - y, pGSData, &raster_data)) >= 0) && (iYBand < ulBandLength-1)  && (y != 0))
+           {
+!            memcpy(pBitmapTop - (iYBand  * uiBytesPerLine), raster_data, uiBytesPerLine);
+  
+              iYBand++;  // keep track of lines in the band
+  
+           }
+           else
+           {
+             if((code < 0) && (y > 0))  // add back in the line we failed to get if an error was returned
+             {                          // from get_bits
+!                y++;
+             }
+             // we currently support 24bit or mono so if this is the mono case, allocate memory to be
+             // used for the gray-scaled bitmap buffer
+             if(prtMode.iBitCount < 16)
+             {
+                 pMonoData = (byte *) gs_malloc(1, iYBand * ImageInfo.ulTrgBytesPerLine, "Mono Memory");
+--- 583,615 ----
+        // Call DiffusionDither to setup pBuffer - quick in and out
+        DiffusionDither(&DiffInfo, &ImageInfo, &pBuffer, (unsigned long) GDM_DITHER_BEGIN);
+  
+        // Go through the bitmap that we have been given
+        for(y = pasyncDev->height - 1; y >= 0; y--)
+!       {                                   //@@10312000
+!          if ( (iYBand < ulBandLength) && ((code = dev_proc(pgx_dev, get_bits)(pgx_dev, pasyncDev->height - 1 - y, pGSData, &raster_data)) >= 0) && (y != 0))
+           {
+! 
+!             memcpy(pBitmapTop - (iYBand  * uiBytesPerLine), raster_data, uiBytesPerLine);
+  
+              iYBand++;  // keep track of lines in the band
+  
+           }
+           else
+           {
+             if((code < 0) && (y > 0))  // add back in the line we failed to get if an error was returned
+             {                          // from get_bits
+!                if(iYBand != ulBandLength)                                                    //@@10252000
+!                {
+!                    y++;
+!                    continue;
+!                }
+             }
++                 // we always decrement y when we come through here even if this is just a complete band
++            if(iYBand == ulBandLength)      //@@10312000
++                y++;
++ 
+             // we currently support 24bit or mono so if this is the mono case, allocate memory to be
+             // used for the gray-scaled bitmap buffer
+             if(prtMode.iBitCount < 16)
+             {
+                 pMonoData = (byte *) gs_malloc(1, iYBand * ImageInfo.ulTrgBytesPerLine, "Mono Memory");
+***************
+*** 622,632 ****
+  
+             pbmi->cy = iYBand;
+  
+             // set the page location to account for the new band size (cy)
+  
+!            rectPageLocation.yTop = iCurTop + pbmi->cy;
+  
+             // If this in a mono device, we need to send the mono data to the device and
+             // not the color
+             if(pMonoData)
+             {
+--- 634,645 ----
+  
+             pbmi->cy = iYBand;
+  
+             // set the page location to account for the new band size (cy)
+  
+! //         rectPageLocation.yTop = iCurTop + pbmi->cy;  @@10172000
+!            rectPageLocation.yBottom  = rectPageLocation.yTop - pbmi->cy ; // @@10172000
+  
+             // If this in a mono device, we need to send the mono data to the device and
+             // not the color
+             if(pMonoData)
+             {
+***************
+*** 645,654 ****
+--- 658,678 ----
+                  pMonoData = NULL;
+  
+             }
+             else
+             {  // non-mono device -- Send the rgb bitmap to the dither and rasterize routines
++              fprintf(stderr, "rendering band lines %d - %d w/%d \n", rectPageLocation.yTop, rectPageLocation.yBottom, iYBand);
++ #if _DEBUG   //@@10172000
++            fprintf(stderr, "***************************************************************\n");
++            fprintf(stderr, "***************************************************************\n");
++            fprintf(stderr, "Number of lines in band = %d\n", iYBand);
++            fprintf(stderr, "rectPageLocation - Top = %d\n", rectPageLocation.yTop);
++            fprintf(stderr, "rectPageLocation - Bot = %d\n", rectPageLocation.yBottom);
++ 
++            fprintf(stderr, "***************************************************************\n");
++            fprintf(stderr, "***************************************************************\n");
++ #endif
+                 Rasterize(pasyncDev->pDev->pDevice,
+                            pBitmapTop - ((iYBand-1) * uiBytesPerLine),
+                            pbmi,
+                            &sizelPage,
+                            &rectPageLocation,
+***************
+*** 658,670 ****
+             }
+  
+              // implemented based on the number of lines sent to the
+              // printer and not based on the bandsize
+  
+!             rectPageLocation.yBottom = pbmi->cy + iCurBot;
+!             iCurBot =  rectPageLocation.yBottom;
+!             iCurTop =  rectPageLocation.yTop;
+  
+              iYBand = 0;
+           }
+        }
+        DiffusionDither(&DiffInfo, &ImageInfo, &pBuffer, (unsigned long) GDM_DITHER_END);
+--- 682,696 ----
+             }
+  
+              // implemented based on the number of lines sent to the
+              // printer and not based on the bandsize
+  
+! //            rectPageLocation.yBottom = pbmi->cy + iCurBot; @@10172000
+! 
+!             rectPageLocation.yTop -= iYBand;   // @@10172000
+! //            iCurBot =  rectPageLocation.yBottom;  @@10172000
+! //            iCurTop =  rectPageLocation.yTop;     @@10172000
+  
+              iYBand = 0;
+           }
+        }
+        DiffusionDither(&DiffInfo, &ImageInfo, &pBuffer, (unsigned long) GDM_DITHER_END);

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     IBM Omni driver
+     Copyright (c) International Business Machines Corp., 2000
+
+     This library is free software; you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published
+     by the Free Software Foundation; either version 2.1 of the License, or
+     (at your option) any later version.
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+     the GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this library; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
+<Device xmlns="http://www.ibm.com/linux/ltc/projects/omni/" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" name="Kyocera FS-1550A/FS-1550" xs:schemaLocation="http://www.ibm.com/linux/ltc/projects/omni/ ../OmniDevice.xsd">
+<DriverName>Kyocera</DriverName>
+<Capability type="MONOCHROME"/>
+<Capability type="MIRROR"/>
+<RasterCapabilities type="TOP_TO_BOTTOM"/>
+<DeviceOptions type="DO_AUTO_ROTATE"/>
+<DeviceOptions type="DO_SCALABLE_FONT"/>
+<DeviceOptions type="DO_SUPPORT_DUPLEX"/>
+<DeviceOptions type="DO_SUPPORT_RULES"/>
+<DeviceOptions type="DO_SUPPORT_DOT_COORDS"/>
+<DeviceOptions type="DO_SUPPORT_BACKBIN"/>
+<DeviceOptions type="DO_SUPPORT_PCL5"/>
+<DeviceOptions type="DO_MIXED_TRAY"/>
+<DeviceOptions type="DO_SUPPORT_HPGL2"/>
+<DeviceOptions type="DO_SUPPORT_OUTPUTOPTION"/>
+<DeviceOptions type="DO_SUPPORT_WATERMARK"/>
+<DeviceOptions type="DO_SUPPORT_HPGL2LOW"/>
+<PDL level="PDL_PCL" sublevel="LEVEL_PCL3" major="1" minor="0"/>
+<Uses>Kyocera PCL Commands.xml</Uses>
+<Has>Kyocera Orientations.xml</Has>
+<Has>Kyocera F-1000A_F-1000 Resolutions.xml</Has>
+<Has>Kyocera PCL PrintModes.xml</Has>
+<Has>Kyocera FS-1000 Trays.xml</Has>
+<Has>Kyocera FS-1500A_FS-1500 Forms.xml</Has>
+<Has>Kyocera F-1000A_F-1000 Medias.xml</Has>
+<Has>Kyocera FS-1550A_FS-1550 Connections.xml</Has>
+   <Has>Kyocera Copies.xml</Has>
+   <Has>Kyocera NUps.xml</Has>
+   <Has>Kyocera OutputBins.xml</Has>
+   <Has>Kyocera Scalings.xml</Has>
+   <Has>Kyocera SheetCollates.xml</Has>
+   <Has>Kyocera Sides.xml</Has>
+   <Has>Kyocera Stitchings.xml</Has>
+   <Has>Kyocera Trimmings.xml</Has>
+<Instance>Kyocera PCL Instance.hpp</Instance>
+<Instance>Kyocera PCL Instance.cpp</Instance>
+<Blitter>Kyocera PCL Blitter.hpp</Blitter>
+<Blitter>Kyocera PCL Blitter.cpp</Blitter>
+<DefaultJobProperties>
+      <Copies>1</Copies>
+      <dither>DITHER_STUCKI_DIFFUSION</dither>
+      <Form>na_letter_8.50x11.00in</Form>
+      <omniForm>FORM_LETTER</omniForm>
+      <media>MEDIA_PLAIN</media>
+      <NumberUp>
+         <NumberUp FORMAT="XbyY">
+            <x>1</x>
+            <y>1</y>
+         </NumberUp>
+         <NumberUpDirection>TorightTobottom</NumberUpDirection>
+      </NumberUp>
+      <Rotation>Portrait</Rotation>
+      <omniOrientation>ORIENTATION_PORTRAIT</omniOrientation>
+      <OutputBin>Top</OutputBin>
+      <printmode>PRINT_MODE_1_ANY</printmode>
+      <Resolution>300x300</Resolution>
+      <omniResolution>RESOLUTION_300_X_300</omniResolution>
+      <Scaling>
+         <ScalingPercentage>100</ScalingPercentage>
+         <ScalingType>None</ScalingType>
+      </Scaling>
+      <SheetCollate>SheetUncollated</SheetCollate>
+      <Sides>OneSidedFront</Sides>
+      <Stitching>
+         <StitchingPosition>0</StitchingPosition>
+         <StitchingReferenceEdge>Top</StitchingReferenceEdge>
+         <StitchingType>None</StitchingType>
+         <StitchingCount>0</StitchingCount>
+         <StitchingAngle>0</StitchingAngle>
+      </Stitching>
+      <InputTray>Tray-1</InputTray>
+      <omniTray>TRAY_CASSETTE1</omniTray>
+      <Trimming>None</Trimming>
+   </DefaultJobProperties>
+</Device>

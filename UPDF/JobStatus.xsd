@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.pwg.org/schemas/sm/1.0/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.pwg.org/schemas/sm/1.0/" elementFormDefault="qualified" version="1.00">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">PWG Job State Element schema
+Copyright 2002-2004, IEEE Industry Standards and Technology Organization/Printer Working Group. 
+All rights reserved</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>NOTE: To use this schema you MUST include PwgCommon.xsd</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>Job Status Element definition</xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="JobStatus">
+		<xsd:sequence>
+			<xsd:element ref="DateTimeAtCompleted" minOccurs="0"/>
+			<xsd:element ref="DateTimeAtCreation" minOccurs="0"/>
+			<xsd:element ref="DateTimeAtProcessing" minOccurs="0"/>
+			<xsd:element ref="DetailedStatusMessages" minOccurs="0"/>
+			<xsd:element ref="DocumentAccessErrors" minOccurs="0"/>
+			<xsd:element ref="ErrorsCount" minOccurs="0"/>
+			<xsd:element ref="ImpressionsCompleted" minOccurs="0"/>
+			<xsd:element ref="ImpressionsCompletedCurrentCopy" minOccurs="0"/>
+			<xsd:element ref="JobCollationType" minOccurs="0"/>
+			<xsd:element ref="JobId" minOccurs="0"/>
+			<xsd:element ref="JobPrinterMakeAndModel" minOccurs="0"/>
+			<xsd:element ref="JobPrinterUri" minOccurs="0"/>
+			<xsd:element ref="JobState" minOccurs="0"/>
+			<xsd:element ref="JobStateMessage" minOccurs="0"/>
+			<xsd:element ref="JobStateReasons" minOccurs="0"/>
+			<xsd:element ref="JobUri" minOccurs="0"/>
+			<xsd:element ref="KOctetsProcessed" minOccurs="0"/>
+			<xsd:element ref="MediaSheetsCompleted" minOccurs="0"/>
+			<xsd:element ref="MoreInfo" minOccurs="0"/>
+			<xsd:element ref="NumberOfDocuments" minOccurs="0"/>
+			<xsd:element ref="NumberOfInterveningJobs" minOccurs="0"/>
+			<xsd:element ref="OutputDeviceAssigned" minOccurs="0"/>
+			<xsd:element ref="PrinterUpTime" minOccurs="0"/>
+			<xsd:element ref="SheetCompletedCopyNumber" minOccurs="0"/>
+			<xsd:element ref="SheetCompletedDocumentNumber" minOccurs="0"/>
+			<xsd:element ref="TimeAtCompleted" minOccurs="0"/>
+			<xsd:element ref="TimeAtCreation" minOccurs="0"/>
+			<xsd:element ref="TimeAtProcessing" minOccurs="0"/>
+			<xsd:element ref="WarningsCount" minOccurs="0"/>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation source="www.pwg.org">This allows vendor and site specific extentions to the Job template schema</xsd:documentation>
+				</xsd:annotation>
+			</xsd:any>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="JobStatus" type="JobStatus"/>
+	<xsd:annotation>
+		<xsd:documentation>Job Status specific semantic elements</xsd:documentation>
+	</xsd:annotation>
+	<xsd:element name="JobCollationType">
+		<xsd:simpleType>
+			<xsd:union memberTypes="JobCollationTypeWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobPrinterMakeAndModel">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="127"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobPrinterUri">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:anyURI">
+				<xsd:maxLength value="1023"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobState" type="JobStateWKV"/>
+	<xsd:element name="JobStateMessage">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="1023"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobStateReasons">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="JobStateReason" minOccurs="0" maxOccurs="unbounded">
+					<xsd:simpleType>
+						<xsd:union memberTypes="JobStateReasonsWKV KeywordNsExtensionPattern"/>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="NumberOfDocuments" type="xsd:int"/>
+	<xsd:element name="NumberOfInterveningJobs" type="xsd:int"/>
+	<xsd:element name="SheetCompletedDocumentNumber" type="xsd:int"/>
+</xsd:schema>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 2 (http://www.xmlspy.com) by Norbert Schade (private) -->
+<!-- Copyright (c) 2002 Norbert Schade                                     -->
+<!--                                                                       -->
+<!-- Permission is hereby granted, free of charge, to any person obtaining -->
+<!-- a copy of this software and associated documentation files (the       -->
+<!-- "Software"), to deal in the Software without restriction, including   -->
+<!-- without limitation the rights to use, copy, modify, merge, publish,   -->
+<!-- distribute, sublicense, and/or sell copies of the Software,           -->
+<!-- and to permit persons to whom the Software is furnished to do so,     -->
+<!-- subject to the following conditions: The above copyright notice and   -->
+<!-- this permission notice shall be included in all copies                -->
+<!-- or substantial portions of the Software.                              -->
+<!--                                                                       -->
+<!-- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,       -->
+<!-- EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES       -->
+<!-- OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND              -->
+<!-- NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE-->
+<!-- LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION-->
+<!-- OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION -->
+<!-- WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.       -->
+<DeviceConfiguration FileTypeIdentification="Device Configuration"
+                     UnitDescriptionReference="UPDFDeviceDescription-HPLaserJet9000PCL5e"
+                     CommandSequencesReference="UPDFCommandSequences-HPLaserJetPCL5e"
+                     xmlns="http://www.pwg.org/updf/"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://www.pwg.org/updf/ UPDFDeviceConfiguration.xsd">
+        <Locale LocaleReference="UPDFLocale-enUS-HPLaserJet"/>
+        <Locale LocaleReference="UPDFLocale-deDE-HPLaserJet"/>
+        <OptionalUnit UnitDescriptionReference="UPDFOptionDescription-HP2000SheetInputTrayPCL5e" CommandSequencesReference="UPDFCommandSequences-HPInputUnitsPCL5e" ShippingUnit="false" ConnectorUnitDescriptionReference="UPDFDeviceDescription-HPLaserJet9000PCL5e" ConnectorID="Input_Underneath">
+                <Locale LocaleReference="UPDFLocale-enUS-HPInputUnits"/>
+                <Locale LocaleReference="UPDFLocale-deDE-HPInputUnits"/>
+	</OptionalUnit>
+        <UserPolicy UserPolicyDescriptionReference="UPDFUserPolicy-NorbertSchade">
+                <Locale LocaleReference="UPDFLocale-enUS-NorbertSchade"/>
+	</UserPolicy>
+</DeviceConfiguration>

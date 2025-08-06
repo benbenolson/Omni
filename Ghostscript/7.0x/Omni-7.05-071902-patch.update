@@ -1,0 +1,263 @@
+diff -ur ghostscript-7.05-052902/autogen.sh ghostscript-7.05-071902/autogen.sh
+--- ghostscript-7.05-052902/autogen.sh	Fri Jul 19 10:35:05 2002
++++ ghostscript-7.05-071902/autogen.sh	Wed Jan 23 19:30:56 2002
+@@ -22,7 +22,6 @@
+ 
+ echo "  creating links to configuration sources"
+ ln -sf src/configure.ac .
+-ln -sf src/configure.ac configure.in
+ ln -sf src/Makefile.in .
+ 
+ #echo "  aclocal $ACLOCAL_FLAGS"
+diff -ur ghostscript-7.05-052902/configure ghostscript-7.05-071902/configure
+--- ghostscript-7.05-052902/configure	Fri Jul 19 10:35:05 2002
++++ ghostscript-7.05-071902/configure	Fri Jul 19 10:35:08 2002
+@@ -828,7 +828,7 @@
+   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+   --with-ijs              include IJS driver support
+   --with-gimp-print       build the gimp-print (stp) driver
+-  --with-omni             include OMNI driver support
++  --with-omni             build the omni driver
+   --with-x                use the X Window System
+ 
+ Some influential environment variables:
+@@ -4003,47 +4003,6 @@
+ else
+   ac_check_lib_save_LIBS=$LIBS
+ LIBS="-l$STPLIB  $LIBS"
+-
+-
+-# Check whether --with-omni or --without-omni was given.
+-if test "${with_omni+set}" = set; then
+-  withval="$with_omni"
+-fi;
+-
+-OMNIDIR=src
+-OMNIDEVS=''
+-if test x$with_omni != xno; then
+-   echo "$as_me:3248: checking for local omni library source" >&5
+-   echo $ECHO_N "checking for local omni library source... $ECHO_C" >&6
+-   if test -d Omni; then
+-      echo "$as_me:3251: result: yes" >&5
+-      echo "${ECHO_T}yes" >&6
+-      echo "$as_me:3253: checking for libxml support" >&5
+-      echo $ECHO_N "checking for libxml support... $ECHO_C" >&6
+-      if test -f /usr/lib/libxml.so; then
+-         echo "$as_me:3256: result: yes" >&5
+-         echo "${ECHO_T}yes" >&6
+-         echo "$as_me:3258: checking for glib support" >&5
+-         echo $ECHO_N "checking for glib support... $ECHO_C" >&6
+-         if which glib-config 1>/dev/null 2>&1; then
+-            echo "$as_me:3261: result: yes" >&5
+-            echo "${ECHO_T}yes" >&6
+-            OMNIDIR=omni
+-            OMNIDEVS='$(DD)omni.dev'
+-         else
+-            echo "$as_me:3266: result: no" >&5
+-            echo "${ECHO_T}no" >&6
+-         fi
+-      else
+-         echo "$as_me:3270: result: no" >&5
+-         echo "${ECHO_T}no" >&6
+-      fi
+-   else
+-      echo "$as_me:3274: result: no" >&5
+-      echo "${ECHO_T}no" >&6
+-   fi
+-fi
+-
+ cat >conftest.$ac_ext <<_ACEOF
+ #line $LINENO "configure"
+ #include "confdefs.h"
+@@ -4209,6 +4168,157 @@
+ 
+ 
+ 
++
++# Check whether --with-omni or --without-omni was given.
++if test "${with_omni+set}" = set; then
++  withval="$with_omni"
++
++fi;
++OMNIDIR=src
++OMNIDEVS=''
++if test x$with_omni != xno; then
++		xml_version=
++	# Extract the first word of "xml2-config", so it can be a program name with args.
++set dummy xml2-config; ac_word=$2
++echo "$as_me:$LINENO: checking for $ac_word" >&5
++echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
++if test "${ac_cv_path_XML2_CONFIG+set}" = set; then
++  echo $ECHO_N "(cached) $ECHO_C" >&6
++else
++  case $XML2_CONFIG in
++  [\\/]* | ?:[\\/]*)
++  ac_cv_path_XML2_CONFIG="$XML2_CONFIG" # Let the user override the test with a path.
++  ;;
++  *)
++  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
++for as_dir in $PATH
++do
++  IFS=$as_save_IFS
++  test -z "$as_dir" && as_dir=.
++  for ac_exec_ext in '' $ac_executable_extensions; do
++  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
++    ac_cv_path_XML2_CONFIG="$as_dir/$ac_word$ac_exec_ext"
++    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
++    break 2
++  fi
++done
++done
++
++  ;;
++esac
++fi
++XML2_CONFIG=$ac_cv_path_XML2_CONFIG
++
++if test -n "$XML2_CONFIG"; then
++  echo "$as_me:$LINENO: result: $XML2_CONFIG" >&5
++echo "${ECHO_T}$XML2_CONFIG" >&6
++else
++  echo "$as_me:$LINENO: result: no" >&5
++echo "${ECHO_T}no" >&6
++fi
++
++	if test ! -z "$XML2_CONFIG"; then
++		xml_version=libxml2
++	fi
++	if test -z "$xml_version"; then
++		# Extract the first word of "xml-config", so it can be a program name with args.
++set dummy xml-config; ac_word=$2
++echo "$as_me:$LINENO: checking for $ac_word" >&5
++echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
++if test "${ac_cv_path_XML_CONFIG+set}" = set; then
++  echo $ECHO_N "(cached) $ECHO_C" >&6
++else
++  case $XML_CONFIG in
++  [\\/]* | ?:[\\/]*)
++  ac_cv_path_XML_CONFIG="$XML_CONFIG" # Let the user override the test with a path.
++  ;;
++  *)
++  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
++for as_dir in $PATH
++do
++  IFS=$as_save_IFS
++  test -z "$as_dir" && as_dir=.
++  for ac_exec_ext in '' $ac_executable_extensions; do
++  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
++    ac_cv_path_XML_CONFIG="$as_dir/$ac_word$ac_exec_ext"
++    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
++    break 2
++  fi
++done
++done
++
++  ;;
++esac
++fi
++XML_CONFIG=$ac_cv_path_XML_CONFIG
++
++if test -n "$XML_CONFIG"; then
++  echo "$as_me:$LINENO: result: $XML_CONFIG" >&5
++echo "${ECHO_T}$XML_CONFIG" >&6
++else
++  echo "$as_me:$LINENO: result: no" >&5
++echo "${ECHO_T}no" >&6
++fi
++
++		if test ! -z "$XML_CONFIG"; then
++               	xml_version=libxml
++	        fi
++	fi
++	if test -z "$xml_version"; then
++		{ echo "$as_me:$LINENO: WARNING: Omni needs an XML development package to build." >&5
++echo "$as_me: WARNING: Omni needs an XML development package to build." >&2;}
++	else
++		# Extract the first word of "glib-config", so it can be a program name with args.
++set dummy glib-config; ac_word=$2
++echo "$as_me:$LINENO: checking for $ac_word" >&5
++echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
++if test "${ac_cv_path_GLIB_CONFIG+set}" = set; then
++  echo $ECHO_N "(cached) $ECHO_C" >&6
++else
++  case $GLIB_CONFIG in
++  [\\/]* | ?:[\\/]*)
++  ac_cv_path_GLIB_CONFIG="$GLIB_CONFIG" # Let the user override the test with a path.
++  ;;
++  *)
++  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
++for as_dir in $PATH
++do
++  IFS=$as_save_IFS
++  test -z "$as_dir" && as_dir=.
++  for ac_exec_ext in '' $ac_executable_extensions; do
++  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
++    ac_cv_path_GLIB_CONFIG="$as_dir/$ac_word$ac_exec_ext"
++    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
++    break 2
++  fi
++done
++done
++
++  ;;
++esac
++fi
++GLIB_CONFIG=$ac_cv_path_GLIB_CONFIG
++
++if test -n "$GLIB_CONFIG"; then
++  echo "$as_me:$LINENO: result: $GLIB_CONFIG" >&5
++echo "${ECHO_T}$GLIB_CONFIG" >&6
++else
++  echo "$as_me:$LINENO: result: no" >&5
++echo "${ECHO_T}no" >&6
++fi
++
++		if test -z "$GLIB_CONFIG"; then
++			{ echo "$as_me:$LINENO: WARNING: Omni needs a glib development package to build." >&5
++echo "$as_me: WARNING: Omni needs a glib development package to build." >&2;}
++		else
++			OMNIDIR=omni
++			OMNIDEVS='$(DD)omni.dev'
++		fi
++	fi
++fi
++
++
++
+ echo "$as_me:$LINENO: checking for X" >&5
+ echo $ECHO_N "checking for X... $ECHO_C" >&6
+ 
+@@ -7283,6 +7393,9 @@
+ s,@IJSDEVS@,$IJSDEVS,;t t
+ s,@STPLIB@,$STPLIB,;t t
+ s,@STPDEVS@,$STPDEVS,;t t
++s,@XML2_CONFIG@,$XML2_CONFIG,;t t
++s,@XML_CONFIG@,$XML_CONFIG,;t t
++s,@GLIB_CONFIG@,$GLIB_CONFIG,;t t
+ s,@OMNIDIR@,$OMNIDIR,;t t
+ s,@OMNIDEVS@,$OMNIDEVS,;t t
+ s,@X_CFLAGS@,$X_CFLAGS,;t t
+diff -ur ghostscript-7.05-052902/configure.ac ghostscript-7.05-071902/configure.ac
+--- ghostscript-7.05-052902/configure.ac	Fri Jul 19 10:35:05 2002
++++ ghostscript-7.05-071902/configure.ac	Fri Jul 19 10:35:08 2002
+@@ -201,7 +201,7 @@
+ AC_SUBST(STPLIB)
+ AC_SUBST(STPDEVS)
+ 
+-dnl look for omni library implementation
++dnl look for omni implementation
+ AC_ARG_WITH([omni], AC_HELP_STRING([--with-omni],
+ 	[build the omni driver]))
+ dnl set safe defaults
+diff -ur ghostscript-7.05-052902/src/configure.ac ghostscript-7.05-071902/src/configure.ac
+--- ghostscript-7.05-052902/src/configure.ac	Fri Jul 19 10:35:05 2002
++++ ghostscript-7.05-071902/src/configure.ac	Fri Jul 19 10:35:08 2002
+@@ -201,7 +201,7 @@
+ AC_SUBST(STPLIB)
+ AC_SUBST(STPDEVS)
+ 
+-dnl look for omni library implementation
++dnl look for omni implementation
+ AC_ARG_WITH([omni], AC_HELP_STRING([--with-omni],
+ 	[build the omni driver]))
+ dnl set safe defaults

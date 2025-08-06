@@ -1,0 +1,1336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 2 (http://www.xmlspy.com) by Norbert Schade (private) -->
+<!-- Copyright (c) 2002 Norbert Schade                                     -->
+<!--                                                                       -->
+<!-- Permission is hereby granted, free of charge, to any person obtaining -->
+<!-- a copy of this software and associated documentation files (the       -->
+<!-- "Software"), to deal in the Software without restriction, including   -->
+<!-- without limitation the rights to use, copy, modify, merge, publish,   -->
+<!-- distribute, sublicense, and/or sell copies of the Software,           -->
+<!-- and to permit persons to whom the Software is furnished to do so,     -->
+<!-- subject to the following conditions: The above copyright notice and   -->
+<!-- this permission notice shall be included in all copies                -->
+<!-- or substantial portions of the Software.                              -->
+<!--                                                                       -->
+<!-- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,       -->
+<!-- EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES       -->
+<!-- OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND              -->
+<!-- NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE-->
+<!-- LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION-->
+<!-- OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION -->
+<!-- WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.       -->
+<DeviceCapabilities FileTypeIdentification="Master description of device or optional unit" xmlns="http://www.pwg.org/updf/" xmlns:wildcard="UPDFWildcards.xsd" xmlns:pwg="http://www.pwg.org/schemas/sm/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.pwg.org/updf/ UPDF.xsd">
+	<UPDFVersion>1.00.00.00</UPDFVersion>
+	<DeviceHeader UnitName="ModelName" ProductName="HP LaserJet 9000" Manufacturer="Hewlett-Packard" DescriptionVersion="0.80">
+		<Connectors>
+			<ConnectorForChildUnit ID="Input_Underneath"/>
+			<ConnectorForChildUnit ID="NoConnector"/>
+		</Connectors>
+	</DeviceHeader>
+	<PrintCapabilities>
+		<Header>
+			<Languages>
+				<PageDescriptionLanguage PDLMajorLevel="PCL5e" PDLMinorLevel="0"/>
+				<JobControlLanguage JCLMajorLevel="PJL" JCLMinorLevel="0"/>
+			</Languages>
+			<VirtualUnits>VirtualUnits_7200x7200</VirtualUnits>
+		</Header>
+		<Features>
+			<RAM ID="RAM" NonDominantRepresentative="RAM_64">
+				<RAMRecord ID="RAM_64" ClassifyingID="memory_65536KB"/>
+				<RAMRecord ID="RAM_80" ClassifyingID="memory_81920KB"/>
+				<RAMRecord ID="RAM_96" ClassifyingID="memory_98304KB"/>
+				<RAMRecord ID="RAM_112" ClassifyingID="memory_114688KB"/>
+				<RAMRecord ID="RAM_128" ClassifyingID="memory_131072KB"/>
+				<RAMRecord ID="RAM_144" ClassifyingID="memory_147456KB"/>
+				<RAMRecord ID="RAM_160" ClassifyingID="memory_163840KB"/>
+				<RAMRecord ID="RAM_176" ClassifyingID="memory_180224KB"/>
+				<RAMRecord ID="RAM_192" ClassifyingID="memory_196608KB"/>
+				<RAMRecord ID="RAM_208" ClassifyingID="memory_212992KB"/>
+				<RAMRecord ID="RAM_224" ClassifyingID="memory_229376KB"/>
+				<RAMRecord ID="RAM_240" ClassifyingID="memory_245760KB"/>
+				<RAMRecord ID="RAM_256" ClassifyingID="memory_264144KB"/>
+			</RAM>
+			<AvailableMemory ID="AvailableMemory">
+				<AvailableMemoryRecord ID="Available_64">
+					<VariableValue Minimum="1024" Maximum="63488" Step="100"/>
+				</AvailableMemoryRecord>
+				<AvailableMemoryRecord ID="Available_80">
+					<VariableValue Minimum="1024" Maximum="79872" Step="100"/>
+				</AvailableMemoryRecord>
+				<AvailableMemoryRecord ID="Available_96">
+					<VariableValue Minimum="1024" Maximum="96256" Step="100"/>
+				</AvailableMemoryRecord>
+				<AvailableMemoryRecord ID="Available_112">
+					<VariableValue Minimum="1024" Maximum="112640" Step="100"/>
+				</AvailableMemoryRecord>
+				<AvailableMemoryRecord ID="Available_128">
+					<VariableValue Minimum="1024" Maximum="129024" Step="100"/>
+				</AvailableMemoryRecord>
+				<AvailableMemoryRecord ID="Available_144">
+					<VariableValue Minimum="1024" Maximum="145408" Step="100"/>
+				</AvailableMemoryRecord>
+				<AvailableMemoryRecord ID="Available_160">
+					<VariableValue Minimum="1024" Maximum="161792" Step="100"/>
+				</AvailableMemoryRecord>
+				<AvailableMemoryRecord ID="Available_176">
+					<VariableValue Minimum="1024" Maximum="178176" Step="100"/>
+				</AvailableMemoryRecord>
+				<AvailableMemoryRecord ID="Available_192">
+					<VariableValue Minimum="1024" Maximum="194560" Step="100"/>
+				</AvailableMemoryRecord>
+				<AvailableMemoryRecord ID="Available_208">
+					<VariableValue Minimum="1024" Maximum="210944" Step="100"/>
+				</AvailableMemoryRecord>
+				<AvailableMemoryRecord ID="Available_224">
+					<VariableValue Minimum="1024" Maximum="227328" Step="100"/>
+				</AvailableMemoryRecord>
+				<AvailableMemoryRecord ID="Available_240">
+					<VariableValue Minimum="1024" Maximum="243712" Step="100"/>
+				</AvailableMemoryRecord>
+				<AvailableMemoryRecord ID="Available_256">
+					<VariableValue Minimum="1024" Maximum="262096" Step="100"/>
+				</AvailableMemoryRecord>
+			</AvailableMemory>
+			<PrinterResolution ID="PrinterResolution" NonDominantRepresentative="Resolution_600dpi">
+				<PrinterResolutionRecord ID="Resolution_300dpi" ClassifyingID="Resolution_300x300">
+					<Parameter ID="Param_300"/>
+				</PrinterResolutionRecord>
+				<PrinterResolutionRecord ID="Resolution_600dpi" ClassifyingID="Resolution_600x600">
+					<Parameter ID="Param_600"/>
+				</PrinterResolutionRecord>
+			</PrinterResolution>
+			<PhotoHalftoning ID="PhotoHalftoning" NonDominantRepresentative="PhotoHalftoningStandard">
+				<PhotoHalftoningRecord ID="PhotoHalftoningStandard" ClassifyingID="None">
+					<LineWith8Entries Values="0,1,2,3,4,5,6,7"/>
+					<LineWith8Entries Values="0,1,2,3,4,5,6,7"/>
+					<LineWith8Entries Values="0,1,2,3,4,5,6,7"/>
+					<LineWith8Entries Values="0,1,2,3,4,5,6,7"/>
+					<LineWith8Entries Values="0,1,2,3,4,5,6,7"/>
+					<LineWith8Entries Values="0,1,2,3,4,5,6,7"/>
+					<LineWith8Entries Values="0,1,2,3,4,5,6,7"/>
+					<LineWith8Entries Values="0,1,2,3,4,5,6,7"/>
+				</PhotoHalftoningRecord>
+				<PhotoHalftoningRecord ID="PhotoHalftoningCoarse" ClassifyingID="Coarse">
+					<LineWith8Entries Values="0,1,2,3,4,5,6,70"/>
+					<LineWith8Entries Values="0,1,2,3,4,5,6,70"/>
+					<LineWith8Entries Values="0,1,2,3,4,5,6,70"/>
+					<LineWith8Entries Values="0,1,2,3,4,5,6,70"/>
+					<LineWith8Entries Values="0,1,2,3,4,5,6,70"/>
+					<LineWith8Entries Values="0,1,2,3,4,5,6,70"/>
+					<LineWith8Entries Values="0,1,2,3,4,5,6,70"/>
+					<LineWith8Entries Values="0,1,2,3,4,5,6,70"/>
+				</PhotoHalftoningRecord>
+			</PhotoHalftoning>
+			<GraphicsHalftoning ID="GraphicsHalftoning" NonDominantRepresentative="DeviceHalftoningStandard">
+				<GraphicsHalftoningRecord ID="DeviceHalftoningStandard" ClassifyingID="None">
+					<DeviceHalftoning/>
+				</GraphicsHalftoningRecord>
+			</GraphicsHalftoning>
+			<Color ID="Color" Appearance="Hidden" NonDominantRepresentative="Monochrome">
+				<ColorRecord ID="Monochrome" ClassifyingID="Monochrome" PlaneImplementation="PerPixel"/>
+			</Color>
+			<Copies ID="Copies" DeviceFeature="true">
+				<VariableValue Minimum="1" Maximum="999" Step="1"/>
+			</Copies>
+			<SheetCollate ID="SheetCollate" NonDominantRepresentative="Collation_Off" DeviceFeature="false">
+				<SheetCollateRecord ID="Collation_Off" ClassifyingID="Uncollated"/>
+				<SheetCollateRecord ID="Collation_On" ClassifyingID="Collated"/>
+			</SheetCollate>
+			<OrientationRequested ID="OrientationRequested" NonDominantRepresentative="Orientation_Portrait" DeviceFeature="false">
+				<OrientationRequestedRecord ID="Orientation_Portrait" ClassifyingID="Portrait">
+					<Parameter ID="Param_Portrait"/>
+				</OrientationRequestedRecord>
+				<OrientationRequestedRecord ID="Orientation_Landscape" ClassifyingID="Landscape">
+					<Parameter ID="Param_Landscape"/>
+				</OrientationRequestedRecord>
+			</OrientationRequested>
+			<MediaPageRotation ID="MediaPageRotation" NonDominantRepresentative="PageRotation_Standard" DeviceFeature="false">
+				<MediaPageRotationRecord ClassifyingID="standard" ID="PageRotation_Standard"/>
+				<MediaPageRotationRecord ClassifyingID="reverse" ID="PageRotation_Reverse"/>
+			</MediaPageRotation>
+			<MediaSize ID="MediaSize">
+				<MediaSizeRecord ClassifyingID="na_letter_8.5x11in" ID="Size_Letter">
+					<Parameter ID="Param_Letter"/>
+				</MediaSizeRecord>
+				<MediaSizeRecord ClassifyingID="na_legal_8.5x14in" ID="Size_Legal">
+					<Parameter ID="Param_Legal"/>
+				</MediaSizeRecord>
+				<MediaSizeRecord ClassifyingID="na_executive_7.25x10.5in" ID="Size_Executive">
+					<Parameter ID="Param_Executive"/>
+				</MediaSizeRecord>
+				<MediaSizeRecord ClassifyingID="iso_a5_148x210mm" ID="Size_A5">
+					<Parameter ID="Param_A5"/>
+				</MediaSizeRecord>
+				<MediaSizeRecord ClassifyingID="iso_a4_210x297mm" ID="Size_A4">
+					<Parameter ID="Param_A4"/>
+				</MediaSizeRecord>
+				<MediaSizeRecord ClassifyingID="iso_a3_297x420mm" ID="Size_A3">
+					<Parameter ID="Param_A3"/>
+				</MediaSizeRecord>
+				<MediaSizeRecord ClassifyingID="na_number-10_4.125x9.5in" ID="Size_Com10">
+					<Parameter ID="Param_Com10"/>
+				</MediaSizeRecord>
+				<MediaSizeRecord ClassifyingID="iso_dl_110x220mm" ID="Size_DL">
+					<Parameter ID="Param_DL"/>
+				</MediaSizeRecord>
+				<MediaSizeRecord ClassifyingID="iso_c5_162x229mm" ID="Size_C5">
+					<Parameter ID="Param_C5"/>
+				</MediaSizeRecord>
+				<MediaSizeRecord ClassifyingID="iso_b5_176x250mm" ID="Size_B5">
+					<Parameter ID="Param_B5"/>
+				</MediaSizeRecord>
+				<MediaSizeRecord ClassifyingID="na_monarch_3.875x7.5in" ID="Size_Monarch">
+					<Parameter ID="Param_Monarch"/>
+				</MediaSizeRecord>
+				<MediaSizeRecord ClassifyingID="na_ledger_11x17in" ID="Size_Ledger">
+					<Parameter ID="Param_Ledger"/>
+				</MediaSizeRecord>
+				<MediaSizeRecord ClassifyingID="jis_b4_257x364mm" ID="Size_JISB4">
+					<Parameter ID="Param_JISB4"/>
+				</MediaSizeRecord>
+				<MediaSizeRecord ClassifyingID="jis_b5_182x257mm" ID="Size_JISB5">
+					<Parameter ID="Param_JISB5"/>
+				</MediaSizeRecord>
+				<MediaSizeRecord ClassifyingID="jpn_oufuku_148x200mm" ID="Size_DoublePostcard">
+					<Parameter ID="Param_DoublePostcard"/>
+				</MediaSizeRecord>
+				<MediaSizeRecord ClassifyingID="na_foolscap_8.5x13in" ID="Size_JISEXEC">
+					<Parameter ID="Param_JISEXEC"/>
+				</MediaSizeRecord>
+				<MediaSizeRecord ClassifyingID="roc_16k_7.75x10.75in" ID="Size_ROC16K">
+					<Parameter ID="Param_ROC16K"/>
+				</MediaSizeRecord>
+				<MediaSizeRecord ClassifyingID="roc_8k_10.75x15.5in" ID="Size_ROC8K">
+					<Parameter ID="Param_ROC8K"/>
+				</MediaSizeRecord>
+				<MediaSizeRecord ClassifyingID="custom" ID="Size_CustomSize">
+					<Parameter ID="Param_CustomSize"/>
+				</MediaSizeRecord>
+			</MediaSize>
+			<MediaHardwareMargins ID="MediaHardwareMargins">
+				<MediaHardwareMarginsRecord ID="Left250" ClassifyingID="margins_left-0.250_top-0.166_right-0.250_bottom-0.166in"/>
+				<MediaHardwareMarginsRecord ID="Left200" ClassifyingID="margins_left-0.200_top-0.166_right-0.200_bottom-0.166in"/>
+				<MediaHardwareMarginsRecord ID="Left236" ClassifyingID="margins_left-0.236_top-0.166_right-0.236_bottom-0.166in"/>
+				<MediaHardwareMarginsRecord ID="Left196" ClassifyingID="margins_left-0.196_top-0.166_right-0.196_bottom-0.166in"/>
+				<MediaHardwareMarginsRecord ID="All166" ClassifyingID="margins_left-0.166_top-0.166_right-0.166_bottom-0.166in"/>
+				<MediaHardwareMarginsRecord ID="AllZero" ClassifyingID="margins_left-0.000_top-0.000_right-0.000_bottom-0.000in"/>
+                <!-- BEGIN @NORBERT -->
+				<MediaHardwareMarginsRecord ID="Left166" ClassifyingID="margins_left-0.166_top-0.166_right-0.166_bottom-0.166in"/>
+                <!-- END @NORBERT -->
+			</MediaHardwareMargins>
+			<MediaType ID="MediaType" NonDominantRepresentative="Type_Auto">
+				<MediaTypeRecord ID="Type_Auto" ClassifyingID="device-setting"/>
+				<MediaTypeRecord ID="Type_Plain" ClassifyingID="stationery">
+					<Parameter ID="Param_Plain"/>
+				</MediaTypeRecord>
+				<MediaTypeRecord ID="Type_Preprinted" ClassifyingID="stationery-preprinted">
+					<Parameter ID="Param_Preprinted"/>
+				</MediaTypeRecord>
+				<MediaTypeRecord ID="Type_Letterhead" ClassifyingID="stationery-letterhead">
+					<Parameter ID="Param_Letterhead"/>
+				</MediaTypeRecord>
+				<MediaTypeRecord ID="Type_Transparency" ClassifyingID="transparency">
+					<Parameter ID="Param_Transparency"/>
+				</MediaTypeRecord>
+				<MediaTypeRecord ID="Type_Prepunched" ClassifyingID="stationery-prepunched">
+					<Parameter ID="Param_Prepunched"/>
+				</MediaTypeRecord>
+				<MediaTypeRecord ID="Type_Labels" ClassifyingID="labels">
+					<Parameter ID="Param_Labels"/>
+				</MediaTypeRecord>
+				<MediaTypeRecord ID="Type_Bond" ClassifyingID="custom-media-type-bond">
+					<Parameter ID="Param_Bond"/>
+				</MediaTypeRecord>
+				<MediaTypeRecord ID="Type_Recycled" ClassifyingID="custom-media-type-recycled">
+					<Parameter ID="Param_Recycled"/>
+				</MediaTypeRecord>
+				<MediaTypeRecord ID="Type_Color" ClassifyingID="custom-media-type-color">
+					<Parameter ID="Param_Color"/>
+				</MediaTypeRecord>
+				<MediaTypeRecord ID="Type_CardStock" ClassifyingID="cardstock">
+					<Parameter ID="Param_CardStock"/>
+				</MediaTypeRecord>
+				<MediaTypeRecord ID="Type_Rough" ClassifyingID="custom-media-type-rough">
+					<Parameter ID="Param_Rough"/>
+				</MediaTypeRecord>
+			</MediaType>
+			<MediaInputTrayCheck ID="MediaInputTrayCheck" NonDominantRepresentative="Source_Auto">
+                <!-- BEGIN @NORBERT lowercase classifying ids? -->
+				<MediaInputTrayCheckRecord ID="Source_Auto" ClassifyingID="device-setting">
+					<Parameter ID="Param_Auto"/>
+				</MediaInputTrayCheckRecord>
+                <!-- BEGIN @NORBERT -->
+				<MediaInputTrayCheckRecord ID="Source_Tray2" ClassifyingID="main">
+					<Parameter ID="Param_Tray2"/>
+				</MediaInputTrayCheckRecord>
+				<MediaInputTrayCheckRecord ID="Source_Tray3" ClassifyingID="bottom">
+					<Parameter ID="Param_Tray3"/>
+				</MediaInputTrayCheckRecord>
+                <!-- END @NORBERT -->
+			</MediaInputTrayCheck>
+			<OutputBin ID="OutputBin" NonDominantRepresentative="Destination_Top">
+				<OutputBinRecord ID="Destination_Top" ClassifyingID="Top">
+					<Parameter ID="Param_DestUpper"/>
+				</OutputBinRecord>
+				<OutputBinRecord ID="Destination_Left" ClassifyingID="Left">
+					<Parameter ID="Param_DestLower"/>
+				</OutputBinRecord>
+				<OutputBinRecord ID="Destination_Left_FaceDown" ClassifyingID="Face-down">
+					<Parameter ID="Param_DestOptional2"/>
+				</OutputBinRecord>
+			</OutputBin>
+			<Sides ID="Sides" NonDominantRepresentative="Simplex">
+				<SidesRecord ID="Simplex" ClassifyingID="OneSided">
+					<Parameter ID="Param_DuplexOff"/>
+				</SidesRecord>
+				<SidesRecord ID="Duplex_LongEdge" ClassifyingID="TwoSidedLongEdge">
+					<Parameter ID="Param_DuplexOn"/>
+					<wildcard:Parameter2 ID="Param_LongEdge"/>
+				</SidesRecord>
+				<SidesRecord ID="Duplex_ShortEdge" ClassifyingID="TwoSidedShortEdge">
+					<Parameter ID="Param_DuplexOn"/>
+					<wildcard:Parameter2 ID="Param_ShortEdge"/>
+				</SidesRecord>
+			</Sides>
+			<NumberUp ID="NumberUp" NonDominantRepresentative="NUp1" DeviceFeature="false">
+				<NumberUpRecord ID="NUp1" ClassifyingID="NUp_1x1"/>
+				<NumberUpRecord ID="NUp2" ClassifyingID="NUp_2x1"/>
+				<NumberUpRecord ID="NUp4" ClassifyingID="NUp_2x2"/>
+				<NumberUpRecord ID="NUp6" ClassifyingID="NUp_3x2"/>
+				<NumberUpRecord ID="NUp9" ClassifyingID="NUp_3x3"/>
+				<NumberUpRecord ID="NUp16" ClassifyingID="NUp_4x4"/>
+			</NumberUp>
+			<NumberUpBorder ID="NumberUpBorder" NonDominantRepresentative="NUpBorder_Off" DeviceFeature="false">
+				<NumberUpBorderRecord ClassifyingID="false" ID="NUpBorder_Off"/>
+				<NumberUpBorderRecord ClassifyingID="true" ID="NUpBorder_On"/>
+			</NumberUpBorder>
+			<PresentationDirectionNumberUp ID="PresentationDirectionNumberUp" NonDominantRepresentative="NUpPageOrder_TopLeftRow" DeviceFeature="false">
+				<PresentationDirectionNumberUpRecord ClassifyingID="TorightTobottom" ID="NUpPageOrder_TopLeftRow"/>
+				<PresentationDirectionNumberUpRecord ClassifyingID="TobottomToright" ID="NUpPageOrder_TopLeftColumn"/>
+				<PresentationDirectionNumberUpRecord ClassifyingID="ToleftTobottom" ID="NUpPageOrder_TopRightRow"/>
+				<PresentationDirectionNumberUpRecord ClassifyingID="TobottomToleft" ID="NUpPageOrder_TopRightColumn"/>
+			</PresentationDirectionNumberUp>
+			<MediaTargetSize ID="MediaTargetSize" NonDominantRepresentative="TargetSize_Identical">
+				<MediaTargetSizeRecord ID="TargetSize_Identical" ClassifyingID="identical"/>
+				<MediaTargetSizeRecord ID="TargetSize_Letter" ClassifyingID="na_letter_8.5x11in"/>
+				<MediaTargetSizeRecord ID="TargetSize_Legal" ClassifyingID="na_legal_8.5x14in"/>
+				<MediaTargetSizeRecord ID="TargetSize_Executive" ClassifyingID="na_executive_7.25x10.5in"/>
+				<MediaTargetSizeRecord ID="TargetSize_A5" ClassifyingID="iso_a5_148x210mm"/>
+				<MediaTargetSizeRecord ID="TargetSize_A4" ClassifyingID="iso_a4_210x297mm"/>
+				<MediaTargetSizeRecord ID="TargetSize_A3" ClassifyingID="iso_a3_297x420mm"/>
+				<MediaTargetSizeRecord ID="TargetSize_Com10" ClassifyingID="na_number-10_4.125x9.5in"/>
+				<MediaTargetSizeRecord ID="TargetSize_DL" ClassifyingID="iso_dl_110x220mm"/>
+				<MediaTargetSizeRecord ID="TargetSize_C5" ClassifyingID="iso_c5_162x229mm"/>
+				<MediaTargetSizeRecord ID="TargetSize_B5" ClassifyingID="iso_b5_176x250mm"/>
+				<MediaTargetSizeRecord ID="TargetSize_Monarch" ClassifyingID="na_monarch_3.875x7.5in"/>
+				<MediaTargetSizeRecord ID="TargetSize_Ledger" ClassifyingID="na_ledger_11x17in"/>
+				<MediaTargetSizeRecord ID="TargetSize_JISB4" ClassifyingID="jis_b4_257x364mm"/>
+				<MediaTargetSizeRecord ID="TargetSize_JISB5" ClassifyingID="jis_b5_182x257mm"/>
+				<MediaTargetSizeRecord ID="TargetSize_DoublePostcard" ClassifyingID="jpn_oufuku_148x200mm"/>
+				<MediaTargetSizeRecord ID="TargetSize_JISEXEC" ClassifyingID="na_foolscap_8.5x13in"/>
+				<MediaTargetSizeRecord ID="TargetSize_ROC16K" ClassifyingID="roc_16k_7.75x10.75in"/>
+				<MediaTargetSizeRecord ID="TargetSize_ROC8K" ClassifyingID="roc_8k_10.75x15.5in"/>
+			</MediaTargetSize>
+			<MediaScaling ID="MediaScaling" NonDominantRepresentative="Scaling_Off" DeviceFeature="false">
+				<MediaScalingRecord ClassifyingID="Off" ID="Scaling_Off"/>
+				<MediaScalingRecord ID="Scaling_On" ClassifyingID="Centered"/>
+			</MediaScaling>
+			<MediaZoomingByPercentage ID="MediaPercentage" DeviceFeature="false">
+				<VariableValue Minimum="25" Maximum="400" Step="25"/>
+			</MediaZoomingByPercentage>
+			<FinishingBooklet ID="FinishingBooklet" NonDominantRepresentative="Booklet_Off" DeviceFeature="false">
+				<FinishingBookletRecord ID="Booklet_Off" ClassifyingID="BookletOff"/>
+				<FinishingBookletRecord ID="Booklet_On" ClassifyingID="BookletMaker"/>
+			</FinishingBooklet>
+			<FinishingJogging ID="FinishingJogging" NonDominantRepresentative="Jogging_Off">
+				<FinishingJoggingRecord ID="Jogging_Off" ClassifyingID="JogOffsetOff">
+					<Parameter ID="Param_JoggingOff"/>
+				</FinishingJoggingRecord>
+				<FinishingJoggingRecord ID="Jogging_On" ClassifyingID="JogOffset">
+					<Parameter ID="Param_JoggingOn"/>
+				</FinishingJoggingRecord>
+			</FinishingJogging>
+			<FinishingStapling ID="FinishingStapling" NonDominantRepresentative="Stapling_Off">
+				<FinishingStaplingRecord ID="Stapling_Off" ClassifyingID="StapleOff">
+					<Parameter ID="Param_StapleOff"/>
+				</FinishingStaplingRecord>
+				<FinishingStaplingRecord ID="Stapling_1" ClassifyingID="StapleTopLeft">
+					<Parameter ID="Param_StapleOn"/>
+					<wildcard:Parameter2 ID="Param_Staple1"/>
+				</FinishingStaplingRecord>
+				<FinishingStaplingRecord ID="Stapling_1Angled" ClassifyingID="any:StapleTopLeftAngled">
+					<Parameter ID="Param_StapleOn"/>
+					<wildcard:Parameter2 ID="Param_Staple1A"/>
+				</FinishingStaplingRecord>
+				<FinishingStaplingRecord ID="Stapling_2" ClassifyingID="StapleDualLeft">
+					<Parameter ID="Param_StapleOn"/>
+					<wildcard:Parameter2 ID="Param_Staple2"/>
+				</FinishingStaplingRecord>
+				<FinishingStaplingRecord ID="Stapling_3" ClassifyingID="any:StaplingTripleLeft">
+					<Parameter ID="Param_StapleOn"/>
+					<wildcard:Parameter2 ID="Param_Staple3"/>
+				</FinishingStaplingRecord>
+				<FinishingStaplingRecord ID="Stapling_6" ClassifyingID="any:StaplingSix">
+					<Parameter ID="Param_StapleOn"/>
+					<wildcard:Parameter2 ID="Param_Staple6"/>
+				</FinishingStaplingRecord>
+				<FinishingStaplingRecord ID="Stapling_Custom" ClassifyingID="any:StaplingCustom">
+					<Parameter ID="Param_StapleOn"/>
+					<wildcard:Parameter2 ID="Param_StapleCustom"/>
+				</FinishingStaplingRecord>
+			</FinishingStapling>
+			<GenericFeature ID="EdgeToEdge" NonDominantRepresentative="EdgeToEdge_Off">
+				<GenericFeatureRecord ID="EdgeToEdge_Off">
+					<Parameter ID="Param_StandardMargins"/>
+				</GenericFeatureRecord>
+				<GenericFeatureRecord ID="EdgeToEdge_On">
+					<Parameter ID="Param_EdgeToEdge"/>
+				</GenericFeatureRecord>
+			</GenericFeature>
+			<GenericFeature ID="RET" NonDominantRepresentative="RET_On">
+				<GenericFeatureRecord ID="RET_Off">
+					<Parameter ID="Param_RET_Off"/>
+				</GenericFeatureRecord>
+				<GenericFeatureRecord ID="RET_On">
+					<Parameter ID="Param_RET_On"/>
+				</GenericFeatureRecord>
+			</GenericFeature>
+			<GenericFeature ID="EconoMode" NonDominantRepresentative="EconoMode_Off">
+				<GenericFeatureRecord ID="EconoMode_Off">
+					<Parameter ID="Param_EconoOff"/>
+				</GenericFeatureRecord>
+				<GenericFeatureRecord ID="EconoMode_On">
+					<Parameter ID="Param_EconoOn"/>
+				</GenericFeatureRecord>
+			</GenericFeature>
+			<GenericFeature ID="PageProtect" NonDominantRepresentative="PageProtect_Auto">
+				<GenericFeatureRecord ID="PageProtect_Auto">
+					<Parameter ID="Param_ProtectOff"/>
+				</GenericFeatureRecord>
+				<GenericFeatureRecord ID="PageProtect_On">
+					<Parameter ID="Param_ProtectOn"/>
+				</GenericFeatureRecord>
+			</GenericFeature>
+			<CompositeFeature ID="CF_Media" DominantFeature="MediaSize" UserExtensible="true">
+				<CompositeFeatureRecord ID="CF_Media1">
+					<Component FeatureID="MediaSize" FeatureSetting="Size_Letter"/>
+					<Component FeatureID="MediaType" FeatureSetting="Type_Plain"/>
+					<Component FeatureID="MediaInputTrayCheck" FeatureSetting="Source_Auto"/>
+				</CompositeFeatureRecord>
+				<CompositeFeatureRecord ID="CF_Media2">
+					<Component FeatureID="MediaSize" FeatureSetting="Size_Letter"/>
+					<Component FeatureID="MediaType" FeatureSetting="Type_Plain"/>
+					<Component FeatureID="MediaInputTrayCheck" FeatureSetting="Source_Tray2"/>
+				</CompositeFeatureRecord>
+			</CompositeFeature>
+			<CompositeFeature ID="CF_DriverDefaults" UserExtensible="true">
+				<CompositeFeatureRecord ID="Set1">
+					<Component FeatureID="SheetCollate" FeatureSetting="Collation_Off"/>
+					<Component FeatureID="CF_Media" FeatureSetting="CF_Media1"/>
+					<Component FeatureID="Copies" FeatureSetting="1"/>
+				</CompositeFeatureRecord>
+			</CompositeFeature>
+		</Features>
+		<Objects>
+			<Positioning ID="Positioning">
+				<PositioningRecord ID="PDL_AbsolutePositioning_600dpi" Reference="AbsoluteFromLogicalXPhysicalYEdge" Direction="Positive" ClassifyingID="Position_600x600" MaximumValue="32768x32768">
+					<Parameter ID="Param_Positioning"/>
+				</PositioningRecord>
+				<PositioningRecord ID="PDL_AbsolutePositioning_300dpi" Reference="AbsoluteFromLogicalXPhysicalYEdge" Direction="Positive" ClassifyingID="Position_300x300" MaximumValue="32768x32768">
+					<Parameter ID="Param_Positioning"/>
+				</PositioningRecord>
+				<PositioningRecord ID="PDL_RelativePositioning_600dpi" Reference="Relative" Direction="PositiveNegative" ClassifyingID="Position_600x600" MaximumValue="32768x32768">
+					<Parameter ID="Param_Positioning"/>
+				</PositioningRecord>
+				<PositioningRecord ID="PDL_RelativePositioning_300dpi" Reference="Relative" Direction="PositiveNegative" ClassifyingID="Position_300x300" MaximumValue="32768x32768">
+					<Parameter ID="Param_Positioning"/>
+				</PositioningRecord>
+			</Positioning>
+			<RasterObjects ID="RasterObjects">
+				<RasterObject ID="Raster_600dpi" ByteOrientation="Horizontal" CAP="TopLeft" ClassifyingID="Resolution_600x600">
+					<Compression ID="AdaptiveCompression600" ClassifyingID="PCL5_Adaptive">
+						<Parameter ID="Param_Compression_Adaptive"/>
+					</Compression>
+					<Padding ByteAlignment="4" RightMargin="false" LeftMargin="false"/>
+					<Parameter ID="Param_RasterResolution_600dpi"/>
+				</RasterObject>
+				<RasterObject ID="Raster_300dpi" ByteOrientation="Horizontal" CAP="TopLeft" ClassifyingID="Resolution_300x300">
+					<Compression ID="AdaptiveCompression300" ClassifyingID="PCL5_Adaptive">
+						<Parameter ID="Param_Compression_Adaptive"/>
+					</Compression>
+					<Padding RightMargin="false" LeftMargin="false" ByteAlignment="4"/>
+					<Parameter ID="Param_RasterResolution_300dpi"/>
+				</RasterObject>
+			</RasterObjects>
+			<FontObjects>
+				<ModifyingAttributes>
+					<Underline ID="Underline_On" ClassifyingID="On">
+						<Parameter ID="Param_UnderlineOn"/>
+					</Underline>
+					<Underline ID="Underline_Off" ClassifyingID="Off">
+						<Parameter ID="Param_UnderlineOff"/>
+					</Underline>
+					<Rotation AntiClockwise="AntiClockwise" EscapementAffected="true"/>
+					<Color Red="0" Green="0" Blue="0"/>
+					<GlobalTextCapabilities ShowBitmapFonts="true" ShowVectorFonts="true" CharacterOutputPrecision="true" CharacterClippingPrecision="true">
+						<Scaling Anisotropic="false" Integer="false" Continuous="true" Doubling="false"/>
+					</GlobalTextCapabilities>
+				</ModifyingAttributes>
+				<DeviceFont ID="CourierNewBoldItalic" FontFamily="MODERN" FontVendor="AGFA" Encoding="TwoByteUnicode">
+					<FontNames>
+						<FaceName ID="Courier New"/>
+						<FamilyName ID="Courier New"/>
+						<UniqueName ID="Courier New"/>
+						<AliasName ID="Courier"/>
+						<SlantName ID="UI_String_Italic"/>
+						<WeightName ID="UI_String_Bold"/>
+					</FontNames>
+					<GlobalMetrics UnitsPerEm="720" PointsPerInch="72" Spacing="Fixed" MinimumHeight="400" MaximumHeight="100000" HeightStep="25" Slant="250" WindowsWeight="700" WindowsAscender="600" WindowsDescender="120" MacAscender="600" MacDescender="-120" MacLineGap="0" TypographicAscender="600" TypographicDescender="120" TypographicLineGap="0" AverageCharacterWidth="600" MaximumCharacterIncrement="1000" CapHeight="400" xHeight="300" SubscriptXSize="300" SubscriptYSize="400" SubscriptXOffset="50" SubscriptYOffset="0" SuperscriptXSize="300" SuperscriptYSize="400" SuperscriptXOffset="50" SuperscriptYOffset="0" UnderscoreSize="10" UnderscoreOffset="10" UnderscoreAbsoluteValues="true" StrikeoutSize="10" StrikeoutOffset="100" StrikeoutAbsoluteValues="true" Baseline="1,0" Aspect="0" Caret="0" Orientation="Portrait" Degree="1">
+						<CharacterWidth A_Value="0" B_Value="600" C_Value="0"/>
+					</GlobalMetrics>
+					<IFIMETRICSInfo ARB_XFORMS="false" _1BPP="true" _4BPP="false" _8BPP="false" _16BPP="false" _24BPP="false" _32BPP="false" INTEGER_WIDTH="true" NOT_CONTIGUOUS="false" UNICODE_COMPLIANT="true" RIGHT_HANDED="false" INTEGRAL_SCALING="false" _90DEGREE_ROTATIONS="false" OPTICALLY_FIXED_PITCH="true" DO_NOT_ENUMERATE="false" ISOTROPIC_SCALING_ONLY="false" ANISOTROPIC_SCALING_ONLY="false" TID_EMBEDDED="false" FAMILY_EQUIV="false" DBCS_FIXED_PITCH="false" NONNEGATIVE_AC="false" IGNORE_TC_RA_ABLE="false"/>
+					<Panose PanoseFamilyType="PAN_FAMILY_TEXT_DISPLAY" PanoseSerifStyle="PAN_SERIF_NORMAL_SANS" PanoseWeight="PAN_WEIGHT_BOLD" PanoseProportion="PAN_PROP_MONOSPACED" PanoseContrast="PAN_CONTRAST_NONE" PanoseArmStyle="PAN_ANY" PanoseMidline="PAN_ANY" PanoseXHeight="PAN_ANY" PanoseLetterform="PAN_ANY" PanoseStrokeVariation="PAN_ANY"/>
+					<FontTechnology>
+						<StandardRendering RenderingType="TrueType" FixedIntegerBits="2" FixedFractionBits="2"/>
+					</FontTechnology>
+					<CharacterHandling NonBreakingSpace="00A0" DummyCharacter="002E">
+						<OSCharacterSet ID="windows-1252"/>
+					</CharacterHandling>
+					<CharacterList>
+						<Character ID="0020" CharacterPrintOutput="20">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="002E" CharacterPrintOutput="2E">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0041" CharacterPrintOutput="41">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0042" CharacterPrintOutput="42">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0043" CharacterPrintOutput="43">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0044" CharacterPrintOutput="44">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0045" CharacterPrintOutput="45">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0046" CharacterPrintOutput="46">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0047" CharacterPrintOutput="47">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0048" CharacterPrintOutput="48">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0049" CharacterPrintOutput="49">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="004A" CharacterPrintOutput="4A">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="004B" CharacterPrintOutput="4B">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="004C" CharacterPrintOutput="4C">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="004D" CharacterPrintOutput="4D">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="004E" CharacterPrintOutput="4E">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="004F" CharacterPrintOutput="4F">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0050" CharacterPrintOutput="50">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0051" CharacterPrintOutput="51">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0052" CharacterPrintOutput="52">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0053" CharacterPrintOutput="53">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0054" CharacterPrintOutput="54">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0055" CharacterPrintOutput="55">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0056" CharacterPrintOutput="56">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0057" CharacterPrintOutput="57">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0058" CharacterPrintOutput="58">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0059" CharacterPrintOutput="59">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="005A" CharacterPrintOutput="5A">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="00A0" CharacterPrintOutput="A0">
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+					</CharacterList>
+					<PseudoDeviceFonts>
+						<PseudoUnderline>Underline_On</PseudoUnderline>
+						<PseudoUnderline>Underline_Off</PseudoUnderline>
+					</PseudoDeviceFonts>
+					<Parameter ID="Param_TypefaceCourier"/>
+				</DeviceFont>
+				<DeviceFont ID="Arial" FontFamily="SWISS" FontVendor="AGFA" Encoding="TwoByteUnicode">
+					<FontNames>
+						<FaceName ID="Arial"/>
+						<FamilyName ID="Arial"/>
+						<UniqueName ID="Arial"/>
+						<AliasName ID="Helv"/>
+						<SlantName ID="UI_String_Upright"/>
+						<WeightName ID="UI_String_Normal"/>
+					</FontNames>
+					<GlobalMetrics UnitsPerEm="720" PointsPerInch="72" Spacing="Proportional" MinimumHeight="400" MaximumHeight="100000" HeightStep="25" Slant="0" WindowsWeight="400" WindowsAscender="600" WindowsDescender="120" MacAscender="600" MacDescender="-120" MacLineGap="0" TypographicAscender="600" TypographicDescender="120" TypographicLineGap="0" AverageCharacterWidth="600" MaximumCharacterIncrement="1000" CapHeight="400" xHeight="300" SubscriptXSize="300" SubscriptYSize="400" SubscriptXOffset="50" SubscriptYOffset="0" SuperscriptXSize="300" SuperscriptYSize="400" SuperscriptXOffset="50" SuperscriptYOffset="0" UnderscoreSize="10" UnderscoreOffset="10" UnderscoreAbsoluteValues="true" StrikeoutSize="10" StrikeoutOffset="10" StrikeoutAbsoluteValues="true" Baseline="1,0" Aspect="0" Caret="0" Orientation="Portrait" Degree="1"/>
+					<IFIMETRICSInfo ARB_XFORMS="false" _1BPP="true" _4BPP="false" _8BPP="false" _16BPP="false" _24BPP="false" _32BPP="false" INTEGER_WIDTH="false" NOT_CONTIGUOUS="false" UNICODE_COMPLIANT="true" RIGHT_HANDED="false" INTEGRAL_SCALING="false" _90DEGREE_ROTATIONS="false" OPTICALLY_FIXED_PITCH="false" DO_NOT_ENUMERATE="false" ISOTROPIC_SCALING_ONLY="false" ANISOTROPIC_SCALING_ONLY="false" TID_EMBEDDED="false" FAMILY_EQUIV="false" DBCS_FIXED_PITCH="false" NONNEGATIVE_AC="false" IGNORE_TC_RA_ABLE="false"/>
+					<Panose PanoseFamilyType="PAN_FAMILY_SCRIPT" PanoseSerifStyle="PAN_SERIF_NORMAL_SANS" PanoseWeight="PAN_WEIGHT_MEDIUM" PanoseProportion="PAN_PROP_EVEN_WIDTH" PanoseContrast="PAN_CONTRAST_NONE" PanoseStrokeVariation="PAN_ANY" PanoseArmStyle="PAN_ANY" PanoseLetterform="PAN_ANY" PanoseMidline="PAN_ANY" PanoseXHeight="PAN_ANY"/>
+					<FontTechnology>
+						<StandardRendering RenderingType="TrueType" FixedIntegerBits="2" FixedFractionBits="2"/>
+					</FontTechnology>
+					<CharacterHandling NonBreakingSpace="00A0" DummyCharacter="002E">
+						<OSCharacterSet ID="windows-1252"/>
+					</CharacterHandling>
+					<CharacterList>
+						<Character ID="0020" CharacterPrintOutput="20">
+							<CharacterWidth A_Value="0" B_Value="569" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="002E" CharacterPrintOutput="2E">
+							<CharacterWidth A_Value="0" B_Value="569" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0041" CharacterPrintOutput="41">
+							<CharacterWidth A_Value="0" B_Value="1366" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0042" CharacterPrintOutput="42">
+							<CharacterWidth A_Value="0" B_Value="1366" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0043" CharacterPrintOutput="43">
+							<CharacterWidth A_Value="0" B_Value="1479" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0044" CharacterPrintOutput="44">
+							<CharacterWidth A_Value="0" B_Value="1479" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0045" CharacterPrintOutput="45">
+							<CharacterWidth A_Value="0" B_Value="1366" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0046" CharacterPrintOutput="46">
+							<CharacterWidth A_Value="0" B_Value="1251" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0047" CharacterPrintOutput="47">
+							<CharacterWidth A_Value="0" B_Value="1593" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0048" CharacterPrintOutput="48">
+							<CharacterWidth A_Value="0" B_Value="1479" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0049" CharacterPrintOutput="49">
+							<CharacterWidth A_Value="0" B_Value="569" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="004A" CharacterPrintOutput="4A">
+							<CharacterWidth A_Value="0" B_Value="1024" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="004B" CharacterPrintOutput="4B">
+							<CharacterWidth A_Value="0" B_Value="1366" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="004C" CharacterPrintOutput="4C">
+							<CharacterWidth A_Value="0" B_Value="1139" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="004D" CharacterPrintOutput="4D">
+							<CharacterWidth A_Value="0" B_Value="1706" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="004E" CharacterPrintOutput="4E">
+							<CharacterWidth A_Value="0" B_Value="1479" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="004F" CharacterPrintOutput="4F">
+							<CharacterWidth A_Value="0" B_Value="1593" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0050" CharacterPrintOutput="50">
+							<CharacterWidth A_Value="0" B_Value="1366" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0051" CharacterPrintOutput="51">
+							<CharacterWidth A_Value="0" B_Value="1593" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0052" CharacterPrintOutput="52">
+							<CharacterWidth A_Value="0" B_Value="1479" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0053" CharacterPrintOutput="53">
+							<CharacterWidth A_Value="0" B_Value="1366" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0054" CharacterPrintOutput="54">
+							<CharacterWidth A_Value="0" B_Value="1251" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0055" CharacterPrintOutput="55">
+							<CharacterWidth A_Value="0" B_Value="1479" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0056" CharacterPrintOutput="56">
+							<CharacterWidth A_Value="0" B_Value="1366" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0057" CharacterPrintOutput="57">
+							<CharacterWidth A_Value="0" B_Value="1933" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0058" CharacterPrintOutput="58">
+							<CharacterWidth A_Value="0" B_Value="1366" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="0059" CharacterPrintOutput="59">
+							<CharacterWidth A_Value="0" B_Value="1366" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="005A" CharacterPrintOutput="5A">
+							<CharacterWidth A_Value="0" B_Value="1251" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+						<Character ID="00A0" CharacterPrintOutput="A0">
+							<CharacterWidth A_Value="0" B_Value="569" C_Value="0"/>
+							<SymbolSet>
+								<Parameter ID="Param_Windows_Latin1"/>
+							</SymbolSet>
+						</Character>
+					</CharacterList>
+					<PseudoDeviceFonts>
+						<PseudoUnderline>Underline_On</PseudoUnderline>
+						<PseudoUnderline>Underline_Off</PseudoUnderline>
+					</PseudoDeviceFonts>
+					<Parameter ID="Param_TypefaceArial"/>
+				</DeviceFont>
+			</FontObjects>
+		</Objects>
+		<Dependencies>
+			<Dependency>
+				<FeatureCondition FeatureID="RAM" ConditionOperator="Equal" FeatureSetting="RAM_64"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="AvailableMemory" FeatureSetting="Available_64"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="RAM" ConditionOperator="Equal" FeatureSetting="RAM_80"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="AvailableMemory" FeatureSetting="Available_80"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="RAM" ConditionOperator="Equal" FeatureSetting="RAM_96"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="AvailableMemory" FeatureSetting="Available_96"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="RAM" ConditionOperator="Equal" FeatureSetting="RAM_112"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="AvailableMemory" FeatureSetting="Available_112"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="RAM" ConditionOperator="Equal" FeatureSetting="RAM_128"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="AvailableMemory" FeatureSetting="Available_128"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="RAM" ConditionOperator="Equal" FeatureSetting="RAM_144"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="AvailableMemory" FeatureSetting="Available_144"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="RAM" ConditionOperator="Equal" FeatureSetting="RAM_160"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="AvailableMemory" FeatureSetting="Available_160"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="RAM" ConditionOperator="Equal" FeatureSetting="RAM_176"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="AvailableMemory" FeatureSetting="Available_176"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="RAM" ConditionOperator="Equal" FeatureSetting="RAM_192"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="AvailableMemory" FeatureSetting="Available_192"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="RAM" ConditionOperator="Equal" FeatureSetting="RAM_208"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="AvailableMemory" FeatureSetting="Available_208"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="RAM" ConditionOperator="Equal" FeatureSetting="RAM_224"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="AvailableMemory" FeatureSetting="Available_224"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="RAM" ConditionOperator="Equal" FeatureSetting="RAM_240"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="AvailableMemory" FeatureSetting="Available_240"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="RAM" ConditionOperator="Equal" FeatureSetting="RAM_256"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="AvailableMemory" FeatureSetting="Available_256"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_Letter"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Portrait"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left250"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_Letter"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Landscape"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left200"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_Legal"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Portrait"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left250"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_Legal"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Landscape"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left200"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_Executive"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Portrait"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left250"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_Executive"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Landscape"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left200"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_A4"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Portrait"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left236"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_A4"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Landscape"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left196"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_A5"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Portrait"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left236"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_A5"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Landscape"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left196"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_A3"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Portrait"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left236"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_A3"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Landscape"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left196"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_DL"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Portrait"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left236"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_DL"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Landscape"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left200"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_C5"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Portrait"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left236"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_C5"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Landscape"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left196"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_B5"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Portrait"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left236"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_B5"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Landscape"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left196"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_Com10"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Portrait"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left250"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_Com10"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Landscape"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left200"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_Monarch"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Portrait"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left250"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_Monarch"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Landscape"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left200"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_Ledger"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left166"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_JISB4"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Portrait"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left250"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_JISB4"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Landscape"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left200"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_JISB5"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left236"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_DoublePostcard"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left166"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_ROC16K"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Portrait"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left250"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_ROC16K"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Landscape"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left200"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_ROC8K"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left166"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_JISEXEC"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Portrait"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left250"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_JISEXEC"/>
+				<FeatureCondition FeatureID="OrientationRequested" ConditionOperator="Equal" FeatureSetting="Landscape"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left200"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="MediaSize" ConditionOperator="Equal" FeatureSetting="Size_CustomSize"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="Left166"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+			<Dependency>
+				<FeatureCondition FeatureID="EdgeToEdge" ConditionOperator="Equal" FeatureSetting="EdgeToEdge_On"/>
+				<Action>
+					<ActionSelection>
+						<SetFeature FeatureID="MediaHardwareMargins" FeatureSetting="AllZero"/>
+					</ActionSelection>
+				</Action>
+			</Dependency>
+		</Dependencies>
+		<Events>
+			<Event ID="JCL_Init" EventCommandPosition="OnStart" EventID="Job" CommandSequenceID="JCL_Init"/>
+			<Event ID="JCL_Copies" EventCommandPosition="OnStart" EventID="Job" CommandSequenceID="JCL_Copies"/>
+			<Event ID="JCL_GenericRET" EventCommandPosition="OnStart" EventID="Job" CommandSequenceID="JCL_GenericRET"/>
+			<Event ID="JCL_Sides" EventCommandPosition="OnStart" EventID="Job" CommandSequenceID="JCL_Sides"/>
+			<Event ID="JCL_FinishingBinding" EventCommandPosition="OnStart" EventID="Job" CommandSequenceID="JCL_FinishingBinding"/>
+			<Event ID="JCL_EconoMode" EventCommandPosition="OnStart" EventID="Job" CommandSequenceID="JCL_GenericEconoMode"/>
+			<Event ID="JCL_OutputBin" EventCommandPosition="OnStart" EventID="Job" CommandSequenceID="JCL_OutputBin"/>
+			<Event ID="JCL_FinishingStapling" EventCommandPosition="OnStart" EventID="Job" CommandSequenceID="JCL_FinishingStapling"/>
+			<Event ID="JCL_FinishingStapling2" EventCommandPosition="OnStart" EventID="Job" CommandSequenceID="JCL_MediaStapleOption"/>
+			<Event ID="JCL_FinishingJogging" EventCommandPosition="OnStart" EventID="Job" CommandSequenceID="JCL_FinishingJogging"/>
+			<Event ID="JCL_PageProtect" EventCommandPosition="OnStart" EventID="Job" CommandSequenceID="JCL_GenericPageProtect"/>
+			<Event ID="JCL_PrinterResolution" EventCommandPosition="OnStart" EventID="Job" CommandSequenceID="JCL_PrinterResolution"/>
+			<Event ID="JCL_EdgeToEdge" EventCommandPosition="OnStart" EventID="Job" CommandSequenceID="JCL_GenericEdgeToEdge"/>
+			<Event ID="JCL_Language_PCL5e" EventCommandPosition="OnStart" EventID="Job" CommandSequenceID="JCL_Language_PCL5e"/>
+			<Event ID="PDL_Init" EventCommandPosition="OnStart" EventID="Document" CommandSequenceID="PDL_Init"/>
+			<Event ID="PDL_PrinterResolution" EventCommandPosition="OnStart" EventID="Document" CommandSequenceID="PDL_PrinterResolution"/>
+			<Event ID="PDL_RasterResolution" EventCommandPosition="OnStart" EventID="Document" CommandSequenceID="PDL_RasterResolution"/>
+			<Event ID="PDL_OrientationRequested" EventCommandPosition="OnStart" EventID="PhysicalPage" CommandSequenceID="PDL_OrientationRequested"/>
+			<Event ID="PDL_MediaSize" EventCommandPosition="OnStart" EventID="PhysicalPage" CommandSequenceID="PDL_MediaSize"/>
+			<Event ID="PDL_MediaType" EventCommandPosition="OnStart" EventID="PhysicalPage" CommandSequenceID="PDL_MediaType"/>
+			<Event ID="PDL_MediaSource" EventCommandPosition="OnStart" EventID="PhysicalPage" CommandSequenceID="PDL_MediaInputTrayCheck"/>
+			<Event ID="PDL_RasterPositionRaster" EventCommandPosition="OnStart" EventID="RasterObject" CommandSequenceID="PDL_Positioning"/>
+			<Event ID="PDL_VectorPositionRaster" EventCommandPosition="OnStart" EventID="VectorObject" CommandSequenceID="PDL_Positioning"/>
+			<Event ID="PDL_TextPositionRaster" EventCommandPosition="OnStart" EventID="FontObject" CommandSequenceID="PDL_Positioning"/>
+			<Event ID="PDL_GL_1" EventCommandPosition="OnStart" EventID="Object" CommandSequenceID="PDL_GL_Placeholder"/>
+			<Event ID="PDL_GL_2" EventCommandPosition="OnStart" EventID="Object" CommandSequenceID="PDL_GL_Placeholder"/>
+			<Event ID="PDL_GL_3" EventCommandPosition="OnStart" EventID="Object" CommandSequenceID="PDL_GL_Placeholder"/>
+			<Event ID="Raster_Size" EventCommandPosition="OnStart" EventID="RasterObject" CommandSequenceID="PDL_RasterSize"/>
+			<Event ID="Raster_Compression" EventCommandPosition="OnStart" EventID="RasterObject" CommandSequenceID="PDL_RasterCompression"/>
+			<Event ID="RasterScanline_Start" EventCommandPosition="OnStart" EventID="RasterObjectScanline" CommandSequenceID="PDL_RasterStart"/>
+			<Event ID="RasterObjectEnd" EventCommandPosition="OnEnd" EventID="RasterObject" CommandSequenceID="PDL_RasterEnd"/>
+			<Event ID="FontSelection" EventCommandPosition="OnStart" EventID="DeviceFont" CommandSequenceID="PDL_Typeface"/>
+			<Event ID="SymbolSet" EventCommandPosition="OnStart" EventID="DeviceFontCharacter" CommandSequenceID="PDL_SymbolSet"/>
+			<Event ID="Underline" EventCommandPosition="OnStart" EventID="DeviceFontCharacter" CommandSequenceID="PDL_Underline"/>
+			<Event ID="PDL_GL_DeInit" EventCommandPosition="OnEnd" EventID="PhysicalPage" CommandSequenceID="PDL_GL_Placeholder"/>
+			<Event ID="PDL_Copies" EventCommandPosition="OnEnd" EventID="Media" CommandSequenceID="PDL_Copies"/>
+			<Event ID="PDL_Eject" EventCommandPosition="OnEnd" EventID="PhysicalPage" CommandSequenceID="PDL_Eject"/>
+			<Event ID="JCL_DeInit" EventCommandPosition="OnEnd" EventID="Job" CommandSequenceID="JCL_Init"/>
+		</Events>
+		<UserInterfaces>
+			<UserInterface ID="GenericUI" UIComposition="PageBased">
+				<UIGroup ID="Device" UIComposition="Juxtaposed">
+					<UIGroup ID="General" UIComposition="Juxtaposed">
+						<UIGroup ID="GenericFeatures" UIComposition="Juxtaposed" UIPosition="1,1">
+							<UIFeature FeatureID="RET" UIPosition="1,1"/>
+							<UIFeature FeatureID="EconoMode" UIPosition="2,1"/>
+							<UIFeature FeatureID="PageProtect" UIPosition="3,1"/>
+						</UIGroup>
+						<UIGroup ID="Resolution" UIComposition="Juxtaposed" UIPosition="1,2">
+							<UIFeature FeatureID="PrinterResolution"/>
+						</UIGroup>
+						<UIGroup ID="Memory" UIComposition="Superimposed" UIPosition="2,2">
+							<UIFeature FeatureID="RAM" UIPosition="1,1"/>
+							<UIFeature FeatureID="AvailableMemory" UIPosition="2,1"/>
+						</UIGroup>
+					</UIGroup>
+				</UIGroup>
+				<UIGroup ID="UIMedia" UIComposition="Juxtaposed">
+					<UIFeature FeatureID="OrientationRequested" UIPosition="1,1"/>
+					<UIGroup ID="MediaFeatures" UIComposition="PageBased" UIPosition="2,1">
+						<UIGroup ID="Priority1" UIComposition="Juxtaposed">
+							<UIFeature FeatureID="CF_Media"/>
+						</UIGroup>
+						<UIGroup ID="Priority2" UIComposition="Juxtaposed">
+							<UIFeature FeatureID="Sides"/>
+						</UIGroup>
+					</UIGroup>
+				</UIGroup>
+				<UIGroup ID="ColorHandling" UIComposition="Juxtaposed">
+					<UIFeature FeatureID="Color"/>
+				</UIGroup>
+			</UserInterface>
+		</UserInterfaces>
+	</PrintCapabilities>
+</DeviceCapabilities>

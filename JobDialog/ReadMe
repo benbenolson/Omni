@@ -1,0 +1,20 @@
+Pre-requisites:
+---------------
+ 1. Gtk-- ( GTK minus minus) 1.2.x installed.
+     You can download this at http://gtkmm.sourceforge.net/download.html
+     (This needs SigC++ in turn).
+ 2. Make sure that gtk-- is properly installed by running a sample program provided with gtk--.
+ 
+Instructions to use:
+--------------------
+ 1. untar the file JobDialog.tar in a new directory.
+ 2. You can run make in two ways.
+	a)"make libobj" 
+		This compiles all the CPP files and the C wrapper code. All the .o files are then archived into .a file called "libjobdialog.a". The client of JobDialog can then use -ljobdialog option while linking. 
+ 	
+	b) "make exe"  which creates a Test-stub.
+		 Run the executable from the prompt as:  " ./OmniTest ". 
+        	This will output on the console the various job Properties. 
+
+ 
+     

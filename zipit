@@ -1,0 +1,71 @@
+#!/usr/bin/python
+
+from time import *
+from os import system
+
+zipname     = strftime ("OmniDeviceNewSrc%Y%m%d.zip")
+zipnamefull = "/tmp/" + zipname
+
+print "The zip file name is " + zipnamefull
+
+system ("rm -f " + zipnamefull)
+system ("zip " + zipnamefull + " * -x *.bmp *.class *.*o *.*a *.exe tags/* Omni*.java Omni*.txt errors lib*so core omni DeviceTester DeviceTester2 DeviceTester3 DeviceTester4 DeviceTester5 EpsonBlitter output*prn output*err")
+
+system ("zip " + zipnamefull + " Brother/* -x Brother/*.*o Brother/Makefile* Brother/*.mak Brother/*.*1 Brother/*.*a Brother/Brother_* Brother/output* Brother/errors Brother/lib*so Brother/core Brother/*.bmp")
+system ("zip " + zipnamefull + " Canon/* -x Canon/*.*o Canon/Makefile* Canon/*.mak Canon/*.*1 Canon/*.*a Canon/Canon_* Canon/output* Canon/errors Canon/lib*so Canon/core Canon/*.bmp")
+system ("zip " + zipnamefull + " Epson/* -x Epson/*.*o Epson/Makefile* Epson/*.mak Epson/*.*1 Epson/*.*a Epson/Epson_* Epson/output* Epson/errors Epson/lib*so Epson/core Epson/*.bmp")
+system ("zip " + zipnamefull + " Epson.PDC/* -x Epson.PDC/*.*o Epson.PDC/Makefile* Epson.PDC/*.mak Epson.PDC/*.*1 Epson.PDC/*.*a Epson.PDC/Epson_* Epson.PDC/output* Epson.PDC/errors Epson.PDC/lib*so Epson.PDC/core Epson.PDC/*.bmp")
+system ("zip " + zipnamefull + " HP\\ LaserJet/* -x HP\\ LaserJet/*.*o HP\\ LaserJet/Makefile* HP\\ LaserJet/*.mak HP\\ LaserJet/*.*1 HP\\ LaserJet/*.*a HP\\ LaserJet/HP_* HP\\ LaserJet/output* HP\\ LaserJet/*.prn HP\\ LaserJet/errors HP\\ LaserJet/lib*so HP\\ LaserJet/core HP\\ LaserJet/*.bmp")
+system ("zip " + zipnamefull + " IBM/* -x IBM/*.*o IBM/Makefile* IBM/*.mak IBM/*.*1 IBM/*.*a IBM/IBM_* IBM/output* IBM/errors IBM/lib*so IBM/core IBM/*.bmp")
+system ("zip " + zipnamefull + " KS/* -x KS/*.*o KS/Makefile* KS/*.mak KS/*.*1 KS/*.*a KS/KS_* KS/output* KS/errors KS/lib*so KS/core KS/*.bmp")
+system ("zip " + zipnamefull + " Kyocera/* -x Kyocera/*.*o Kyocera/Makefile* Kyocera/*.mak Kyocera/*.*1 Kyocera/*.*a Kyocera/Kyocera_* Kyocera/output* Kyocera/errors Kyocera/lib*so Kyocera/core Kyocera/*.bmp")
+system ("zip " + zipnamefull + " Okidata/* -x Okidata/*.*o Okidata/Makefile* Okidata/*.mak Okidata/*.*1 Okidata/*.*a Okidata/Okidata_* Okidata/output* Okidata/errors Okidata/lib*so Okidata/core Okidata/*.bmp")
+system ("zip " + zipnamefull + " Panasonic/* -x Panasonic/*.*o Panasonic/Makefile* Panasonic/*.mak Panasonic/*.*1 Panasonic/*.*a Panasonic/Panasonic_* Panasonic/output* Panasonic/errors Panasonic/lib*so Panasonic/core Panasonic/*.bmp")
+system ("zip " + zipnamefull + " Star/* -x Star/*.*o Star/Makefile* Star/*.mak Star/*.*1 Star/*.*a Star/Star_* Star/output* Star/errors Star/lib*so Star/core Star/*.bmp")
+
+system ("zip " + zipnamefull + " XMLParser/* -x XMLParser/*.*o XMLParser/Makefile.in XMLParser/*.mak XMLParser/*.*1 XMLParser/*.*a XMLParser/parser XMLParser/Epson_*")
+system ("zip " + zipnamefull + " XMLParser/xml4c3_1_0-linux/* -x XMLParser/xml4c3_1_0-linux/*.*o XMLParser/xml4c3_1_0-linux/Makefile.in XMLParser/xml4c3_1_0-linux/*.mak XMLParser/xml4c3_1_0-linux/*.*1 XMLParser/xml4c3_1_0-linux/*.*a XMLParser/xml4c3_1_0-linux/parser XMLParser/xml4c3_1_0-linux/Epson_*")
+system ("zip " + zipnamefull + " XMLParser/xerces-c1_3_0-linux/* -x XMLParser/xerces-c1_3_0-linux/*.*o XMLParser/xerces-c1_3_0-linux/Makefile.in XMLParser/xerces-c1_3_0-linux/*.mak XMLParser/xerces-c1_3_0-linux/*.*1 XMLParser/xerces-c1_3_0-linux/*.*a XMLParser/xerces-c1_3_0-linux/parser XMLParser/xerces-c1_3_0-linux/Epson_*")
+system ("zip " + zipnamefull + " XMLParser/libxml/* -x XMLParser/libxml/*.*o XMLParser/libxml/Makefile.in XMLParser/libxml/*.mak XMLParser/libxml/*.*1 XMLParser/libxml/*.*a XMLParser/libxml/parser XMLParser/libxml/Epson_*")
+
+system ("zip " + zipnamefull + " CUPS/* -x CUPS/GeneratePPD CUPS/CUPSToOmni")
+system ("zip " + zipnamefull + " docs/*")
+system ("zip " + zipnamefull + " Foomatic/* -x Foomatic/Foomatic Foomatic/*.*o")
+system ("zip -r " + zipnamefull + " Ghostscript/*")
+system ("zip -r " + zipnamefull + " gnome-print/*")
+system ("zip " + zipnamefull + " hppcl3/* -x hppcl3/*.*o hppcl3/Makefile.in hppcl3/*.mak hppcl3/*.*1 hppcl3/*.*a hppcl3/*.exe hppcl3/hppcl3 hppcl3/errors hppcl3/tags/* hppcl3/*.bmp hppcl3/core")
+system ("zip " + zipnamefull + " JobDialog/* -x JobDialog/*.rpm JobDialog/*.*o JobDialog/Makefile.in JobDialog/*.*a JobDialog/*.*1")
+system ("zip " + zipnamefull + " RedHat/*")
+system ("zip " + zipnamefull + " test/* -x test/Test_* test/*.*o test/Makefile.in test/*.mak test/*.*1 test/*.*a test/Tester test/lib*so")
+system ("zip " + zipnamefull + " tools/* -x tools/BitmapHeader tools/*.*o")
+system ("zip -r " + zipnamefull + " UPDF/* -x UPDF/*.*o UPDF/Makefile.in UPDF/*.mak UPDF/*.*1 UPDF/*.*a UPDF/UPDFConverter UPDF/ParameterConverterTester UPDF/core UPDF/UPDF_* UPDF/HP\\ LaserJet* UPDF/HP_LaserJet* UPDF/lib*")
+system ("zip -r " + zipnamefull + " VendorSupplied/*")
+
+ftpInput = "zipit.ftp"
+
+system ("echo 'linux' > " + ftpInput)
+system ("echo 'hash' >> " + ftpInput)
+system ("echo 'bin' >> " + ftpInput)
+system ("echo 'lcd /tmp' >> " + ftpInput)
+system ("echo 'cd hamzy/Linux/Omni' >> " + ftpInput)
+system ("echo 'put $zipname' >> " + ftpInput)
+system ("echo 'quit' >> " + ftpInput)
+
+system ("ftp gedfiles.austin.ibm.com < " + ftpInput)
+
+zipname     = "OmniDeviceC++Rest.zip"
+zipnamefull = "/tmp/OmniDeviceC++Rest.zip"
+
+system ("rm -f " + zipnamefull)
+system ("zip " + zipnamefull + " *.bmp")
+system ("zip -r " + zipnamefull + " private/* -x private/ftp.pwg.org/*")
+
+system ("echo 'linux' > " + ftpInput)
+system ("echo 'hash' >> " + ftpInput)
+system ("echo 'bin' >> " + ftpInput)
+system ("echo 'lcd /tmp' >> " + ftpInput)
+system ("echo 'cd hamzy/Linux/Omni' >> " + ftpInput)
+system ("echo 'put $zipname' >> " + ftpInput)
+system ("echo 'quit' >> " + ftpInput)
+
+system ("ftp gedfiles.austin.ibm.com < " + ftpInput)

@@ -1,0 +1,1 @@
+shlibs:Depends=libc6 (>= 2.3.1-1), libgcc1 (>= 1:3.3-0pre9), libglib1.2 (>= 1.2.0), libstdc++5 (>= 1:3.3-0pre9), libxml2 (>= 2.5.0-1), omni, zlib1g (>= 1:1.1.4)

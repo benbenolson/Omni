@@ -1,0 +1,598 @@
+Fixes/Updates
+=============
+
+  Version      Date
+
+   0.9.2     - 09-27-2004
+
+   - Fix from Tim Waugh (twaugh@redhat.com) on the Foomatic data
+     generation of the PageSize (Form) option.
+   - Fixes from Oswald Buddenhagen (ossi@kde.org) for autoconf support.
+   - Added sendBinaryDataToDevice and sendPrintfToDevice to DeviceBlitter and
+     DeviceInstance in order to remove all occurences of pDevice_d in every
+     device's blitter and instance code.
+   - More validation of omni XML files.  Fixed OmniDevice.xsd.
+   - Fixed simulationRequired in Copies, NUps, Orientations, and Sides.
+   - Made a new library to hide which internal XML handling library that we use.
+   - Brought UPDF a little closer to working.
+   - Created Python version of the tool used to edit XML files.  Switched to that
+     version to use for Omni.  Now installing that version.
+   - Fixed CUPSToOmni not using different job properties on the command line.
+   - Added missing string translation for "PanelSelect".
+   - Fixed bug in PrinterCommand::appendCommand ().
+   - Fixed bug in OmniEpsonBlitter::translateKeyValue ().
+   - Foomatic fixes.  Apparently for foomatic PPDs, the option name cannot be
+     longer than 24 characters and the choice name no longer than 32 characters.
+        MEDIA_BRIGHT_WHITE_INK_JET_PAPER    -> MEDIA_BRIGHT_WHITE_INKJET_PAPER
+        MEDIA_PHOTOGRAPHIC_INK_JET_PAPER    -> MEDIA_PHOTOGRAPHIC_INKJET_PAPER
+        MEDIA_PREMIUM_SEMIGLOSS_PHOTO_PAPER -> MEDIA_PREM_SEMIGLOSS_PHOTO_PAPER
+        NumberUpPresentationDirection	    -> NumberUpDirection
+   - Added new IBM devices "IBM Infoprint 1356J", "IBM Infoprint 1356J PAGES"
+   - Took in RedHat fixes for XMLParser, DeviceScaling, OmniPDCProxy
+   - Fixed na_govt-legal_8.00x10.00in misspelling in "IBM Infoprint 2085 Forms",
+     "Epson EPL-5700 Connections", "Epson EPL-N2000 Connections", and
+     "Epson EPL-N1600 Connections"
+   - Fixed buffer overflows in all bitmap dumping routines.  Fixed other Beam
+     reported bugs.
+   - Fixed bug in "IBM 5577 Instance"
+
+   0.9.1     - 12-19-2003
+
+   - We now install in
+        /usr/bin
+        /usr/lib/Omni
+        /usr/share/Omni
+   - Fixed OmniFoomaticGenerator bug where extra libraries were thought to be
+     devices and they caused traps.
+   - Fixed OmniFoomaticGenerator bug where omni-XMLMasterDevice.xml was being
+     generated incorrectly.
+   - Rearchitected the omni driver.  Instead of using integer constants that are
+     defined in .cpp files to create new Device objects, we use strings.  The
+     strings come from the job properties.  We are also using a standard called
+     the Common Job Properties (www.openprinting.org).
+   - Added an initial set of BVT (Build Verification Testcases).
+
+   0.9.0     - 03-31-2003
+
+   - Omni has switched from compiled device support to XML device support!
+     (Although it still supports compiled devices)
+   - Omni is also in shutdown mode for a 1.0 release!
+   - Switched from DTD to XSD.
+   - removed using namespace std and switched to adding std:: prefixes.
+   - switched from char *'s to const char *'s.
+   - fixed/rearchitected the DeviceOption in devices.
+   - fixed trap in OmniFoomaticGenerator.
+   - added FORM_GERMAN_12_X_250_FANFOLD.
+   - brought test/ subdirectory up to date.
+
+   0.7.3     - 02-14-2003 - "Happy Valentine's Day"
+
+   - Provided better CUPS integration.
+   - More XMLDevice fixes.
+   - Unified jop properties specification on the command line.  Now, all programs
+     specify job properties as -sproperties="..." on the command line.
+   - Moved foo2omni & foomaticDB in Foomatic/bin to Foomatic/share
+   - Moved /opt/Omni/data to /opt/Omni/share
+   - Initial debian package building support (thanks to rafael.espindola@ic.unicamp.br)
+   - Added the following new devices:
+        IBM 5577-H02
+        IBM 5584-G02
+        IBM 5584-H02
+        IBM 5584-K02
+        IBM 5584-K14
+        IBM 5585-H01
+        IBM 5586-H02
+        IBM 5587-H01_G01 Enh
+        IBM 5587-K02
+        IBM 5587-L02
+        IBM 5588-H02
+        IBM 5589-H01
+        IBM 5589-K20
+        IBM 5589-L36
+
+   0.7.2     - 12-13-2002
+
+   - New Ghostscript patches!
+        Use old style C comments instead of C99 comments.
+        Improved error reporting on failed library loading.
+   - Autotools build fixes.
+   - Security fix: s/-dSAFER/-dPARANOIDSAFER/ for the GhostScript command
+     lines of Foomatic (OmniFoomaticGenerator).
+   - Fixed media insertion in HP LaserJet PCL Instance.cpp file.
+   - Added support for 10 new IBM laser printers:
+        IBM Network Printer 12
+        IBM Network Printer 17
+        IBM Network Printer 24
+        IBM Infoprint 20
+        IBM Infoprint 32
+        IBM Infoprint 40
+        IBM Infoprint 21
+        IBM Infoprint 70
+        IBM Infoprint 2085
+        IBM Infoprint 2105
+   - Fixed entity in Foomatic printer XML files.
+   - Fixed OmniFoomaticGenerator not making output directories.
+   - Fixed XMLDevice/Makefile.am install bug.
+   - Fixed everything linking with CUPS.
+   - Updated the Epson Blitter code to increase performance.
+   - Fixed the naming of libjobdialog to libomnijobdialog.
+   - Some backwards compatibility with ghostscript is supported.
+
+   0.7.1     - 08-30-2002
+
+   - New ghostscript patch!
+   - Improved Foomatic printer entry generation for linuxprinting.org web
+     site: Mechanism type of printer cannot be determined, therefore nothing
+     instead of "inkjet" displayed, determined whether a printer is color or
+     monochrome instead of always displaying color, improved comment text,
+     added recommended driver field pointing to "omni"
+     (till.kamppeter@gmx.net).
+   - Removed trailing underscores from Foomatic IDs/filenames
+     (till.kamppeter@gmx.net).
+   - Writing printer names onto the screen durin the "Initializing
+     devices..." of the Foomatic generator, to have a progress display
+     (till.kamppeter@gmx.net).
+   - Removed inner classes because we cannot rely on gcc working.
+   - Resolved problems with ejecting a second page on a single page print
+   - Corrected the margin information in HP LaserJet 2100 Forms.xml for
+     the HP LaserJet 4050.
+   - Corrected PageSize issues with gomni.c (Ghostscript driver) with non-
+     default size forms.
+   - Updated CUPSToOmni support for tray, media, and dither parameters.
+   - Starting to add new job properties:
+        Copy
+        Collation
+        Destination
+        Stapling
+        Jogging
+        Duplex
+        Booklet
+        NUp
+        Scaling
+   - UPDF Fixes
+      - orientation: Listened to PageRotation & DeviceFeature
+      - duplex: Started it
+   - Fixed dither enumeration bug
+   - Memory leak cleanups in GplDither and GplCompression
+   - Fixed Ghostscript trap (seen in espgs-7.05.3)
+   - Added Epson PDC Blitter support for the following devices:
+        Stylus Color 980
+        Stylus Color 880
+        Stylus Color 777
+        Stylus Color 680
+        Stylus C70
+        Stylus C60
+        Stylus C40
+        Stylus C20
+        # Stylus Photo 810 Note: there is a bug in epson's code that prevents
+        # Stylus Photo 820       these devices from loading.
+        # Stylus Color 580
+        # Stylus Color 480
+   - Changed Foomatic to OmniFoomaticGenerator.  This is now installed in the
+     /opt/Omni/bin directory.  Changed the RPM builds to run this program when
+     installing and removed the prebuilt OmniXXXFoomaticXXX.rpm files.
+     Added a new /opt/Omni/data directory and installed foo2omni (was
+     Foomatic/bin/newDB) there.
+   - Added initial XMLDevice support (use XML files directly).  It is not in the
+     main build yet.  Read XMLDevice/Readme for more information.
+   - Updated Foomatic/bin/foo2omni file.
+
+   0.7.0     - 05-29-2002
+
+   - Fixed the Ghostscript interface gomni.c.  There are new patches for Ghostscript!
+   - We have switched to autotools as our build environment.
+   - Reported bug in gcc compiler (6316).  The latest CVS release of gcc should
+     build omni (thanks to RichardZidlicky@stud.informatik.uni-erlangen.de)
+   - Fixed gcc 3.1 build issues for streambuf assignments, CUPSToOmni.cpp, setit,
+     and Omni.cpp (thanks to till.kamppeter@gmx.net and gbeauchesne@mandrakesoft.com)
+   - Fixed Foomatic handling of + in device names.  Fixed small gcc 3.1 bug
+     (thanks to till.kamppeter@gmx.net)
+   - Fixed the handling of command line arguments in ghostscript.
+   - Fixed the handling of -sPAPERSIZE= in ghostscript and foomatic (thanks to
+     till.kamppeter@gmx.net)
+
+   0.6.1     - 04-19-2002
+
+   - Added new DeviceString class to handle translateable strings.
+   - Added getDeviceID () function to Orientation, Resolution, Form, Tray,
+     Media, and PrintMode Device classes.  Added the optional deviceID XML
+     tag to those XML files.
+   - Trying to work on documention issues.
+   - Fixed the Ghostscript interface gomni.c.  There are new patches for
+     Ghostscript!
+   - Added install target to Makefile.
+   - Added RedHat directory which contains spec files for RPMs.
+   - rewrote UPDF to use XML file dynamically instead of converting to cpp
+     files and compiling into a library.
+   - Added beta-level CUPS support!
+   - Added support for libxml2 (thanks to prowler@ig.com.br for spotting that)
+   - Added two new tools for omni: OmniDevices & OmniDeviceOptions.  See
+     docs/Usage for a description on how to use them.
+
+   0.6.0     - 02-19-2002
+
+   - Fixed HP LaserJet 5L form size (thanks to jason@alteredminds.com)
+   - added new commands and cleaned up existing ones to Omni's
+     implementation of PDC for proposal to the freestandards.org group.
+   - fixed PluggableInstance and PluggableBlitter
+   - added 6 new medias
+   - Fixed gcc 3.0 build problems (thanks to twaugh@redhat.com)
+     To try to build with gcc 3.0 or later use this command:
+        make CFLAGS="-march=i386 -mcpu=i686 -Wall -DGCC_VER_3"
+     NOTE:  At one point in time it was building, but now it is broken
+        again.  We are waiting for gcc fixes.
+   - JobDialog now part of the main build
+   - JobDialog fixes/improvements.
+   - improved string translation (MRI) handling
+   - refined/improved PDC support to version 5 of the document
+   - New Ghostscript patches (5.0, 6.51, 6.53, & 7.04).
+     You must use the latest version which is 021802 or above.
+
+   0.5.1     - 11-19-2001
+
+   - Changed the default build to retail.
+   - Added initial support for a pluggable blitter class.
+   - Added 28 new HP LaserJet class devices.
+   - Added 21 new Brother LaserJet class devices.
+   - Added 12 new Epson LaserJet class devices.
+   - Added 45 new Kyocera LaserJet class devices.
+   - Fix capabilities bug in HP LaserJet devices (thanks to terry@beam.demon.co.uk)
+   - Merged Red Hat's patches back into Omni.
+
+   0.5.0     - 10-05-2001
+
+   - Added listJobPropertyKeys() and getJobPropertyType(pszKey) to Device.hpp.
+     This allows an application to query all of the job property keys from
+     the omni driver.  With those keys, one can query the type of the value,
+     its default value, and optionally, its minimum and maximum values.
+     You receive a string that has spaces seperating the values.  The first
+     value is the type.  There are 4 types right now: boolean, integer, float,
+     and string.  The second value is the default value.  There are two optional
+     values for the minimum and maximum.
+     For example,
+        getJobPropertyType ("bidirectional")          "boolean true"
+        getJobPropertyType ("copies")                 "integer 1 1 999"
+        getJobPropertyType ("gamma")                  "float 1.2 0.0 20.0"
+        getJobPropertyType ("hardcoded")              "string set"
+     See DeviceTester2.cpp for a real example.
+   - Added roll and user-defined media.  Now, to select a roll form in the job
+     properties with an instance of a length, use form=FORM_ROLL_76_2MM,25400.
+     This will instantiate the roll media to 1 inch (in thousands of a millimeter).
+     To select a user-defined form with an instance of 4"x3", use
+     form=FORM_USER_DEFINED,101600,76200.
+   - Added 10 new OkiData devices: OkiPos 425S, OkiPos 425D, OkiPage 6e_6ex,
+     Okidata OL1200, Okidata OL400e, Okidata OL400ex, Okidata OL410e,
+     Okidata OL410ex, Okidata OL810e, and the Okidata OL810ex.
+   - Added preliminary support for the following additional Epson printers:
+     Epson Stylus Photo 790, 890, 1290, 785EPX, 810, and 895.
+     Currently the resolution support is limited to 1440 x 720.
+   - Also made some additional changes to the core Foomatic code so that Omni
+     can better be supported by printconf.
+
+   0.4.3     - 09-05-2001
+
+   - Corrected issue with zip package. The updated DeviceMedia.cpp and
+     DeviceMedia.hpp for Foomatic support have been updated to match
+     the CVS Repository.  Also corrected the latest Ghostscript 6.51
+     patches.
+
+   0.4.2     - 09-01-2001
+
+   - Added support for foomatic under printconf. The files are under the
+     Omni/Foomatic directory that allows the use of the Omni driver under
+     the latest versions of printconf.
+   - Changed parsing of Foomatic device names (thanks to till.kamppeter@gmx.net)
+
+   0.4.1     - 08-29-2001
+
+   - Resolved several issues with the starting page position on Epson Stylus
+     Photo printers.
+   - Updated the Ghostscript 6.51 patches
+   - Moved the default path for the Omni drivers to the /opt/Omni/bin directory
+     This makes setting the LD_LIBRARY_PATH optional
+
+   0.4.0     - 08-17-2001
+
+   - Added 21 new Hewlett Packard LaserJets to the omni driver!
+   - Added an internal resolution to the DeviceResolution class so that a printer
+     that can support hardware scaling could be implemented.
+   - Added compressing RGB data to GplCompression.
+   - Moved the GplpGenerateGammaCurve function in GplDitherInstance to public.
+   - Converted the Steinburg algorithm from integer math to floating point math.
+     Added 6 color support and multi-bit support to the Steinburg algorithm.
+   - Added %f to PrintDevice::sendPrintfToDevice.
+   - Fixed bug in DeviceDither::getDitherCatagory.
+   - Updated Epson Stylus Photo 870, 875DC, & 1270 for 4 color support.  Resolved
+     problems printed at 360 dpi in 4 colors on the 870 & 875DC.
+   - A lot more work was done for UPDF support.
+   - Added Device::getShortName () which returns the name of the file (minus the
+     lib and .so parts).
+   - Added DeviceXXX::getName (id) which returns the NLV translated name for a
+     form (without creating a new form object and querying that object).  For
+     the following classes: Form, Tray, Media, PrintMode, Resolution, and
+     Orientation.
+   - Added DeviceXXX::isXXXSupported (id) that will query if an id is supported
+     for that device without having to create a new object of that id.  For the
+     following classes: Form, Tray, Media, PrintMode, Resolution, and Orientation.
+   - Added prototype Foomatic support.
+
+   0.3.1     - 06-19-2001
+
+   - Fixed build break in Canon BJC-8500 Blitter.cpp.
+   - Fixed build break in tools directory.
+
+   0.3.0     - 06-13-2001
+
+   - Changed the way to create a new dither instance to allow for future
+     growth/other dither packages.
+   - Fixed FORM_LEDGER's size to be 17x11 to conform with Ghostscript.  Thanks
+     to phallobst@web.de for spotting that.
+   - Added 10 new Medias to encompass the PWG's UPDF format.
+   - Added initial code to handle a UPDF device XML.  Look at tools/UPDF.
+   - Switched from dlopen to glib's version.
+
+   0.2.0     - 05-09-2001
+
+   - make clean before building!
+   - Added first implementation of the proposed inkjet architecture (IJS).
+     Added a new parameter to Ghostscript to switch into this mode.
+        Add -sserver=<output_file> to the command line.
+        Remove the -sOutputFile=<output_file> if there is one.  This command
+          line option (-sOutputFile) is not used in conjunction with IJS.
+        NOTE: The root directory (where the omni executable is) must be in the
+              PATH!
+   - Added the ability to call beginJob () with new job properties.  This
+     allows for the creation of a device, displaying job properties dialog,
+     and setting the new job properties for the print job.
+   - Included 25 more Epson devices that were not being compiled.  Thanks to
+     phallobst@web.de for spotting that one.
+   - Added DeviceOrientation class to the omni driver.
+   - Fixed form margin information which were not rescaled to thousands of a mm.
+
+   0.1.2     - 04-27-2001
+
+   - Fixed a bug in omni's newFrame logic for each device class.
+
+   0.1.1     - 04-26-2001
+
+   - Fixed Ghostscript not finding required entry points in libomni.so.
+   - Added new feature to Ghostscript that allows the user to choose between
+     Ghostscript's dithering from color to monochrome and our dithering.
+     The default is to use our dithering.  To use Ghostscript's add the
+     following to the command line:
+        -smonodither=GSMONO
+     Currently, Ghostscript's dither routines are faster but less smoothing
+     than Omni.
+
+   0.1.0     - 04-24-2001
+
+   - Fixed some Ghostscript issues with returning failures when devices are
+     not initialized properly with invalid command line options.
+
+   0.0.9     - 04-17-2001
+
+   - Renamed OmniInterface.* to GhostscriptInterface.* (more descriptive).
+
+   - Made changes to DeviceForm.* and HardCopyCap.cpp to standardize forms.
+      - filled in missing sizes
+      - slightly changed some sizes to match with the standard
+      - removed FORM_11_X_17      (duplicate of FORM_LEDGER)
+      - removed FORM_INDEX_CARD   (not used and confusing)
+      - removed FORM_B5_ENVELOPE  (not used and nonexistant)
+      - removed FORM_A6_INDEX     (not used and nonexistant)
+      - removed FORM_LEGAL_WIDE   (not used and nonexistant)
+      - removed FORM_TABLOID_WIDE (not used and nonexistant)
+      - removed FORM_A5_WIDE      (not used and nonexistant)
+      - removed FORM_B4_WIDE      (not used and nonexistant)
+      - removed FORM_B5_WIDE      (not used and nonexistant)
+      - removed FORM_QUARTO_WIDE  (not used and nonexistant)
+      - added 75 new forms to begin to merge with PWG's Media Standard Names
+      - moved form sizes from HardCopyCap.cpp to DeviceForm.cpp
+
+   - Increased HardCopyCap's units to thousands of a millimeter (1/1000 mm)
+     to avoid conversion problems to thousands of an inch (1/1000 inch).
+     Ex: 4.125 * 2540 = 10477.5
+
+   - Fixed Ghostscript code to call Omni with beginJob/newFrame/endJob instead
+     of beginJob/endJob/beginJob/endJob for multiple page jobs.
+
+   - Introduced test subdirectory.
+
+   0.0.8.2   - 04-10-2001
+
+   - Fixed build break in MonoDither.hpp
+
+   - Fixed "DeviceTester::createDevice: dlerror returns Epson/libEpson_Stylus_Photo_870.so: undefined symbol: getJobProperty__29Epson_High_Res_ESCP2_InstancePc"
+     when run against Epson devices with high resolutions (Ex: Epson Photo 870).
+
+   - Fixed several Ghostscript reported problems.
+
+   0.0.8.1   - 04-06-2001
+
+    - Forgot to move the 24-1 monochrome dithering routine into core omni code.
+
+   0.0.8     - 04-05-2001
+
+    - added a new device job property for Epson class devices (and their
+      compatible printers as well).  It controls the bidirectional movement
+      of the print head.  To turn it off add bidirectional=0 to the job
+      properties and to turn it on add bidirectional=1.
+
+    - Fixed trap in Epson Stylus Color 740.  Fixed incorrect output in Epson
+      Stylus Color 740.
+
+    - Changed the ghostscript interface to use synchronous instead of
+      asynchronous mode.
+
+    - Added error output if file did not exist for XMLParser.
+
+   0.0.7.5   - 03-23-2001
+
+    - added a new option to Ghostscript.  It is -dPelSizeCorrection=xxx where
+      xxx is a number.  If you are printing black & white line art images then
+      use 0 for no pel removal.  Otherwise, leave it alone.  It is for advanced
+      usage.
+
+    - added listDeviceJobPropertyKeys () to the Device class.  This will return
+      an enumeration that lists all of the device dependent job properties that
+      are supported.
+
+    - Fixed binary data error handling in OmniDomParser.cpp.
+
+   0.0.7.4   - 03-15-2001
+
+    - Fixed page sizes longer than Letter in Epson class devices.
+    - Fixed memory leak in libxml version of OmniDomParser.cpp.
+
+   0.0.7.3   - 03-09-2001
+
+    - Changed form sizes for the Okidata ML-320 Turbo.
+    - Added error condition in XMLParser.
+    - Added new resolutions.
+
+   0.0.7.2   - 03-05-2001
+
+    - Fixed a trap where no dither job property was specified.
+    - Changed naming convention from patch.xxx to Omni.patch.xxx.yyy.
+
+   0.0.7.1   - 03-02-2001
+
+    - Changed the input parameters for the driver's job properties.
+      Previously you would type in each of the driver parameters as a separate
+      parameter.  The current code now requires you to input just one properties
+      string.
+      Example:
+
+         Previously -
+
+           -smedia=MEDIA_SPECIAL_720 -sresolution=RESOLUTION_720_X_720
+           this would have been two strings using the -s
+
+         Now -
+
+           -sproperties="media=MEDIA_SPECIAL_720 resolution=RESOLUTION_720_X_720"
+           this will use one key parameter, properties, and the parameters
+           following it will be enclosed in quotes.
+
+    - Resolved some problems with printing green colors and gradients to lighter
+      colors would come out incorrect.
+    - Resolved some problems with the patching of the core Ghostscript files
+    - Fixed DeviceDither bug thanks to manolo@NCC-1701.B.shuttle.de
+
+   0.0.7.0   - 02-23-2001
+
+    - Created interface for Ghostscript to do dynamic loading for devices
+    - Resolved several problems with Canon support
+    - Provided initial release of an interface for GNOME
+    - Initial "prototype" for CUPS support (not completed)
+    - DeviceTester has the ability to draw a box that can help fine tune
+      the printable area on a printer.  The box can be adjusted so that
+      the overall printable area can be evaluated and put back in the
+      proper devices xxx_Forms.xml file.  Please provide us updated info.
+      if our values are incorrect.
+    - DeviceTester has the ability to draw colors.  This will allow you to
+      fine tune your gammas based on the paper type and inks you are using.
+    - Added the ability to pass in a job property to enable debugging on:
+
+                  DeviceBlitter
+                  DeviceDither
+                  DeviceInstance
+                  DevicePrintMode
+                  DeviceTester
+                  DeviceTester6
+                  GplCompression
+                  GplDitherInstance
+                  Omni
+                  OmniInterface
+                  OmniProxy
+                  PrintDevice
+                  Blitter
+                  Instance
+                  All
+
+      This will allow applications, such as DeviceTester, to pass in a new
+      parameter i.e. debugoutput=DeviceBlitter (one of the above) when
+      invoking the driver.
+
+IMPORTANT NOTE:
+    Please refer to the section on applying patches to Ghostscript.  We have
+    updated our patching scheme and we include both full and partial patch
+    updates for Ghostscript.
+
+   0.0.6.2   - 02-07-2001
+
+    - Provided additional support Epson Photo printers
+    - Some additional fixes to the color support
+    - Resolved problems with six color plane management and compile time
+      problems.
+
+   0.0.6.1   - 01-30-2001
+
+    - Provided support for six color Epson Photo printers
+    - Additional changes for dithering implementation
+    - Some additional fixes
+
+   0.0.5.1   - 01-09-2001
+
+    - Allow the use of different XML parsers.
+        We provide the ability to use either the xerces, libxml,
+        and xml4c3 parsing libraries.
+    - Give the ability to load different dithering routines.  We provide
+      an example file - DitherLibraryExample.cpp in the Omni directory.
+      This file shows what code needs to be changed to implement the new
+      dither and what files will need to be added.  Please refer to this
+      file.
+
+   0.0.5.0   - 12-15-2000
+
+    - Added support for over 100 additional devices.  These devices are
+      from Canon, Okidata, Panasonic, and Star.
+    - Altered some of the defined values to allow the tagging for XML
+      to be more appropriate.
+    - Additional changes to the RGB->CMYK conversion.
+
+   0.0.4.3   - 12-01-2000
+
+    - Made some additional changes to the Stucki dithering code
+      increase performance some for Epson High Resolution Devices.
+    - Updated startpage information for Epson High Resolution Devices.
+
+   0.0.4.2   - 11-30-2000
+
+    - Resolved some issues with the patch data
+    - Made some additional changesto the Stucki dithering code
+      to smooth transitions between lighter and darker colors
+      for better skin tones.
+
+   0.0.4.1   - 11-15-2000
+
+    - Adjusted the start page procedures on Epson High Res
+      devices
+    - Resolved some issues with printing 1440x720 using monochrome
+    - Made some minor changes to the Stucki dithering code to allow
+      for better detail
+
+   0.0.4.0   - 11-02-2000
+
+    - Implemented higher quality Epson print modes
+    - Modified CMYK conversion to yield brighter output
+    - Additional changes and updates to the core code
+
+   0.0.3.1 &
+   0.0.3.2   - 10-17-2000
+
+    - Changed the management of bitmap ordering and positioning
+    - Resolved problem in XML parser
+
+   0.0.3     - 10-06-2000
+
+    - Removed dependency on Java in favor of XML
+
+   0.0.2     -  8-21-2000
+
+    - Resolved problem with printing monochrome postscript files.
+    - Changed naming convention from patch.xxx to Omni.patch.xxx.
+
+   0.0.1     - MM-DD-2000
+
+    - First release.

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     IBM Omni driver
+     Copyright (c) International Business Machines Corp., 2000
+
+     This library is free software; you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published
+     by the Free Software Foundation; either version 2.1 of the License, or
+     (at your option) any later version.
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+     the GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this library; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
+<deviceConnections xmlns="http://www.ibm.com/linux/ltc/projects/omni/" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:schemaLocation="http://www.ibm.com/linux/ltc/projects/omni/ ../OmniDevice.xsd">
+   <deviceConnection>
+      <name>CANON_CONN_ID_1</name>
+      <connectionForm>iso_a3_297.00x420.00mm</connectionForm>
+      <omniForm>FORM_A3</omniForm>
+      <connectionTray>Continuous</connectionTray>
+      <omniTray>TRAY_AUTO_FEEDER</omniTray>
+      <connectionMedia>MEDIA_PLAIN</connectionMedia>
+   </deviceConnection>
+   <deviceConnection>
+      <name>CANON_CONN_ID_2</name>
+      <connectionForm>iso_b4_250.00x353.00mm</connectionForm>
+      <omniForm>FORM_B4</omniForm>
+      <connectionTray>Continuous</connectionTray>
+      <omniTray>TRAY_AUTO_FEEDER</omniTray>
+      <connectionMedia>MEDIA_PLAIN</connectionMedia>
+   </deviceConnection>
+   <deviceConnection>
+      <name>CANON_CONN_ID_3</name>
+      <connectionForm>iso_a4_210.00x297.00mm</connectionForm>
+      <omniForm>FORM_A4</omniForm>
+      <connectionTray>Continuous</connectionTray>
+      <omniTray>TRAY_AUTO_FEEDER</omniTray>
+      <connectionMedia>MEDIA_PLAIN</connectionMedia>
+   </deviceConnection>
+   <deviceConnection>
+      <name>CANON_CONN_ID_4</name>
+      <connectionForm>iso_b5_176.00x250.00mm</connectionForm>
+      <omniForm>FORM_B5</omniForm>
+      <connectionTray>Continuous</connectionTray>
+      <omniTray>TRAY_AUTO_FEEDER</omniTray>
+      <connectionMedia>MEDIA_PLAIN</connectionMedia>
+   </deviceConnection>
+   <deviceConnection>
+      <name>CANON_CONN_ID_5</name>
+      <connectionForm>iso_a5_148.00x210.00mm</connectionForm>
+      <omniForm>FORM_A5</omniForm>
+      <connectionTray>Continuous</connectionTray>
+      <omniTray>TRAY_AUTO_FEEDER</omniTray>
+      <connectionMedia>MEDIA_PLAIN</connectionMedia>
+   </deviceConnection>
+   <deviceConnection>
+      <name>CANON_CONN_ID_6</name>
+      <connectionForm>na_letter_8.50x11.00in</connectionForm>
+      <omniForm>FORM_LETTER</omniForm>
+      <connectionTray>Continuous</connectionTray>
+      <omniTray>TRAY_AUTO_FEEDER</omniTray>
+      <connectionMedia>MEDIA_PLAIN</connectionMedia>
+   </deviceConnection>
+   <deviceConnection>
+      <name>CANON_CONN_ID_7</name>
+      <connectionForm>na_legal_8.50x14.00in</connectionForm>
+      <omniForm>FORM_LEGAL</omniForm>
+      <connectionTray>Continuous</connectionTray>
+      <omniTray>TRAY_AUTO_FEEDER</omniTray>
+      <connectionMedia>MEDIA_PLAIN</connectionMedia>
+   </deviceConnection>
+   <deviceConnection>
+      <name>CANON_CONN_ID_8</name>
+      <connectionForm>iso_a4_210.00x297.00mm</connectionForm>
+      <omniForm>FORM_A4</omniForm>
+      <connectionTray>Continuous</connectionTray>
+      <omniTray>TRAY_AUTO_FEEDER</omniTray>
+      <connectionMedia>MEDIA_COATED</connectionMedia>
+   </deviceConnection>
+   <deviceConnection>
+      <name>CANON_CONN_ID_9</name>
+      <connectionForm>iso_b5_176.00x250.00mm</connectionForm>
+      <omniForm>FORM_B5</omniForm>
+      <connectionTray>Continuous</connectionTray>
+      <omniTray>TRAY_AUTO_FEEDER</omniTray>
+      <connectionMedia>MEDIA_COATED</connectionMedia>
+   </deviceConnection>
+   <deviceConnection>
+      <name>CANON_CONN_ID_10</name>
+      <connectionForm>iso_a4_210.00x297.00mm</connectionForm>
+      <omniForm>FORM_A4</omniForm>
+      <connectionTray>Continuous</connectionTray>
+      <omniTray>TRAY_AUTO_FEEDER</omniTray>
+      <connectionMedia>MEDIA_TRANSPARENCY</connectionMedia>
+   </deviceConnection>
+   <deviceConnection>
+      <name>CANON_CONN_ID_11</name>
+      <connectionForm>iso_a4_210.00x297.00mm</connectionForm>
+      <omniForm>FORM_A4</omniForm>
+      <connectionTray>Continuous</connectionTray>
+      <omniTray>TRAY_AUTO_FEEDER</omniTray>
+      <connectionMedia>MEDIA_BACKPRINT</connectionMedia>
+   </deviceConnection>
+   <deviceConnection>
+      <name>CANON_CONN_ID_12</name>
+      <connectionForm>iso_a4_210.00x297.00mm</connectionForm>
+      <omniForm>FORM_A4</omniForm>
+      <connectionTray>Continuous</connectionTray>
+      <omniTray>TRAY_AUTO_FEEDER</omniTray>
+      <connectionMedia>MEDIA_GLOSSY</connectionMedia>
+   </deviceConnection>
+</deviceConnections>

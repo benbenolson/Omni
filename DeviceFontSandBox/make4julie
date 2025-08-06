@@ -1,0 +1,78 @@
+#
+#  Makefile for the Linux Device Font Library
+#  David L. Wagner
+#  October 22, 2002
+#  $Id: make4julie,v 1.3 2002/11/05 22:57:19 jzhuo Exp $
+#
+
+#
+#  Point this to the directory of the UPDF Parameter Converter:
+#
+ROOTDIR=$(HOME)/temp
+UPDFDIR=$(HOME)/Omni/UPDF
+PARSERDIR= $(ROOTDIR)/xerces-c-2_1_0
+OMNIDIR=$(HOME)/Omni
+#
+#  Point this at the root of the Xerces C++ XML parser:
+#
+# XERCESCROOT=xerces-c-src2_1_0/src
+# XERCESCLIB=/Volumes/Documents/Exchange/fonts/xerces-c-src2_1_0/lib
+XERCESCROOT=$(HOME)/xerces-c-src2_1_0/src
+XERCESCLIB=$(HOME)/xerces-c-src2_1_0/lib
+#
+#  Set this to your favorite C++ compiler:
+#
+CC=c++ -c -g0 -I $(XERCESCROOT) -I $(UPDFDIR) -I $(OMNIDIR) -I $(PARSERDIR) -I $(ROOTDIR)
+LD=c++ -L/usr/lib -L/usr/local/lib -L$(XERCESCLIB) -lxerces-c
+
+PARSER=$(PARSERDIR)/UPDFFontParser.o $(PARSERDIR)/XmlFile.o
+DEVFONT=ByteArray.o CommandSequence.o DeviceFont.o DeviceFontMgr.o Event.o MyDOMErrorHandler.o Panose.o $(PARSER) FontParser.o Parameter.o
+UPDF=$(UPDFDIR)/ParameterConverter.o $(UPDFDIR)/Expression.o $(UPDFDIR)/ExpressionException.o
+
+
+all: TestDeviceFontMgr StressDeviceFontMgr
+
+TestDeviceFontMgr: TestDeviceFontMgr.o $(DEVFONT)
+	$(LD) -o TestDeviceFontMgr TestDeviceFontMgr.o $(DEVFONT) $(UPDF)
+
+StressDeviceFontMgr: StressDeviceFontMgr.o $(DEVFONT)
+	$(LD) -o StressDeviceFontMgr StressDeviceFontMgr.o $(DEVFONT) $(UPDF)
+
+TestDeviceFontMgr.o: TestDeviceFontMgr.cpp ByteArray.hpp CommandSequence.hpp DeviceFontMgr.hpp DeviceFont.hpp Event.hpp Panose.hpp
+	$(CC) -o TestDeviceFontMgr.o TestDeviceFontMgr.cpp
+
+StressDeviceFontMgr.o: StressDeviceFontMgr.cpp ByteArray.hpp DeviceFont.hpp DeviceFontMgr.hpp
+	$(CC) -o StressDeviceFontMgr.o StressDeviceFontMgr.cpp
+
+ByteArray.o: ByteArray.cpp ByteArray.hpp
+	$(CC) -o ByteArray.o ByteArray.cpp
+
+CommandSequence.o: CommandSequence.cpp CommandSequence.hpp
+	$(CC) -o CommandSequence.o CommandSequence.cpp
+
+DeviceFont.o: DeviceFont.cpp DeviceFont.hpp Panose.hpp
+	$(CC) -o DeviceFont.o DeviceFont.cpp
+
+DeviceFontMgr.o: DeviceFontMgr.cpp DeviceFontMgr.hpp ByteArray.hpp CommandSequence.hpp DeviceFont.hpp Event.hpp Panose.hpp $(PARSERDIR)/UPDFFontParser.hpp FontParser.hpp Parameter.hpp
+	$(CC) -o DeviceFontMgr.o DeviceFontMgr.cpp
+
+Parameter.o: Parameter.cpp Parameter.hpp
+	$(CC) -o Parameter.o Parameter.cpp
+
+Event.o: Event.cpp Event.hpp
+	$(CC) -o Event.o Event.cpp
+
+MyDOMErrorHandler.o: MyDOMErrorHandler.cpp MyDOMErrorHandler.hpp
+	$(CC) -o MyDOMErrorHandler.o MyDOMErrorHandler.cpp
+
+Panose.o: Panose.cpp Panose.hpp
+	$(CC) -o Panose.o Panose.cpp
+
+FontParser.o: FontParser.cpp FontParser.hpp DeviceFont.hpp CommandSequence.hpp Event.hpp 
+	$(CC) -o FontParser.o FontParser.cpp
+
+$(PARSERDIR)/UPDFFontParser.o: $(PARSERDIR)/UPDFFontParser.cpp $(PARSERDIR)/UPDFFontParser.hpp DeviceFont.hpp CommandSequence.hpp Event.hpp MyDOMErrorHandler.hpp Panose.hpp $(PARSERDIR)/XmlFile.hpp FontParser.hpp Parameter.hpp
+	$(CC) -o $(PARSERDIR)/UPDFFontParser.o $(PARSERDIR)/UPDFFontParser.cpp
+
+$(PARSERDIR)/XmlFile.o: $(PARSERDIR)/XmlFile.cpp $(PARSERDIR)/XmlFile.hpp
+	$(CC) -o $(PARSERDIR)/XmlFile.o $(PARSERDIR)/XmlFile.cpp

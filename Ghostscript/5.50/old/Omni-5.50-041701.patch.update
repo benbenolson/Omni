@@ -1,0 +1,369 @@
+diff -C5 041001/gs5.50/gomni.c 041701/gs5.50/gomni.c
+*** 041001/gs5.50/gomni.c	Tue Apr 24 14:41:53 2001
+--- 041701/gs5.50/gomni.c	Tue Apr 24 14:42:57 2001
+***************
+*** 58,69 ****
+--- 58,75 ----
+  /*    @@10252000       added code to make sure that we have a full band */
+  /*                     of data.  Rendering high res is slow.            */
+  /*                                                                      */
+  /*    @@10312000       correct line decrement and get_bits of a line    */
+  /*                                                                      */
++ /*    04062001         rewrote module to allow for sync and async       */
++ /*                     function since GS does not handle async at the   */
++ /*                     moment                                           */
+  /*                                                                      */
++ /*    @@04062001       removed mono dither routines and support from    */
++ /*                     this module into the core omni code              */
+  /*                                                                      */
++ /*    @@04162001       Added support for newFrame                       */
+  /*                                                                      */
+  /*                                                                      */
+  /************************************************************************/
+  
+  
+***************
+*** 121,130 ****
+--- 127,138 ----
+                                          HWRESOLUTION *hwRes);
+  typedef bool   (*PFNGETMARGININFO)     (void         *pDev,
+                                          HWMARGINS    *hwMargins);
+  typedef void   (*PFNBEGINJOB)          (void         *pDev,
+                                          FILE         *pFile);
++ typedef void   (*PFNNEWFRAME)          (void         *pDev); //@@04162001
++ 
+  typedef void   (*PFNENDJOB)            (void         *pDev,
+                                          void         *pOutputObject);
+  typedef void   (*PFNRASTERIZE)         (void         *pDevice,
+                                          PBYTE         pbBits,
+                                          PBITMAPINFO2  pbmi,
+***************
+*** 137,147 ****
+                                          void         *pszDebugFile,
+                                          char         *pszOptions);
+  
+  typedef void   (*PFNDELETEDEVICE)      (void         *pDevice);
+  
+! typedef long   (*PFNMONODITHER)        (PDDI          pdi,
+                                          PIMAGEINFO    pimg_infos,
+                                          PBYTE        *pBuffer,
+                                          ULONG         ulFlgs);
+  
+  ULONG FindBandSize(ULONG ulYHeight, ULONG ulXWidth, ULONG ulBitsPerPel, ULONG ulNumPlanes,
+--- 145,155 ----
+                                          void         *pszDebugFile,
+                                          char         *pszOptions);
+  
+  typedef void   (*PFNDELETEDEVICE)      (void         *pDevice);
+  
+! typedef long   (*PFNMONODITHER)        (PDDI          pdi,           //@@04062001
+                                          PIMAGEINFO    pimg_infos,
+                                          PBYTE        *pBuffer,
+                                          ULONG         ulFlgs);
+  
+  ULONG FindBandSize(ULONG ulYHeight, ULONG ulXWidth, ULONG ulBitsPerPel, ULONG ulNumPlanes,
+***************
+*** 189,210 ****
+     void                 *vhDevice;                 // handle to libDeviceXXX.so
+     PFNGETPRINTMODEINFO   pfnGetPrintModeInfo;
+     PFNGETRESOLUTIONINFO  pfnGetResolutionInfo;
+     PFNGETMARGININFO      pfnGetMarginInfo;
+     PFNBEGINJOB           pfnBeginJob;
+     PFNENDJOB             pfnEndJob;
+     PFNRASTERIZE          pfnRasterize;
+     PFNCREATEDEVICE       pfnCreateDevice;
+     PFNDELETEDEVICE       pfnDeleteDevice;
+!    PFNMONODITHER         pfnMonoDither;
+  
+     unsigned long         ulPelSizeCorrection;
+  
+     int                   iVertDots;
+     int                   width;
+     int                   height;
+     int                   iSync;
+  
+     byte                 *outbuf;     /* Output-Buffer */
+  
+     int                   iPage;
+     int                   iSetup;
+--- 197,220 ----
+     void                 *vhDevice;                 // handle to libDeviceXXX.so
+     PFNGETPRINTMODEINFO   pfnGetPrintModeInfo;
+     PFNGETRESOLUTIONINFO  pfnGetResolutionInfo;
+     PFNGETMARGININFO      pfnGetMarginInfo;
+     PFNBEGINJOB           pfnBeginJob;
++    PFNNEWFRAME           pfnNewFrame;    //@@04162001
+     PFNENDJOB             pfnEndJob;
+     PFNRASTERIZE          pfnRasterize;
+     PFNCREATEDEVICE       pfnCreateDevice;
+     PFNDELETEDEVICE       pfnDeleteDevice;
+!    PFNMONODITHER         pfnMonoDither;    //@@04162001
+  
+     unsigned long         ulPelSizeCorrection;
+  
+     int                   iVertDots;
+     int                   width;
+     int                   height;
+     int                   iSync;
++    int                   iPageNumber;  //@@04162001
+  
+     byte                 *outbuf;     /* Output-Buffer */
+  
+     int                   iPage;
+     int                   iSetup;
+***************
+*** 347,356 ****
+--- 357,368 ----
+         */
+  
+         return e_Fatal;
+      }
+  
++     pDev->iPageNumber = 0;  //@@04162001
++ 
+  //    if(pDev->pszOtherOptions)
+  //       *pDev->pszOtherOptions = '\0';
+  
+      /*
+       * Set up device's printer proc vector to point to this driver, since
+***************
+*** 410,419 ****
+--- 422,436 ----
+  
+     if(!pDev)
+     {
+       return -1;  // handle no pDev
+     }
++    /***
++     *     WE NEED TO TERMINATE HERE!!!!!!!!!
++     *     @@04162001
++     ***/  
++    pDev->pfnEndJob (pDev->pDevice, pDev->pOutputObject);
+  
+     if (pDev->pDevice)
+     {
+        pDev->pfnDeleteDevice (pDev->pDevice);
+        pDev->pDevice = 0;
+***************
+*** 598,607 ****
+--- 615,628 ----
+  
+        pDev->pfnBeginJob = (PFNBEGINJOB)dlsym (pDev->vhOmni, "BeginJob");
+  
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (BeginJob) = 0x%08x\n", (int)pDev->pfnBeginJob);
+  
++       pDev->pfnNewFrame = (PFNBEGINJOB)dlsym (pDev->vhOmni, "NewFrame");  //@@04162001
++ 
++       if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (NewFrame) = 0x%08x\n", (int)pDev->pfnNewFrame);
++ 
+        pDev->pfnEndJob = (PFNENDJOB)dlsym (pDev->vhOmni, "EndJob");
+  
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (EndJob) = 0x%08x\n", (int)pDev->pfnEndJob);
+  
+        pDev->pfnRasterize = (PFNRASTERIZE)dlsym (pDev->vhOmni, "Rasterize");
+***************
+*** 609,631 ****
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (Rasterize) = 0x%08x\n", (int)pDev->pfnRasterize);
+  
+        pDev->pfnCreateDevice = (PFNCREATEDEVICE)dlsym (pDev->vhOmni, "createDevice");
+  
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (createDevice) = 0x%08x\n", (int)pDev->pfnCreateDevice);
+! 
+        pDev->pfnMonoDither = (PFNMONODITHER)dlsym (pDev->vhOmni, "DiffusionDither__FP20_DIFFUSIONDITHERINFOP11_IMAGEINFOSPPUcUi");
+  
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (DiffusionDither__FP20_DIFFUSIONDITHERINFOP11_IMAGEINFOSPPUcUi) = 0x%08x\n", (int)pDev->pfnMonoDither);
+  
+        if (  !pDev->pfnCreateDevice
+           || !pDev->pfnBeginJob
+           || !pDev->pfnEndJob
+           || !pDev->pfnRasterize
+           || !pDev->pfnGetPrintModeInfo
+           || !pDev->pfnGetResolutionInfo
+           || !pDev->pfnGetMarginInfo
+!          || !pDev->pfnMonoDither
+           )
+        {
+           // Failure!
+           fprintf (stderr, "Could not load required entry point from libomni.so!\n");
+  
+--- 630,653 ----
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (Rasterize) = 0x%08x\n", (int)pDev->pfnRasterize);
+  
+        pDev->pfnCreateDevice = (PFNCREATEDEVICE)dlsym (pDev->vhOmni, "createDevice");
+  
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (createDevice) = 0x%08x\n", (int)pDev->pfnCreateDevice);
+!       //@@04062001
+        pDev->pfnMonoDither = (PFNMONODITHER)dlsym (pDev->vhOmni, "DiffusionDither__FP20_DIFFUSIONDITHERINFOP11_IMAGEINFOSPPUcUi");
+  
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (DiffusionDither__FP20_DIFFUSIONDITHERINFOP11_IMAGEINFOSPPUcUi) = 0x%08x\n", (int)pDev->pfnMonoDither);
+  
+        if (  !pDev->pfnCreateDevice
+           || !pDev->pfnBeginJob
++          || !pDev->pfnNewFrame            //@@04162001
+           || !pDev->pfnEndJob
+           || !pDev->pfnRasterize
+           || !pDev->pfnGetPrintModeInfo
+           || !pDev->pfnGetResolutionInfo
+           || !pDev->pfnGetMarginInfo
+!          || !pDev->pfnMonoDither          //@@04162001
+           )
+        {
+           // Failure!
+           fprintf (stderr, "Could not load required entry point from libomni.so!\n");
+  
+***************
+*** 896,913 ****
+--- 918,938 ----
+      BITMAPINFO2 *pbmi;
+  
+  
+      pDevStruct pDev = pasyncDev->pDev;
+  
++     // Do a new_frame if not first page 
++ 
+      if(!pDev || !pDev->pDevice )
+      {
+          fprintf(stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n");
+          fprintf(stderr, "                NO DEVICE CREATED \n\n");
+          return -1;  // handle null pDev
+      }
+  
+      pDev->iPage++;
++     pDev->iPageNumber++;  //keep track of the page @@04162001
+  
+      bRet = pDev->pfnGetPrintModeInfo (pasyncDev->pDev->pDevice, &prtMode);
+  
+      iNumColors = 1 << prtMode.iBitCount;
+  
+***************
+*** 1062,1073 ****
+     // Do initial setup for Rasterize for dithering work on the page.
+  
+     rectPageLocation.xLeft    = 0;
+  
+     rectPageLocation.xRight   = pasyncDev->width;
+  
+-    pDev->pfnBeginJob (pasyncDev->pDev->pDevice, prn_stream);
+  
+  // rectPageLocation.yTop = rectPageLocation.yBottom  = 0;  @@10172000
+  
+     rectPageLocation.yTop =  pasyncDev->height-1;       // @@10172000
+  
+--- 1087,1102 ----
+     // Do initial setup for Rasterize for dithering work on the page.
+  
+     rectPageLocation.xLeft    = 0;
+  
+     rectPageLocation.xRight   = pasyncDev->width;
++    //@@04162001
++    if(pDev->iPageNumber == 1)
++       pDev->pfnBeginJob (pasyncDev->pDev->pDevice, prn_stream);
++    else
++       pDev->pfnNewFrame (pasyncDev->pDev->pDevice);
+  
+  
+  // rectPageLocation.yTop = rectPageLocation.yBottom  = 0;  @@10172000
+  
+     rectPageLocation.yTop =  pasyncDev->height-1;       // @@10172000
+  
+***************
+*** 1089,1099 ****
+  
+        byte * pBitmapTop = pBitmapMem + ((ulBandLength-1) * uiBytesPerLine);
+  
+        iYBand = 0;
+  
+!       // Call DiffusionDither to setup pBuffer - quick in and out
+        pDev->pfnMonoDither (&DiffInfo, &ImageInfo, &pBuffer, (unsigned long) GDM_DITHER_BEGIN);
+  
+        // Go through the bitmap that we have been given
+        for(y = pasyncDev->height - 1; y >= 0; y--)
+        {                                   //@@10312000
+--- 1118,1128 ----
+  
+        byte * pBitmapTop = pBitmapMem + ((ulBandLength-1) * uiBytesPerLine);
+  
+        iYBand = 0;
+  
+!       // Call DiffusionDither to setup pBuffer - quick in and out  @@04062001
+        pDev->pfnMonoDither (&DiffInfo, &ImageInfo, &pBuffer, (unsigned long) GDM_DITHER_BEGIN);
+  
+        // Go through the bitmap that we have been given
+        for(y = pasyncDev->height - 1; y >= 0; y--)
+        {                                   //@@10312000
+***************
+*** 1137,1147 ****
+                 ImageInfo.pptlSrc->y = ImageInfo.pptlDst->y = iYBand;//exclusive??
+                 ImageInfo.pbSrcBits  =  pBitmapTop - ((iYBand-1) * uiBytesPerLine);   // pointer to src image data
+                 ImageInfo.pbTrgBits  = pMonoData;        // pointer to dst image data
+  
+                 // Call DiffusionDither to generate a gray-scaled image from our 24bit bitmap
+! 
+                 pDev->pfnMonoDither (&DiffInfo, &ImageInfo, &pBuffer, (unsigned long) 0);
+             }
+  
+             pbmi->cy = iYBand;
+  
+--- 1166,1176 ----
+                 ImageInfo.pptlSrc->y = ImageInfo.pptlDst->y = iYBand;//exclusive??
+                 ImageInfo.pbSrcBits  =  pBitmapTop - ((iYBand-1) * uiBytesPerLine);   // pointer to src image data
+                 ImageInfo.pbTrgBits  = pMonoData;        // pointer to dst image data
+  
+                 // Call DiffusionDither to generate a gray-scaled image from our 24bit bitmap
+!                //@@04062001
+                 pDev->pfnMonoDither (&DiffInfo, &ImageInfo, &pBuffer, (unsigned long) 0);
+             }
+  
+             pbmi->cy = iYBand;
+  
+***************
+*** 1201,1225 ****
+  //            iCurBot =  rectPageLocation.yBottom;  @@10172000
+  //            iCurTop =  rectPageLocation.yTop;     @@10172000
+  
+              iYBand = 0;
+           }
+!       }
+        pDev->pfnMonoDither(&DiffInfo, &ImageInfo, &pBuffer, (unsigned long) GDM_DITHER_END);
+        pBuffer = NULL;
+     } //END BLOCK
+  
+!    /***
+!     *     WE NEED TO TERMINATE HERE!!!!!!!!!
+!     *
+!     ***/
+!    pDev->pfnEndJob (pasyncDev->pDev->pDevice, pasyncDev->pDev->pOutputObject);
+  
+  done:
+  
+      gs_free((char *) pBitmapMem, uiBytesPerLine * ulBandLength, 1, "Bitmap Memory");
+      fprintf(stderr, "Page Completed\n");
+      gs_free((char *)pGSData, uiBytesPerLine, 1, "bmp file buffer");
+      gs_free((char *)pbmi, uiBytesPerLine, 1, "Bpmi Memory");
+  
+      /******************************************************************/
+      /* Note:                                         @@08162000       */
+--- 1230,1252 ----
+  //            iCurBot =  rectPageLocation.yBottom;  @@10172000
+  //            iCurTop =  rectPageLocation.yTop;     @@10172000
+  
+              iYBand = 0;
+           }
+!       }        //@@04062001
+        pDev->pfnMonoDither(&DiffInfo, &ImageInfo, &pBuffer, (unsigned long) GDM_DITHER_END);
+        pBuffer = NULL;
+     } //END BLOCK
+  
+!     //@@04162001
+! //   pDev->pfnEndJob (pasyncDev->pDev->pDevice, pasyncDev->pDev->pOutputObject);
+  
+  done:
+  
+      gs_free((char *) pBitmapMem, uiBytesPerLine * ulBandLength, 1, "Bitmap Memory");
+      fprintf(stderr, "Page Completed\n");
++     
+      gs_free((char *)pGSData, uiBytesPerLine, 1, "bmp file buffer");
+      gs_free((char *)pbmi, uiBytesPerLine, 1, "Bpmi Memory");
+  
+      /******************************************************************/
+      /* Note:                                         @@08162000       */

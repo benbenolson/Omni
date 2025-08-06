@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     IBM Omni driver
+     Copyright (c) International Business Machines Corp., 2000
+
+     This library is free software; you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published
+     by the Free Software Foundation; either version 2.1 of the License, or
+     (at your option) any later version.
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+     the GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this library; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
+<Device xmlns="http://www.ibm.com/linux/ltc/projects/omni/" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" name="Epson EPL-5700" xs:schemaLocation="http://www.ibm.com/linux/ltc/projects/omni/ ../OmniDevice.xsd">
+   <DriverName>Epson</DriverName>
+   <Capability type="MONOCHROME"/>
+   <Capability type="MIRROR"/>
+   <RasterCapabilities type="TOP_TO_BOTTOM"/>
+   <DeviceOptions type="DO_AUTO_ROTATE"/>
+   <DeviceOptions type="DO_SCALABLE_FONT"/>
+   <DeviceOptions type="DO_SUPPORT_RULES"/>
+   <DeviceOptions type="DO_SUPPORT_DOT_COORDS"/>
+   <DeviceOptions type="DO_SUPPORT_PJL"/>
+   <DeviceOptions type="DO_SUPPORT_JOBOFFSET"/>
+   <DeviceOptions type="DO_SUPPORT_PATTERNS"/>
+   <DeviceOptions type="DO_SUPPORT_PCL5"/>
+   <DeviceOptions type="DO_MIXED_TRAY"/>
+   <DeviceOptions type="DO_SUPPORT_HPGL2"/>
+   <DeviceOptions type="DO_SUPPORT_COMPRESS5"/>
+   <DeviceOptions type="DO_SUPPORT_WATERMARK"/>
+   <PDL level="PDL_PCL" sublevel="LEVEL_PCL3" major="1" minor="0"/>
+   <Uses>Epson PCL Commands.xml</Uses>
+   <Has>Epson Orientations.xml</Has>
+   <Has>Epson EPL-5700 Resolutions.xml</Has>
+   <Has>Epson PCL PrintModes.xml</Has>
+   <Has>Epson ActionLaser II_EPL-4000 Trays.xml</Has>
+   <Has>Epson EPL-5700 Forms.xml</Has>
+   <Has>Epson ActionLaser 1000_EPL-5000 Medias.xml</Has>
+   <Has>Epson EPL-5700 Connections.xml</Has>
+   <Has>Epson Copies.xml</Has>
+   <Has>Epson NUps.xml</Has>
+   <Has>Epson OutputBins.xml</Has>
+   <Has>Epson Scalings.xml</Has>
+   <Has>Epson SheetCollates.xml</Has>
+   <Has>Epson Sides.xml</Has>
+   <Has>Epson Stitchings.xml</Has>
+   <Has>Epson Trimmings.xml</Has>
+   <Instance>Epson PCL Instance.hpp</Instance>
+   <Instance>Epson PCL Instance.cpp</Instance>
+   <Blitter>Epson PCL Blitter.hpp</Blitter>
+   <Blitter>Epson PCL Blitter.cpp</Blitter>
+   <DefaultJobProperties>
+      <Copies>1</Copies>
+      <dither>DITHER_STUCKI_DIFFUSION</dither>
+      <Form>na_letter_8.50x11.00in</Form>
+      <omniForm>FORM_LETTER</omniForm>
+      <media>MEDIA_PLAIN</media>
+      <NumberUp>
+         <NumberUp FORMAT="XbyY">
+            <x>1</x>
+            <y>1</y>
+         </NumberUp>
+         <NumberUpDirection>TorightTobottom</NumberUpDirection>
+      </NumberUp>
+      <Rotation>Portrait</Rotation>
+      <omniOrientation>ORIENTATION_PORTRAIT</omniOrientation>
+      <OutputBin>Top</OutputBin>
+      <printmode>PRINT_MODE_1_ANY</printmode>
+      <Resolution>600x600</Resolution>
+      <omniResolution>RESOLUTION_600_X_600</omniResolution>
+      <Scaling>
+         <ScalingPercentage>100</ScalingPercentage>
+         <ScalingType>None</ScalingType>
+      </Scaling>
+      <SheetCollate>SheetUncollated</SheetCollate>
+      <Sides>OneSidedFront</Sides>
+      <Stitching>
+         <StitchingPosition>0</StitchingPosition>
+         <StitchingReferenceEdge>Top</StitchingReferenceEdge>
+         <StitchingType>None</StitchingType>
+         <StitchingCount>0</StitchingCount>
+         <StitchingAngle>0</StitchingAngle>
+      </Stitching>
+      <InputTray>AutoSelect</InputTray>
+      <omniTray>TRAY_MULTI_TRAY</omniTray>
+      <Trimming>None</Trimming>
+   </DefaultJobProperties>
+</Device>

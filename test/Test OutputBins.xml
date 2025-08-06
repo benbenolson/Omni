@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     IBM Omni driver
+     Copyright (c) International Business Machines Corp., 2000
+
+     This library is free software; you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published
+     by the Free Software Foundation; either version 2.1 of the License, or
+     (at your option) any later version.
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+     the GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this library; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
+
+<deviceOutputBins
+   xmlns="http://www.ibm.com/linux/ltc/projects/omni/"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+   xs:schemaLocation="http://www.ibm.com/linux/ltc/projects/omni/ ../OmniDevice.xsd">
+   <deviceOutputBin>
+      <name>Booklet</name>
+      <command>_NUL_</command>
+      <deviceID>a</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Bottom</name>
+      <command>_NUL_</command>
+      <deviceID>b</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Center</name>
+      <command>_NUL_</command>
+      <deviceID>c</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>FaceDown</name>
+      <command>_NUL_</command>
+      <deviceID>d</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>FaceUp</name>
+      <command>_NUL_</command>
+      <deviceID>e</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>FitMedia</name>
+      <command>_NUL_</command>
+      <deviceID>f</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>LargeCapacity</name>
+      <command>_NUL_</command>
+      <deviceID>g</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Left</name>
+      <command>_NUL_</command>
+      <deviceID>h</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Mailbox-1</name>
+      <command>_NUL_</command>
+      <deviceID>i</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Mailbox-2</name>
+      <command>_NUL_</command>
+      <deviceID>j</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Mailbox-3</name>
+      <command>_NUL_</command>
+      <deviceID>k</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Mailbox-4</name>
+      <command>_NUL_</command>
+      <deviceID>l</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Mailbox-5</name>
+      <command>_NUL_</command>
+      <deviceID>m</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Mailbox-6</name>
+      <command>_NUL_</command>
+      <deviceID>n</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Mailbox-7</name>
+      <command>_NUL_</command>
+      <deviceID>o</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Mailbox-8</name>
+      <command>_NUL_</command>
+      <deviceID>p</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Mailbox-9</name>
+      <command>_NUL_</command>
+      <deviceID>q</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Rear</name>
+      <command>_NUL_</command>
+      <deviceID>r</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Right</name>
+      <command>_NUL_</command>
+      <deviceID>s</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Side</name>
+      <command>_NUL_</command>
+      <deviceID>t</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Stacker-1</name>
+      <command>_NUL_</command>
+      <deviceID>u</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Stacker-2</name>
+      <command>_NUL_</command>
+      <deviceID>v</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Stacker-3</name>
+      <command>_NUL_</command>
+      <deviceID>w</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Stacker-4</name>
+      <command>_NUL_</command>
+      <deviceID>x</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Stacker-5</name>
+      <command>_NUL_</command>
+      <deviceID>y</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Stacker-6</name>
+      <command>_NUL_</command>
+      <deviceID>z</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Stacker-7</name>
+      <command>_NUL_</command>
+      <deviceID>aa</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Stacker-8</name>
+      <command>_NUL_</command>
+      <deviceID>bb</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Stacker-9</name>
+      <command>_NUL_</command>
+      <deviceID>cc</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Top</name>
+      <command>_NUL_</command>
+      <deviceID>dd</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Tray-1</name>
+      <command>_NUL_</command>
+      <deviceID>ee</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Tray-2</name>
+      <command>_NUL_</command>
+      <deviceID>ff</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Tray-3</name>
+      <command>_NUL_</command>
+      <deviceID>gg</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Tray-4</name>
+      <command>_NUL_</command>
+      <deviceID>hh</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Tray-5</name>
+      <command>_NUL_</command>
+      <deviceID>ii</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Tray-6</name>
+      <command>_NUL_</command>
+      <deviceID>jj</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Tray-7</name>
+      <command>_NUL_</command>
+      <deviceID>kk</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Tray-8</name>
+      <command>_NUL_</command>
+      <deviceID>ll</deviceID>
+   </deviceOutputBin>
+   <deviceOutputBin>
+      <name>Tray-9</name>
+      <command>_NUL_</command>
+      <deviceID>mm</deviceID>
+   </deviceOutputBin>
+</deviceOutputBins>

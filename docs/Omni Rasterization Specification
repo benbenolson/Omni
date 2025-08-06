@@ -1,0 +1,48 @@
+Suppose that an application wants to send a band that is 1024 pels high.
+How should they be ordered?
+
+The printer's page size is 1530 pels wide by 2428 pels high.  The printer
+requests that the band size be a multiple of 24.  Since the band size is
+1024, the next higher multiple of 24 is 1032.  This results in 3 bands that
+should be sent to the printer (2 bands of 1024 and 1 band of 364).
+
+The prototype of rasterize is:
+
+   bool rasterize (PBYTE             pbBits,
+                   PBITMAPINFO2      pbmi,
+                   PSIZEL            psizelPage,
+                   PRECTL            prectlPageLocation,
+                   BITBLT_TYPE       eType);
+
+The size of the page will always be (1530, 2428).
+
+Because the last line of the bitmap will always be in a consistent place,
+the page location on each of the 3 bands, will be the following:
+
+                 +---------------------------+
+call 1           |              (1529, 2427) |
+                 |                           |
+                 | (0, 1396)                 |
+                 +---------------------------+
+                 +---------------------------+
+     2           |              (1529, 1395) |
+                 |                           |
+                 | (0, 364)                  |
+                 +---------------------------+
+                 +---------------------------+
+     3           |               (1529, 363) |  NOTE: only 364 usable
+                 |                           |        scanlines
+                 | (0, -668)                 |
+                 +---------------------------+
+
+NOTE: the page location rectangle is inclusive.
+
+The bitmap bits are ordered as follows:
+Scanlines are double word aligned.  That is, the size will always be a
+multiple of 32 bits or 4 bytes.  For example, a solid, 21 x 3 sized, 1 bit
+per pel bitmap would look like:
+   BYTE abBitmapData[] = {
+      255, 255, 248, 0,    // Scanline 0
+      255, 255, 248, 0,    //          1
+      255, 255, 248, 0     //          2
+   };

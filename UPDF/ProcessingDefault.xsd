@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.pwg.org/schemas/sm/1.0/" xmlns="http://www.pwg.org/schemas/sm/1.0/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.00">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">PWG Processing Default Element schema
+Copyright 2002-2004, IEEE Industry Standards and Technology Organization/Printer Working Group. 
+All rights reserved</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>NOTE: To use this schema you MUST include DocumentProcessing.xsd, JobProcessing.xsd and PwgCommon.xsd</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>Processing Defaults Element definition</xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="ProcessingDefaults">
+		<xsd:sequence>
+			<xsd:element name="DocumentProcessingDefaults" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element ref="CopiesDefault" minOccurs="0"/>
+						<xsd:element ref="CoverBackDefault" minOccurs="0"/>
+						<xsd:element ref="CoverFrontDefault" minOccurs="0"/>
+						<xsd:element ref="FeedOrientationDefault" minOccurs="0"/>
+						<xsd:element ref="FinishingsColDefault" minOccurs="0"/>
+						<xsd:element ref="FinishingsDefault" minOccurs="0"/>
+						<xsd:element ref="FontNameRequestedDefault" minOccurs="0"/>
+						<xsd:element ref="FontSizeRequestedDefault" minOccurs="0"/>
+						<xsd:element ref="ForceFrontSideDefault" minOccurs="0"/>
+						<xsd:element ref="ImpositionTemplateDefault" minOccurs="0"/>
+						<xsd:element ref="InsertSheetDefault" minOccurs="0"/>
+						<xsd:choice minOccurs="0">
+							<xsd:element ref="MediaColDefault" minOccurs="0"/>
+							<xsd:element ref="MediaDefault" minOccurs="0"/>
+						</xsd:choice>
+						<xsd:element ref="MediaInputTrayCheckDefault" minOccurs="0"/>
+						<xsd:element ref="NumberUpDefault" minOccurs="0"/>
+						<xsd:element ref="OrientationRequestedDefault" minOccurs="0"/>
+						<xsd:element ref="PageDeliveryDefault" minOccurs="0"/>
+						<xsd:element ref="PdlInitFileDefault" minOccurs="0"/>
+						<xsd:element ref="PresentationDirectionNumberUpDefault" minOccurs="0"/>
+						<xsd:element ref="PrinterResolutionDefault" minOccurs="0"/>
+						<xsd:element ref="PrintQuality" minOccurs="0"/>
+						<xsd:element ref="SeparatorSheetsDefault" minOccurs="0"/>
+						<xsd:element ref="SheetCollateDefault" minOccurs="0"/>
+						<xsd:element ref="SidesDefault" minOccurs="0"/>
+						<xsd:element ref="XImagePositionDefault" minOccurs="0"/>
+						<xsd:element ref="XImageShiftDefault" minOccurs="0"/>
+						<xsd:element ref="XSide1ImageShiftDefault" minOccurs="0"/>
+						<xsd:element ref="XSide2ImageShiftDefault" minOccurs="0"/>
+						<xsd:element ref="YImagePositionDefault" minOccurs="0"/>
+						<xsd:element ref="YImageShiftDefault" minOccurs="0"/>
+						<xsd:element ref="YSide1ImageShiftDefault" minOccurs="0"/>
+						<xsd:element ref="YSide2ImageShiftDefault" minOccurs="0"/>
+						<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="JobProcessingDefaults" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element ref="JobAccountingSheetsDefault" minOccurs="0"/>
+						<xsd:element ref="JobCopiesDefault" minOccurs="0"/>
+						<xsd:element ref="JobCoverBackDefault" minOccurs="0"/>
+						<xsd:element ref="JobCoverFrontDefault" minOccurs="0"/>
+						<xsd:element ref="JobErrorSheetDefault" minOccurs="0"/>
+						<xsd:element ref="JobFinishingsColDefault" minOccurs="0"/>
+						<xsd:element ref="JobFinishingsDefault" minOccurs="0"/>
+						<xsd:element ref="JobHoldUntilDefault" minOccurs="0"/>
+						<xsd:element ref="JobHoldUntilTimeDefault" minOccurs="0"/>
+						<xsd:element ref="JobMessageToOperatorDefault" minOccurs="0"/>
+						<xsd:element ref="JobPhoneNumberDefault" minOccurs="0"/>
+						<xsd:element ref="JobPriorityDefault" minOccurs="0"/>
+						<xsd:element ref="JobRecipientNameDefault" minOccurs="0"/>
+						<xsd:element ref="JobSaveDispositionDefault" minOccurs="0"/>
+						<xsd:element ref="JobSheetMessageDefault" minOccurs="0"/>
+						<xsd:element ref="JobSheetsColDefault" minOccurs="0"/>
+						<xsd:element ref="JobSheetsDefault" minOccurs="0"/>
+						<xsd:element ref="MultipleDocumentsHandlingDefault" minOccurs="0"/>
+						<xsd:element ref="OutputBinDefault" minOccurs="0"/>
+						<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="ProcessingDefaults" type="ProcessingDefaults"/>
+	<xsd:annotation>
+		<xsd:documentation>Processing Defaults specific semantic elements</xsd:documentation>
+	</xsd:annotation>
+	<xsd:element name="CopiesDefault" type="xsd:int"/>
+	<xsd:element name="CoverBackDefault" type="CoverCol"/>
+	<xsd:element name="CoverFrontDefault" type="CoverCol"/>
+	<xsd:element name="FeedOrientationDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="FeedOrientationWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="FinishingsColDefault" type="FinishingsCol"/>
+	<xsd:element name="FinishingsDefault">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Finishing" minOccurs="0" maxOccurs="unbounded">
+					<xsd:simpleType>
+						<xsd:union memberTypes="FinishingsWKV KeywordNsExtensionPattern"/>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="FinishingTemplateDefault" type="xsd:string"/>
+	<xsd:element name="FontNameRequestedDefault" type="xsd:string"/>
+	<xsd:element name="FontSizeRequestedDefault" type="xsd:int"/>
+	<xsd:element name="ForceFrontSideDefault">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ForceFront" type="xsd:int" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ImpositionTemplateDefault">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="255"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="InsertAfterPageDefault" type="xsd:int"/>
+	<xsd:element name="InsertCountDefault" type="xsd:int"/>
+	<xsd:element name="InsertSheetDefault">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Sheet" type="ISheet" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobAccountingOutputBinDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="JobAccountingOutputBinWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobAccountingSheetsDefault" type="JobAccountingSheets"/>
+	<xsd:element name="JobCopiesDefault" type="xsd:int"/>
+	<xsd:element name="JobCoverBackDefault" type="CoverCol"/>
+	<xsd:element name="JobCoverFrontDefault" type="CoverCol"/>
+	<xsd:element name="JobErrorSheetDefault" type="JobErrorSheet"/>
+	<xsd:element name="JobErrorSheetTypeDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="JobErrorSheetTypeWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobErrorSheetWhenDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="JobErrorSheetWhenWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobFinishingsColDefault" type="FinishingsCol"/>
+	<xsd:element name="JobFinishingsDefault">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Finishings" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobHoldUntilDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="JobHoldUntilWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobHoldUntilTimeDefault" type="xsd:dateTime"/>
+	<xsd:element name="JobMessageToOperatorDefault">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="1023"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobPhoneNumberDefault">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="127"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobPriorityDefault">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:int">
+				<xsd:minInclusive value="1"/>
+				<xsd:maxInclusive value="100"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobRecipientNameDefault">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="255"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobSaveDispositionDefault" type="JobSaveDisposition"/>
+	<xsd:element name="JobSheetMessageDefault">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="1023"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobSheetsColDefault" type="JobSheetsCol"/>
+	<xsd:element name="JobSheetsDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="JobSheetsWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaInputTrayCheckDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="MediaInputTrayCheckWKV MediaNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MultipleDocumentsHandlingDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="MultipleDocumentsHandlingWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="NumberUpDefault" type="xsd:int"/>
+	<xsd:element name="OrientationRequestedDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="OrientationRequestedWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="OutputBinDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="OutputBinWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="OutputDeviceDefault">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="127"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PageDeliveryDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="PageDeliveryWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PdlInitFileDefault">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="PdlInit" type="PdlInitFiles" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PdlInitFileEntryDefault">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="255"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PdlInitFileLocationDefault">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="1023"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PdlInitFileNameDefault">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="255"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PresentationDirectionNumberUpDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="PresentationDirectionNumberUpWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PrintQualityDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="PrintQualityWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PrinterResolutionDefault" type="Resolution"/>
+	<xsd:element name="ProofPrintDefault" type="ProofPrint"/>
+	<xsd:element name="ProofPrintCopiesDefault" type="xsd:int"/>
+	<xsd:element name="SaveDispositionDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="SaveDispositionWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="SaveDocumentFormatDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="DocumentFormatWKV StringNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="SaveInfoDefault" type="SaveInfo"/>
+	<xsd:element name="SaveLocationDefault" type="xsd:anyURI"/>
+	<xsd:element name="SaveNameDefault" type="xsd:string"/>
+	<xsd:element name="SeparatorSheetsDefault" type="SeparatorSheets"/>
+	<xsd:element name="SheetCollateDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="SheetCollateWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="SidesDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="SidesWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="StitchingDefault" type="Stitching"/>
+	<xsd:element name="StitchingLocationsDefault" type="xsd:int"/>
+	<xsd:element name="StitchingOffsetDefault" type="xsd:int"/>
+	<xsd:element name="StitchingReferenceEdgeDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="StitchingReferenceEdgeWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="XImagePositionDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="XImagePositionWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="XImageShiftDefault" type="xsd:int"/>
+	<xsd:element name="XSide1ImageShiftDefault" type="xsd:int"/>
+	<xsd:element name="XSide2ImageShiftDefault" type="xsd:int"/>
+	<xsd:element name="YImagePositionDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="YImagePositionWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="YImageShiftDefault" type="xsd:int"/>
+	<xsd:element name="YSide1ImageShiftDefault" type="xsd:int"/>
+	<xsd:element name="YSide2ImageShiftDefault" type="xsd:int"/>
+</xsd:schema>

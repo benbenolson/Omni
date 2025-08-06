@@ -1,0 +1,1200 @@
+Only in ../dynamic/gs5.50: Omni
+diff -C5 gs5.50/contrib.mak ../dynamic/gs5.50/contrib.mak
+*** gs5.50/contrib.mak	Tue Feb 20 16:39:56 2001
+--- ../dynamic/gs5.50/contrib.mak	Mon Feb 19 09:32:19 2001
+***************
+*** 419,444 ****
+  	$(GLCC) $(GLO_)gdevstc3.$(OBJ) $(C_) $(GLSRC)gdevstc3.c
+  
+  $(GLOBJ)gdevstc4.$(OBJ): $(GLSRC)gdevstc4.c $(gdevstc_h) $(PDEVH)
+  	$(GLCC) $(GLO_)gdevstc4.$(OBJ) $(C_) $(GLSRC)gdevstc4.c
+  
+! ###--------------- Added Omni/Epson --------------------------###
+! 
+! build_omni:
+! 	cd $(OMNIDIR); \
+! 	make;  \
+! 	cd $(CURDIR)
+  
+  epclr_h1=$(GLSCR)defs.h
+  
+  omni.dev: $(GLOBJ)gomni.$(OBJ) page.dev
+  	$(SETPDEV) omni $(GLOBJ)gomni.$(OBJ)
+  
+! $(GLOBJ)gomni.$(OBJ): $(GLSRC)gomni.c $(epclr_h1) $(PDEVH) build_omni
+  	$(GLCC) $(GLO_)gomni.$(OBJ) $(C_) $(GLSRC)gomni.c
+  
+- 	
+  
+  ### --------------- Ugly/Update -> Unified Printer Driver ---------------- ###
+  ### For questions about this driver, please contact:                       ###
+  ###        Gunther Hess (gunther@elmos.de)                                 ###
+  
+--- 419,438 ----
+  	$(GLCC) $(GLO_)gdevstc3.$(OBJ) $(C_) $(GLSRC)gdevstc3.c
+  
+  $(GLOBJ)gdevstc4.$(OBJ): $(GLSRC)gdevstc4.c $(gdevstc_h) $(PDEVH)
+  	$(GLCC) $(GLO_)gdevstc4.$(OBJ) $(C_) $(GLSRC)gdevstc4.c
+  
+! ###--------------- Added Omni --------------------------###
+  
+  epclr_h1=$(GLSCR)defs.h
+  
+  omni.dev: $(GLOBJ)gomni.$(OBJ) page.dev
+  	$(SETPDEV) omni $(GLOBJ)gomni.$(OBJ)
+  
+! $(GLOBJ)gomni.$(OBJ): $(GLSRC)gomni.c $(epclr_h1) $(PDEVH)
+  	$(GLCC) $(GLO_)gomni.$(OBJ) $(C_) $(GLSRC)gomni.c
+  
+  
+  ### --------------- Ugly/Update -> Unified Printer Driver ---------------- ###
+  ### For questions about this driver, please contact:                       ###
+  ###        Gunther Hess (gunther@elmos.de)                                 ###
+  
+diff -C5 gs5.50/gomni.c ../dynamic/gs5.50/gomni.c
+*** gs5.50/gomni.c	Tue Feb 20 16:40:05 2001
+--- ../dynamic/gs5.50/gomni.c	Tue Feb 20 15:54:23 2001
+***************
+*** 1,6 ****
+- 
+  /*
+   *   IBM Omni driver
+   *   Copyright (c) International Business Machines Corp., 2000
+   *
+   *   This library is free software; you can redistribute it and/or modify
+--- 1,5 ----
+***************
+*** 70,87 ****
+  /************************************************************************/
+  
+  #define _DEBUG 0
+  
+  
+- 
+  #include "defs.h"
+  #include "stdio_.h"
+  #include "gserrors.h"
+  #include "gdevprna.h"
+  #include "gdevpccm.h"
+  #include "gdevbmp.h"
+  #include "gpsync.h"
+  
+  #define DEVICES_DEFINED
+  
+  typedef struct _HWMAR
+  {
+--- 69,90 ----
+  /************************************************************************/
+  
+  #define _DEBUG 0
+  
+  
+  #include "defs.h"
+  #include "stdio_.h"
+  #include "gserrors.h"
+  #include "gdevprna.h"
+  #include "gdevpccm.h"
+  #include "gdevbmp.h"
+  #include "gpsync.h"
++ #include "errors.h"
++ 
++ #include <dlfcn.h>
++ 
++ const static int fDebugOutput = 0;
+  
+  #define DEVICES_DEFINED
+  
+  typedef struct _HWMAR
+  {
+***************
+*** 104,142 ****
+  {
+    int iBitCount;
+    int iPlanes;
+  } PRINTMODE;
+  
+  /*
+   *   Prototypes for routines that we will be calling into the core Omni code
+   *   to resolve
+   */
+! 
+! long DiffusionDither(PDDI pdi, PIMAGEINFO pimg_infos, PBYTE *pBuffer, ULONG ulFlgs);
+! bool GetPrintModeInfo(void *pDev, PRINTMODE *pPrtMode);
+! bool GetResolutionInfo( void *pDev, HWRESOLUTION * hwRes);
+! bool GetMarginInfo( void *pDev, HWMARGINS * hwMargins);
+! void EndJob(void *pDev, void *pOutputObject);
+! void BeginJob(void *pDev, FILE *pFile);
+! void Rasterize(void *pDevice,
+!                PBYTE             pbBits,
+!                PBITMAPINFO2      pbmi,
+!                PSIZEL            psizelPage,
+!                PRECTL            prectlPageLocation,
+!                BITBLT_TYPE       eType);
+! 
+! void * createDevice (char *pszDeviceName,
+!                       char *pszOrientation,
+!                       char *pszForm,
+!                       char *pszTray,
+!                       char *pszMedia,
+!                       char *pszResolution,
+!                       char *pszDithering,
+!                       char *pszPrintMode,
+!                       char *pszDebugFile,
+!                       void *pOutputObject);
+! 
+  
+  ULONG FindBandSize(ULONG ulYHeight, ULONG ulXWidth, ULONG ulBitsPerPel, ULONG ulNumPlanes,
+                              ULONG ulModulus, ULONG ulMemoryLimit);
+  
+  #define uint32 unsigned long
+--- 107,150 ----
+  {
+    int iBitCount;
+    int iPlanes;
+  } PRINTMODE;
+  
++ long DiffusionDither(PDDI pdi, PIMAGEINFO pimg_infos, PBYTE *pBuffer, ULONG ulFlgs);
++ 
+  /*
+   *   Prototypes for routines that we will be calling into the core Omni code
+   *   to resolve
+   */
+! typedef bool   (*PFNGETPRINTMODEINFO)  (void         *pDev,
+!                                         PRINTMODE    *pPrtMode);
+! typedef bool   (*PFNGETRESOLUTIONINFO) (void         *pDev,
+!                                         HWRESOLUTION *hwRes);
+! typedef bool   (*PFNGETMARGININFO)     (void         *pDev,
+!                                         HWMARGINS    *hwMargins);
+! typedef void   (*PFNBEGINJOB)          (void         *pDev,
+!                                         FILE         *pFile);
+! typedef void   (*PFNENDJOB)            (void         *pDev,
+!                                         void         *pOutputObject);
+! typedef void   (*PFNRASTERIZE)         (void         *pDevice,
+!                                         PBYTE         pbBits,
+!                                         PBITMAPINFO2  pbmi,
+!                                         PSIZEL        psizelPage,
+!                                         PRECTL        prectlPageLocation,
+!                                         BITBLT_TYPE   eType);
+! typedef void * (*PFNCREATEDEVICE)      (char         *pszDeviceName,
+!                                         char         *pszOrientation,
+!                                         char         *pszForm,
+!                                         char         *pszTray,
+!                                         char         *pszMedia,
+!                                         char         *pszResolution,
+!                                         char         *pszDithering,
+!                                         char         *pszPrintMode,
+!                                         char         *pszDebugFile,
+!                                         void         *pOutputObject,
+!                                         void        **vhDevice);
+! typedef void   (*PFNDELETEDEVICE)      (void         *pDevice);
+  
+  ULONG FindBandSize(ULONG ulYHeight, ULONG ulXWidth, ULONG ulBitsPerPel, ULONG ulNumPlanes,
+                              ULONG ulModulus, ULONG ulMemoryLimit);
+  
+  #define uint32 unsigned long
+***************
+*** 167,176 ****
+--- 175,185 ----
+      w10, h10, xdpi, ydpi, lm, tm, lm, bm, rm, tm, color_bits, print_page),\
+    0, 0L\
+  }
+  
+  private dev_proc_open_device(OpenDevice);
++ private dev_proc_close_device(CloseDevice);
+  private prn_dev_proc_open_render_device(OpenRenderDevice);
+  private dev_proc_print_page_copies(PrintPage);
+  private prn_dev_proc_buffer_page(BufferPage);
+  private dev_proc_output_page(PrintPageMultiple);
+  private dev_proc_put_params(SetupDevice);
+***************
+*** 187,197 ****
+  private gx_device_procs omni16m_procs = {
+                    OpenDevice,          //  open_device
+                    NULL,                      //  get_initial_matrix
+                    NULL,                      //  sync_output
+                    gdev_prn_output_page,      //  output_page
+!                   gdev_prn_close,            //  close_device
+                    bmp_map_16m_rgb_color,     //  map_rgb_color
+                    bmp_map_16m_color_rgb,     //  map_color_rgb
+                    NULL,                          /** fill_rectangle */
+                    NULL,                          /** tile_rectangle */
+                    NULL,                          /** copy_mono */
+--- 196,206 ----
+  private gx_device_procs omni16m_procs = {
+                    OpenDevice,          //  open_device
+                    NULL,                      //  get_initial_matrix
+                    NULL,                      //  sync_output
+                    gdev_prn_output_page,      //  output_page
+!                   CloseDevice,               //  close_device
+                    bmp_map_16m_rgb_color,     //  map_rgb_color
+                    bmp_map_16m_color_rgb,     //  map_color_rgb
+                    NULL,                          /** fill_rectangle */
+                    NULL,                          /** tile_rectangle */
+                    NULL,                          /** copy_mono */
+***************
+*** 220,252 ****
+  
+  #define MAX_LENGTH 65
+  
+  struct _DevStruct { /* All omni specific data */
+  
+!    char                  cFormName[MAX_LENGTH];  // form name chosen
+     char                  cDeviceName[MAX_LENGTH];
+     char                  cOrientation[MAX_LENGTH]; // Orientation chosen
+     char                  cTray[MAX_LENGTH];
+     char                  cMedia[MAX_LENGTH];
+     char                  cResolution[MAX_LENGTH];  // high-medium-draft
+!    char                  cPrintMode[MAX_LENGTH]; // Color depth chosen
+!    char                  cDither[MAX_LENGTH];  /* text value for dither */
+!    char                  cDebugFile[MAX_LENGTH];  /* text value for dither */
+     char                  cOutput[MAX_LENGTH];
+!    void                  *pOutputObject;         // can be used for redirecting cerr in C++ section
+!    void                  *pDevice;             // pointer to the device
+  
+     int                   iVertDots;
+     int                   width;
+     int                   height;
+- //   opd_proc_render(     (*render));   /* Actual Rendering */
+- 
+  
+!    byte                  *outbuf;     /* Output-Buffer */
+  
+!    int                    iPage;
+!    int                    iSetup;
+  };             /* All upd-specific data */
+  
+  
+  /* --------- Forward declarations ---------- */
+  
+--- 229,270 ----
+  
+  #define MAX_LENGTH 65
+  
+  struct _DevStruct { /* All omni specific data */
+  
+!    char                  cFormName[MAX_LENGTH];    // form name chosen
+     char                  cDeviceName[MAX_LENGTH];
+     char                  cOrientation[MAX_LENGTH]; // Orientation chosen
+     char                  cTray[MAX_LENGTH];
+     char                  cMedia[MAX_LENGTH];
+     char                  cResolution[MAX_LENGTH];  // high-medium-draft
+!    char                  cPrintMode[MAX_LENGTH];   // Color depth chosen
+!    char                  cDither[MAX_LENGTH];      /* text value for dither */
+!    char                  cDebugFile[MAX_LENGTH];   /* text value for dither */
+     char                  cOutput[MAX_LENGTH];
+!    void                 *pOutputObject;            // can be used for redirecting cerr in C++ section
+!    void                 *pDevice;                  // pointer to the device
+! 
+!    void                 *vhOmni;                   // handle to libomni.so
+!    void                 *vhDevice;                 // handle to libDeviceXXX.so
+!    PFNGETPRINTMODEINFO   pfnGetPrintModeInfo;
+!    PFNGETRESOLUTIONINFO  pfnGetResolutionInfo;
+!    PFNGETMARGININFO      pfnGetMarginInfo;
+!    PFNBEGINJOB           pfnBeginJob;
+!    PFNENDJOB             pfnEndJob;
+!    PFNRASTERIZE          pfnRasterize;
+!    PFNCREATEDEVICE       pfnCreateDevice;
+!    PFNDELETEDEVICE       pfnDeleteDevice;
+  
+     int                   iVertDots;
+     int                   width;
+     int                   height;
+  
+!    byte                 *outbuf;     /* Output-Buffer */
+  
+!    int                   iPage;
+!    int                   iSetup;
+  };             /* All upd-specific data */
+  
+  
+  /* --------- Forward declarations ---------- */
+  
+***************
+*** 257,271 ****
+--- 275,299 ----
+  /* Writer's open procedure */
+  private int
+  OpenDevice(gx_device *pdev  /* Driver instance to open */)
+  {
+      gx_device_async * const pwdev = (gx_device_async *)pdev;
++     pDevStruct              pDev  = pwdev->pDev;
+      int max_width;
+      int max_raster;
+      int min_band_height;
+      int max_src_image_row;
+  
++     if (!pDev->vhOmni)
++     {
++        /* SetupDevice is called before OpenDevice is called.  Therefore, the
++        ** initial loading of the omni driver is done there.  If that has failed
++        ** (the library handle is 0), then fail this call.
++        */
++        return e_Fatal;
++     }
++ 
+      /*
+       * Set up device's printer proc vector to point to this driver, since
+       * there are no convenient macros for setting them up in static template.
+       */
+      init_async_render_procs(pwdev, StartRenderThread,
+***************
+*** 293,302 ****
+--- 321,357 ----
+      return gdev_prn_async_write_open((gx_device_printer *)pdev,
+                       max_raster, min_band_height,
+                       max_src_image_row);
+  }
+  
++ int
++ CloseDevice (gx_device * pdev)
++ {
++    gx_device_async * const pwdev = (gx_device_async *)pdev;
++    pDevStruct              pDev  = pwdev->pDev;
++ 
++    if (pDev->pDevice)
++    {
++       pDev->pfnDeleteDevice (pDev->pDevice);
++       pDev->pDevice = 0;
++    }
++ 
++    if (pDev->vhDevice)
++    {
++       dlclose (pDev->vhDevice);
++       pDev->vhDevice = 0;
++    }
++ 
++    if (pDev->vhOmni)
++    {
++       dlclose (pDev->vhOmni);
++       pDev->vhOmni = 0;
++    }
++ 
++    return gdev_prn_close (pdev);
++ }
++ 
+  /* -------------- Renderer instance procedures ----------*/
+  
+  /* Thread to do rendering, started by StartRenderThread */
+  private void
+  RenderThread(void *params)
+***************
+*** 392,406 ****
+      BITMAPINFO2 *pbmi;
+  
+  
+      pDevStruct pDev = pasyncDev->pDev;
+  
+!     pDev->iPage++ ;
+  
+!     bRet = GetPrintModeInfo(pasyncDev->pDev->pDevice,&prtMode);
+  
+!     iNumColors = 1 << prtMode.iBitCount ;
+  
+      // Allocate a full bitmapinfo2 and bitmap header message
+      iBytesToAlloc = sizeof (BITMAPINFO2);
+      if (256 >= iNumColors)
+      {
+--- 447,461 ----
+      BITMAPINFO2 *pbmi;
+  
+  
+      pDevStruct pDev = pasyncDev->pDev;
+  
+!     pDev->iPage++;
+  
+!     bRet = pDev->pfnGetPrintModeInfo (pasyncDev->pDev->pDevice, &prtMode);
+  
+!     iNumColors = 1 << prtMode.iBitCount;
+  
+      // Allocate a full bitmapinfo2 and bitmap header message
+      iBytesToAlloc = sizeof (BITMAPINFO2);
+      if (256 >= iNumColors)
+      {
+***************
+*** 474,492 ****
+      /* set the bitmap width to match the page */
+  
+      pbmi->cx = pgx_prt_dev->width;
+  
+  #if _DEBUG
+! 
+!     fprintf(stderr, "***************************************************************\n");
+!     fprintf(stderr, "***************************************************************\n");
+!     fprintf(stderr, "ulTrgBytesPerLine = %d \n",ImageInfo.ulTrgBytesPerLine );
+!     fprintf(stderr, "ulBytesPerLine = %d \n",uiBytesPerLine );
+!     fprintf(stderr, "ulLineSize = %d \n",uiLineSize );
+!     fprintf(stderr, "         width = %d \n  height = %d \n", pgx_prt_dev->width, pgx_prt_dev->height);
+!     fprintf(stderr, "***************************************************************\n");
+!     fprintf(stderr, "***************************************************************\n");
+  #endif
+  
+      pbmi->cPlanes   = prtMode.iPlanes;   /* Number of bit planes                   */
+      pbmi->cBitCount = prtMode.iBitCount; /*  number of bits per pel                */
+  
+--- 529,546 ----
+      /* set the bitmap width to match the page */
+  
+      pbmi->cx = pgx_prt_dev->width;
+  
+  #if _DEBUG
+!     if (fDebugOutput) fprintf(stderr, "***************************************************************\n");
+!     if (fDebugOutput) fprintf(stderr, "***************************************************************\n");
+!     if (fDebugOutput) fprintf(stderr, "ulTrgBytesPerLine = %d \n",ImageInfo.ulTrgBytesPerLine );
+!     if (fDebugOutput) fprintf(stderr, "ulBytesPerLine = %d \n",uiBytesPerLine );
+!     if (fDebugOutput) fprintf(stderr, "ulLineSize = %d \n",uiLineSize );
+!     if (fDebugOutput) fprintf(stderr, "         width = %d \n  height = %d \n", pgx_prt_dev->width, pgx_prt_dev->height);
+!     if (fDebugOutput) fprintf(stderr, "***************************************************************\n");
+!     if (fDebugOutput) fprintf(stderr, "***************************************************************\n");
+  #endif
+  
+      pbmi->cPlanes   = prtMode.iPlanes;   /* Number of bit planes                   */
+      pbmi->cBitCount = prtMode.iBitCount; /*  number of bits per pel                */
+  
+***************
+*** 546,566 ****
+         fprintf(stderr, "            Bitmap memory alloc Failed \n");
+         return_error(gs_error_VMerror);
+     }
+  
+  
+!      // Do initial setup for Rasterize for dithering work on the page.
+  
+!    rectPageLocation.xLeft    = 0 ;
+  
+!    rectPageLocation.xRight   = pasyncDev->width ;
+  
+!    BeginJob(pasyncDev->pDev->pDevice, prn_stream);
+  
+! //   rectPageLocation.yTop = rectPageLocation.yBottom  = 0;  @@10172000
+  
+!      rectPageLocation.yTop =  pasyncDev->height-1;       // @@10172000
+  
+     /*
+      *    Banding Implementation based on bandsize - need to put bits in place so that we can
+      *    tell if this is a top to down or bottom to top printer.
+      */
+--- 600,620 ----
+         fprintf(stderr, "            Bitmap memory alloc Failed \n");
+         return_error(gs_error_VMerror);
+     }
+  
+  
+!    // Do initial setup for Rasterize for dithering work on the page.
+  
+!    rectPageLocation.xLeft    = 0;
+  
+!    rectPageLocation.xRight   = pasyncDev->width;
+  
+!    pDev->pfnBeginJob (pasyncDev->pDev->pDevice, prn_stream);
+  
+! // rectPageLocation.yTop = rectPageLocation.yBottom  = 0;  @@10172000
+  
+!    rectPageLocation.yTop =  pasyncDev->height-1;       // @@10172000
+  
+     /*
+      *    Banding Implementation based on bandsize - need to put bits in place so that we can
+      *    tell if this is a top to down or bottom to top printer.
+      */
+***************
+*** 641,686 ****
+  
+             // If this in a mono device, we need to send the mono data to the device and
+             // not the color
+             if(pMonoData)
+             {
+!                Rasterize(pasyncDev->pDev->pDevice,
+!                           pMonoData,
+!                           pbmi,
+!                           &sizelPage,
+!                           &rectPageLocation,
+!                           BITBLT_BITMAP);
+! 
+!             // We're done with the mono band
+!             // now free up the mono buffer so we can get clean data buffer if more lines are to be
+!             // gray-scaled
+  
+!                 gs_free((char *)pMonoData, iYBand * ImageInfo.ulTrgBytesPerLine, 1, "Mono Memory");
+!                 pMonoData = NULL;
+  
+             }
+             else
+             {  // non-mono device -- Send the rgb bitmap to the dither and rasterize routines
+!              fprintf(stderr, "rendering band lines %d - %d w/%d \n", rectPageLocation.yTop, rectPageLocation.yBottom, iYBand);
+  #if _DEBUG   //@@10172000
+!            fprintf(stderr, "***************************************************************\n");
+!            fprintf(stderr, "***************************************************************\n");
+!            fprintf(stderr, "Number of lines in band = %d\n", iYBand);
+!            fprintf(stderr, "rectPageLocation - Top = %d\n", rectPageLocation.yTop);
+!            fprintf(stderr, "rectPageLocation - Bot = %d\n", rectPageLocation.yBottom);
+  
+!            fprintf(stderr, "***************************************************************\n");
+!            fprintf(stderr, "***************************************************************\n");
+  #endif
+!                Rasterize(pasyncDev->pDev->pDevice,
+!                           pBitmapTop - ((iYBand-1) * uiBytesPerLine),
+!                           pbmi,
+!                           &sizelPage,
+!                           &rectPageLocation,
+!                           BITBLT_BITMAP);
+                                                        // memset the memory to white
+!                memset(pBitmapMem, 0xFF, uiBytesPerLine * ulBandLength );
+             }
+  
+              // implemented based on the number of lines sent to the
+              // printer and not based on the bandsize
+  
+--- 695,740 ----
+  
+             // If this in a mono device, we need to send the mono data to the device and
+             // not the color
+             if(pMonoData)
+             {
+!               pDev->pfnRasterize (pasyncDev->pDev->pDevice,
+!                                   pMonoData,
+!                                   pbmi,
+!                                   &sizelPage,
+!                                   &rectPageLocation,
+!                                   BITBLT_BITMAP);
+! 
+!               // We're done with the mono band
+!               // now free up the mono buffer so we can get clean data buffer if more lines are to be
+!               // gray-scaled
+  
+!               gs_free((char *)pMonoData, iYBand * ImageInfo.ulTrgBytesPerLine, 1, "Mono Memory");
+!               pMonoData = NULL;
+  
+             }
+             else
+             {  // non-mono device -- Send the rgb bitmap to the dither and rasterize routines
+!               fprintf(stderr, "rendering band lines %d - %d w/%d \n", (int)rectPageLocation.yTop, (int)rectPageLocation.yBottom, iYBand);
+  #if _DEBUG   //@@10172000
+!               if (fDebugOutput) fprintf(stderr, "***************************************************************\n");
+!               if (fDebugOutput) fprintf(stderr, "***************************************************************\n");
+!               if (fDebugOutput) fprintf(stderr, "Number of lines in band = %d\n", iYBand);
+!               if (fDebugOutput) fprintf(stderr, "rectPageLocation - Top = %d\n", rectPageLocation.yTop);
+!               if (fDebugOutput) fprintf(stderr, "rectPageLocation - Bot = %d\n", rectPageLocation.yBottom);
+  
+!               if (fDebugOutput) fprintf(stderr, "***************************************************************\n");
+!               if (fDebugOutput) fprintf(stderr, "***************************************************************\n");
+  #endif
+!               pDev->pfnRasterize (pasyncDev->pDev->pDevice,
+!                                   pBitmapTop - ((iYBand-1) * uiBytesPerLine),
+!                                   pbmi,
+!                                   &sizelPage,
+!                                   &rectPageLocation,
+!                                   BITBLT_BITMAP);
+                                                        // memset the memory to white
+!               memset(pBitmapMem, 0xFF, uiBytesPerLine * ulBandLength );
+             }
+  
+              // implemented based on the number of lines sent to the
+              // printer and not based on the bandsize
+  
+***************
+*** 699,709 ****
+  
+     /***
+      *     WE NEED TO TERMINATE HERE!!!!!!!!!
+      *
+      ***/
+!    EndJob(pasyncDev->pDev->pDevice,pasyncDev->pDev->pOutputObject );
+  
+  done:
+  
+      gs_free((char *) pBitmapMem, uiBytesPerLine * ulBandLength, 1, "Bitmap Memory");
+      fprintf(stderr, "Page Completed\n");
+--- 753,763 ----
+  
+     /***
+      *     WE NEED TO TERMINATE HERE!!!!!!!!!
+      *
+      ***/
+!    pDev->pfnEndJob (pasyncDev->pDev->pDevice, pasyncDev->pDev->pOutputObject);
+  
+  done:
+  
+      gs_free((char *) pBitmapMem, uiBytesPerLine * ulBandLength, 1, "Bitmap Memory");
+      fprintf(stderr, "Page Completed\n");
+***************
+*** 986,1009 ****
+  /* IMPORTANT: async drivers must NOT CLOSE the device while doing put_params.*/
+  
+  private int
+  SetupDevice(gx_device *pgxdev, gs_param_list *plist)
+  {
+!     int iReturnCode;
+!     BOOL bRet;
+!     HWMARGINS    hwMargins;
+!     HWRESOLUTION hwRes;
+! 
+! 
+!    gx_device_async * const prgxdev = (gx_device_async *)pgxdev;
+!    pDevStruct      pDev    = prgxdev->pDev;
+! 
+! 
+! // gs_param_string =    data, size, persistant + byte data
+! 
+!    gs_param_string fname = { NULL, 0, false };
+!    gs_param_string deffname = { NULL, 0, false };
+  
+     if (pDev == NULL)
+     {
+         pDevStruct p;
+  
+--- 1040,1059 ----
+  /* IMPORTANT: async drivers must NOT CLOSE the device while doing put_params.*/
+  
+  private int
+  SetupDevice(gx_device *pgxdev, gs_param_list *plist)
+  {
+!    int                     iReturnCode;
+!    BOOL                    bRet;
+!    HWMARGINS               hwMargins;
+!    HWRESOLUTION            hwRes;
+!    gx_device_async * const prgxdev  = (gx_device_async *)pgxdev;
+!    pDevStruct              pDev     = prgxdev->pDev;
+! 
+! // gs_param_string         =    data, size, persistant + byte data
+!    gs_param_string         fname    = { NULL, 0, false };
+!    gs_param_string         deffname = { NULL, 0, false };
+  
+     if (pDev == NULL)
+     {
+         pDevStruct p;
+  
+***************
+*** 1020,1033 ****
+         {
+            return 1;
+         }
+         else
+         {
+!           memset ( pDev, 0, sizeof ( Omni_Dev) );
+         }
+     }
+  
+  
+  //   device name in structure - need to fail if none
+     fname = deffname;
+     iReturnCode = param_read_string(plist,"DeviceName",&fname);
+     if(0 > iReturnCode)
+--- 1070,1141 ----
+         {
+            return 1;
+         }
+         else
+         {
+!           memset (pDev, 0, sizeof (Omni_Dev));
+         }
+     }
+  
++    if (!pDev->vhOmni)
++    {
++       pDev->vhOmni = dlopen ("libomni.so", RTLD_NOW | RTLD_GLOBAL);
++ 
++       if (!pDev->vhOmni)
++       {
++          // Failure!
++          fprintf (stderr, "Could not load libomni.so!\n");
++          return 1;
++       }
++ 
++       pDev->pfnGetPrintModeInfo = (PFNGETPRINTMODEINFO)dlsym (pDev->vhOmni, "GetPrintModeInfo");
++ 
++       if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (GetPrintModeInfo) = 0x%08x\n", (int)pDev->pfnGetPrintModeInfo);
++ 
++       pDev->pfnGetResolutionInfo = (PFNGETRESOLUTIONINFO)dlsym (pDev->vhOmni, "GetResolutionInfo");
++ 
++       if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (GetResolutionInfo) = 0x%08x\n", (int)pDev->pfnGetResolutionInfo);
++ 
++       pDev->pfnGetMarginInfo = (PFNGETMARGININFO)dlsym (pDev->vhOmni, "GetMarginInfo");
++ 
++       if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (GetMarginInfo) = 0x%08x\n", (int)pDev->pfnGetMarginInfo);
++ 
++       pDev->pfnBeginJob = (PFNBEGINJOB)dlsym (pDev->vhOmni, "BeginJob");
++ 
++       if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (BeginJob) = 0x%08x\n", (int)pDev->pfnBeginJob);
++ 
++       pDev->pfnEndJob = (PFNENDJOB)dlsym (pDev->vhOmni, "EndJob");
++ 
++       if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (EndJob) = 0x%08x\n", (int)pDev->pfnEndJob);
++ 
++       pDev->pfnRasterize = (PFNRASTERIZE)dlsym (pDev->vhOmni, "Rasterize");
++ 
++       if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (Rasterize) = 0x%08x\n", (int)pDev->pfnRasterize);
++ 
++       pDev->pfnCreateDevice = (PFNCREATEDEVICE)dlsym (pDev->vhOmni, "createDevice");
++ 
++       if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (createDevice) = 0x%08x\n", (int)pDev->pfnCreateDevice);
++ 
++       if (  !pDev->pfnCreateDevice
++          || !pDev->pfnBeginJob
++          || !pDev->pfnEndJob
++          || !pDev->pfnRasterize
++          || !pDev->pfnGetPrintModeInfo
++          || !pDev->pfnGetResolutionInfo
++          || !pDev->pfnGetMarginInfo
++          )
++       {
++          // Failure!
++          fprintf (stderr, "Could not load required entry point from libomni.so!\n");
++ 
++          dlclose (pDev->vhOmni);
++          pDev->vhOmni = 0;
++ 
++          return 1;
++       }
++    }
++ 
+  
+  //   device name in structure - need to fail if none
+     fname = deffname;
+     iReturnCode = param_read_string(plist,"DeviceName",&fname);
+     if(0 > iReturnCode)
+***************
+*** 1234,1291 ****
+     if(pDev->iSetup != 1)
+     {
+            // create a device based on the user supplied inputs
+            // To-Do - free the device
+  #if _DEBUG
+!           fprintf(stderr,"setting following options on CreateDevice\n");
+!           fprintf(stderr,"Dither = %s\n", pDev->cDither);
+!           fprintf(stderr,"resolution = %s \n", pDev->cResolution );
+!           fprintf(stderr,"DeviceName= %s\n", pDev->cDeviceName );
+!           fprintf(stderr,"FormName= %s\n", pDev->cFormName );
+!           fprintf(stderr,"PrintMode= %s\n", pDev->cPrintMode );
+!           fprintf(stderr,"media = %s \n", pDev->cMedia );
+!           fprintf(stderr,"debug parameter = %s \n", pDev->cDebugFile );
+  #endif
+            /*
+             *  Create a device definition by using the input parameters as the
+             *  the defining factors
+             */
+  
+  
+!       if(!pDev->cDeviceName[0] )
+        {
+!           bRet = gdev_prn_put_params(prgxdev, plist);
+            return bRet;
+        }
+!       pDev->pDevice = createDevice (pDev->cDeviceName,
+!                                     "ORIENTATION_PORTRAIT",//pDev->cOrientation,
+!                                     pDev->cFormName,
+!                                     pDev->cTray,
+!                                     pDev->cMedia,
+!                                     pDev->cResolution,
+!                                     pDev->cDither,
+!                                     pDev->cPrintMode,
+!                                     pDev->cDebugFile,
+!                                     pDev->pOutputObject);
+  
+        if (!pDev->pDevice)
+        {
+           return -1;  // fail if no device was created
+        }
+!                         //** this routine is called multiple times
+        pDev->iSetup = 1;  //** don't go setting up new devices
+  
+        // get the hardware resolution information
+  
+!       bRet = GetResolutionInfo(pDev->pDevice, &hwRes);
+  
+        if(!bRet)
+            return -1;
+  
+        // get the hardware page margins information
+  
+!       bRet = GetMarginInfo(pDev->pDevice, &hwMargins);
+  
+        if(!bRet)
+            return -1;
+  
+        /*
+--- 1342,1405 ----
+     if(pDev->iSetup != 1)
+     {
+            // create a device based on the user supplied inputs
+            // To-Do - free the device
+  #if _DEBUG
+!           if (fDebugOutput) fprintf(stderr,"setting following options on CreateDevice\n");
+!           if (fDebugOutput) fprintf(stderr,"Dither = %s\n", pDev->cDither);
+!           if (fDebugOutput) fprintf(stderr,"resolution = %s \n", pDev->cResolution );
+!           if (fDebugOutput) fprintf(stderr,"DeviceName= %s\n", pDev->cDeviceName );
+!           if (fDebugOutput) fprintf(stderr,"FormName= %s\n", pDev->cFormName );
+!           if (fDebugOutput) fprintf(stderr,"PrintMode= %s\n", pDev->cPrintMode );
+!           if (fDebugOutput) fprintf(stderr,"media = %s \n", pDev->cMedia );
+!           if (fDebugOutput) fprintf(stderr,"debug parameter = %s \n", pDev->cDebugFile );
+  #endif
+            /*
+             *  Create a device definition by using the input parameters as the
+             *  the defining factors
+             */
+  
+  
+!       if (!pDev->cDeviceName[0])
+        {
+!           bRet = gdev_prn_put_params (prgxdev, plist);
+            return bRet;
+        }
+!       pDev->pDevice = pDev->pfnCreateDevice (pDev->cDeviceName,
+!                                              "ORIENTATION_PORTRAIT",//pDev->cOrientation,
+!                                              pDev->cFormName,
+!                                              pDev->cTray,
+!                                              pDev->cMedia,
+!                                              pDev->cResolution,
+!                                              pDev->cDither,
+!                                              pDev->cPrintMode,
+!                                              pDev->cDebugFile,
+!                                              pDev->pOutputObject,
+!                                              &pDev->vhDevice);
+  
+        if (!pDev->pDevice)
+        {
+           return -1;  // fail if no device was created
+        }
+! 
+!                          //** this routine is called multiple times
+        pDev->iSetup = 1;  //** don't go setting up new devices
+  
++       pDev->pfnDeleteDevice = (PFNDELETEDEVICE)dlsym (pDev->vhDevice, "deleteDevice__FP6Device");
++ 
++       if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (deleteDevice__FP6Device) = 0x%08x\n", (int)pDev->pfnDeleteDevice);
++ 
+        // get the hardware resolution information
+  
+!       bRet = pDev->pfnGetResolutionInfo (pDev->pDevice, &hwRes);
+  
+        if(!bRet)
+            return -1;
+  
+        // get the hardware page margins information
+  
+!       bRet = pDev->pfnGetMarginInfo (pDev->pDevice, &hwMargins);
+  
+        if(!bRet)
+            return -1;
+  
+        /*
+***************
+*** 1310,1323 ****
+  
+        // top margin
+        prgxdev->HWMargins[3] = (float) hwMargins.fTopClip/2540.0 *72.0;
+  
+        // set x resolution
+!       prgxdev->HWResolution[0] = (float) hwRes.xRes ;
+  
+        // set y resolution
+!       prgxdev->HWResolution[1] = (float) hwRes.yRes ;
+  
+        prgxdev->pDev->iVertDots = (float) hwRes.fScanDots;  // fill in the scan line
+     }                                                            // column size
+     iReturnCode = gdev_prn_put_params(prgxdev, plist);
+     return iReturnCode;  // likely not be a failure
+--- 1424,1437 ----
+  
+        // top margin
+        prgxdev->HWMargins[3] = (float) hwMargins.fTopClip/2540.0 *72.0;
+  
+        // set x resolution
+!       prgxdev->HWResolution[0] = (float) hwRes.xRes;
+  
+        // set y resolution
+!       prgxdev->HWResolution[1] = (float) hwRes.yRes;
+  
+        prgxdev->pDev->iVertDots = (float) hwRes.fScanDots;  // fill in the scan line
+     }                                                            // column size
+     iReturnCode = gdev_prn_put_params(prgxdev, plist);
+     return iReturnCode;  // likely not be a failure
+***************
+*** 1341,1359 ****
+     pDevStruct              pDev        = odev->pDev;
+  
+     int iReturnCode = 0;
+     gs_param_string    strdata;
+  
+!    char          *pszFormName   = "";
+!    char          *pszResolution = "";
+!    char          *pszDeviceName = "";
+!    char          *pszPrintMode  = "";
+!    char          *pszDither     = "";
+!    char          *pszQuality    = "";
+!    char          *pszTray       = "";
+!    char          *pszMedia      = "";
+!    char          *pszDebug      = "";
+     bool          bPersist = false;
+  
+     iReturnCode = gdev_prn_get_params ( pgxdev, plist );
+     if (pDev)
+     {
+--- 1455,1473 ----
+     pDevStruct              pDev        = odev->pDev;
+  
+     int iReturnCode = 0;
+     gs_param_string    strdata;
+  
+!    const char   *pszFormName   = "";
+!    const char   *pszResolution = "";
+!    const char   *pszDeviceName = "";
+!    const char   *pszPrintMode  = "";
+!    const char   *pszDither     = "";
+!    const char   *pszQuality    = "";
+!    const char   *pszTray       = "";
+!    const char   *pszMedia      = "";
+!    const char   *pszDebug      = "";
+     bool          bPersist = false;
+  
+     iReturnCode = gdev_prn_get_params ( pgxdev, plist );
+     if (pDev)
+     {
+***************
+*** 1508,1533 ****
+  235, 235, 236, 236, 237, 237, 238, 238, 239, 239, 240, 240, 240, 241, 241, 242,
+  242, 243, 243, 243, 244, 244, 245, 245, 246, 246, 246, 247, 247, 248, 248, 248,
+  249, 249, 250, 250, 251, 251, 251, 252, 252, 253, 253, 253, 254, 254, 255, 255};
+  
+  static BYTE magicbw[16][16] = {
+!        0xFF, 0x20, 0xd0, 0x30, 0xf2, 0x12, 0xc2, 0x22, 0xfd, 0x1d, 0xcd, 0x2d, 0xf3, 0x13, 0xc3, 0x23,
+!        0x50, 0xb0, 0x80, 0xa0, 0x42, 0xa2, 0x72, 0x92, 0x4d, 0xad, 0x7d, 0x9d, 0x43, 0xa3, 0x73, 0x93,
+!        0x40, 0xe0, 0x10, 0xf0, 0x32, 0xd2, 0x02, 0xe2, 0x3d, 0xdd, 0x0d, 0xed, 0x33, 0xd3, 0x03, 0xe3,
+!        0x90, 0x70, 0xc0, 0x60, 0x82, 0x62, 0xb2, 0x52, 0x8d, 0x6d, 0xbd, 0x5d, 0x83, 0x63, 0xb3, 0x53,
+!        0xf5, 0x15, 0xc5, 0x25, 0xfb, 0x1b, 0xcb, 0x2b, 0xf8, 0x18, 0xc8, 0x28, 0xfa, 0x1a, 0xca, 0x2a,
+!        0x45, 0xa5, 0x75, 0x95, 0x4b, 0xab, 0x7b, 0x9b, 0x48, 0xa8, 0x78, 0x98, 0x4a, 0xaa, 0x7a, 0x9a,
+!        0x35, 0xd5, 0x05, 0xe5, 0x3b, 0xdb, 0x0b, 0xeb, 0x38, 0xd8, 0x08, 0xe8, 0x3a, 0xda, 0x0a, 0xea,
+!        0x85, 0x65, 0xb5, 0x55, 0x8b, 0x6b, 0xbb, 0x5b, 0x88, 0x68, 0xb8, 0x58, 0x8a, 0x6a, 0xba, 0x5a,
+!        0xf4, 0x14, 0xc4, 0x24, 0xfe, 0x1e, 0xce, 0x2e, 0xf1, 0x11, 0xc1, 0x21, 0xff, 0x1f, 0xcf, 0x2f,
+!        0x44, 0xa4, 0x74, 0x94, 0x4e, 0xae, 0x7e, 0x9e, 0x41, 0xa1, 0x71, 0x91, 0x4f, 0xaf, 0x7f, 0x9f,
+!        0x34, 0xd4, 0x04, 0xe4, 0x3e, 0xde, 0x0e, 0xee, 0x31, 0xd1, 0x01, 0xe1, 0x3f, 0xdf, 0x0f, 0xef,
+!        0x84, 0x64, 0xb4, 0x54, 0x8e, 0x6e, 0xbe, 0x5e, 0x81, 0x61, 0xb1, 0x51, 0x8f, 0x6f, 0xbf, 0x5f,
+!        0xf9, 0x19, 0xc9, 0x29, 0xf7, 0x17, 0xc7, 0x27, 0xfc, 0x1c, 0xcc, 0x2c, 0xf6, 0x16, 0xc6, 0x26,
+!        0x49, 0xa9, 0x79, 0x99, 0x47, 0xa7, 0x77, 0x97, 0x4c, 0xac, 0x7c, 0x9c, 0x46, 0xa6, 0x76, 0x96,
+!        0x39, 0xd9, 0x09, 0xe9, 0x37, 0xd7, 0x07, 0xe7, 0x3c, 0xdc, 0x0c, 0xec, 0x36, 0xd6, 0x06, 0xe6,
+!        0x89, 0x69, 0xb9, 0x59, 0x87, 0x67, 0xb7, 0x57, 0x8c, 0x6c, 0xbc, 0x5c, 0x86, 0x66, 0xb6, 0x56 };
+  
+  
+  //  Local Prototypes:
+  VOID Dither4to1(PMDI,  PIMAGEINFO, ULONG);
+  VOID Dither8to1(PMDI,  PIMAGEINFO, ULONG);
+--- 1622,1647 ----
+  235, 235, 236, 236, 237, 237, 238, 238, 239, 239, 240, 240, 240, 241, 241, 242,
+  242, 243, 243, 243, 244, 244, 245, 245, 246, 246, 246, 247, 247, 248, 248, 248,
+  249, 249, 250, 250, 251, 251, 251, 252, 252, 253, 253, 253, 254, 254, 255, 255};
+  
+  static BYTE magicbw[16][16] = {
+!      { 0xFF, 0x20, 0xd0, 0x30, 0xf2, 0x12, 0xc2, 0x22, 0xfd, 0x1d, 0xcd, 0x2d, 0xf3, 0x13, 0xc3, 0x23 },
+!      { 0x50, 0xb0, 0x80, 0xa0, 0x42, 0xa2, 0x72, 0x92, 0x4d, 0xad, 0x7d, 0x9d, 0x43, 0xa3, 0x73, 0x93 },
+!      { 0x40, 0xe0, 0x10, 0xf0, 0x32, 0xd2, 0x02, 0xe2, 0x3d, 0xdd, 0x0d, 0xed, 0x33, 0xd3, 0x03, 0xe3 },
+!      { 0x90, 0x70, 0xc0, 0x60, 0x82, 0x62, 0xb2, 0x52, 0x8d, 0x6d, 0xbd, 0x5d, 0x83, 0x63, 0xb3, 0x53 },
+!      { 0xf5, 0x15, 0xc5, 0x25, 0xfb, 0x1b, 0xcb, 0x2b, 0xf8, 0x18, 0xc8, 0x28, 0xfa, 0x1a, 0xca, 0x2a },
+!      { 0x45, 0xa5, 0x75, 0x95, 0x4b, 0xab, 0x7b, 0x9b, 0x48, 0xa8, 0x78, 0x98, 0x4a, 0xaa, 0x7a, 0x9a },
+!      { 0x35, 0xd5, 0x05, 0xe5, 0x3b, 0xdb, 0x0b, 0xeb, 0x38, 0xd8, 0x08, 0xe8, 0x3a, 0xda, 0x0a, 0xea },
+!      { 0x85, 0x65, 0xb5, 0x55, 0x8b, 0x6b, 0xbb, 0x5b, 0x88, 0x68, 0xb8, 0x58, 0x8a, 0x6a, 0xba, 0x5a },
+!      { 0xf4, 0x14, 0xc4, 0x24, 0xfe, 0x1e, 0xce, 0x2e, 0xf1, 0x11, 0xc1, 0x21, 0xff, 0x1f, 0xcf, 0x2f },
+!      { 0x44, 0xa4, 0x74, 0x94, 0x4e, 0xae, 0x7e, 0x9e, 0x41, 0xa1, 0x71, 0x91, 0x4f, 0xaf, 0x7f, 0x9f },
+!      { 0x34, 0xd4, 0x04, 0xe4, 0x3e, 0xde, 0x0e, 0xee, 0x31, 0xd1, 0x01, 0xe1, 0x3f, 0xdf, 0x0f, 0xef },
+!      { 0x84, 0x64, 0xb4, 0x54, 0x8e, 0x6e, 0xbe, 0x5e, 0x81, 0x61, 0xb1, 0x51, 0x8f, 0x6f, 0xbf, 0x5f },
+!      { 0xf9, 0x19, 0xc9, 0x29, 0xf7, 0x17, 0xc7, 0x27, 0xfc, 0x1c, 0xcc, 0x2c, 0xf6, 0x16, 0xc6, 0x26 },
+!      { 0x49, 0xa9, 0x79, 0x99, 0x47, 0xa7, 0x77, 0x97, 0x4c, 0xac, 0x7c, 0x9c, 0x46, 0xa6, 0x76, 0x96 },
+!      { 0x39, 0xd9, 0x09, 0xe9, 0x37, 0xd7, 0x07, 0xe7, 0x3c, 0xdc, 0x0c, 0xec, 0x36, 0xd6, 0x06, 0xe6 },
+!      { 0x89, 0x69, 0xb9, 0x59, 0x87, 0x67, 0xb7, 0x57, 0x8c, 0x6c, 0xbc, 0x5c, 0x86, 0x66, 0xb6, 0x56 } };
+  
+  
+  //  Local Prototypes:
+  VOID Dither4to1(PMDI,  PIMAGEINFO, ULONG);
+  VOID Dither8to1(PMDI,  PIMAGEINFO, ULONG);
+***************
+*** 1567,1583 ****
+  /*                                                                           */
+  /*  Do our dithering for mono implemtation                                   */
+  /*                                                                           */
+  /*****************************************************************************/
+  
+! APIRET ditherit( x, y, val, divN, modN, magic )
+! ULONG x;
+! ULONG y;
+! ULONG val;
+! BYTE divN[256];
+! BYTE modN[256];
+! BYTE magic[16][16];
+  {
+      ULONG col;
+      ULONG row;
+      ULONG retval;
+  
+--- 1681,1691 ----
+  /*                                                                           */
+  /*  Do our dithering for mono implemtation                                   */
+  /*                                                                           */
+  /*****************************************************************************/
+  
+! APIRET ditherit( ULONG x, ULONG y, ULONG val, BYTE divN[256], BYTE modN[256], BYTE magic[16][16] )
+  {
+      ULONG col;
+      ULONG row;
+      ULONG retval;
+  
+***************
+*** 1997,2008 ****
+  BYTE rgb_16clr_tbl[3]   = { 0x00, 0x80, 0xFF };
+  BYTE rgb_16clr_tbl1[2]  = { 0x00, 0x80 };
+  BYTE rgb_16clr_tbl2[2]  = { 0x00, 0xFF };
+  BYTE grey_16clr_tbl[4]  = { 0x00, 0x80, 0xCC, 0xFF };
+  
+! BYTE magic2x2[2][2] = { 0x20,0xE0,
+!                         0xA0,0x60 };
+  
+  #define weight_r1(r0, r1, v, x) ((((r1 - v)*10) / (r1 - r0)) * x) / 10
+  
+  
+  /*****************************************************************************/
+--- 2105,2116 ----
+  BYTE rgb_16clr_tbl[3]   = { 0x00, 0x80, 0xFF };
+  BYTE rgb_16clr_tbl1[2]  = { 0x00, 0x80 };
+  BYTE rgb_16clr_tbl2[2]  = { 0x00, 0xFF };
+  BYTE grey_16clr_tbl[4]  = { 0x00, 0x80, 0xCC, 0xFF };
+  
+! BYTE magic2x2[2][2] = { { 0x20,0xE0 },
+!                         { 0xA0,0x60 } };
+  
+  #define weight_r1(r0, r1, v, x) ((((r1 - v)*10) / (r1 - r0)) * x) / 10
+  
+  
+  /*****************************************************************************/
+***************
+*** 2122,2132 ****
+     pHSV[0] = (BYTE)ulHue;
+     pHSV[1] = (BYTE)(ulSaturation == 0 ? 0 : ulSaturation - 1);
+     pHSV[2] = (BYTE)ulValue;
+     pHSV[3] = (BYTE)ulDelta;
+  }
+- 
+- 
+- 
+- 
+- 
+- 
+--- 2230,2234 ----
+Only in ../dynamic/gs5.50: jpeg
+Only in ../dynamic/gs5.50: libpng
+diff -C5 gs5.50/makefile ../dynamic/gs5.50/makefile
+*** gs5.50/makefile	Tue Feb 20 16:40:05 2001
+--- ../dynamic/gs5.50/makefile	Mon Feb 19 09:32:20 2001
+***************
+*** 36,48 ****
+  GLOBJDIR=./obj
+  PSSRCDIR=.
+  PSGENDIR=./obj
+  PSOBJDIR=./obj
+  
+- #OMNIDIR=Omni/antlr-2.7.0/Omni.mix/
+- OMNIDIR=Omni/
+- 
+  # Do not edit the next group of lines.
+  
+  #include $(COMMONDIR)/gccdefs.mak
+  #include $(COMMONDIR)/unixdefs.mak
+  #include $(COMMONDIR)/generic.mak
+--- 36,45 ----
+Only in ../dynamic/gs5.50: obj
+Only in ../dynamic/gs5.50: temp
+diff -C5 gs5.50/ugcclib.mak ../dynamic/gs5.50/ugcclib.mak
+*** gs5.50/ugcclib.mak	Tue Feb 20 16:39:56 2001
+--- ../dynamic/gs5.50/ugcclib.mak	Mon Feb 19 09:32:19 2001
+***************
+*** 66,76 ****
+  
+  GCFLAGS=-Wall -Wcast-qual -Wpointer-arith -Wstrict-prototypes -Wwrite-strings -fno-common
+  XCFLAGS=
+  CFLAGS=-g -O $(GCFLAGS) $(XCFLAGS)
+  LDFLAGS=$(XLDFLAGS)
+! EXTRALIBS=omni dl
+  XINCLUDE=-I/usr/local/X/include
+  XLIBDIRS=-L/usr/X11/lib
+  XLIBDIR=
+  XLIBS=Xt Xext X11
+  
+--- 66,76 ----
+  
+  GCFLAGS=-Wall -Wcast-qual -Wpointer-arith -Wstrict-prototypes -Wwrite-strings -fno-common
+  XCFLAGS=
+  CFLAGS=-g -O $(GCFLAGS) $(XCFLAGS)
+  LDFLAGS=$(XLDFLAGS)
+! EXTRALIBS=dl # @TBD - what to do on systems that dont have dlopen?
+  XINCLUDE=-I/usr/local/X/include
+  XLIBDIRS=-L/usr/X11/lib
+  XLIBDIR=
+  XLIBS=Xt Xext X11
+  
+diff -C5 gs5.50/unix-gcc.mak ../dynamic/gs5.50/unix-gcc.mak
+*** gs5.50/unix-gcc.mak	Tue Feb 20 16:40:05 2001
+--- ../dynamic/gs5.50/unix-gcc.mak	Mon Feb 19 09:32:20 2001
+***************
+*** 36,48 ****
+  GLOBJDIR=./obj
+  PSSRCDIR=.
+  PSGENDIR=./obj
+  PSOBJDIR=./obj
+  
+- #OMNIDIR=Omni/antlr-2.7.0/Omni.mix/
+- OMNIDIR=Omni/
+- 
+  # Do not edit the next group of lines.
+  
+  #include $(COMMONDIR)/gccdefs.mak
+  #include $(COMMONDIR)/unixdefs.mak
+  #include $(COMMONDIR)/generic.mak
+--- 36,45 ----
+diff -C5 gs5.50/unixtail.mak ../dynamic/gs5.50/unixtail.mak
+*** gs5.50/unixtail.mak	Tue Feb 20 16:39:56 2001
+--- ../dynamic/gs5.50/unixtail.mak	Mon Feb 19 09:32:20 2001
+***************
+*** 142,167 ****
+  # The resetting of the environment variables to empty strings is for SCO Unix,
+  # which has limited environment space.
+  
+  ldt_tr=$(PSOBJ)ldt.tr
+  
+! # We just need to add the Omni print filter additions into here.  It will allow
+! # us to resolve the calls in gomni.c to build omni.dev.  The source to Omni
+! # is C++ so we will have to link in the interface code, OmniInterface.o, here.
+! 
+! 
+! 
+! LIBFLAG=-L$(OMNIDIR)
+! OMNILIB=omni
+! DYNAMICLIB=dl
+  $(GS_XE): $(ld_tr) $(ECHOGS_XE) $(XE_ALL)
+- #$(ECHOGS_XE) -w $(ldt_tr) -n - $(CCLD) $(LDFLAGS) $(XLIBDIRS)  -o $(GS_XE)
+  	$(ECHOGS_XE) -w $(ldt_tr) -n - $(CCLDPLUS) $(LDFLAGS) $(XLIBDIRS) $(LIBFLAG) -o $(GS_XE)
+  	$(ECHOGS_XE) -a $(ldt_tr) -n -s $(PSOBJ)gs.$(OBJ) -s
+  	cat $(ld_tr) >>$(ldt_tr)
+! 	$(ECHOGS_XE) -a $(ldt_tr) -n -q $(OMNIDIR)OmniInterface.o -s
+! 	$(ECHOGS_XE) -a $(ldt_tr) -n - -l$(OMNILIB) -l$(DYNAMICLIB)
+  	$(ECHOGS_XE) -a $(ldt_tr) -s  - $(EXTRALIBS) -lm
+  	LD_RUN_PATH=$(XLIBDIR); export LD_RUN_PATH; \
+  	XCFLAGS= XINCLUDE= XLDFLAGS= XLIBDIRS= XLIBS= \
+  	FEATURE_DEVS= DEVICE_DEVS= DEVICE_DEVS1= DEVICE_DEVS2= DEVICE_DEVS3= \
+  	DEVICE_DEVS4= DEVICE_DEVS5= DEVICE_DEVS6= DEVICE_DEVS7= DEVICE_DEVS8= \
+--- 142,161 ----
+  # The resetting of the environment variables to empty strings is for SCO Unix,
+  # which has limited environment space.
+  
+  ldt_tr=$(PSOBJ)ldt.tr
+  
+! # @TBD - what to do on systems that dont have dlopen?
+! LIBDLOPEN= -ldl
+! # @TBD - we still need the stdc++ library otherwise we trap in exit() in gp_unix.c:60
+! LIBPATHCPP= -L/usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66
+! LIBCPP= -lstdc++
+  $(GS_XE): $(ld_tr) $(ECHOGS_XE) $(XE_ALL)
+  	$(ECHOGS_XE) -w $(ldt_tr) -n - $(CCLDPLUS) $(LDFLAGS) $(XLIBDIRS) $(LIBFLAG) -o $(GS_XE)
+  	$(ECHOGS_XE) -a $(ldt_tr) -n -s $(PSOBJ)gs.$(OBJ) -s
+  	cat $(ld_tr) >>$(ldt_tr)
+! 	$(ECHOGS_XE) -a $(ldt_tr) -n - $(LIBDLOPEN) $(LIBCPP)
+  	$(ECHOGS_XE) -a $(ldt_tr) -s  - $(EXTRALIBS) -lm
+  	LD_RUN_PATH=$(XLIBDIR); export LD_RUN_PATH; \
+  	XCFLAGS= XINCLUDE= XLDFLAGS= XLIBDIRS= XLIBS= \
+  	FEATURE_DEVS= DEVICE_DEVS= DEVICE_DEVS1= DEVICE_DEVS2= DEVICE_DEVS3= \
+  	DEVICE_DEVS4= DEVICE_DEVS5= DEVICE_DEVS6= DEVICE_DEVS7= DEVICE_DEVS8= \
+Only in ../dynamic/gs5.50: zlib

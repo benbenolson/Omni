@@ -1,0 +1,625 @@
+diff -r -C5 /home/golden/gs6.51/src/contrib.mak /home/gs6.51/src/contrib.mak
+*** /home/golden/gs6.51/src/contrib.mak	Tue Jun  5 02:42:40 2001
+--- /home/gs6.51/src/contrib.mak	Wed Jun 13 10:43:41 2001
+***************
+*** 482,492 ****
+  
+  $(DD)omni.dev : $(GLOBJ)gomni.$(OBJ) $(DD)page.dev
+  	$(SETPDEV) $(DD)omni $(GLOBJ)gomni.$(OBJ)
+  
+  $(GLOBJ)gomni.$(OBJ) : $(GLSRC)gomni.c $(epclr_h1) $(PDEVH)
+! 	$(GLCC) $(GLO_)gomni.$(OBJ) $(C_) $(GLSRC)gomni.c
+  
+  ### --------------- Ugly/Update -> Unified Printer Driver ---------------- ###
+  ### For questions about this driver, please contact:                       ###
+  ###        Gunther Hess (gunther@elmos.de)                                 ###
+  
+--- 482,492 ----
+  
+  $(DD)omni.dev : $(GLOBJ)gomni.$(OBJ) $(DD)page.dev
+  	$(SETPDEV) $(DD)omni $(GLOBJ)gomni.$(OBJ)
+  
+  $(GLOBJ)gomni.$(OBJ) : $(GLSRC)gomni.c $(epclr_h1) $(PDEVH)
+! 	$(GLCC) $(GLO_)gomni.$(OBJ) `glib-config --cflags gmodule` $(C_) $(GLSRC)gomni.c
+  
+  ### --------------- Ugly/Update -> Unified Printer Driver ---------------- ###
+  ### For questions about this driver, please contact:                       ###
+  ###        Gunther Hess (gunther@elmos.de)                                 ###
+  
+diff -r -C5 /home/golden/gs6.51/src/gomni.c /home/gs6.51/src/gomni.c
+*** /home/golden/gs6.51/src/gomni.c	Tue Jun  5 17:29:53 2001
+--- /home/gs6.51/src/gomni.c	Wed Jun 13 10:51:01 2001
+***************
+*** 78,87 ****
+--- 78,90 ----
+  /*                                                                      */
+  /*    @@05052001A      Update mulitplier for .0001 mm vs. .001 mm       */
+  /*                                                                      */
+  /************************************************************************/
+  
++ // Include these first.  Ghostscript redefines printf
++ #include <glib.h>
++ #include <gmodule.h>
+  
+  #include "gdevprna.h"
+  #include "gdevpccm.h"
+  #include "gdevprn.h"
+  #include "gsparam.h"
+***************
+*** 91,102 ****
+  #include "gserrors.h"
+  #include "gpsync.h"
+  
+  #include "defs.h"
+  
+- #include <dlfcn.h>
+- 
+  const static int fDebugOutput = 0;
+  
+  #define DEVICES_DEFINED
+  #define ORIENTATION_STRING "orientation=ORIENTATION_PORTRAIT"
+  
+--- 94,103 ----
+***************
+*** 147,161 ****
+                                          PSIZEL        psizelPage,
+                                          PRECTL        prectlPageLocation,
+                                          BITBLT_TYPE   eType);
+  typedef void * (*PFNCREATEDEVICE)      (char         *pszDeviceName,
+                                          void         *pOutputObject,
+!                                         void        **vhDevice,
+                                          void         *pszDebugFile,
+                                          char         *pszOptions,
+                                          int           iUseClient,   //@@05092001
+!                                         FILE          *file);       //@@05092001
+  
+  typedef void   (*PFNDELETEDEVICE)      (void         *pDevice);
+  
+  typedef long   (*PFNMONODITHER)        (PDDI          pdi,           //@@04062001
+                                          PIMAGEINFO    pimg_infos,
+--- 148,162 ----
+                                          PSIZEL        psizelPage,
+                                          PRECTL        prectlPageLocation,
+                                          BITBLT_TYPE   eType);
+  typedef void * (*PFNCREATEDEVICE)      (char         *pszDeviceName,
+                                          void         *pOutputObject,
+!                                         GModule     **hmodDevice,
+                                          void         *pszDebugFile,
+                                          char         *pszOptions,
+                                          int           iUseClient,   //@@05092001
+!                                         FILE         *file);        //@@05092001
+  
+  typedef void   (*PFNDELETEDEVICE)      (void         *pDevice);
+  
+  typedef long   (*PFNMONODITHER)        (PDDI          pdi,           //@@04062001
+                                          PIMAGEINFO    pimg_infos,
+***************
+*** 200,211 ****
+     char                  cServerFile[256];        //@@05092001
+     char                 *pszOtherOptions;
+     void                 *pOutputObject;            // can be used for redirecting cerr in C++ section
+     void                 *pDevice;                  // pointer to the device
+  
+!    void                 *vhOmni;                   // handle to libomni.so
+!    void                 *vhDevice;                 // handle to libDeviceXXX.so
+     PFNGETPRINTMODEINFO   pfnGetPrintModeInfo;
+     PFNGETRESOLUTIONINFO  pfnGetResolutionInfo;
+     PFNGETMARGININFO      pfnGetMarginInfo;
+     PFNBEGINJOB           pfnBeginJob;
+     PFNNEWFRAME           pfnNewFrame;    //@@04162001
+--- 201,212 ----
+     char                  cServerFile[256];        //@@05092001
+     char                 *pszOtherOptions;
+     void                 *pOutputObject;            // can be used for redirecting cerr in C++ section
+     void                 *pDevice;                  // pointer to the device
+  
+!    GModule              *hmodOmni;                   // handle to libomni.so
+!    GModule              *hmodDevice;                 // handle to libDeviceXXX.so
+     PFNGETPRINTMODEINFO   pfnGetPrintModeInfo;
+     PFNGETRESOLUTIONINFO  pfnGetResolutionInfo;
+     PFNGETMARGININFO      pfnGetMarginInfo;
+     PFNBEGINJOB           pfnBeginJob;
+     PFNNEWFRAME           pfnNewFrame;    //@@04162001
+***************
+*** 360,370 ****
+      int max_width;
+      int max_raster;
+      int min_band_height;
+      int max_src_image_row;
+  
+!     if (!pDev || !pDev->vhOmni)
+      {
+         /* SetupDevice is called before OpenDevice is called.  Therefore, the
+         ** initial loading of the omni driver is done there.  If that has failed
+         ** (the library handle is 0), then fail this call.
+         */
+--- 361,371 ----
+      int max_width;
+      int max_raster;
+      int min_band_height;
+      int max_src_image_row;
+  
+!     if (!pDev || !pDev->hmodOmni)
+      {
+         /* SetupDevice is called before OpenDevice is called.  Therefore, the
+         ** initial loading of the omni driver is done there.  If that has failed
+         ** (the library handle is 0), then fail this call.
+         */
+***************
+*** 456,480 ****
+         pDev->pfnEndJob (pDev->pDevice, pDev->pOutputObject);
+         pDev->pfnEndJob = 0;
+     }
+  
+     if (pDev->pDevice && pDev->pfnDeleteDevice)           //@@05092001
+!    {                                                     
+!       pDev->pfnDeleteDevice (pDev->pDevice);             
+!       pDev->pDevice = 0;                                 
+!    }                                                     
+  
+!    if (pDev->vhDevice)
+     {
+!       dlclose (pDev->vhDevice);
+!       pDev->vhDevice = 0;
+     }
+  
+!    if (pDev->vhOmni)
+     {
+!       dlclose (pDev->vhOmni);
+!       pDev->vhOmni = 0;
+     }
+  
+     if (pDev->pszOtherOptions)
+     {
+         gs_free(pDev->pszOtherOptions,strlen(pDev->pszOtherOptions)+1, 1, "Option String");
+--- 457,481 ----
+         pDev->pfnEndJob (pDev->pDevice, pDev->pOutputObject);
+         pDev->pfnEndJob = 0;
+     }
+  
+     if (pDev->pDevice && pDev->pfnDeleteDevice)           //@@05092001
+!    {
+!       pDev->pfnDeleteDevice (pDev->pDevice);
+!       pDev->pDevice = 0;
+!    }
+  
+!    if (pDev->hmodDevice)
+     {
+!       g_module_close (pDev->hmodDevice);
+!       pDev->hmodDevice = 0;
+     }
+  
+!    if (pDev->hmodOmni)
+     {
+!       g_module_close (pDev->hmodOmni);
+!       pDev->hmodOmni = 0;
+     }
+  
+     if (pDev->pszOtherOptions)
+     {
+         gs_free(pDev->pszOtherOptions,strlen(pDev->pszOtherOptions)+1, 1, "Option String");
+***************
+*** 635,655 ****
+            memset (pDev, 0, sizeof (Omni_Dev));
+           // prgxdev->pDev->pszOtherOptions = '\0';
+         }
+     }
+  
+!    if (!pDev->vhOmni)
+     {
+        pDev->ulPelSizeCorrection = 100;
+  
+!       pDev->vhOmni = dlopen ("libomni.so", RTLD_NOW | RTLD_GLOBAL);
+  
+!       if (!pDev->vhOmni)
+        {
+           // Failure!
+           fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
+           fprintf (stderr, "Error: Could not load libomni.so!\n\n");
+  
+           // @TBD - why doesnt return_error(gs_error_Fatal) work?
+           //        If it is in, then we get the following:
+           //
+           // Unrecoverable error: rangecheck in .putdeviceprops
+--- 636,658 ----
+            memset (pDev, 0, sizeof (Omni_Dev));
+           // prgxdev->pDev->pszOtherOptions = '\0';
+         }
+     }
+  
+!    if (!pDev->hmodOmni)
+     {
+        pDev->ulPelSizeCorrection = 100;
+  
+!       pDev->hmodOmni = g_module_open ("libomni.so", (GModuleFlags)0);
+  
+!       if (!pDev->hmodOmni)
+        {
+           // Failure!
+           fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
+           fprintf (stderr, "Error: Could not load libomni.so!\n\n");
++          fprintf (stderr, "The reason was \"%s\"\n\n", g_module_error ());
++          fprintf (stderr, "LD_LIBRARY_PATH=%s\n\n", getenv ("LD_LIBRARY_PATH"));
+  
+           // @TBD - why doesnt return_error(gs_error_Fatal) work?
+           //        If it is in, then we get the following:
+           //
+           // Unrecoverable error: rangecheck in .putdeviceprops
+***************
+*** 675,719 ****
+           // 0x81c74b4: 0x02 dict --Lwrx--- 0x4000 0x081c1388
+           // 0x81c74bc: 0x02 dict --Gwrx--- 0x081b 0x081b947c
+           return 1;
+        }
+  
+!       pDev->pfnGetPrintModeInfo = (PFNGETPRINTMODEINFO)dlsym (pDev->vhOmni, "GetPrintModeInfo");
+  
+!       if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (GetPrintModeInfo) = 0x%08x\n", (int)pDev->pfnGetPrintModeInfo);
+  
+!       pDev->pfnGetResolutionInfo = (PFNGETRESOLUTIONINFO)dlsym (pDev->vhOmni, "GetResolutionInfo");
+  
+!       if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (GetResolutionInfo) = 0x%08x\n", (int)pDev->pfnGetResolutionInfo);
+  
+!       pDev->pfnGetMarginInfo = (PFNGETMARGININFO)dlsym (pDev->vhOmni, "GetMarginInfo");
+  
+!       if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (GetMarginInfo) = 0x%08x\n", (int)pDev->pfnGetMarginInfo);
+  
+!       pDev->pfnBeginJob = (PFNBEGINJOB)dlsym (pDev->vhOmni, "BeginJob");
+  
+!       if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (BeginJob) = 0x%08x\n", (int)pDev->pfnBeginJob);
+  
+!       pDev->pfnNewFrame = (PFNNEWFRAME)dlsym (pDev->vhOmni, "NewFrame");  //@@04162001
+  
+!       if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (NewFrame) = 0x%08x\n", (int)pDev->pfnNewFrame);
+!   
+!       pDev->pfnEndJob = (PFNENDJOB)dlsym (pDev->vhOmni, "EndJob");
+!   
+!       if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (EndJob) = 0x%08x\n", (int)pDev->pfnEndJob);
+!   
+!       pDev->pfnRasterize = (PFNRASTERIZE)dlsym (pDev->vhOmni, "Rasterize");
+!   
+!       if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (Rasterize) = 0x%08x\n", (int)pDev->pfnRasterize);
+!   
+!       pDev->pfnCreateDevice = (PFNCREATEDEVICE)dlsym (pDev->vhOmni, "createDevice");
+!   
+!       if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (createDevice) = 0x%08x\n", (int)pDev->pfnCreateDevice);
+!       //@@04062001
+!       pDev->pfnMonoDither = (PFNMONODITHER)dlsym (pDev->vhOmni, "DiffusionDither__FP20_DIFFUSIONDITHERINFOP11_IMAGEINFOSPPUcUi");
+!   
+!       if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (DiffusionDither__FP20_DIFFUSIONDITHERINFOP11_IMAGEINFOSPPUcUi) = 0x%08x\n", (int)pDev->pfnMonoDither);
+  
+        if (  !pDev->pfnCreateDevice
+           || !pDev->pfnBeginJob
+           || !pDev->pfnNewFrame            //@@04162001
+           || !pDev->pfnEndJob
+--- 678,722 ----
+           // 0x81c74b4: 0x02 dict --Lwrx--- 0x4000 0x081c1388
+           // 0x81c74bc: 0x02 dict --Gwrx--- 0x081b 0x081b947c
+           return 1;
+        }
+  
+!       g_module_symbol (pDev->hmodOmni, "GetPrintModeInfo", (gpointer *)&pDev->pfnGetPrintModeInfo);
+! 
+!       if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (GetPrintModeInfo) = 0x%08x\n", (int)pDev->pfnGetPrintModeInfo);
+! 
+!       g_module_symbol (pDev->hmodOmni, "GetResolutionInfo", (gpointer *)&pDev->pfnGetResolutionInfo);
+! 
+!       if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (GetResolutionInfo) = 0x%08x\n", (int)pDev->pfnGetResolutionInfo);
+! 
+!       g_module_symbol (pDev->hmodOmni, "GetMarginInfo", (gpointer *)&pDev->pfnGetMarginInfo);
+! 
+!       if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (GetMarginInfo) = 0x%08x\n", (int)pDev->pfnGetMarginInfo);
+  
+!       g_module_symbol (pDev->hmodOmni, "BeginJob", (gpointer *)&pDev->pfnBeginJob);
+  
+!       if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (BeginJob) = 0x%08x\n", (int)pDev->pfnBeginJob);
+  
+!       g_module_symbol (pDev->hmodOmni, "NewFrame", (gpointer *)&pDev->pfnNewFrame);
+  
+!       if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (NewFrame) = 0x%08x\n", (int)pDev->pfnNewFrame);
+  
+!       g_module_symbol (pDev->hmodOmni, "EndJob", (gpointer *)&pDev->pfnEndJob);
+  
+!       if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (EndJob) = 0x%08x\n", (int)pDev->pfnEndJob);
+  
+!       g_module_symbol (pDev->hmodOmni, "Rasterize", (gpointer *)&pDev->pfnRasterize);
+  
+!       if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (Rasterize) = 0x%08x\n", (int)pDev->pfnRasterize);
+  
+!       g_module_symbol (pDev->hmodOmni, "createDevice", (gpointer *)&pDev->pfnCreateDevice);
+! 
+!       if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (createDevice) = 0x%08x\n", (int)pDev->pfnCreateDevice);
+! 
+!       g_module_symbol (pDev->hmodOmni, "DiffusionDither__FP20_DIFFUSIONDITHERINFOP11_IMAGEINFOSPPUcUi", (gpointer *)&pDev->pfnMonoDither);
+! 
+!       if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (DiffusionDither__FP20_DIFFUSIONDITHERINFOP11_IMAGEINFOSPPUcUi) = 0x%08x\n", (int)pDev->pfnMonoDither);
+  
+        if (  !pDev->pfnCreateDevice
+           || !pDev->pfnBeginJob
+           || !pDev->pfnNewFrame            //@@04162001
+           || !pDev->pfnEndJob
+***************
+*** 725,738 ****
+           )
+        {
+           // Failure!
+           fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
+           fprintf (stderr, "Error: Could not load required entry point from libomni.so!\n\n");
+!   
+!          dlclose (pDev->vhOmni);
+!          pDev->vhOmni = 0;
+!   
+           // @TBD - why doesnt return_error(gs_error_Fatal) work? (see above)
+           return 1;
+        }
+  
+     }
+--- 728,741 ----
+           )
+        {
+           // Failure!
+           fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
+           fprintf (stderr, "Error: Could not load required entry point from libomni.so!\n\n");
+! 
+!          g_module_close (pDev->hmodOmni);
+!          pDev->hmodOmni = 0;
+! 
+           // @TBD - why doesnt return_error(gs_error_Fatal) work? (see above)
+           return 1;
+        }
+  
+     }
+***************
+*** 871,881 ****
+             memcpy ( pDev->cMonoDither, fname.data, fname.size );
+             pDev->cMonoDither[fname.size] = '\0';
+  
+             if(!strcmp(pDev->cMonoDither, "GSMONO"))
+             {
+!                
+                 if (fDebugOutput) fprintf(stderr,"turning on GSMONO dither\n");
+                 pDev->iGSMono = 1;
+             }
+             else
+             {
+--- 874,884 ----
+             memcpy ( pDev->cMonoDither, fname.data, fname.size );
+             pDev->cMonoDither[fname.size] = '\0';
+  
+             if(!strcmp(pDev->cMonoDither, "GSMONO"))
+             {
+! 
+                 if (fDebugOutput) fprintf(stderr,"turning on GSMONO dither\n");
+                 pDev->iGSMono = 1;
+             }
+             else
+             {
+***************
+*** 944,955 ****
+                                                                      //@@05092001
+        }                                                             //@@05092001
+  
+        pDev->pDevice = pDev->pfnCreateDevice(pDev->cDeviceName,
+                                              pDev->pOutputObject,
+!                                             &pDev->vhDevice  ,
+!                                             pDev->cDebugFile ,
+                                              pDev->pszOtherOptions,
+                                              pDev->iUseServer,       //@@05092001
+                                              pDev->ProxyFile);       //@@05092001
+  
+        if (!pDev->pDevice)
+--- 947,958 ----
+                                                                      //@@05092001
+        }                                                             //@@05092001
+  
+        pDev->pDevice = pDev->pfnCreateDevice(pDev->cDeviceName,
+                                              pDev->pOutputObject,
+!                                             &pDev->hmodDevice,
+!                                             pDev->cDebugFile,
+                                              pDev->pszOtherOptions,
+                                              pDev->iUseServer,       //@@05092001
+                                              pDev->ProxyFile);       //@@05092001
+  
+        if (!pDev->pDevice)
+***************
+*** 974,985 ****
+                           //** this routine is called multiple times
+        pDev->iSetup = 1;  //** don't go setting up new devices
+  
+        if(!pDev->iUseServer)                                         //@@05092001
+        {
+!           pDev->pfnDeleteDevice = (PFNDELETEDEVICE)dlsym (pDev->vhDevice, "deleteDevice__FP6Device");
+!           if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (deleteDevice__FP6Device) = 0x%08x\n", (int)pDev->pfnDeleteDevice);
+        }
+  
+        // get the hardware resolution information
+  
+        bRet = pDev->pfnGetResolutionInfo (pDev->pDevice, &hwRes);
+--- 977,988 ----
+                           //** this routine is called multiple times
+        pDev->iSetup = 1;  //** don't go setting up new devices
+  
+        if(!pDev->iUseServer)                                         //@@05092001
+        {
+!           g_module_symbol (pDev->hmodDevice, "deleteDevice__FP6Device", (gpointer *)&pDev->pfnDeleteDevice);
+!           if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (deleteDevice__FP6Device) = 0x%08x\n", (int)pDev->pfnDeleteDevice);
+        }
+  
+        // get the hardware resolution information
+  
+        bRet = pDev->pfnGetResolutionInfo (pDev->pDevice, &hwRes);
+***************
+*** 1005,1015 ****
+        // does not seem like pels works correctly for margins so lets set the margins
+        // using points instead
+  
+        // left margin
+        prgxdev->HWMargins[0] = (float) hwMargins.fLeftClip/25400.0 *72.0;           //@@05092001A
+!                                                                                    
+        // bottom margin
+        prgxdev->HWMargins[1] = (float) hwMargins.fBottomClip/25400.0 *72.0;         //@@05092001A
+  
+        // right margin
+        prgxdev->HWMargins[2] = (float) hwMargins.fRightClip/25400.0 *72.0;          //@@05092001A
+--- 1008,1018 ----
+        // does not seem like pels works correctly for margins so lets set the margins
+        // using points instead
+  
+        // left margin
+        prgxdev->HWMargins[0] = (float) hwMargins.fLeftClip/25400.0 *72.0;           //@@05092001A
+! 
+        // bottom margin
+        prgxdev->HWMargins[1] = (float) hwMargins.fBottomClip/25400.0 *72.0;         //@@05092001A
+  
+        // right margin
+        prgxdev->HWMargins[2] = (float) hwMargins.fRightClip/25400.0 *72.0;          //@@05092001A
+diff -r -C5 /home/golden/gs6.51/src/time_.h /home/gs6.51/src/time_.h
+*** /home/golden/gs6.51/src/time_.h	Tue Jun  5 01:39:06 2001
+--- /home/gs6.51/src/time_.h	Wed Jun 13 10:24:08 2001
+***************
+*** 31,40 ****
+--- 31,42 ----
+   * environment-dependent. We detect this in the makefile
+   * and conditionally define switches in gconfig_.h.
+   */
+  #include "gconfig_.h"
+  
++ #include <time.h>
++ 
+  /*
+   * Some System V environments don't include sys/time.h.
+   * The HAVE_SYS_TIME_H switch in gconfig_.h reflects this.
+   */
+  #ifdef HAVE_SYS_TIME_H
+diff -r -C5 /home/golden/gs6.51/src/ugcclib.mak /home/gs6.51/src/ugcclib.mak
+*** /home/golden/gs6.51/src/ugcclib.mak	Tue Jun  5 01:39:06 2001
+--- /home/gs6.51/src/ugcclib.mak	Wed Jun 13 13:48:19 2001
+***************
+*** 139,151 ****
+  
+  # The following replaces unixlink.mak
+  
+  LIB_ONLY=$(GLOBJ)gslib.$(OBJ) $(GLOBJ)gsnogc.$(OBJ) $(GLOBJ)gconfig.$(OBJ) $(GLOBJ)gscdefs.$(OBJ)
+  ldt_tr=$(GLOBJ)ldt.tr
+  $(GS_XE): $(ld_tr) $(ECHOGS_XE) $(LIB_ALL) $(DEVS_ALL) $(LIB_ONLY)
+! 	$(ECHOGS_XE) -w $(ldt_tr) -n - $(CCLD) $(LDFLAGS) -o $(GS_XE)
+  	$(ECHOGS_XE) -a $(ldt_tr) -n -s $(LIB_ONLY) -s
+  	cat $(ld_tr) >>$(ldt_tr)
+  	$(ECHOGS_XE) -a $(ldt_tr) -s - $(EXTRALIBS) $(STDLIBS)
+  	if [ x$(XLIBDIR) != x ]; then LD_RUN_PATH=$(XLIBDIR); export LD_RUN_PATH; fi; $(SH) <$(ldt_tr)
+  
+  include $(GLSRCDIR)/unix-end.mak
+--- 139,154 ----
+  
+  # The following replaces unixlink.mak
+  
+  LIB_ONLY=$(GLOBJ)gslib.$(OBJ) $(GLOBJ)gsnogc.$(OBJ) $(GLOBJ)gconfig.$(OBJ) $(GLOBJ)gscdefs.$(OBJ)
+  ldt_tr=$(GLOBJ)ldt.tr
++ LIBFLAG=-L
+  $(GS_XE): $(ld_tr) $(ECHOGS_XE) $(LIB_ALL) $(DEVS_ALL) $(LIB_ONLY)
+! 	$(ECHOGS_XE) -w $(ldt_tr) -n - $(CCLDPLUS) $(LDFLAGS) -o $(GS_XE)
+  	$(ECHOGS_XE) -a $(ldt_tr) -n -s $(LIB_ONLY) -s
+  	cat $(ld_tr) >>$(ldt_tr)
++  	$(ECHOGS_XE) -a $(ldt_tr) -s - $(OMNIDIR) -q $(OMNIDIR)OmniInterface.o -s
++  	$(ECHOGS_XE) -a $(ldt_tr) -s - $(LIBFLAG) -s $(OMNIDIR) -s
+  	$(ECHOGS_XE) -a $(ldt_tr) -s - $(EXTRALIBS) $(STDLIBS)
+  	if [ x$(XLIBDIR) != x ]; then LD_RUN_PATH=$(XLIBDIR); export LD_RUN_PATH; fi; $(SH) <$(ldt_tr)
+  
+  include $(GLSRCDIR)/unix-end.mak
+diff -r -C5 /home/golden/gs6.51/src/unix-gcc.mak /home/gs6.51/src/unix-gcc.mak
+*** /home/golden/gs6.51/src/unix-gcc.mak	Tue Jun  5 02:54:10 2001
+--- /home/gs6.51/src/unix-gcc.mak	Wed Jun 13 10:29:30 2001
+***************
+*** 182,196 ****
+--- 182,198 ----
+  # ------ Platform-specific options ------ #
+  
+  # Define the name of the C compiler.
+  
+  CC=gcc
++ CCPLUS=c++
+  
+  # Define the name of the linker for the final link step.
+  # Normally this is the same as the C compiler.
+  
+  CCLD=$(CC)
++ CCLDPLUS=$(CCPLUS)
+  
+  # Define the default gcc flags.
+  # Note that depending whether or not we are running a version of gcc with
+  # the 2.7.0-2.7.2 optimizer bug, either "-Dconst=" or
+  # "-Wcast-qual -Wwrite-strings" is automatically included.
+***************
+*** 367,380 ****
+  #DEVICE_DEVS18=
+  #DEVICE_DEVS19=
+  #DEVICE_DEVS20=
+  
+  DEVICE_DEVS1=$(DD)bmpmono.dev $(DD)bmpgray.dev $(DD)bmpsep1.dev $(DD)bmpsep8.dev $(DD)bmp16.dev $(DD)bmp256.dev $(DD)bmp16m.dev $(DD)bmp32b.dev
+! DEVICE_DEVS2=
+  DEVICE_DEVS3=$(DD)deskjet.dev $(DD)djet500.dev $(DD)laserjet.dev $(DD)ljetplus.dev $(DD)ljet2p.dev $(DD)ljet3.dev $(DD)ljet3d.dev $(DD)ljet4.dev $(DD)ljet4d.dev $(DD)lj5mono.dev $(DD)lj5gray.dev
+  DEVICE_DEVS4=$(DD)cdeskjet.dev $(DD)cdjcolor.dev $(DD)cdjmono.dev $(DD)cdj550.dev $(DD)pj.dev $(DD)pjxl.dev $(DD)pjxl300.dev
+! DEVICE_DEVS5=$(DD)uniprint.dev
+  DEVICE_DEVS6=$(DD)bj10e.dev $(DD)bj200.dev $(DD)bjc600.dev $(DD)bjc800.dev
+  DEVICE_DEVS7=$(DD)faxg3.dev $(DD)faxg32d.dev $(DD)faxg4.dev
+  DEVICE_DEVS8=$(DD)pcxmono.dev $(DD)pcxgray.dev $(DD)pcx16.dev $(DD)pcx256.dev $(DD)pcx24b.dev $(DD)pcxcmyk.dev
+  DEVICE_DEVS9=$(DD)pbm.dev $(DD)pbmraw.dev $(DD)pgm.dev $(DD)pgmraw.dev $(DD)pgnm.dev $(DD)pgnmraw.dev $(DD)pnm.dev $(DD)pnmraw.dev $(DD)ppm.dev $(DD)ppmraw.dev $(DD)pkm.dev $(DD)pkmraw.dev $(DD)pksm.dev $(DD)pksmraw.dev
+  DEVICE_DEVS10=$(DD)tiffcrle.dev $(DD)tiffg3.dev $(DD)tiffg32d.dev $(DD)tiffg4.dev $(DD)tifflzw.dev $(DD)tiffpack.dev
+--- 369,382 ----
+  #DEVICE_DEVS18=
+  #DEVICE_DEVS19=
+  #DEVICE_DEVS20=
+  
+  DEVICE_DEVS1=$(DD)bmpmono.dev $(DD)bmpgray.dev $(DD)bmpsep1.dev $(DD)bmpsep8.dev $(DD)bmp16.dev $(DD)bmp256.dev $(DD)bmp16m.dev $(DD)bmp32b.dev
+! DEVICE_DEVS2=$(DD)omni.dev
+  DEVICE_DEVS3=$(DD)deskjet.dev $(DD)djet500.dev $(DD)laserjet.dev $(DD)ljetplus.dev $(DD)ljet2p.dev $(DD)ljet3.dev $(DD)ljet3d.dev $(DD)ljet4.dev $(DD)ljet4d.dev $(DD)lj5mono.dev $(DD)lj5gray.dev
+  DEVICE_DEVS4=$(DD)cdeskjet.dev $(DD)cdjcolor.dev $(DD)cdjmono.dev $(DD)cdj550.dev $(DD)pj.dev $(DD)pjxl.dev $(DD)pjxl300.dev
+! DEVICE_DEVS5=$(DD)uniprint.dev 
+  DEVICE_DEVS6=$(DD)bj10e.dev $(DD)bj200.dev $(DD)bjc600.dev $(DD)bjc800.dev
+  DEVICE_DEVS7=$(DD)faxg3.dev $(DD)faxg32d.dev $(DD)faxg4.dev
+  DEVICE_DEVS8=$(DD)pcxmono.dev $(DD)pcxgray.dev $(DD)pcx16.dev $(DD)pcx256.dev $(DD)pcx24b.dev $(DD)pcxcmyk.dev
+  DEVICE_DEVS9=$(DD)pbm.dev $(DD)pbmraw.dev $(DD)pgm.dev $(DD)pgmraw.dev $(DD)pgnm.dev $(DD)pgnmraw.dev $(DD)pnm.dev $(DD)pnmraw.dev $(DD)ppm.dev $(DD)ppmraw.dev $(DD)pkm.dev $(DD)pkmraw.dev $(DD)pksm.dev $(DD)pksmraw.dev
+  DEVICE_DEVS10=$(DD)tiffcrle.dev $(DD)tiffg3.dev $(DD)tiffg32d.dev $(DD)tiffg4.dev $(DD)tifflzw.dev $(DD)tiffpack.dev
+diff -r -C5 /home/golden/gs6.51/src/unixlink.mak /home/gs6.51/src/unixlink.mak
+*** /home/golden/gs6.51/src/unixlink.mak	Tue Jun  5 01:39:06 2001
+--- /home/gs6.51/src/unixlink.mak	Wed Jun 13 10:42:54 2001
+***************
+*** 61,75 ****
+  # Here is the final link step.  The stuff with LD_RUN_PATH is for SVR4
+  # systems with dynamic library loading; I believe it's harmless elsewhere.
+  # The resetting of the environment variables to empty strings is for SCO Unix,
+  # which has limited environment space.
+  ldt_tr=$(PSOBJ)ldt.tr
+  $(GS_XE): $(ld_tr) $(ECHOGS_XE) $(XE_ALL)
+! 	$(ECHOGS_XE) -w $(ldt_tr) -n - $(CCLD) $(LDFLAGS) -o $(GS_XE)
+  	$(ECHOGS_XE) -a $(ldt_tr) -n -s $(PSOBJ)gs.$(OBJ) -s
+  	cat $(ld_tr) >>$(ldt_tr)
+! 	$(ECHOGS_XE) -a $(ldt_tr) -s - $(EXTRALIBS) $(STDLIBS)
+  	if [ x$(XLIBDIR) != x ]; then LD_RUN_PATH=$(XLIBDIR); export LD_RUN_PATH; fi; \
+  	XCFLAGS= XINCLUDE= XLDFLAGS= XLIBDIRS= XLIBS= \
+  	FEATURE_DEVS= DEVICE_DEVS= DEVICE_DEVS1= DEVICE_DEVS2= DEVICE_DEVS3= \
+  	DEVICE_DEVS4= DEVICE_DEVS5= DEVICE_DEVS6= DEVICE_DEVS7= DEVICE_DEVS8= \
+  	DEVICE_DEVS9= DEVICE_DEVS10= DEVICE_DEVS11= DEVICE_DEVS12= \
+--- 61,82 ----
+  # Here is the final link step.  The stuff with LD_RUN_PATH is for SVR4
+  # systems with dynamic library loading; I believe it's harmless elsewhere.
+  # The resetting of the environment variables to empty strings is for SCO Unix,
+  # which has limited environment space.
+  ldt_tr=$(PSOBJ)ldt.tr
++  
++ # @TBD - what to do on systems that dont have glib?
++ LIBDLOPEN= `glib-config --libs gmodule`
++ # @TBD - we still need the stdc++ library otherwise we trap in exit() in gp_unix.c:60
++ LIBPATHCPP= -L/usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66
++ LIBCPP= -lstdc++
+  $(GS_XE): $(ld_tr) $(ECHOGS_XE) $(XE_ALL)
+! 	$(ECHOGS_XE) -w $(ldt_tr) -n - $(CCLDPLUS) $(LDFLAGS) $(XLIBDIRS) $(LIBFLAG) -o $(GS_XE)
+  	$(ECHOGS_XE) -a $(ldt_tr) -n -s $(PSOBJ)gs.$(OBJ) -s
+  	cat $(ld_tr) >>$(ldt_tr)
+! 	$(ECHOGS_XE) -a $(ldt_tr) -n - $(LIBDLOPEN) $(LIBCPP)
+! 	$(ECHOGS_XE) -a $(ldt_tr) -s  - $(EXTRALIBS) -lm
+  	if [ x$(XLIBDIR) != x ]; then LD_RUN_PATH=$(XLIBDIR); export LD_RUN_PATH; fi; \
+  	XCFLAGS= XINCLUDE= XLDFLAGS= XLIBDIRS= XLIBS= \
+  	FEATURE_DEVS= DEVICE_DEVS= DEVICE_DEVS1= DEVICE_DEVS2= DEVICE_DEVS3= \
+  	DEVICE_DEVS4= DEVICE_DEVS5= DEVICE_DEVS6= DEVICE_DEVS7= DEVICE_DEVS8= \
+  	DEVICE_DEVS9= DEVICE_DEVS10= DEVICE_DEVS11= DEVICE_DEVS12= \

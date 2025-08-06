@@ -1,0 +1,74 @@
+<HTML>
+<HEAD>
+<META Name="Generator" Content="Lotus Word Pro"></META>
+<TITLE>Body</TITLE>
+
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+
+
+ver. 0.6.2 04/01/2002 
+<P><FONT SIZE="7">Omni CUPS Support Readme.htm</FONT> 
+<P><FONT SIZE="5">Preface:</FONT> 
+<P>This document outlines Omni's CUPS interface implementation. 
+<P>It describes the options available for standard CUPS running via the lp command and the additional options that can be utilized using options specific for Omni. 
+<P>This document assumes that you currently have installed the Omni drivers on your system and have configured them using the lpadmin tool to create a printer instance on the system. 
+<P><FONT SIZE="5">Starting Out:</FONT> 
+<P>To use CUPS with the Omni driver you first have to make the CUPSToOmni filter interface and also a .ppd file for your printer. 
+<P><B>Filter Build:</B> 
+<P>The CUPSToOmni filter interface should be build as part of the Omni build but if it is not, go to the directory where Omni is installed and then to Omni/CUPS and run make. This will build the filter. 
+<P>Move the filter to the CUPS installed directory, typical install is /usr/lib/cups/filter. 
+<P><B>Creating a .ppd file</B>: 
+<P>After the filter is properly created on put into the proper directory, the .ppd file must be made. 
+<P>This is done by running the GenerateOmniPPDs program. This also resides in the Omni/CUPS directory. This step assumes that Omni is properly installed or the driver files used by Omni are in the LD_LIBRARY_PATH. The syntax for this is: 
+<P>GenerateOmniPPDs Omni_DeviceDriver_Name &gt; Omni_DeviceDriver_Name.ppd 
+<P>This will create a named .ppd file for the Omni driver you wish to support. This file will need to be moved to the /etc/cups/ppd/ directory. 
+<P><B>Create a printer:</B> 
+<P>Follow the documentation for creating a printer for use with CUPS provided by CUPS. 
+<P><FONT SIZE="7">Basic CUPS to Omni Interface object layout</FONT> 
+<P><FONT SIZE="5">
+
+<IMG SRC="3ca8ac86.jpg" ALIGN="BOTTOM" BORDER="0" TARGET="_top"></IMG></FONT>
+<P><FONT SIZE="5">Options:</FONT> 
+<P>The available options for a particular driver is made available to the user by using the lpoptions command. The syntax is: 
+<P>lpoptions -d Printer1 -l 
+<P>This will list the available options defined for the driver that is currently running for the CUPS printer, here defined as Printer1. 
+<P><FONT SIZE="5">Forms:</FONT> 
+<P>Omni utilizes a vast number of forms for communicating to the driver. These form names are prefixed with FORM_ and are given with the following command syntax: 
+<P>lp -o <B>media=FORM_A4</B> -d Printer1 infile.ps 
+<P>The above command will select A4 forms. 
+<P>The listing of available forms can be listed using the lpoptions command - PageSize values. 
+<P><FONT SIZE="5">Media Type Selection:</FONT> 
+<P>You can utilize other media types than just plain paper. 
+<P>To utilize other media types use the following command line: 
+<P>lp -o <B>media=MEDIA_SPECIAL_720</B> -d Printer1 infile.ps 
+<P>Or the combined form/media command of: 
+<P>lp -o <B>media=FORM_A4,MEDIA_SPECIAL_720</B> -d Printer1 infile.ps 
+<P>These options are listed using the lpoptions command - MediaType values. 
+<P><FONT SIZE="5">Monochrome Selection:</FONT> 
+<P>Most of the Omni color devices also support monochrome. To utilize monochrome using CUPS and Omni the following command arguments need to be used: 
+<P>lp -o <B>ColorModel=Gray</B> Printer1 infile.ps 
+<P>This will tell Omni and CUPS to generate monochrome output. 
+<P>Omni color devices will utilize color as default so no command line will be needed for standard (default) color output. These are listed using lpoptions command - ColorModel values. 
+<P><FONT SIZE="5">Resolutions:</FONT> 
+<P>The resolutions can be set. The resolution value is also has the RESOLUTION_ prefix. 
+<P>The resolution is set by the following command: 
+<P>lp -o<B> resolution=RESOLUTION_720_X_720</B> -d Printer1 infile.ps 
+<P>This will set the resolution to one of the available ones that was shown when using the lpoptions command - Resolution values. 
+<P><FONT SIZE="5">PrintMode:</FONT> 
+<P>The drivers can change between different print modes other than monochrome such as CMY, CMYK, and CcMmYK based on the printer configuration. 
+<P>The following command can be used to set the output print mode: 
+<P>lp -o <B>printmode=PRINT_MODE_CcMmYK</B> -d Printer1 infile.ps 
+<P>These values are not listed using the lpoptions command but standard ones are defined as: 
+<P>PRINT_MODE_1_ANY - Monochrome 
+<P>PRINT_MODE_24_CcMmYK - Six color with light cyan and light magenta 
+<P>PRINT_MODE_24_CMYK - Standard four color 
+<P>PRINT_MODE_24_CMY - Standard three color (minus black) 
+<P><B>NOTE:</B> 
+<P>PRINT_MODE_1_ANY should not be selected if CUPS is not set for gray using the ColorModel=Gray command line parameter. 
+<P>Other selections for Omni can be input the same way via CUPS lp command.  
+
+</BODY>
+
+</HTML>

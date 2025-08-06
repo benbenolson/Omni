@@ -1,0 +1,58 @@
+Only in temp1: Omni.patch.1006
+diff -C 5 update.1006/gomni.c temp1/gomni.c
+*** update.1006/gomni.c	Fri Oct  6 13:16:08 2000
+--- temp1/gomni.c	Fri Oct  6 13:18:02 2000
+***************
+*** 581,591 ****
+        DiffusionDither(&DiffInfo, &ImageInfo, &pBuffer, (unsigned long) GDM_DITHER_BEGIN);
+  
+        // Go through the bitmap that we have been given
+        for(y = pasyncDev->height - 1; y >= 0; y--)
+        {
+!          if ( ((code = dev_proc(pgx_dev, get_bits)(pgx_dev, pasyncDev->height - 1 - y, pGSData, &raster_data)) >= 0) && (iYBand < ulBandLength-1)  && (y != 0))
+           {
+             memcpy(pBitmapTop - (iYBand  * uiBytesPerLine), raster_data, uiBytesPerLine);
+  
+              iYBand++;  // keep track of lines in the band
+  
+--- 581,591 ----
+        DiffusionDither(&DiffInfo, &ImageInfo, &pBuffer, (unsigned long) GDM_DITHER_BEGIN);
+  
+        // Go through the bitmap that we have been given
+        for(y = pasyncDev->height - 1; y >= 0; y--)
+        {
+!          if ( ((code = dev_proc(pgx_dev, get_bits)(pgx_dev, pasyncDev->height - 1 - y, pGSData, &raster_data)) >= 0) && (iYBand < ulBandLength)  && (y != 0))
+           {
+             memcpy(pBitmapTop - (iYBand  * uiBytesPerLine), raster_data, uiBytesPerLine);
+  
+              iYBand++;  // keep track of lines in the band
+  
+diff -C 5 update.1006/unix-gcc.mak temp1/unix-gcc.mak
+*** update.1006/unix-gcc.mak	Fri Oct  6 13:17:25 2000
+--- temp1/unix-gcc.mak	Fri Oct  6 13:18:12 2000
+***************
+*** 36,46 ****
+  GLOBJDIR=./obj
+  PSSRCDIR=.
+  PSGENDIR=./obj
+  PSOBJDIR=./obj
+  
+! OMNIDIR=Omni/antlr-2.7.0/Omni.mix/
+  
+  # Do not edit the next group of lines.
+  
+  #include $(COMMONDIR)/gccdefs.mak
+  #include $(COMMONDIR)/unixdefs.mak
+--- 36,47 ----
+  GLOBJDIR=./obj
+  PSSRCDIR=.
+  PSGENDIR=./obj
+  PSOBJDIR=./obj
+  
+! #OMNIDIR=Omni/antlr-2.7.0/Omni.mix/
+! OMNIDIR=Omni/
+  
+  # Do not edit the next group of lines.
+  
+  #include $(COMMONDIR)/gccdefs.mak
+  #include $(COMMONDIR)/unixdefs.mak

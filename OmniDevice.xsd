@@ -1,0 +1,1982 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     IBM Omni driver
+     Copyright (c) International Business Machines Corp., 2000
+
+     This library is free software; you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published
+     by the Free Software Foundation; either version 2.1 of the License, or
+     (at your option) any later version.
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+     the GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this library; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+   <xs:element name="name" type="xs:string"/>
+
+   <xs:element name="deviceID" type="xs:string"/>
+
+   <xs:simpleType name="deviceIDType">
+      <xs:restriction base="xs:string">
+         <xs:minLength value="1"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="booleanType">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="true"/>
+         <xs:enumeration value="false"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="omniDitherEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="DITHER_UNLISTED"/>
+         <xs:enumeration value="DITHER_LEVEL"/>
+         <xs:enumeration value="DITHER_SNAP"/>
+         <xs:enumeration value="DITHER_DITHER_4x4"/>
+         <xs:enumeration value="DITHER_DITHER_8x8"/>
+         <xs:enumeration value="DITHER_STUCKI_DIFFUSION"/>
+         <xs:enumeration value="DITHER_STUCKI_BIDIFFUSION"/>
+         <xs:enumeration value="DITHER_MAGIC_SQUARES"/>
+         <xs:enumeration value="DITHER_ORDERED_SQUARES"/>
+         <xs:enumeration value="DITHER_FAST_DIFFUSION"/>
+         <xs:enumeration value="DITHER_STEINBERG_DIFFUSION"/>
+         <xs:enumeration value="DITHER_SMOOTH_DIFFUSION"/>
+         <xs:enumeration value="DITHER_HSV_DIFFUSION"/>
+         <xs:enumeration value="DITHER_HSV_BIDIFFUSION"/>
+         <xs:enumeration value="DITHER_CMYK_DIFFUSION"/>
+         <xs:enumeration value="DITHER_VOID_CLUSTER"/>
+         <xs:enumeration value="DITHER_JANIS_STUCKI"/>
+         <xs:enumeration value="DITHER_ESTUCKI_DIFFUSION"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="omniDitherCatagoryEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="DITHER_CATAGORY_UNLISTED"/>
+         <xs:enumeration value="DITHER_CATAGORY_MATRIX"/>
+         <xs:enumeration value="DITHER_CATAGORY_DIFFUSION"/>
+         <xs:enumeration value="DITHER_CATAGORY_HSV_DIFFUSION"/>
+         <xs:enumeration value="DITHER_CATAGORY_CMYK_DIFFUSION"/>
+         <xs:enumeration value="DITHER_CATAGORY_VOID_CLUSTER"/>
+         <xs:enumeration value="DITHER_CATAGORY_NEW_DIFFUSION"/>
+         <xs:enumeration value="DITHER_CATAGORY_NEW_MATRIX"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="omniFormEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="FORM_UNLISTED"/>
+         <xs:enumeration value="FORM_NONE"/>
+         <xs:enumeration value="FORM_USER_DEFINED"/>
+         <xs:enumeration value="FORM_TEST"/>
+         <xs:enumeration value="FORM_TEST2"/>
+         <xs:enumeration value="FORM_LEDGER"/>
+         <xs:enumeration value="FORM_LEGAL"/>
+         <xs:enumeration value="FORM_LEGAL_EXTRA"/>
+         <xs:enumeration value="FORM_LETTER"/>
+         <xs:enumeration value="FORM_LETTER_PLUS"/>
+         <xs:enumeration value="FORM_LETTER_EXTRA"/>
+         <xs:enumeration value="FORM_HALF_LETTER"/>
+         <xs:enumeration value="FORM_EXECUTIVE"/>
+         <xs:enumeration value="FORM_STATEMENT"/>
+         <xs:enumeration value="FORM_TABLOID"/>
+         <xs:enumeration value="FORM_UNIVERSAL"/>
+         <xs:enumeration value="FORM_FOOLSCAP"/>
+         <xs:enumeration value="FORM_QUARTO"/>
+         <xs:enumeration value="FORM_FOLIO"/>
+         <xs:enumeration value="FORM_FOLIO_SP"/>
+         <xs:enumeration value="FORM_ROC_8K"/>
+         <xs:enumeration value="FORM_ROC_16K"/>
+         <xs:enumeration value="FORM_GOVERNMENT_LETTER"/>
+         <xs:enumeration value="FORM_GOVERNMENT_LEGAL"/>
+         <xs:enumeration value="FORM_EDP"/>
+         <xs:enumeration value="FORM_EUROPEAN_EDP"/>
+         <xs:enumeration value="FORM_PRC_16K"/>
+         <xs:enumeration value="FORM_PRC_32K"/>
+         <xs:enumeration value="FORM_DAI_PA_KAI"/>
+         <xs:enumeration value="FORM_JUURO_KU_KAI"/>
+         <xs:enumeration value="FORM_PA_KAI"/>
+         <xs:enumeration value="FORM_WIDE"/>
+         <xs:enumeration value="FORM_LETTER_WIDE"/>
+         <xs:enumeration value="FORM_FOOLSCAP_WIDE"/>
+         <xs:enumeration value="FORM_A3_WIDE"/>
+         <xs:enumeration value="FORM_A4_WIDE"/>
+         <xs:enumeration value="FORM_WIDE_FORMAT"/>
+         <xs:enumeration value="FORM_10_X_11"/>
+         <xs:enumeration value="FORM_11_X_12"/>
+         <xs:enumeration value="FORM_11_X_15"/>
+         <xs:enumeration value="FORM_12_X_19"/>
+         <xs:enumeration value="FORM_15_X_11"/>
+         <xs:enumeration value="FORM_5_X_7"/>
+         <xs:enumeration value="FORM_3_X_5_CARD"/>
+         <xs:enumeration value="FORM_4_X_6_CARD"/>
+         <xs:enumeration value="FORM_5_X_8_CARD"/>
+         <xs:enumeration value="FORM_8_X_10_CARD"/>
+         <xs:enumeration value="FORM_A6_CARD"/>
+         <xs:enumeration value="FORM_CARD_148"/>
+         <xs:enumeration value="FORM_HAGAKI_CARD"/>
+         <xs:enumeration value="FORM_OUFUKU_CARD"/>
+         <xs:enumeration value="FORM_POSTCARD"/>
+         <xs:enumeration value="FORM_INDEX_4_X_6_EXT"/>
+         <xs:enumeration value="FORM_A2_ENVELOPE"/>
+         <xs:enumeration value="FORM_C5_ENVELOPE"/>
+         <xs:enumeration value="FORM_C6_ENVELOPE"/>
+         <xs:enumeration value="FORM_C7_ENVELOPE"/>
+         <xs:enumeration value="FORM_C9_ENVELOPE"/>
+         <xs:enumeration value="FORM_C10_ENVELOPE"/>
+         <xs:enumeration value="FORM_D5_ENVELOPE"/>
+         <xs:enumeration value="FORM_DL_ENVELOPE"/>
+         <xs:enumeration value="FORM_ENVELOPE_132_X_220"/>
+         <xs:enumeration value="FORM_ENVELOPE_6_X_9"/>
+         <xs:enumeration value="FORM_ENVELOPE_7_X_9"/>
+         <xs:enumeration value="FORM_ENVELOPE_6_1_2"/>
+         <xs:enumeration value="FORM_ENVELOPE_9_X_11"/>
+         <xs:enumeration value="FORM_ENVELOPE_10_X_13"/>
+         <xs:enumeration value="FORM_ENVELOPE_10_X_14"/>
+         <xs:enumeration value="FORM_ENVELOPE_10_X_15"/>
+         <xs:enumeration value="FORM_MONARCH_ENVELOPE"/>
+         <xs:enumeration value="FORM_PERSONAL_ENVELOPE"/>
+         <xs:enumeration value="FORM_NUMBER_9_ENVELOPE"/>
+         <xs:enumeration value="FORM_NUMBER_10_ENVELOPE"/>
+         <xs:enumeration value="FORM_NUMBER_11_ENVELOPE"/>
+         <xs:enumeration value="FORM_NUMBER_12_ENVELOPE"/>
+         <xs:enumeration value="FORM_NUMBER_14_ENVELOPE"/>
+         <xs:enumeration value="FORM_ITALIAN_ENVELOPE"/>
+         <xs:enumeration value="FORM_POSTFIX_ENVELOPE"/>
+         <xs:enumeration value="FORM_INVITE_ENVELOPE"/>
+         <xs:enumeration value="FORM_CHOU2_ENVELOPE"/>
+         <xs:enumeration value="FORM_CHOU3_ENVELOPE"/>
+         <xs:enumeration value="FORM_CHOU4_ENVELOPE"/>
+         <xs:enumeration value="FORM_KAHU_ENVELOPE"/>
+         <xs:enumeration value="FORM_KAKU2_ENVELOPE"/>
+         <xs:enumeration value="FORM_YOU4_ENVELOPE"/>
+         <xs:enumeration value="FORM_PRC1_ENVELOPE"/>
+         <xs:enumeration value="FORM_PRC2_ENVELOPE"/>
+         <xs:enumeration value="FORM_PRC3_ENVELOPE"/>
+         <xs:enumeration value="FORM_PRC4_ENVELOPE"/>
+         <xs:enumeration value="FORM_PRC5_ENVELOPE"/>
+         <xs:enumeration value="FORM_PRC6_ENVELOPE"/>
+         <xs:enumeration value="FORM_PRC7_ENVELOPE"/>
+         <xs:enumeration value="FORM_PRC8_ENVELOPE"/>
+         <xs:enumeration value="FORM_PRC9_ENVELOPE"/>
+         <xs:enumeration value="FORM_PRC10_ENVELOPE"/>
+         <xs:enumeration value="FORM_DISK_LABELS"/>
+         <xs:enumeration value="FORM_EURO_LABELS"/>
+         <xs:enumeration value="FORM_SHIPPING_LABELS"/>
+         <xs:enumeration value="FORM_STANDARD_LABELS_CLEAR"/>
+         <xs:enumeration value="FORM_STANDARD_LABELS_WHITE"/>
+         <xs:enumeration value="FORM_2A0"/>
+         <xs:enumeration value="FORM_4A0"/>
+         <xs:enumeration value="FORM_A0"/>
+         <xs:enumeration value="FORM_A1"/>
+         <xs:enumeration value="FORM_A2"/>
+         <xs:enumeration value="FORM_A3"/>
+         <xs:enumeration value="FORM_A3_EXTRA"/>
+         <xs:enumeration value="FORM_A4"/>
+         <xs:enumeration value="FORM_A4_EXTRA"/>
+         <xs:enumeration value="FORM_A4_TAB"/>
+         <xs:enumeration value="FORM_A5"/>
+         <xs:enumeration value="FORM_A5_EXTRA"/>
+         <xs:enumeration value="FORM_A6"/>
+         <xs:enumeration value="FORM_A7"/>
+         <xs:enumeration value="FORM_A8"/>
+         <xs:enumeration value="FORM_A9"/>
+         <xs:enumeration value="FORM_A10"/>
+         <xs:enumeration value="FORM_B_PLUS"/>
+         <xs:enumeration value="FORM_B0"/>
+         <xs:enumeration value="FORM_B1"/>
+         <xs:enumeration value="FORM_B2"/>
+         <xs:enumeration value="FORM_B3"/>
+         <xs:enumeration value="FORM_B4"/>
+         <xs:enumeration value="FORM_B5"/>
+         <xs:enumeration value="FORM_B5_EXTRA"/>
+         <xs:enumeration value="FORM_B6"/>
+         <xs:enumeration value="FORM_B6_C4"/>
+         <xs:enumeration value="FORM_B7"/>
+         <xs:enumeration value="FORM_B8"/>
+         <xs:enumeration value="FORM_B9"/>
+         <xs:enumeration value="FORM_B10"/>
+         <xs:enumeration value="FORM_JIS_B0"/>
+         <xs:enumeration value="FORM_JIS_B1"/>
+         <xs:enumeration value="FORM_JIS_B2"/>
+         <xs:enumeration value="FORM_JIS_B3"/>
+         <xs:enumeration value="FORM_JIS_B4"/>
+         <xs:enumeration value="FORM_JIS_B5"/>
+         <xs:enumeration value="FORM_JIS_B6"/>
+         <xs:enumeration value="FORM_JIS_B7"/>
+         <xs:enumeration value="FORM_JIS_B8"/>
+         <xs:enumeration value="FORM_JIS_B9"/>
+         <xs:enumeration value="FORM_JIS_B10"/>
+         <xs:enumeration value="FORM_JIS_EXEC"/>
+         <xs:enumeration value="FORM_C0"/>
+         <xs:enumeration value="FORM_C1"/>
+         <xs:enumeration value="FORM_C2"/>
+         <xs:enumeration value="FORM_C3"/>
+         <xs:enumeration value="FORM_C4"/>
+         <xs:enumeration value="FORM_C5"/>
+         <xs:enumeration value="FORM_C6"/>
+         <xs:enumeration value="FORM_C6_C5"/>
+         <xs:enumeration value="FORM_C7"/>
+         <xs:enumeration value="FORM_C7_C6"/>
+         <xs:enumeration value="FORM_C8"/>
+         <xs:enumeration value="FORM_C9"/>
+         <xs:enumeration value="FORM_C10"/>
+         <xs:enumeration value="FORM_E1"/>
+         <xs:enumeration value="FORM_RA0"/>
+         <xs:enumeration value="FORM_RA1"/>
+         <xs:enumeration value="FORM_RA2"/>
+         <xs:enumeration value="FORM_SRA0"/>
+         <xs:enumeration value="FORM_SRA1"/>
+         <xs:enumeration value="FORM_SRA2"/>
+         <xs:enumeration value="FORM_US_FANFOLD"/>
+         <xs:enumeration value="FORM_FANFOLD_1"/>
+         <xs:enumeration value="FORM_FANFOLD_2"/>
+         <xs:enumeration value="FORM_FANFOLD_3"/>
+         <xs:enumeration value="FORM_FANFOLD_4"/>
+         <xs:enumeration value="FORM_FANFOLD_5"/>
+         <xs:enumeration value="FORM_GERMAN_LEGAL_FANFOLD"/>
+         <xs:enumeration value="FORM_EUROPEAN_FANFOLD"/>
+         <xs:enumeration value="FORM_PANORAMIC"/>
+         <xs:enumeration value="FORM_PHOTO_100_150"/>
+         <xs:enumeration value="FORM_PHOTO_200_300"/>
+         <xs:enumeration value="FORM_PHOTO_4_6"/>
+         <xs:enumeration value="FORM_PLOTTER_SIZE_A"/>
+         <xs:enumeration value="FORM_PLOTTER_SIZE_B"/>
+         <xs:enumeration value="FORM_PLOTTER_SIZE_C"/>
+         <xs:enumeration value="FORM_PLOTTER_SIZE_D"/>
+         <xs:enumeration value="FORM_PLOTTER_SIZE_E"/>
+         <xs:enumeration value="FORM_PLOTTER_SIZE_F"/>
+         <xs:enumeration value="FORM_US_A_ARCHITECTURAL"/>
+         <xs:enumeration value="FORM_US_B_ARCHITECTURAL"/>
+         <xs:enumeration value="FORM_US_C_ARCHITECTURAL"/>
+         <xs:enumeration value="FORM_US_D_ARCHITECTURAL"/>
+         <xs:enumeration value="FORM_US_E_ARCHITECTURAL"/>
+         <xs:enumeration value="FORM_SUPER_A3_B"/>
+         <xs:enumeration value="FORM_SUPER_A"/>
+         <xs:enumeration value="FORM_SUPER_B"/>
+         <xs:enumeration value="FORM_8_5_X_12_4"/>
+         <xs:enumeration value="FORM_8_X_10_5"/>
+         <xs:enumeration value="FORM_8_25_X_13"/>
+         <xs:enumeration value="FORM_170_X_210"/>
+         <xs:enumeration value="FORM_182_X_210"/>
+         <xs:enumeration value="FORM_ROLL_76_2MM"/>
+         <xs:enumeration value="FORM_ROLL_69_5MM"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="omniFormCapabilitiesEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="NO_CAPABILITIES"/>
+         <xs:enumeration value="FORM_CAPABILITY_ROLL"/>
+         <xs:enumeration value="FORM_CAPABILITY_USERDEFINED"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="formEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="iso_2a0_1189.00x1682.00mm"/>
+         <xs:enumeration value="iso_4a0_1682.00x2378.00mm"/>
+         <xs:enumeration value="iso_a0_841.00x1189.00mm"/>
+         <xs:enumeration value="iso_a10_26.00x37.00mm"/>
+         <xs:enumeration value="iso_a1_594.00x841.00mm"/>
+         <xs:enumeration value="iso_a2_420.00x594.00mm"/>
+         <xs:enumeration value="iso_a3-extra_322.00x445.00mm"/>
+         <xs:enumeration value="iso_a3-wide_330.20x482.60mm"/>
+         <xs:enumeration value="iso_a3_297.00x420.00mm"/>
+         <xs:enumeration value="iso_a4-extra_235.50x322.30mm"/>
+         <xs:enumeration value="iso_a4-tab_225.00x297.00mm"/>
+         <xs:enumeration value="iso_a4-wide_223.50x355.60mm"/>
+         <xs:enumeration value="iso_a4_210.00x297.00mm"/>
+         <xs:enumeration value="iso_a5-extra_174.00x235.00mm"/>
+         <xs:enumeration value="iso_a5_148.00x210.00mm"/>
+         <xs:enumeration value="iso_a6_105.00x148.00mm"/>
+         <xs:enumeration value="iso_a7_74.00x105.00mm"/>
+         <xs:enumeration value="iso_a8_52.00x74.00mm"/>
+         <xs:enumeration value="iso_a9_37.00x52.00mm"/>
+         <xs:enumeration value="iso_b0_1000.00x1414.00mm"/>
+         <xs:enumeration value="iso_b10_31.00x44.00mm"/>
+         <xs:enumeration value="iso_b1_707.00x1000.00mm"/>
+         <xs:enumeration value="iso_b2_500.00x707.00mm"/>
+         <xs:enumeration value="iso_b3_353.00x500.00mm"/>
+         <xs:enumeration value="iso_b4_250.00x353.00mm"/>
+         <xs:enumeration value="iso_b5-extra_201.00x276.00mm"/>
+         <xs:enumeration value="iso_b5_176.00x250.00mm"/>
+         <xs:enumeration value="iso_b6_125.00x176.00mm"/>
+         <xs:enumeration value="iso_b6c4_125.00x324.00mm"/>
+         <xs:enumeration value="iso_b7_88.00x125.00mm"/>
+         <xs:enumeration value="iso_b8_62.00x88.00mm"/>
+         <xs:enumeration value="iso_b9_44.00x62.00mm"/>
+         <xs:enumeration value="iso_c0_917.00x1297.00mm"/>
+         <xs:enumeration value="iso_c10_28.00x40.00mm"/>
+         <xs:enumeration value="iso_c1_648.00x917.00mm"/>
+         <xs:enumeration value="iso_c2_458.00x648.00mm"/>
+         <xs:enumeration value="iso_c3_324.00x458.00mm"/>
+         <xs:enumeration value="iso_c4_229.00x324.00mm"/>
+         <xs:enumeration value="iso_c5_162.00x229.00mm"/>
+         <xs:enumeration value="iso_c6_114.00x162.00mm"/>
+         <xs:enumeration value="iso_c6c5_114.00x229.00mm"/>
+         <xs:enumeration value="iso_c7_81.00x114.00mm"/>
+         <xs:enumeration value="iso_c7c6_81.00x162.00mm"/>
+         <xs:enumeration value="iso_c8_57.00x81.00mm"/>
+         <xs:enumeration value="iso_c9_40.00x57.00mm"/>
+         <xs:enumeration value="iso_e1_711.20x1016.00mm"/>
+         <xs:enumeration value="iso_ra0_860.00x1220.00mm"/>
+         <xs:enumeration value="iso_ra1_610.00x860.00mm"/>
+         <xs:enumeration value="iso_ra2_430.00x610.00mm"/>
+         <xs:enumeration value="iso_sra0_900.00x1280.00mm"/>
+         <xs:enumeration value="iso_sra1_640.00x900.00mm"/>
+         <xs:enumeration value="iso_sra2_450.00x640.00mm"/>
+         <xs:enumeration value="jis_b0_1030.00x1456.00mm"/>
+         <xs:enumeration value="jis_b10_32.00x45.00mm"/>
+         <xs:enumeration value="jis_b1_728.00x1030.00mm"/>
+         <xs:enumeration value="jis_b2_515.00x728.00mm"/>
+         <xs:enumeration value="jis_b3_364.00x515.00mm"/>
+         <xs:enumeration value="jis_b4_257.00x364.00mm"/>
+         <xs:enumeration value="jis_b5_182.00x257.00mm"/>
+         <xs:enumeration value="jis_b6_128.00x182.00mm"/>
+         <xs:enumeration value="jis_b7_91.00x128.00mm"/>
+         <xs:enumeration value="jis_b8_64.00x91.00mm"/>
+         <xs:enumeration value="jis_b9_45.00x64.00mm"/>
+         <xs:enumeration value="jis_exec_216.00x330.00mm"/>
+         <xs:enumeration value="jpn_chou2_111.10x146.00mm"/>
+         <xs:enumeration value="jpn_chou3_120.00x235.00mm"/>
+         <xs:enumeration value="jpn_chou4_90.00x205.00mm"/>
+         <xs:enumeration value="jpn_hagaki_100.00x148.00mm"/>
+         <xs:enumeration value="jpn_kahu_240.00x322.10mm"/>
+         <xs:enumeration value="jpn_kaku2_240.00x332.00mm"/>
+         <xs:enumeration value="jpn_oufuku_148.00x200.00mm"/>
+         <xs:enumeration value="jpn_you4_105.00x235.00mm"/>
+         <xs:enumeration value="na_10x11_10.00x11.00in"/>
+         <xs:enumeration value="na_11x12_11.00x12.00in"/>
+         <xs:enumeration value="na_11x15_11.00x15.00in"/>
+         <xs:enumeration value="na_12x19_12.00x19.00in"/>
+         <xs:enumeration value="na_15x11_15.00x11.00in"/>
+         <xs:enumeration value="na_170x210_170.00x210.00mm"/>
+         <xs:enumeration value="na_180x210_182.00x210.00mm"/>
+         <xs:enumeration value="na_3x5-card_3.00x5.00in"/>
+         <xs:enumeration value="na_4x6-card_4.00x6.00in"/>
+         <xs:enumeration value="na_5x7_5.00x7.00in"/>
+         <xs:enumeration value="na_5x8-card_5.00x8.00in"/>
+         <xs:enumeration value="na_8.25x13_8.25x13.00in"/>
+         <xs:enumeration value="na_8.5x12.4_8.50x12.40in"/>
+         <xs:enumeration value="na_8x10-card_8.00x10.00in"/>
+         <xs:enumeration value="na_8x10.5_8.00x10.50in"/>
+         <xs:enumeration value="na_a2_4.38x5.75in"/>
+         <xs:enumeration value="na_a6-card_4.13x5.83in"/>
+         <xs:enumeration value="na_arch-a_9.00x12.00in"/>
+         <xs:enumeration value="na_arch-b_12.00x18.00in"/>
+         <xs:enumeration value="na_arch-c_18.00x24.00in"/>
+         <xs:enumeration value="na_arch-d_24.00x36.00in"/>
+         <xs:enumeration value="na_arch-e_36.00x48.00in"/>
+         <xs:enumeration value="na_b-plus_12.00x19.17in"/>
+         <xs:enumeration value="na_c10_4.12x9.50in"/>
+         <xs:enumeration value="na_c5_6.38x9.02in"/>
+         <xs:enumeration value="na_c6_4.49x6.38in"/>
+         <xs:enumeration value="na_c7_3.87x7.50in"/>
+         <xs:enumeration value="na_c9_3.87x8.87in"/>
+         <xs:enumeration value="na_card-148_148.00x105.00mm"/>
+         <xs:enumeration value="na_d5_6.93x9.84in"/>
+         <xs:enumeration value="na_disk-labels_2.13x2.76in"/>
+         <xs:enumeration value="na_dl_4.33x8.66in"/>
+         <xs:enumeration value="na_edp_11.00x14.00in"/>
+         <xs:enumeration value="na_envelope-10x13_10.00x13.00in"/>
+         <xs:enumeration value="na_envelope-10x14_10.00x14.00in"/>
+         <xs:enumeration value="na_envelope-10x15_10.00x15.00in"/>
+         <xs:enumeration value="na_envelope-132x220_5.20x8.66in"/>
+         <xs:enumeration value="na_envelope-6.5_6.50x3.62in"/>
+         <xs:enumeration value="na_envelope-6x9_6.00x9.00in"/>
+         <xs:enumeration value="na_envelope-7x9_7.00x9.00in"/>
+         <xs:enumeration value="na_envelope-9x11_9.00x11.00in"/>
+         <xs:enumeration value="na_eur-edp_11.57x14.00in"/>
+         <xs:enumeration value="na_euro-labels_1.42x3.50in"/>
+         <xs:enumeration value="na_executive_7.25x10.50in"/>
+         <xs:enumeration value="na_fanfold-1_14.50x11.00in"/>
+         <xs:enumeration value="na_fanfold-2_12.00x8.50in"/>
+         <xs:enumeration value="na_fanfold-3_9.50x11.00in"/>
+         <xs:enumeration value="na_fanfold-4_8.50x12.00in"/>
+         <xs:enumeration value="na_fanfold-5_8.50x11.00in"/>
+         <xs:enumeration value="na_fanfold-eur_8.50x12.00in"/>
+         <xs:enumeration value="na_fanfold-us_14.88x11.00in"/>
+         <xs:enumeration value="na_foolscap-wide_8.50x13.00in"/>
+         <xs:enumeration value="na_foolscap_8.00x13.00in"/>
+         <xs:enumeration value="na_german-12x250-fanfold_304.80x240.00mm"/>
+         <xs:enumeration value="na_german-legal-fanfold_8.50x13.00in"/>
+         <xs:enumeration value="na_govt-legal_8.00x10.00in"/>
+         <xs:enumeration value="na_govt-letter_8.00x13.00in"/>
+         <xs:enumeration value="na_half-letter_5.50x8.50in"/>
+         <xs:enumeration value="na_index-4x6-ext_6.00x8.00in"/>
+         <xs:enumeration value="na_ledger_17.00x11.00in"/>
+         <xs:enumeration value="na_legal-extra_9.50x15.00in"/>
+         <xs:enumeration value="na_legal_8.50x14.00in"/>
+         <xs:enumeration value="na_letter-extra_9.50x12.00in"/>
+         <xs:enumeration value="na_letter-plus_8.50x12.69in"/>
+         <xs:enumeration value="na_letter-wide_8.99x13.30in"/>
+         <xs:enumeration value="na_letter_8.50x11.00in"/>
+         <xs:enumeration value="na_monarch_3.88x7.50in"/>
+         <xs:enumeration value="na_number-10_4.12x9.50in"/>
+         <xs:enumeration value="na_number-11_4.50x10.38in"/>
+         <xs:enumeration value="na_number-12_4.75x11.00in"/>
+         <xs:enumeration value="na_number-14_5.00x11.50in"/>
+         <xs:enumeration value="na_number-9_3.88x8.88in"/>
+         <xs:enumeration value="na_panoramic_210.00x594.00mm"/>
+         <xs:enumeration value="na_personal_3.62x6.50in"/>
+         <xs:enumeration value="na_photo-100x150_100.00x150.00mm"/>
+         <xs:enumeration value="na_photo-200x300_200.00x300.00mm"/>
+         <xs:enumeration value="na_photo-4x6_4.00x6.00in"/>
+         <xs:enumeration value="na_plotter-size-a_8.50x11.00in"/>
+         <xs:enumeration value="na_plotter-size-b_11.00x17.00in"/>
+         <xs:enumeration value="na_plotter-size-c_17.00x22.00in"/>
+         <xs:enumeration value="na_plotter-size-d_22.00x34.00in"/>
+         <xs:enumeration value="na_plotter-size-e_34.00x44.00in"/>
+         <xs:enumeration value="na_plotter-size-f_44.00x68.00in"/>
+         <xs:enumeration value="na_postcard_3.93x5.79in"/>
+         <xs:enumeration value="na_quarto_8.50x10.83in"/>
+         <xs:enumeration value="na_roll-69.5_695.00x0.00mm"/>
+         <xs:enumeration value="na_roll-76.2_762.00x0.00mm"/>
+         <xs:enumeration value="na_shipping-labels_2.13x3.98in"/>
+         <xs:enumeration value="na_standard-labels-clear_1.10x3.50in"/>
+         <xs:enumeration value="na_standard-labels-white_1.10x3.50in"/>
+         <xs:enumeration value="na_statement_5.50x8.50in"/>
+         <xs:enumeration value="na_super-a3-b_328.92x483.02mm"/>
+         <xs:enumeration value="na_super-a_227.08x355.60mm"/>
+         <xs:enumeration value="na_super-b_330.20x482.60mm"/>
+         <xs:enumeration value="na_tabloid_11.00x17.00in"/>
+         <xs:enumeration value="na_universal_11.69x17.00in"/>
+         <xs:enumeration value="na_wide-format_13.58x11.00in"/>
+         <xs:enumeration value="om_dai-pa-kai_275.00x395.00mm"/>
+         <xs:enumeration value="om_folio-sp_215.00x315.00mm"/>
+         <xs:enumeration value="om_folio_215.90x330.00mm"/>
+         <xs:enumeration value="om_invite_220.00x220.00mm"/>
+         <xs:enumeration value="om_italian_100.00x230.00mm"/>
+         <xs:enumeration value="om_juuro-ku-kai_198.00x275.00mm"/>
+         <xs:enumeration value="om_pa-kai_267.00x389.00mm"/>
+         <xs:enumeration value="om_postfix_114.00x229.00mm"/>
+         <xs:enumeration value="prc_10_324.00x458.00mm"/>
+         <xs:enumeration value="prc_16k_146.00x215.00mm"/>
+         <xs:enumeration value="prc_1_102.00x165.00mm"/>
+         <xs:enumeration value="prc_2_102.00x176.00mm"/>
+         <xs:enumeration value="prc_32k_97.00x151.00mm"/>
+         <xs:enumeration value="prc_3_125.00x176.00mm"/>
+         <xs:enumeration value="prc_4_110.00x208.00mm"/>
+         <xs:enumeration value="prc_5_110.00x220.00mm"/>
+         <xs:enumeration value="prc_6_120.00x320.00mm"/>
+         <xs:enumeration value="prc_7_160.00x230.00mm"/>
+         <xs:enumeration value="prc_8_120.00x309.00mm"/>
+         <xs:enumeration value="prc_9_229.00x324.00mm"/>
+         <xs:enumeration value="roc_16k_196.85x273.05mm"/>
+         <xs:enumeration value="roc_8k_273.05x393.70mm"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="formCapabilitiesEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="NO_CAPABILITIES"/>
+         <xs:enumeration value="FORM_CAPABILITY_ROLL"/>
+         <xs:enumeration value="FORM_CAPABILITY_USERDEFINED"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="omniMediaEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="MEDIA_UNLISTED"/>
+         <xs:enumeration value="MEDIA_NONE"/>
+         <xs:enumeration value="MEDIA_AUTO"/>
+         <xs:enumeration value="MEDIA_USE_PRINTER_SETTING"/>
+         <xs:enumeration value="MEDIA_PLAIN"/>
+         <xs:enumeration value="MEDIA_TRANSPARENCY"/>
+         <xs:enumeration value="MEDIA_GLOSSY"/>
+         <xs:enumeration value="MEDIA_SPECIAL"/>
+         <xs:enumeration value="MEDIA_COATED"/>
+         <xs:enumeration value="MEDIA_BACKPRINT"/>
+         <xs:enumeration value="MEDIA_CLOTH"/>
+         <xs:enumeration value="MEDIA_THICK"/>
+         <xs:enumeration value="MEDIA_HIGH_GLOSS_FILM"/>
+         <xs:enumeration value="MEDIA_HIGH_RESOLUTION"/>
+         <xs:enumeration value="MEDIA_SPECIAL_360"/>
+         <xs:enumeration value="MEDIA_SPECIAL_720"/>
+         <xs:enumeration value="MEDIA_PLAIN_ENHANCED"/>
+         <xs:enumeration value="MEDIA_IRON_ON"/>
+         <xs:enumeration value="MEDIA_LABECA"/>
+         <xs:enumeration value="MEDIA_THERMAL"/>
+         <xs:enumeration value="MEDIA_CD_MASTER"/>
+         <xs:enumeration value="MEDIA_CARDBOARD"/>
+         <xs:enumeration value="MEDIA_POSTCARD"/>
+         <xs:enumeration value="MEDIA_PHOTOGRAPHIC_PAPER"/>
+         <xs:enumeration value="MEDIA_PHOTOGRAPHIC_LABEL"/>
+         <xs:enumeration value="MEDIA_HP_PREMIUM_PAPER"/>
+         <xs:enumeration value="MEDIA_HP_PHOTOGRAPHIC_PAPER"/>
+         <xs:enumeration value="MEDIA_ENVELOPE"/>
+         <xs:enumeration value="MEDIA_PREPRINTED"/>
+         <xs:enumeration value="MEDIA_LETTERHEAD"/>
+         <xs:enumeration value="MEDIA_PREPUNCHED"/>
+         <xs:enumeration value="MEDIA_LABELS"/>
+         <xs:enumeration value="MEDIA_BOND"/>
+         <xs:enumeration value="MEDIA_RECYCLED"/>
+         <xs:enumeration value="MEDIA_COLOR"/>
+         <xs:enumeration value="MEDIA_CARDSTOCK"/>
+         <xs:enumeration value="MEDIA_ROUGH"/>
+         <xs:enumeration value="MEDIA_ARCHIVAL_MATTE_PAPER"/>
+         <xs:enumeration value="MEDIA_BRIGHT_WHITE_INK_JET_PAPER"/>
+         <xs:enumeration value="MEDIA_COLORLIFE_PHOTO_PAPER"/>
+         <xs:enumeration value="MEDIA_DOUBLE_SIDED_MATTE_PAPER"/>
+         <xs:enumeration value="MEDIA_HEAVYWEIGH_MATTE_PAPER"/>
+         <xs:enumeration value="MEDIA_PREMIUM_SEMIGLOSS_PHOTO_PAPER"/>
+         <xs:enumeration value="MEDIA_PHOTOGRAPHIC_INK_JET_PAPER"/>
+         <xs:enumeration value="MEDIA_CUSTOM_1"/>
+         <xs:enumeration value="MEDIA_CUSTOM_2"/>
+         <xs:enumeration value="MEDIA_CUSTOM_3"/>
+         <xs:enumeration value="MEDIA_CUSTOM_4"/>
+         <xs:enumeration value="MEDIA_CUSTOM_5"/>
+         <xs:enumeration value="MEDIA_SPECIAL_BLUE"/>
+         <xs:enumeration value="MEDIA_SPECIAL_GREEN"/>
+         <xs:enumeration value="MEDIA_SPECIAL_GREY"/>
+         <xs:enumeration value="MEDIA_SPECIAL_IVORY"/>
+         <xs:enumeration value="MEDIA_SPECIAL_LETTERHEAD"/>
+         <xs:enumeration value="MEDIA_SPECIAL_ORANGE"/>
+         <xs:enumeration value="MEDIA_SPECIAL_PINK"/>
+         <xs:enumeration value="MEDIA_SPECIAL_PURPLE"/>
+         <xs:enumeration value="MEDIA_SPECIAL_RED"/>
+         <xs:enumeration value="MEDIA_SPECIAL_YELLOW"/>
+         <xs:enumeration value="MEDIA_SPECIAL_USER_COLOR"/>
+         <xs:enumeration value="MEDIA_TABSTOCK"/>
+         <xs:enumeration value="MEDIA_TABSTOCK_2"/>
+         <xs:enumeration value="MEDIA_TABSTOCK_3"/>
+         <xs:enumeration value="MEDIA_TABSTOCK_4"/>
+         <xs:enumeration value="MEDIA_TABSTOCK_5"/>
+         <xs:enumeration value="MEDIA_TABSTOCK_6"/>
+         <xs:enumeration value="MEDIA_TABSTOCK_7"/>
+         <xs:enumeration value="MEDIA_TABSTOCK_8"/>
+         <xs:enumeration value="MEDIA_TABSTOCK_9"/>
+         <xs:enumeration value="MEDIA_THICK_1"/>
+         <xs:enumeration value="MEDIA_THICK_2"/>
+         <xs:enumeration value="MEDIA_THICK_3"/>
+         <xs:enumeration value="MEDIA_THICK_BLUE"/>
+         <xs:enumeration value="MEDIA_THICK_GREEN"/>
+         <xs:enumeration value="MEDIA_THICK_GREY"/>
+         <xs:enumeration value="MEDIA_THICK_IVORY"/>
+         <xs:enumeration value="MEDIA_THICK_LETTERHEAD"/>
+         <xs:enumeration value="MEDIA_THICK_ORANGE"/>
+         <xs:enumeration value="MEDIA_THICK_PINK"/>
+         <xs:enumeration value="MEDIA_THICK_PURPLE"/>
+         <xs:enumeration value="MEDIA_THICK_RED"/>
+         <xs:enumeration value="MEDIA_THICK_YELLOW"/>
+         <xs:enumeration value="MEDIA_THICK_USER_COLOR"/>
+         <xs:enumeration value="MEDIA_TRANSLUCENT"/>
+         <xs:enumeration value="MEDIA_OTHER"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="omniMediaAbsorptionEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="MEDIA_NO_ABSORPTION"/>
+         <xs:enumeration value="MEDIA_LIGHT_ABSORPTION"/>
+         <xs:enumeration value="MEDIA_HEAVY_ABSORPTION"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="nupDirectionEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="TobottomToleft"/>
+         <xs:enumeration value="TobottomToright"/>
+         <xs:enumeration value="ToleftTobottom"/>
+         <xs:enumeration value="ToleftTotop"/>
+         <xs:enumeration value="TorightTobottom"/>
+         <xs:enumeration value="TorightTotop"/>
+         <xs:enumeration value="TotopToleft"/>
+         <xs:enumeration value="TotopToright"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="omniOrientationEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="ORIENTATION_UNLISTED"/>
+         <xs:enumeration value="ORIENTATION_NONE"/>
+         <xs:enumeration value="ORIENTATION_PORTRAIT"/>
+         <xs:enumeration value="ORIENTATION_LANDSCAPE"/>
+         <xs:enumeration value="ORIENTATION_REVERSE_PORTRAIT"/>
+         <xs:enumeration value="ORIENTATION_REVERSE_LANDSCAPE"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="orientationEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="Landscape"/>
+         <xs:enumeration value="Portrait"/>
+         <xs:enumeration value="ReverseLandscape"/>
+         <xs:enumeration value="ReversePortrait"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="omniOutputBinEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="OUTPUT_BIN_BOOKLET"/>
+         <xs:enumeration value="OUTPUT_BIN_BOTTOM"/>
+         <xs:enumeration value="OUTPUT_BIN_CENTER"/>
+         <xs:enumeration value="OUTPUT_BIN_FACE_DOWN"/>
+         <xs:enumeration value="OUTPUT_BIN_FIT_MEDIA"/>
+         <xs:enumeration value="OUTPUT_BIN_LARGE_CAPACITY"/>
+         <xs:enumeration value="OUTPUT_BIN_LEFT"/>
+         <xs:enumeration value="OUTPUT_BIN_MAILBOX_1"/>
+         <xs:enumeration value="OUTPUT_BIN_MAILBOX_2"/>
+         <xs:enumeration value="OUTPUT_BIN_MAILBOX_3"/>
+         <xs:enumeration value="OUTPUT_BIN_MAILBOX_4"/>
+         <xs:enumeration value="OUTPUT_BIN_MAILBOX_5"/>
+         <xs:enumeration value="OUTPUT_BIN_MAILBOX_6"/>
+         <xs:enumeration value="OUTPUT_BIN_MAILBOX_7"/>
+         <xs:enumeration value="OUTPUT_BIN_MAILBOX_8"/>
+         <xs:enumeration value="OUTPUT_BIN_MAILBOX_9"/>
+         <xs:enumeration value="OUTPUT_BIN_MIDDLE"/>
+         <xs:enumeration value="OUTPUT_BIN_MY_MAILBOX"/>
+         <xs:enumeration value="OUTPUT_BIN_REAR"/>
+         <xs:enumeration value="OUTPUT_BIN_RIGHT"/>
+         <xs:enumeration value="OUTPUT_BIN_SIDE"/>
+         <xs:enumeration value="OUTPUT_BIN_STACKER_1"/>
+         <xs:enumeration value="OUTPUT_BIN_STACKER_2"/>
+         <xs:enumeration value="OUTPUT_BIN_STACKER_3"/>
+         <xs:enumeration value="OUTPUT_BIN_STACKER_4"/>
+         <xs:enumeration value="OUTPUT_BIN_STACKER_5"/>
+         <xs:enumeration value="OUTPUT_BIN_STACKER_6"/>
+         <xs:enumeration value="OUTPUT_BIN_STACKER_7"/>
+         <xs:enumeration value="OUTPUT_BIN_STACKER_8"/>
+         <xs:enumeration value="OUTPUT_BIN_STACKER_9"/>
+         <xs:enumeration value="OUTPUT_BIN_TOP"/>
+         <xs:enumeration value="OUTPUT_BIN_TRAY_1"/>
+         <xs:enumeration value="OUTPUT_BIN_TRAY_2"/>
+         <xs:enumeration value="OUTPUT_BIN_TRAY_3"/>
+         <xs:enumeration value="OUTPUT_BIN_TRAY_4"/>
+         <xs:enumeration value="OUTPUT_BIN_TRAY_5"/>
+         <xs:enumeration value="OUTPUT_BIN_TRAY_6"/>
+         <xs:enumeration value="OUTPUT_BIN_TRAY_7"/>
+         <xs:enumeration value="OUTPUT_BIN_TRAY_8"/>
+         <xs:enumeration value="OUTPUT_BIN_TRAY_9"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="outputBinEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="Booklet"/>
+         <xs:enumeration value="Bottom"/>
+         <xs:enumeration value="Center"/>
+         <xs:enumeration value="FaceDown"/>
+         <xs:enumeration value="FaceUp"/>
+         <xs:enumeration value="FitMedia"/>
+         <xs:enumeration value="LargeCapacity"/>
+         <xs:enumeration value="Left"/>
+         <xs:enumeration value="Mailbox-1"/>
+         <xs:enumeration value="Mailbox-2"/>
+         <xs:enumeration value="Mailbox-3"/>
+         <xs:enumeration value="Mailbox-4"/>
+         <xs:enumeration value="Mailbox-5"/>
+         <xs:enumeration value="Mailbox-6"/>
+         <xs:enumeration value="Mailbox-7"/>
+         <xs:enumeration value="Mailbox-8"/>
+         <xs:enumeration value="Mailbox-9"/>
+         <xs:enumeration value="Rear"/>
+         <xs:enumeration value="Right"/>
+         <xs:enumeration value="Side"/>
+         <xs:enumeration value="Stacker-1"/>
+         <xs:enumeration value="Stacker-2"/>
+         <xs:enumeration value="Stacker-3"/>
+         <xs:enumeration value="Stacker-4"/>
+         <xs:enumeration value="Stacker-5"/>
+         <xs:enumeration value="Stacker-6"/>
+         <xs:enumeration value="Stacker-7"/>
+         <xs:enumeration value="Stacker-8"/>
+         <xs:enumeration value="Stacker-9"/>
+         <xs:enumeration value="Top"/>
+         <xs:enumeration value="Tray-1"/>
+         <xs:enumeration value="Tray-2"/>
+         <xs:enumeration value="Tray-3"/>
+         <xs:enumeration value="Tray-4"/>
+         <xs:enumeration value="Tray-5"/>
+         <xs:enumeration value="Tray-6"/>
+         <xs:enumeration value="Tray-7"/>
+         <xs:enumeration value="Tray-8"/>
+         <xs:enumeration value="Tray-9"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="omniPrintmodeEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="PRINT_MODE_UNLISTED"/>
+         <xs:enumeration value="PRINT_MODE_NONE"/>
+         <xs:enumeration value="PRINT_MODE_1_ANY"/>
+         <xs:enumeration value="PRINT_MODE_8_K"/>
+         <xs:enumeration value="PRINT_MODE_8_CMY"/>
+         <xs:enumeration value="PRINT_MODE_8_CMYK"/>
+         <xs:enumeration value="PRINT_MODE_8_CcMmYK"/>
+         <xs:enumeration value="PRINT_MODE_8_CcMmYyK"/>
+         <xs:enumeration value="PRINT_MODE_8_RGB"/>
+         <xs:enumeration value="PRINT_MODE_24_K"/>
+         <xs:enumeration value="PRINT_MODE_24_CMY"/>
+         <xs:enumeration value="PRINT_MODE_24_CMYK"/>
+         <xs:enumeration value="PRINT_MODE_24_CcMmYK"/>
+         <xs:enumeration value="PRINT_MODE_24_CcMmYyK"/>
+         <xs:enumeration value="PRINT_MODE_24_RGB"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="omniResolutionEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="RESOLUTION_UNLISTED"/>
+         <xs:enumeration value="RESOLUTION_NONE"/>
+         <xs:enumeration value="RESOLUTION_60_X_60"/>
+         <xs:enumeration value="RESOLUTION_60_X_72"/>
+         <xs:enumeration value="RESOLUTION_60_X_180"/>
+         <xs:enumeration value="RESOLUTION_60_X_360"/>
+         <xs:enumeration value="RESOLUTION_72_X_72"/>
+         <xs:enumeration value="RESOLUTION_75_X_75"/>
+         <xs:enumeration value="RESOLUTION_80_X_60"/>
+         <xs:enumeration value="RESOLUTION_80_X_72"/>
+         <xs:enumeration value="RESOLUTION_90_X_180"/>
+         <xs:enumeration value="RESOLUTION_90_X_360"/>
+         <xs:enumeration value="RESOLUTION_90_X_60"/>
+         <xs:enumeration value="RESOLUTION_90_X_72"/>
+         <xs:enumeration value="RESOLUTION_90_X_90"/>
+         <xs:enumeration value="RESOLUTION_100_X_100"/>
+         <xs:enumeration value="RESOLUTION_120_X_60"/>
+         <xs:enumeration value="RESOLUTION_120_X_72"/>
+         <xs:enumeration value="RESOLUTION_120_X_120"/>
+         <xs:enumeration value="RESOLUTION_120_X_144"/>
+         <xs:enumeration value="RESOLUTION_120_X_180"/>
+         <xs:enumeration value="RESOLUTION_120_X_360"/>
+         <xs:enumeration value="RESOLUTION_144_X_72"/>
+         <xs:enumeration value="RESOLUTION_150_X_150"/>
+         <xs:enumeration value="RESOLUTION_180_X_180"/>
+         <xs:enumeration value="RESOLUTION_180_X_360"/>
+         <xs:enumeration value="RESOLUTION_200_X_200"/>
+         <xs:enumeration value="RESOLUTION_240_X_60"/>
+         <xs:enumeration value="RESOLUTION_240_X_72"/>
+         <xs:enumeration value="RESOLUTION_240_X_144"/>
+         <xs:enumeration value="RESOLUTION_240_X_240"/>
+         <xs:enumeration value="RESOLUTION_300_X_300"/>
+         <xs:enumeration value="RESOLUTION_360_X_180"/>
+         <xs:enumeration value="RESOLUTION_360_X_360"/>
+         <xs:enumeration value="RESOLUTION_360_X_720"/>
+         <xs:enumeration value="RESOLUTION_400_X_400"/>
+         <xs:enumeration value="RESOLUTION_600_X_300"/>
+         <xs:enumeration value="RESOLUTION_600_X_600"/>
+         <xs:enumeration value="RESOLUTION_720_X_360"/>
+         <xs:enumeration value="RESOLUTION_720_X_720"/>
+         <xs:enumeration value="RESOLUTION_1200_X_600"/>
+         <xs:enumeration value="RESOLUTION_1200_X_1200"/>
+         <xs:enumeration value="RESOLUTION_1440_X_720"/>
+         <xs:enumeration value="RESOLUTION_2880_X_720"/>
+         <xs:enumeration value="RESOLUTION_DRAFT"/>
+         <xs:enumeration value="RESOLUTION_FINE"/>
+         <xs:enumeration value="RESOLUTION_GROUP_3"/>
+         <xs:enumeration value="RESOLUTION_GROUP_4"/>
+         <xs:enumeration value="RESOLUTION_HIGH"/>
+         <xs:enumeration value="RESOLUTION_LOW"/>
+         <xs:enumeration value="RESOLUTION_MEDIUM"/>
+         <xs:enumeration value="RESOLUTION_NORMAL"/>
+         <xs:enumeration value="RESOLUTION_PHOTO_QUALITY"/>
+         <xs:enumeration value="RESOLUTION_PRESENTATION"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="resolutionEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="60x60"/>
+         <xs:enumeration value="60x72"/>
+         <xs:enumeration value="60x180"/>
+         <xs:enumeration value="60x360"/>
+         <xs:enumeration value="72x72"/>
+         <xs:enumeration value="75x75"/>
+         <xs:enumeration value="80x60"/>
+         <xs:enumeration value="80x72"/>
+         <xs:enumeration value="90x180"/>
+         <xs:enumeration value="90x360"/>
+         <xs:enumeration value="90x60"/>
+         <xs:enumeration value="90x72"/>
+         <xs:enumeration value="90x90"/>
+         <xs:enumeration value="100x100"/>
+         <xs:enumeration value="120x60"/>
+         <xs:enumeration value="120x72"/>
+         <xs:enumeration value="120x120"/>
+         <xs:enumeration value="120x144"/>
+         <xs:enumeration value="120x180"/>
+         <xs:enumeration value="120x360"/>
+         <xs:enumeration value="144x72"/>
+         <xs:enumeration value="150x150"/>
+         <xs:enumeration value="180x180"/>
+         <xs:enumeration value="180x360"/>
+         <xs:enumeration value="200x200"/>
+         <xs:enumeration value="240x60"/>
+         <xs:enumeration value="240x72"/>
+         <xs:enumeration value="240x144"/>
+         <xs:enumeration value="240x240"/>
+         <xs:enumeration value="300x300"/>
+         <xs:enumeration value="360x180"/>
+         <xs:enumeration value="360x360"/>
+         <xs:enumeration value="360x720"/>
+         <xs:enumeration value="400x400"/>
+         <xs:enumeration value="600x300"/>
+         <xs:enumeration value="600x600"/>
+         <xs:enumeration value="720x360"/>
+         <xs:enumeration value="720x720"/>
+         <xs:enumeration value="1200x600"/>
+         <xs:enumeration value="1200x1200"/>
+         <xs:enumeration value="1440x720"/>
+         <xs:enumeration value="2880x720"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="omniResolutionCapabilityType">
+      <xs:restriction base="xs:string">
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="omniScalingTypeEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="SCALE_FIT_TO_PAGE"/>
+         <xs:enumeration value="SCALE_ROTATE_AND_OR_FIT"/>
+         <xs:enumeration value="SCALE_CLIP"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="scalingTypeEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="Clip"/>
+         <xs:enumeration value="FitToPage"/>
+         <xs:enumeration value="RotateAndOrFit"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="omniSheetCollateEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="SHEET_COLLATED"/>
+         <xs:enumeration value="SHEET_AND_JOB_COLLATED"/>
+         <xs:enumeration value="SHEET_UNCOLLATED"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="sheetCollateEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="SheetAndJobCollated"/>
+         <xs:enumeration value="SheetCollated"/>
+         <xs:enumeration value="SheetUncollated"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="omniSidesEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="SIDES_ONE_SIDED_BACK_FLIP_X"/>
+         <xs:enumeration value="SIDES_ONE_SIDED_BACK_FLIP_Y"/>
+         <xs:enumeration value="SIDES_ONE_SIDED_FRONT"/>
+         <xs:enumeration value="SIDES_TWO_SIDED_FLIP_X"/>
+         <xs:enumeration value="SIDES_TWO_SIDED_FLIP_Y"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="sidesEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="OneSidedBackflipX"/>
+         <xs:enumeration value="OneSidedBackflipY"/>
+         <xs:enumeration value="OneSidedFront"/>
+         <xs:enumeration value="TwoSidedFlipX"/>
+         <xs:enumeration value="TwoSidedFlipY"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="stitchingReferenceEdgeEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="Bottom"/>
+         <xs:enumeration value="Top"/>
+         <xs:enumeration value="Left"/>
+         <xs:enumeration value="Right"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="stitchingTypeEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="Corner"/>
+         <xs:enumeration value="Saddle"/>
+         <xs:enumeration value="Side"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="omniTrayEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="TRAY_UNLISTED"/>
+         <xs:enumeration value="TRAY_NONE"/>
+         <xs:enumeration value="TRAY_AUTO/"/>
+         <xs:enumeration value="TRAY_USE_PRINTER_SETTING"/>
+         <xs:enumeration value="TRAY_AUTO_FEEDER"/>
+         <xs:enumeration value="TRAY_AUTOSWITCH"/>
+         <xs:enumeration value="TRAY_TRAY"/>
+         <xs:enumeration value="TRAY_UPPER_TRAY"/>
+         <xs:enumeration value="TRAY_LOWER_TRAY"/>
+         <xs:enumeration value="TRAY_MULTI_TRAY"/>
+         <xs:enumeration value="TRAY_CASSETTE"/>
+         <xs:enumeration value="TRAY_UPPER_CASSETTE"/>
+         <xs:enumeration value="TRAY_LOWER_CASSETTE"/>
+         <xs:enumeration value="TRAY_MULTI_CASSETTE"/>
+         <xs:enumeration value="TRAY_OPTION_CASSETTE"/>
+         <xs:enumeration value="TRAY_MANUAL_FEEDER"/>
+         <xs:enumeration value="TRAY_MANUAL_ENVELOPE"/>
+         <xs:enumeration value="TRAY_PAPER_FEEDER"/>
+         <xs:enumeration value="TRAY_ENVELOPE_FEEDER"/>
+         <xs:enumeration value="TRAY_CSF"/>
+         <xs:enumeration value="TRAY_FRONT_CONTINUOUS"/>
+         <xs:enumeration value="TRAY_REAR_CONTINUOUS"/>
+         <xs:enumeration value="TRAY_SINGLE_SHEET"/>
+         <xs:enumeration value="TRAY_SHEET_FEEDER"/>
+         <xs:enumeration value="TRAY_BIN_1"/>
+         <xs:enumeration value="TRAY_BIN_2"/>
+         <xs:enumeration value="TRAY_PORTABLE_SHEET"/>
+         <xs:enumeration value="TRAY_TRAY_1"/>
+         <xs:enumeration value="TRAY_TRAY_2"/>
+         <xs:enumeration value="TRAY_TRAY_3"/>
+         <xs:enumeration value="TRAY_TRAY_4"/>
+         <xs:enumeration value="TRAY_TRAY_5"/>
+         <xs:enumeration value="TRAY_TRAY_6"/>
+         <xs:enumeration value="TRAY_CASSETTE1"/>
+         <xs:enumeration value="TRAY_CASSETTE2"/>
+         <xs:enumeration value="TRAY_CASSETTE3"/>
+         <xs:enumeration value="TRAY_CASSETTE4"/>
+         <xs:enumeration value="TRAY_CASSETTE5"/>
+         <xs:enumeration value="TRAY_FRONT_TRAY"/>
+         <xs:enumeration value="TRAY_OPTION_MULTI_SF"/>
+         <xs:enumeration value="TRAY_MULTI_FEEDER"/>
+         <xs:enumeration value="TRAY_PAPER_DECK"/>
+         <xs:enumeration value="TRAY_TRACTOR_UNIT"/>
+         <xs:enumeration value="TRAY_ROLL_1"/>
+         <xs:enumeration value="TRAY_ROLL_2"/>
+         <xs:enumeration value="TRAY_ROLL_3"/>
+         <xs:enumeration value="TRAY_ROLL_4"/>
+         <xs:enumeration value="TRAY_ROLL_5"/>
+         <xs:enumeration value="TRAY_AUXILIARY_TRAY"/>
+         <xs:enumeration value="TRAY_LARGE_CAPACITY_TRAY"/>
+         <xs:enumeration value="TRAY_HIGH_CAPACITY_FEEDER"/>
+         <xs:enumeration value="TRAY_ZERO_MARGINS"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="trayEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="AnyLargeFormat"/>
+         <xs:enumeration value="AnySmallFormat"/>
+         <xs:enumeration value="AutoSelect"/>
+         <xs:enumeration value="Bottom"/>
+         <xs:enumeration value="BypassTray"/>
+         <xs:enumeration value="BypassTray-1"/>
+         <xs:enumeration value="BypassTray-2"/>
+         <xs:enumeration value="BypassTray-3"/>
+         <xs:enumeration value="BypassTray-4"/>
+         <xs:enumeration value="BypassTray-5"/>
+         <xs:enumeration value="BypassTray-6"/>
+         <xs:enumeration value="BypassTray-7"/>
+         <xs:enumeration value="BypassTray-8"/>
+         <xs:enumeration value="BypassTray-9"/>
+         <xs:enumeration value="Continuous"/>
+         <xs:enumeration value="Disc"/>
+         <xs:enumeration value="Disc-1"/>
+         <xs:enumeration value="Disc-2"/>
+         <xs:enumeration value="Disc-3"/>
+         <xs:enumeration value="Disc-4"/>
+         <xs:enumeration value="Disc-5"/>
+         <xs:enumeration value="Disc-6"/>
+         <xs:enumeration value="Disc-7"/>
+         <xs:enumeration value="Disc-8"/>
+         <xs:enumeration value="Disc-9"/>
+         <xs:enumeration value="Envelope"/>
+         <xs:enumeration value="Envelope-1"/>
+         <xs:enumeration value="Envelope-2"/>
+         <xs:enumeration value="Envelope-3"/>
+         <xs:enumeration value="Envelope-4"/>
+         <xs:enumeration value="Envelope-5"/>
+         <xs:enumeration value="Envelope-6"/>
+         <xs:enumeration value="Envelope-7"/>
+         <xs:enumeration value="Envelope-8"/>
+         <xs:enumeration value="Envelope-9"/>
+         <xs:enumeration value="Front"/>
+         <xs:enumeration value="InsertTray"/>
+         <xs:enumeration value="InsertTray-1"/>
+         <xs:enumeration value="InsertTray-2"/>
+         <xs:enumeration value="InsertTray-3"/>
+         <xs:enumeration value="InsertTray-4"/>
+         <xs:enumeration value="InsertTray-5"/>
+         <xs:enumeration value="InsertTray-6"/>
+         <xs:enumeration value="InsertTray-7"/>
+         <xs:enumeration value="InsertTray-8"/>
+         <xs:enumeration value="InsertTray-9"/>
+         <xs:enumeration value="LargeCapacity"/>
+         <xs:enumeration value="LargeCapacity-1"/>
+         <xs:enumeration value="LargeCapacity-2"/>
+         <xs:enumeration value="LargeCapacity-3"/>
+         <xs:enumeration value="LargeCapacity-4"/>
+         <xs:enumeration value="LargeCapacity-5"/>
+         <xs:enumeration value="LargeCapacity-6"/>
+         <xs:enumeration value="LargeCapacity-7"/>
+         <xs:enumeration value="LargeCapacity-8"/>
+         <xs:enumeration value="LargeCapacity-9"/>
+         <xs:enumeration value="Left"/>
+         <xs:enumeration value="Middle"/>
+         <xs:enumeration value="PanelSelect"/>
+         <xs:enumeration value="Rear"/>
+         <xs:enumeration value="Right"/>
+         <xs:enumeration value="Roll"/>
+         <xs:enumeration value="Roll-1"/>
+         <xs:enumeration value="Roll-2"/>
+         <xs:enumeration value="Roll-3"/>
+         <xs:enumeration value="Roll-4"/>
+         <xs:enumeration value="Roll-5"/>
+         <xs:enumeration value="Roll-6"/>
+         <xs:enumeration value="Roll-7"/>
+         <xs:enumeration value="Roll-8"/>
+         <xs:enumeration value="Roll-9"/>
+         <xs:enumeration value="Side"/>
+         <xs:enumeration value="Top"/>
+         <xs:enumeration value="Tray"/>
+         <xs:enumeration value="Tray-1"/>
+         <xs:enumeration value="Tray-2"/>
+         <xs:enumeration value="Tray-3"/>
+         <xs:enumeration value="Tray-4"/>
+         <xs:enumeration value="Tray-5"/>
+         <xs:enumeration value="Tray-6"/>
+         <xs:enumeration value="Tray-7"/>
+         <xs:enumeration value="Tray-8"/>
+         <xs:enumeration value="Tray-9"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="omniTrayTypeEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="TRAY_TYPE_AUTO"/>
+         <xs:enumeration value="TRAY_TYPE_MANUAL"/>
+         <xs:enumeration value="TRAY_TYPE_ZERO_MARGINS"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="omniTrimmingEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="TRIMMING_NONE"/>
+         <xs:enumeration value="TRIMMING_TRIM"/>
+         <xs:enumeration value="TRIMMING_FACE"/>
+         <xs:enumeration value="TRIMMING_GUTTER"/>
+         <xs:enumeration value="TRIMMING_TAB"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="trimmingEnum">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="Face"/>
+         <xs:enumeration value="Gutter"/>
+         <xs:enumeration value="None"/>
+         <xs:enumeration value="Tab"/>
+         <xs:enumeration value="Trim"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="numberUpFormat">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="XbyY"/>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:element name="Device">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element ref="DriverName"/>
+            <xs:element minOccurs="0" maxOccurs="unbounded" ref="Capability"/>
+            <xs:element minOccurs="0" maxOccurs="unbounded" ref="RasterCapabilities"/>
+            <xs:element minOccurs="0" maxOccurs="unbounded" ref="DeviceOptions"/>
+            <xs:element minOccurs="0" maxOccurs="1" ref="PDL"/>
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+               <xs:element ref="Uses"/>
+               <xs:element ref="Has"/>
+            </xs:choice>
+            <xs:choice>
+               <xs:sequence>
+                  <xs:element ref="Instance"/>
+                  <xs:element ref="Instance"/>
+                  <xs:element ref="Blitter"/>
+                  <xs:element ref="Blitter"/>
+               </xs:sequence>
+               <xs:sequence>
+                  <xs:element ref="PluggableInstance"/>
+                  <xs:element ref="PluggableBlitter"/>
+               </xs:sequence>
+            </xs:choice>
+            <xs:element ref="DefaultJobProperties"/>
+            <xs:any namespace="##any" minOccurs="0"/>
+         </xs:sequence>
+         <xs:attribute name="name" type="xs:string" use="required"/>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="DriverName" type="xs:string"/>
+
+   <xs:element name="Capability">
+      <xs:complexType>
+         <xs:attribute name="type" use="required">
+            <xs:simpleType>
+               <xs:restriction base="xs:string">
+                  <xs:enumeration value="COLOR"/>
+                  <xs:enumeration value="MONOCHROME"/>
+                  <xs:enumeration value="MIRROR"/>
+               </xs:restriction>
+            </xs:simpleType>
+         </xs:attribute>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="RasterCapabilities">
+      <xs:complexType>
+         <xs:attribute name="type" use="required">
+            <xs:simpleType>
+               <xs:restriction base="xs:string">
+                  <xs:enumeration value="TOP_TO_BOTTOM"/>
+               </xs:restriction>
+            </xs:simpleType>
+         </xs:attribute>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="DeviceOptions">
+      <xs:complexType>
+         <xs:attribute name="type" type="xs:string" use="required"/>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="PDL">
+      <xs:complexType>
+         <xs:attribute name="level" type="xs:string" use="required"/>
+         <xs:attribute name="sublevel" type="xs:string" use="required"/>
+         <xs:attribute name="major" type="xs:string" use="required"/>
+         <xs:attribute name="minor" type="xs:string" use="required"/>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="Uses" type="xs:string"/>
+
+   <xs:element name="Has" type="xs:string"/>
+
+   <xs:element name="Instance" type="xs:string"/>
+
+   <xs:element name="Blitter" type="xs:string"/>
+
+   <xs:element name="PluggableInstance">
+      <xs:complexType>
+         <xs:attribute name="exename" type="xs:string" use="required"/>
+         <xs:attribute name="data" type="xs:string"/>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="PluggableBlitter">
+      <xs:complexType />
+   </xs:element>
+
+   <xs:element name="DefaultJobProperties">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" name="Copies" type="xs:positiveInteger"/>
+            <xs:element name="dither" type="omniDitherEnum"/>
+            <xs:element name="Form" type="formEnum"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="omniForm" type="omniFormEnum"/>
+            <xs:element name="media" type="omniMediaEnum"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="omniMedia" type="omniMediaEnum"/>
+            <xs:element minOccurs="0" maxOccurs="1" ref="NumberUp"/>
+            <xs:element name="Rotation" type="orientationEnum"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="omniOrientation" type="omniOrientationEnum"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="OutputBin" type="outputBinEnum"/>
+            <xs:element name="printmode" type="omniPrintmodeEnum"/>
+            <xs:element name="Resolution" type="resolutionEnum"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="omniResolution" type="omniResolutionEnum"/>
+            <xs:element minOccurs="0" maxOccurs="1" ref="Scaling"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="SheetCollate" type="sheetCollateEnum"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="Sides" type="sidesEnum"/>
+            <xs:element minOccurs="0" maxOccurs="1" ref="Stitching"/>
+            <xs:element name="InputTray" type="trayEnum"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="omniTray" type="omniTrayEnum"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="Trimming" type="trimmingEnum"/>
+            <xs:element minOccurs="0" maxOccurs="unbounded" ref="other"/>
+            <xs:any namespace="##any" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="other" type="xs:string"/>
+
+   <xs:element name="deviceCommands">
+      <xs:complexType>
+         <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="command"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="command">
+      <xs:complexType>
+         <xs:simpleContent>
+            <xs:extension base="xs:string">
+               <xs:attribute name="name" type="xs:string"/>
+            </xs:extension>
+         </xs:simpleContent>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceConnections">
+      <xs:complexType>
+         <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="deviceConnection"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceConnection">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="connectionForm" type="formEnum"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="omniForm" type="omniFormEnum"/>
+            <xs:element name="connectionTray" type="trayEnum"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="omniTray" type="omniTrayEnum"/>
+            <xs:element name="connectionMedia" type="omniMediaEnum"/>
+            <xs:any namespace="##any" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceCopies">
+      <xs:complexType>
+         <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element ref="deviceCopy"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceCopy">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="minimum" type="xs:positiveInteger"/>
+            <xs:element name="maximum" type="xs:positiveInteger"/>
+            <xs:element ref="command"/>
+            <xs:element name="simulationRequired" type="booleanType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="deviceID" type="deviceIDType" minOccurs="0" maxOccurs="1"/>
+            <xs:any namespace="##any" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceDatas">
+      <xs:complexType>
+         <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="deviceData"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceData">
+      <xs:complexType>
+         <xs:simpleContent>
+            <xs:extension base="xs:string">
+               <xs:attribute name="name" type="xs:string"/>
+               <xs:attribute name="type" use="required">
+                  <xs:simpleType>
+                     <xs:restriction base="xs:string">
+                        <xs:enumeration value="string"/>
+                        <xs:enumeration value="boolean"/>
+                        <xs:enumeration value="integer"/>
+                        <xs:enumeration value="binary"/>
+                        <xs:enumeration value="byte"/>
+                     </xs:restriction>
+                  </xs:simpleType>
+               </xs:attribute>
+            </xs:extension>
+         </xs:simpleContent>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceForms">
+      <xs:complexType>
+         <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="deviceForm"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceForm">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="name" type="formEnum"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="omniName" type="omniFormEnum"/>
+            <xs:element name="formCapabilities" type="omniFormCapabilitiesEnum"/>
+            <xs:element ref="command"/>
+            <xs:element ref="hardCopyCap"/>
+            <xs:element name="deviceID" type="deviceIDType" minOccurs="0" maxOccurs="1"/>
+            <xs:any namespace="##any" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="formCapabilities" type="xs:string"/>
+
+   <xs:element name="hardCopyCap">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="hardCopyCapLeft" type="xs:positiveInteger"/>
+            <xs:element name="hardCopyCapTop" type="xs:positiveInteger"/>
+            <xs:element name="hardCopyCapRight" type="xs:positiveInteger"/>
+            <xs:element name="hardCopyCapBottom" type="xs:positiveInteger"/>
+            <xs:any namespace="##any" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceGammaTables">
+      <xs:complexType>
+         <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="deviceGammaTable"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceGammaTable">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="Resolution" type="resolutionEnum"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="omniResolution" type="omniResolutionEnum"/>
+            <xs:element name="media" type="omniMediaEnum"/>
+            <xs:element name="printmode" type="omniPrintmodeEnum"/>
+            <xs:element name="gammaTableDitherCatagory" type="omniDitherCatagoryEnum"/>
+            <xs:element name="gammaTableCGamma" type="xs:integer"/>
+            <xs:element name="gammaTableMGamma" type="xs:integer"/>
+            <xs:element name="gammaTableYGamma" type="xs:integer"/>
+            <xs:element name="gammaTableKGamma" type="xs:integer"/>
+            <xs:element name="gammaTableCBias" type="xs:integer"/>
+            <xs:element name="gammaTableMBias" type="xs:integer"/>
+            <xs:element name="gammaTableYBias" type="xs:integer"/>
+            <xs:element name="gammaTableKBias" type="xs:integer"/>
+            <xs:any namespace="##any" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceMedias">
+      <xs:complexType>
+         <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="deviceMedia"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceMedia">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="name" type="omniMediaEnum"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="omniName" type="omniMediaEnum"/>
+            <xs:element ref="command"/>
+            <xs:element name="mediaColorAdjustRequired" type="xs:integer"/>
+            <xs:element name="mediaAbsorption" type="omniMediaAbsorptionEnum"/>
+            <xs:element name="deviceID" type="deviceIDType" minOccurs="0" maxOccurs="1"/>
+            <xs:any namespace="##any" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceNumberUps">
+      <xs:complexType>
+         <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="deviceNumberUp"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceNumberUp">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="NumberUp">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element name="x" type="xs:positiveInteger"/>
+                     <xs:element name="y" type="xs:positiveInteger"/>
+                  </xs:sequence>
+                  <xs:attribute name="FORMAT" type="numberUpFormat" use="required"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="NumberUpDirection" type="nupDirectionEnum"/>
+            <xs:element ref="command"/>
+            <xs:element name="simulationRequired" type="booleanType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="deviceID" type="deviceIDType" minOccurs="0" maxOccurs="1"/>
+            <xs:any namespace="##any" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="NumberUp">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="NumberUp">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element name="x" type="xs:positiveInteger"/>
+                     <xs:element name="y" type="xs:positiveInteger"/>
+                  </xs:sequence>
+                  <xs:attribute name="FORMAT" type="numberUpFormat" use="required"/>
+               </xs:complexType>
+            </xs:element>
+            <xs:element name="NumberUpDirection" type="nupDirectionEnum"/>
+            <xs:any namespace="##any" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceOrientations">
+      <xs:complexType>
+         <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="deviceOrientation"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceOrientation">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="name" type="orientationEnum"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="omniName" type="omniOrientationEnum"/>
+            <xs:element name="simulationRequired" type="booleanType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="deviceID" type="deviceIDType" minOccurs="0" maxOccurs="1"/>
+            <xs:any namespace="##any" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceOutputBins">
+      <xs:complexType>
+         <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="deviceOutputBin"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceOutputBin">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="name" type="outputBinEnum"/>
+            <xs:element ref="command"/>
+            <xs:element name="deviceID" type="deviceIDType" minOccurs="0" maxOccurs="1"/>
+            <xs:any namespace="##any" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="devicePrintModes">
+      <xs:complexType>
+         <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="devicePrintMode"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="devicePrintMode">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="name" type="omniPrintmodeEnum"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="omniName" type="omniPrintmodeEnum"/>
+            <xs:element name="printModePhysicalCount" type="xs:positiveInteger"/>
+            <xs:element name="printModeLogicalCount" type="xs:positiveInteger"/>
+            <xs:element name="printModePlanes" type="xs:positiveInteger"/>
+            <xs:element name="deviceID" type="deviceIDType" minOccurs="0" maxOccurs="1"/>
+            <xs:any namespace="##any" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceResolutions">
+      <xs:complexType>
+         <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="deviceResolution"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceResolution">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="name" type="resolutionEnum"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="omniName" type="omniResolutionEnum"/>
+            <xs:element name="xRes" type="xs:integer"/>
+            <xs:element name="yRes" type="xs:integer"/>
+            <xs:sequence minOccurs="0" maxOccurs="1">
+               <xs:element name="xInternalRes" type="xs:integer"/>
+               <xs:element name="yInternalRes" type="xs:integer"/>
+            </xs:sequence>
+            <xs:element ref="command"/>
+            <xs:element name="resolutionCapability" type="xs:string"/>
+            <xs:element name="resolutionDestinationBitsPerPel" type="xs:integer"/>
+            <xs:element name="resolutionScanlineMultiple" type="xs:integer"/>
+            <xs:element name="deviceID" type="deviceIDType" minOccurs="0" maxOccurs="1"/>
+            <xs:any namespace="##any" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceScalings">
+      <xs:complexType>
+         <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="deviceScaling"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceScaling">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="default" type="xs:positiveInteger"/>
+            <xs:element name="minimum" type="xs:positiveInteger"/>
+            <xs:element name="maximum" type="xs:positiveInteger"/>
+            <xs:element ref="command"/>
+            <xs:element name="allowedType" type="scalingTypeEnum"/>
+            <xs:element name="deviceID" type="deviceIDType" minOccurs="0" maxOccurs="1"/>
+            <xs:any namespace="##any" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="Scaling">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="ScalingPercentage" type="xs:positiveInteger"/>
+            <xs:element name="ScalingType" type="scalingTypeEnum"/>
+            <xs:any namespace="##any" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceSheetCollates">
+      <xs:complexType>
+         <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="deviceSheetCollate"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceSheetCollate">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="name" type="sheetCollateEnum"/>
+            <xs:element ref="command"/>
+            <xs:element name="deviceID" type="deviceIDType" minOccurs="0" maxOccurs="1"/>
+            <xs:any namespace="##any" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceSides">
+      <xs:complexType>
+         <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="deviceSide"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceSide">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="name" type="sidesEnum"/>
+            <xs:element ref="command"/>
+            <xs:element name="simulationRequired" type="booleanType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="deviceID" type="deviceIDType" minOccurs="0" maxOccurs="1"/>
+            <xs:any namespace="##any" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceStitchings">
+      <xs:complexType>
+         <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="deviceStitching"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceStitching">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="StitchingPosition" type="xs:positiveInteger"/>
+            <xs:element name="StitchingReferenceEdge" type="stitchingReferenceEdgeEnum"/>
+            <xs:element name="StitchingType" type="stitchingTypeEnum"/>
+            <xs:element name="StitchingCount" type="xs:positiveInteger"/>
+            <xs:element name="StitchingAngle" type="xs:nonNegativeInteger"/>
+            <xs:element ref="command"/>
+            <xs:element name="deviceID" type="deviceIDType" minOccurs="0" maxOccurs="1"/>
+            <xs:any namespace="##any" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="Stitching">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="StitchingPosition" type="xs:positiveInteger"/>
+            <xs:element name="StitchingReferenceEdge" type="stitchingReferenceEdgeEnum"/>
+            <xs:element name="StitchingType" type="stitchingTypeEnum"/>
+            <xs:element name="StitchingCount" type="xs:positiveInteger"/>
+            <xs:element name="StitchingAngle" type="xs:nonNegativeInteger"/>
+            <xs:any namespace="##any" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceStrings">
+      <xs:complexType>
+         <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="deviceString"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceString">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element ref="name"/>
+            <xs:element ref="languages"/>
+            <xs:any namespace="##any" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceTrays">
+      <xs:complexType>
+         <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="deviceTray"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceTray">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="name" type="trayEnum"/>
+            <xs:element minOccurs="0" maxOccurs="1" name="omniName" type="omniTrayEnum"/>
+            <xs:element name="trayType" type="omniTrayTypeEnum"/>
+            <xs:element ref="command"/>
+            <xs:element name="deviceID" type="deviceIDType" minOccurs="0" maxOccurs="1"/>
+            <xs:any namespace="##any" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceTrimmings">
+      <xs:complexType>
+         <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="deviceTrimming"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="deviceTrimming">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="name" type="trimmingEnum"/>
+            <xs:element ref="command"/>
+            <xs:element name="deviceID" type="deviceIDType" minOccurs="0" maxOccurs="1"/>
+            <xs:any namespace="##any" minOccurs="0"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="languages">
+      <xs:complexType>
+         <xs:choice maxOccurs="unbounded">
+            <xs:element ref="aa"/>
+            <xs:element ref="ab"/>
+            <xs:element ref="af"/>
+            <xs:element ref="am"/>
+            <xs:element ref="ar"/>
+            <xs:element ref="as"/>
+            <xs:element ref="ay"/>
+            <xs:element ref="az"/>
+            <xs:element ref="ba"/>
+            <xs:element ref="be"/>
+            <xs:element ref="bg"/>
+            <xs:element ref="bh"/>
+            <xs:element ref="bi"/>
+            <xs:element ref="bn"/>
+            <xs:element ref="bo"/>
+            <xs:element ref="br"/>
+            <xs:element ref="ca"/>
+            <xs:element ref="co"/>
+            <xs:element ref="cs"/>
+            <xs:element ref="cy"/>
+            <xs:element ref="da"/>
+            <xs:element ref="de"/>
+            <xs:element ref="dz"/>
+            <xs:element ref="el"/>
+            <xs:element ref="en"/>
+            <xs:element ref="eo"/>
+            <xs:element ref="es"/>
+            <xs:element ref="et"/>
+            <xs:element ref="eu"/>
+            <xs:element ref="fa"/>
+            <xs:element ref="fi"/>
+            <xs:element ref="fj"/>
+            <xs:element ref="fo"/>
+            <xs:element ref="fr"/>
+            <xs:element ref="fy"/>
+            <xs:element ref="ga"/>
+            <xs:element ref="gd"/>
+            <xs:element ref="gl"/>
+            <xs:element ref="gn"/>
+            <xs:element ref="gu"/>
+            <xs:element ref="gv"/>
+            <xs:element ref="ha"/>
+            <xs:element ref="he"/>
+            <xs:element ref="hi"/>
+            <xs:element ref="hr"/>
+            <xs:element ref="hu"/>
+            <xs:element ref="hy"/>
+            <xs:element ref="ia"/>
+            <xs:element ref="id"/>
+            <xs:element ref="ie"/>
+            <xs:element ref="ik"/>
+            <xs:element ref="in"/>
+            <xs:element ref="is"/>
+            <xs:element ref="it"/>
+            <xs:element ref="iu"/>
+            <xs:element ref="iw"/>
+            <xs:element ref="ja"/>
+            <xs:element ref="ji"/>
+            <xs:element ref="jw"/>
+            <xs:element ref="ka"/>
+            <xs:element ref="kk"/>
+            <xs:element ref="kl"/>
+            <xs:element ref="km"/>
+            <xs:element ref="kn"/>
+            <xs:element ref="ko"/>
+            <xs:element ref="ks"/>
+            <xs:element ref="ku"/>
+            <xs:element ref="ky"/>
+            <xs:element ref="la"/>
+            <xs:element ref="ln"/>
+            <xs:element ref="lo"/>
+            <xs:element ref="lt"/>
+            <xs:element ref="lv"/>
+            <xs:element ref="mg"/>
+            <xs:element ref="mi"/>
+            <xs:element ref="mk"/>
+            <xs:element ref="ml"/>
+            <xs:element ref="mn"/>
+            <xs:element ref="mo"/>
+            <xs:element ref="mr"/>
+            <xs:element ref="ms"/>
+            <xs:element ref="mt"/>
+            <xs:element ref="my"/>
+            <xs:element ref="na"/>
+            <xs:element ref="ne"/>
+            <xs:element ref="nl"/>
+            <xs:element ref="no"/>
+            <xs:element ref="oc"/>
+            <xs:element ref="om"/>
+            <xs:element ref="or"/>
+            <xs:element ref="pa"/>
+            <xs:element ref="pl"/>
+            <xs:element ref="ps"/>
+            <xs:element ref="pt"/>
+            <xs:element ref="qu"/>
+            <xs:element ref="rm"/>
+            <xs:element ref="rn"/>
+            <xs:element ref="ro"/>
+            <xs:element ref="ru"/>
+            <xs:element ref="rw"/>
+            <xs:element ref="sa"/>
+            <xs:element ref="sd"/>
+            <xs:element ref="sg"/>
+            <xs:element ref="sh"/>
+            <xs:element ref="si"/>
+            <xs:element ref="sk"/>
+            <xs:element ref="sl"/>
+            <xs:element ref="sm"/>
+            <xs:element ref="sn"/>
+            <xs:element ref="so"/>
+            <xs:element ref="sq"/>
+            <xs:element ref="sr"/>
+            <xs:element ref="ss"/>
+            <xs:element ref="st"/>
+            <xs:element ref="su"/>
+            <xs:element ref="sv"/>
+            <xs:element ref="sw"/>
+            <xs:element ref="ta"/>
+            <xs:element ref="te"/>
+            <xs:element ref="tg"/>
+            <xs:element ref="th"/>
+            <xs:element ref="ti"/>
+            <xs:element ref="tk"/>
+            <xs:element ref="tl"/>
+            <xs:element ref="tn"/>
+            <xs:element ref="to"/>
+            <xs:element ref="tr"/>
+            <xs:element ref="ts"/>
+            <xs:element ref="tt"/>
+            <xs:element ref="tw"/>
+            <xs:element ref="ug"/>
+            <xs:element ref="uk"/>
+            <xs:element ref="ur"/>
+            <xs:element ref="uz"/>
+            <xs:element ref="vi"/>
+            <xs:element ref="vo"/>
+            <xs:element ref="wo"/>
+            <xs:element ref="xh"/>
+            <xs:element ref="yi"/>
+            <xs:element ref="yo"/>
+            <xs:element ref="zh"/>
+            <xs:element ref="zu"/>
+         </xs:choice>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:element name="aa" type="xs:string"/>
+   <xs:element name="ab" type="xs:string"/>
+   <xs:element name="af" type="xs:string"/>
+   <xs:element name="am" type="xs:string"/>
+   <xs:element name="ar" type="xs:string"/>
+   <xs:element name="as" type="xs:string"/>
+   <xs:element name="ay" type="xs:string"/>
+   <xs:element name="az" type="xs:string"/>
+   <xs:element name="ba" type="xs:string"/>
+   <xs:element name="be" type="xs:string"/>
+   <xs:element name="bg" type="xs:string"/>
+   <xs:element name="bh" type="xs:string"/>
+   <xs:element name="bi" type="xs:string"/>
+   <xs:element name="bn" type="xs:string"/>
+   <xs:element name="bo" type="xs:string"/>
+   <xs:element name="br" type="xs:string"/>
+   <xs:element name="ca" type="xs:string"/>
+   <xs:element name="co" type="xs:string"/>
+   <xs:element name="cs" type="xs:string"/>
+   <xs:element name="cy" type="xs:string"/>
+   <xs:element name="da" type="xs:string"/>
+   <xs:element name="de" type="xs:string"/>
+   <xs:element name="dz" type="xs:string"/>
+   <xs:element name="el" type="xs:string"/>
+   <xs:element name="en" type="xs:string"/>
+   <xs:element name="eo" type="xs:string"/>
+   <xs:element name="es" type="xs:string"/>
+   <xs:element name="et" type="xs:string"/>
+   <xs:element name="eu" type="xs:string"/>
+   <xs:element name="fa" type="xs:string"/>
+   <xs:element name="fi" type="xs:string"/>
+   <xs:element name="fj" type="xs:string"/>
+   <xs:element name="fo" type="xs:string"/>
+   <xs:element name="fr" type="xs:string"/>
+   <xs:element name="fy" type="xs:string"/>
+   <xs:element name="ga" type="xs:string"/>
+   <xs:element name="gd" type="xs:string"/>
+   <xs:element name="gl" type="xs:string"/>
+   <xs:element name="gn" type="xs:string"/>
+   <xs:element name="gu" type="xs:string"/>
+   <xs:element name="gv" type="xs:string"/>
+   <xs:element name="ha" type="xs:string"/>
+   <xs:element name="he" type="xs:string"/>
+   <xs:element name="hi" type="xs:string"/>
+   <xs:element name="hr" type="xs:string"/>
+   <xs:element name="hu" type="xs:string"/>
+   <xs:element name="hy" type="xs:string"/>
+   <xs:element name="ia" type="xs:string"/>
+   <xs:element name="id" type="xs:string"/>
+   <xs:element name="ie" type="xs:string"/>
+   <xs:element name="ik" type="xs:string"/>
+   <xs:element name="in" type="xs:string"/>
+   <xs:element name="is" type="xs:string"/>
+   <xs:element name="it" type="xs:string"/>
+   <xs:element name="iu" type="xs:string"/>
+   <xs:element name="iw" type="xs:string"/>
+   <xs:element name="ja" type="xs:string"/>
+   <xs:element name="ji" type="xs:string"/>
+   <xs:element name="jw" type="xs:string"/>
+   <xs:element name="ka" type="xs:string"/>
+   <xs:element name="kk" type="xs:string"/>
+   <xs:element name="kl" type="xs:string"/>
+   <xs:element name="km" type="xs:string"/>
+   <xs:element name="kn" type="xs:string"/>
+   <xs:element name="ko" type="xs:string"/>
+   <xs:element name="ks" type="xs:string"/>
+   <xs:element name="ku" type="xs:string"/>
+   <xs:element name="ky" type="xs:string"/>
+   <xs:element name="la" type="xs:string"/>
+   <xs:element name="ln" type="xs:string"/>
+   <xs:element name="lo" type="xs:string"/>
+   <xs:element name="lt" type="xs:string"/>
+   <xs:element name="lv" type="xs:string"/>
+   <xs:element name="mg" type="xs:string"/>
+   <xs:element name="mi" type="xs:string"/>
+   <xs:element name="mk" type="xs:string"/>
+   <xs:element name="ml" type="xs:string"/>
+   <xs:element name="mn" type="xs:string"/>
+   <xs:element name="mo" type="xs:string"/>
+   <xs:element name="mr" type="xs:string"/>
+   <xs:element name="ms" type="xs:string"/>
+   <xs:element name="mt" type="xs:string"/>
+   <xs:element name="my" type="xs:string"/>
+   <xs:element name="na" type="xs:string"/>
+   <xs:element name="ne" type="xs:string"/>
+   <xs:element name="nl" type="xs:string"/>
+   <xs:element name="no" type="xs:string"/>
+   <xs:element name="oc" type="xs:string"/>
+   <xs:element name="om" type="xs:string"/>
+   <xs:element name="or" type="xs:string"/>
+   <xs:element name="pa" type="xs:string"/>
+   <xs:element name="pl" type="xs:string"/>
+   <xs:element name="ps" type="xs:string"/>
+   <xs:element name="pt" type="xs:string"/>
+   <xs:element name="qu" type="xs:string"/>
+   <xs:element name="rm" type="xs:string"/>
+   <xs:element name="rn" type="xs:string"/>
+   <xs:element name="ro" type="xs:string"/>
+   <xs:element name="ru" type="xs:string"/>
+   <xs:element name="rw" type="xs:string"/>
+   <xs:element name="sa" type="xs:string"/>
+   <xs:element name="sd" type="xs:string"/>
+   <xs:element name="sg" type="xs:string"/>
+   <xs:element name="sh" type="xs:string"/>
+   <xs:element name="si" type="xs:string"/>
+   <xs:element name="sk" type="xs:string"/>
+   <xs:element name="sl" type="xs:string"/>
+   <xs:element name="sm" type="xs:string"/>
+   <xs:element name="sn" type="xs:string"/>
+   <xs:element name="so" type="xs:string"/>
+   <xs:element name="sq" type="xs:string"/>
+   <xs:element name="sr" type="xs:string"/>
+   <xs:element name="ss" type="xs:string"/>
+   <xs:element name="st" type="xs:string"/>
+   <xs:element name="su" type="xs:string"/>
+   <xs:element name="sv" type="xs:string"/>
+   <xs:element name="sw" type="xs:string"/>
+   <xs:element name="ta" type="xs:string"/>
+   <xs:element name="te" type="xs:string"/>
+   <xs:element name="tg" type="xs:string"/>
+   <xs:element name="th" type="xs:string"/>
+   <xs:element name="ti" type="xs:string"/>
+   <xs:element name="tk" type="xs:string"/>
+   <xs:element name="tl" type="xs:string"/>
+   <xs:element name="tn" type="xs:string"/>
+   <xs:element name="to" type="xs:string"/>
+   <xs:element name="tr" type="xs:string"/>
+   <xs:element name="ts" type="xs:string"/>
+   <xs:element name="tt" type="xs:string"/>
+   <xs:element name="tw" type="xs:string"/>
+   <xs:element name="ug" type="xs:string"/>
+   <xs:element name="uk" type="xs:string"/>
+   <xs:element name="ur" type="xs:string"/>
+   <xs:element name="uz" type="xs:string"/>
+   <xs:element name="vi" type="xs:string"/>
+   <xs:element name="vo" type="xs:string"/>
+   <xs:element name="wo" type="xs:string"/>
+   <xs:element name="xh" type="xs:string"/>
+   <xs:element name="yi" type="xs:string"/>
+   <xs:element name="yo" type="xs:string"/>
+   <xs:element name="zh" type="xs:string"/>
+   <xs:element name="zu" type="xs:string"/>
+</xs:schema>

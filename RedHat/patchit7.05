@@ -1,0 +1,27 @@
+#! /bin/bash
+#
+# IBM Omni driver
+# Copyright (c) International Business Machines Corp., 2000
+#
+# This library is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation; either version 2.1 of the License, or
+# (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+# the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+#
+PATCH_FILE=../SOURCES/Omni-7.05-121002.patch
+
+diff -ur ghostscript-7.05.before/ ghostscript-7.05.after/ |
+	sed -e '/^Common sub/d' -e '/^Only in/d' -e 's/ghostscript-7.05.before\///' -e 's/ghostscript-7.05.after\///' > ${PATCH_FILE}
+diff -Nu ghostscript-7.05.before/src/gomni.c ghostscript-7.05.after/src/gomni.c |
+	sed -e 's/ghostscript-7.05.before\///' -e 's/ghostscript-7.05.after\///' >> ${PATCH_FILE}
+diff -Nu ghostscript-7.05.before/src/defs.h ghostscript-7.05.after/src/defs.h |
+	sed -e 's/ghostscript-7.05.before\///' -e 's/ghostscript-7.05.after\///' >> ${PATCH_FILE}

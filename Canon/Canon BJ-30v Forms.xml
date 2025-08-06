@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     IBM Omni driver
+     Copyright (c) International Business Machines Corp., 2000
+
+     This library is free software; you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published
+     by the Free Software Foundation; either version 2.1 of the License, or
+     (at your option) any later version.
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+     the GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this library; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
+<deviceForms xmlns="http://www.ibm.com/linux/ltc/projects/omni/" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:schemaLocation="http://www.ibm.com/linux/ltc/projects/omni/ ../OmniDevice.xsd">
+   <deviceForm>
+      <name>iso_a4_210.00x297.00mm</name>
+      <omniName>FORM_A4</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>3400</hardCopyCapLeft>
+         <hardCopyCapTop>3000</hardCopyCapTop>
+         <hardCopyCapRight>3400</hardCopyCapRight>
+         <hardCopyCapBottom>3000</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>iso_b5_176.00x250.00mm</name>
+      <omniName>FORM_B5</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>3400</hardCopyCapLeft>
+         <hardCopyCapTop>3000</hardCopyCapTop>
+         <hardCopyCapRight>3400</hardCopyCapRight>
+         <hardCopyCapBottom>3000</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>iso_a5_148.00x210.00mm</name>
+      <omniName>FORM_A5</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>3400</hardCopyCapLeft>
+         <hardCopyCapTop>3000</hardCopyCapTop>
+         <hardCopyCapRight>3400</hardCopyCapRight>
+         <hardCopyCapBottom>3000</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>na_letter_8.50x11.00in</name>
+      <omniName>FORM_LETTER</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>6400</hardCopyCapLeft>
+         <hardCopyCapTop>3000</hardCopyCapTop>
+         <hardCopyCapRight>6400</hardCopyCapRight>
+         <hardCopyCapBottom>3000</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>na_legal_8.50x14.00in</name>
+      <omniName>FORM_LEGAL</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>6400</hardCopyCapLeft>
+         <hardCopyCapTop>3000</hardCopyCapTop>
+         <hardCopyCapRight>6400</hardCopyCapRight>
+         <hardCopyCapBottom>3000</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>jpn_hagaki_100.00x148.00mm</name>
+      <omniName>FORM_HAGAKI_CARD</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_NUL_</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>3400</hardCopyCapLeft>
+         <hardCopyCapTop>3000</hardCopyCapTop>
+         <hardCopyCapRight>3400</hardCopyCapRight>
+         <hardCopyCapBottom>3000</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+</deviceForms>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     IBM Omni driver
+     Copyright (c) International Business Machines Corp., 2000
+
+     This library is free software; you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published
+     by the Free Software Foundation; either version 2.1 of the License, or
+     (at your option) any later version.
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+     the GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this library; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
+<deviceForms xmlns="http://www.ibm.com/linux/ltc/projects/omni/" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:schemaLocation="http://www.ibm.com/linux/ltc/projects/omni/ ../OmniDevice.xsd">
+   <deviceForm>
+      <name>iso_a3_297.00x420.00mm</name>
+      <omniName>FORM_A3</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_ESC_ &quot;~8&quot; _NUL_ HEX (09) HEX (01) HEX (1B) HEX (01) HEX (1B) &quot;?&quot; HEX (8F) &quot;Z&quot; HEX(CC) HEX (02)</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>5000</hardCopyCapLeft>
+         <hardCopyCapTop>5000</hardCopyCapTop>
+         <hardCopyCapRight>5000</hardCopyCapRight>
+         <hardCopyCapBottom>5000</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>iso_a4_210.00x297.00mm</name>
+      <omniName>FORM_A4</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_ESC_ &quot;~8&quot; _NUL_ HEX (09) HEX (01) HEX (1B) HEX (01) HEX (1B) &quot;,K?&quot;HEX(8F) HEX (02)</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>5000</hardCopyCapLeft>
+         <hardCopyCapTop>5000</hardCopyCapTop>
+         <hardCopyCapRight>5000</hardCopyCapRight>
+         <hardCopyCapBottom>5000</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>iso_a5_148.00x210.00mm</name>
+      <omniName>FORM_A5</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_ESC_ &quot;~8&quot; _NUL_ HEX (09) HEX (01) HEX (1B) HEX (01) HEX (1B) HEX(1E) HEX(8F) &quot;,K&quot; HEX (02)</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>5000</hardCopyCapLeft>
+         <hardCopyCapTop>5000</hardCopyCapTop>
+         <hardCopyCapRight>5000</hardCopyCapRight>
+         <hardCopyCapBottom>5000</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>jis_b4_257.00x364.00mm</name>
+      <omniName>FORM_JIS_B4</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_ESC_ &quot;~8&quot; _NUL_ HEX (09) HEX (01) HEX (1B) HEX (01) HEX (1B) &quot;6&quot; HEX(B3) &quot;Ne&quot; HEX (02)</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>5000</hardCopyCapLeft>
+         <hardCopyCapTop>5000</hardCopyCapTop>
+         <hardCopyCapRight>5000</hardCopyCapRight>
+         <hardCopyCapBottom>5000</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>jis_b5_182.00x257.00mm</name>
+      <omniName>FORM_JIS_B5</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_ESC_ &quot;~8&quot; _NUL_ HEX (09) HEX (01) HEX (1B) HEX (01) HEX (1B) HEX(26) HEX(17) HEX(36) HEX(B3) HEX (02)</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>5000</hardCopyCapLeft>
+         <hardCopyCapTop>5000</hardCopyCapTop>
+         <hardCopyCapRight>5000</hardCopyCapRight>
+         <hardCopyCapBottom>5000</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>na_letter_8.50x11.00in</name>
+      <omniName>FORM_LETTER</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_ESC_ &quot;~8&quot; _NUL_ HEX (09) HEX (01) HEX (1B) HEX (01) HEX (1B) &quot;-&quot; HEX(99) &quot;;&quot; HEX(A9) HEX (02)</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>5000</hardCopyCapLeft>
+         <hardCopyCapTop>5000</hardCopyCapTop>
+         <hardCopyCapRight>5000</hardCopyCapRight>
+         <hardCopyCapBottom>5000</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>na_legal_8.50x14.00in</name>
+      <omniName>FORM_LEGAL</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_ESC_ &quot;~8&quot; _NUL_ HEX (09) HEX (01) HEX (1B) HEX (01) HEX (1B) &quot;-&quot; HEX(99) &quot;L&quot; HEX(89) HEX (02)</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>5000</hardCopyCapLeft>
+         <hardCopyCapTop>5000</hardCopyCapTop>
+         <hardCopyCapRight>5000</hardCopyCapRight>
+         <hardCopyCapBottom>5000</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+   <deviceForm>
+      <name>jpn_hagaki_100.00x148.00mm</name>
+      <omniName>FORM_HAGAKI_CARD</omniName>
+      <formCapabilities>NO_CAPABILITIES</formCapabilities>
+      <command>_ESC_ &quot;~8&quot; _NUL_ HEX (09) HEX (01) HEX (1B) HEX (01) HEX (1B) HEX (13) HEX(EE) HEX (1E) HEX(90) HEX (02)</command>
+      <hardCopyCap>
+         <hardCopyCapLeft>5000</hardCopyCapLeft>
+         <hardCopyCapTop>5000</hardCopyCapTop>
+         <hardCopyCapRight>5000</hardCopyCapRight>
+         <hardCopyCapBottom>5000</hardCopyCapBottom>
+      </hardCopyCap>
+   </deviceForm>
+</deviceForms>

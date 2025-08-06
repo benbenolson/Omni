@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     IBM Omni driver
+     Copyright (c) International Business Machines Corp., 2000
+
+     This library is free software; you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published
+     by the Free Software Foundation; either version 2.1 of the License, or
+     (at your option) any later version.
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+     the GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this library; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
+<Device xmlns="http://www.ibm.com/linux/ltc/projects/omni/" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" name="IBM 5584-H02" xs:schemaLocation="http://www.ibm.com/linux/ltc/projects/omni/ ../OmniDevice.xsd">
+   <DriverName>IBM</DriverName>
+   <Capability type="MONOCHROME"/>
+   <Capability type="MIRROR"/>
+   <RasterCapabilities type="TOP_TO_BOTTOM"/>
+   <DeviceOptions type="SUPPORTS_OTHER_SETTINGS"/>
+   <PDL level="PDL_Pages" sublevel="PDL_DONTCARE" major="1" minor="0"/>
+   <Uses>IBM 5584-H02 Commands.xml</Uses>
+   <Uses>IBM Orientations.xml</Uses>
+   <Has>IBM 5584-H02 Resolutions.xml</Has>
+   <Has>IBM 5584-H02 PrintModes.xml</Has>
+   <Has>IBM 5584-H02 Trays.xml</Has>
+   <Has>IBM 5584-H02 Forms.xml</Has>
+   <Has>IBM 5584-H02 Medias.xml</Has>
+   <Has>IBM 5584-H02 Connections.xml</Has>
+   <Has>IBM Copies.xml</Has>
+   <Has>IBM NUps.xml</Has>
+   <Has>IBM OutputBins.xml</Has>
+   <Has>IBM Scalings.xml</Has>
+   <Has>IBM SheetCollates.xml</Has>
+   <Has>IBM Sides.xml</Has>
+   <Has>IBM Stitchings.xml</Has>
+   <Has>IBM Trimmings.xml</Has>
+   <Instance>IBM Pages Instance.hpp</Instance>
+   <Instance>IBM Pages Instance.cpp</Instance>
+   <Blitter>IBM Pages Blitter.hpp</Blitter>
+   <Blitter>IBM Pages Blitter.cpp</Blitter>
+   <DefaultJobProperties>
+      <Copies>1</Copies>
+      <dither>DITHER_STUCKI_DIFFUSION</dither>
+      <Form>iso_a4_210.00x297.00mm</Form>
+      <omniForm>FORM_A4</omniForm>
+      <media>MEDIA_PLAIN</media>
+      <NumberUp>
+         <NumberUp FORMAT="XbyY">
+            <x>1</x>
+            <y>1</y>
+         </NumberUp>
+         <NumberUpDirection>TorightTobottom</NumberUpDirection>
+      </NumberUp>
+      <Rotation>Portrait</Rotation>
+      <omniOrientation>ORIENTATION_PORTRAIT</omniOrientation>
+      <OutputBin>Top</OutputBin>
+      <printmode>PRINT_MODE_1_ANY</printmode>
+      <Resolution>360x360</Resolution>
+      <omniResolution>RESOLUTION_360_X_360</omniResolution>
+      <Scaling>
+         <ScalingPercentage>100</ScalingPercentage>
+         <ScalingType>None</ScalingType>
+      </Scaling>
+      <SheetCollate>SheetUncollated</SheetCollate>
+      <Sides>OneSidedFront</Sides>
+      <Stitching>
+         <StitchingPosition>0</StitchingPosition>
+         <StitchingReferenceEdge>Top</StitchingReferenceEdge>
+         <StitchingType>None</StitchingType>
+         <StitchingCount>0</StitchingCount>
+         <StitchingAngle>0</StitchingAngle>
+      </Stitching>
+      <InputTray>AutoSelect</InputTray>
+      <omniTray>TRAY_MULTI_CASSETTE</omniTray>
+      <Trimming>None</Trimming>
+   </DefaultJobProperties>
+</Device>

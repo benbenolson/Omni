@@ -1,0 +1,22 @@
+We have not verified the color correctness on every device.  If you find
+that the color output on your device is not correct, The color output can
+be adjusted by changing each of the gammas in the gamma file for the
+particular device you are using.  Before you can change the correct gamma
+you must first be able to identify each of the following:
+
+     - printer model
+
+     - type of dither method applied - matrix or diffusion
+
+     - printing mode, be it mono, 8, or 24 bit black/black and color
+
+     - media type
+
+If you are working with the Epson Stylus Color 860 you can change the file
+"Epson Stylus 860 Gammas".  The structure defining each of the values in
+the file are contained in DeviceGammas.hpp.  The gamma value can be changed
+along with the bias value, minimum value needed for each color.  Raising
+any of these values will deplete the color that has been changed. Since the
+Omni driver supports separate per color plane corrections for each media type,
+print mode, resolution, and dither mode combination you must modify the line
+representing your current print options.

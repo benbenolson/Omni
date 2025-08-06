@@ -1,0 +1,4 @@
+cat "../HP LaserJet/HP LaserJet PCL Instance.hpp" | sed s/HP_LaserJet_/Okidata_/g > "Okidata PCL Instance.hpp"
+cat "../HP LaserJet/HP LaserJet PCL Instance.cpp" | sed s/HP_LaserJet_/Okidata_/g > "Okidata PCL Instance.cpp"
+cat "../HP LaserJet/HP LaserJet PCL Blitter.hpp" | sed s/HP_LaserJet_/Okidata_/g > "Okidata PCL Blitter.hpp"
+cat "../HP LaserJet/HP LaserJet PCL Blitter.cpp" | sed s/HP_LaserJet_/Okidata_/g > "Okidata PCL Blitter.cpp"

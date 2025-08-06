@@ -1,0 +1,3 @@
+#!/bin/bash
+rm /tmp/DCT.zip
+zip /tmp/DCT.zip * -x \*.pyc

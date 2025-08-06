@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.pwg.org/schemas/sm/1.0/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.pwg.org/schemas/sm/1.0/" elementFormDefault="qualified" version="1.00">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">PWG Printer State Element schema
+Copyright 2002-2004, IEEE Industry Standards and Technology Organization/Printer Working Group. 
+All rights reserved</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>NOTE: To use this schema you MUST include PwgCommon.xsd</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>Printer Status Element definition</xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="PrinterStatus">
+		<xsd:sequence>
+			<xsd:element ref="PrinterCurrentTime" minOccurs="0"/>
+			<xsd:element ref="PrinterIsAcceptingJobs" minOccurs="0"/>
+			<xsd:element ref="PrinterMessageDateTime" minOccurs="0"/>
+			<xsd:element ref="PrinterMessageTime" minOccurs="0"/>
+			<xsd:element ref="PrinterState" minOccurs="0"/>
+			<xsd:element ref="PrinterStateMessage" minOccurs="0"/>
+			<xsd:element ref="PrinterStateReasons" minOccurs="0"/>
+			<xsd:element ref="PrinterUpTime" minOccurs="0"/>
+			<xsd:element ref="QueuedJobCount" minOccurs="0"/>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="PrinterStatus" type="PrinterStatus"/>
+	<xsd:annotation>
+		<xsd:documentation>Printer Status specific semantic elements</xsd:documentation>
+	</xsd:annotation>
+	<xsd:element name="PrinterCurrentTime" type="xsd:dateTime"/>
+	<xsd:element name="PrinterIsAcceptingJobs" type="xsd:boolean"/>
+	<xsd:element name="PrinterMessageDateTime" type="xsd:dateTime"/>
+	<xsd:element name="PrinterMessageTime" type="xsd:int"/>
+	<xsd:element name="PrinterState">
+		<xsd:simpleType>
+			<xsd:restriction base="PrinterStateWKV"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PrinterStateMessage">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="1023"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="PrinterStateReasons">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="PrinterStateReason" minOccurs="0" maxOccurs="unbounded">
+					<xsd:simpleType>
+						<xsd:union memberTypes="PrinterStateReasonsWKVs KeywordNsExtensionPattern"/>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="QueuedJobCount" type="xsd:int"/>
+</xsd:schema>

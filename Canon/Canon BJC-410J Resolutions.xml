@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     IBM Omni driver
+     Copyright (c) International Business Machines Corp., 2000
+
+     This library is free software; you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published
+     by the Free Software Foundation; either version 2.1 of the License, or
+     (at your option) any later version.
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+     the GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this library; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
+<deviceResolutions xmlns="http://www.ibm.com/linux/ltc/projects/omni/" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:schemaLocation="http://www.ibm.com/linux/ltc/projects/omni/ ../OmniDevice.xsd">
+   <deviceResolution>
+      <name>90x90</name>
+      <omniName>RESOLUTION_90_X_90</omniName>
+      <xRes>90</xRes>
+      <yRes>90</yRes>
+      <command>_ESC_ &quot;(d&quot; HEX (02) _NUL_ _NUL_ &quot;Z&quot;</command>
+      <resolutionCapability>0</resolutionCapability>
+      <resolutionDestinationBitsPerPel>1</resolutionDestinationBitsPerPel>
+      <resolutionScanlineMultiple>1</resolutionScanlineMultiple>
+   </deviceResolution>
+   <deviceResolution>
+      <name>180x180</name>
+      <omniName>RESOLUTION_180_X_180</omniName>
+      <xRes>180</xRes>
+      <yRes>180</yRes>
+      <command>_ESC_ &quot;(d&quot; HEX (02) _NUL_ _NUL_ HEX (B4)</command>
+      <resolutionCapability>0</resolutionCapability>
+      <resolutionDestinationBitsPerPel>1</resolutionDestinationBitsPerPel>
+      <resolutionScanlineMultiple>1</resolutionScanlineMultiple>
+   </deviceResolution>
+   <deviceResolution>
+      <name>360x360</name>
+      <omniName>RESOLUTION_360_X_360</omniName>
+      <xRes>360</xRes>
+      <yRes>360</yRes>
+      <command>_ESC_ &quot;(d&quot; HEX (02) _NUL_ HEX (01) &quot;h&quot;</command>
+      <resolutionCapability>0</resolutionCapability>
+      <resolutionDestinationBitsPerPel>1</resolutionDestinationBitsPerPel>
+      <resolutionScanlineMultiple>1</resolutionScanlineMultiple>
+   </deviceResolution>
+   <deviceResolution>
+      <name>720x360</name>
+      <omniName>RESOLUTION_720_X_360</omniName>
+      <xRes>720</xRes>
+      <yRes>360</yRes>
+      <command>_ESC_ &quot;(d&quot; HEX (04) _NUL_ HEX (01) &quot;h&quot; HEX (02) HEX (D0)</command>
+      <resolutionCapability>0</resolutionCapability>
+      <resolutionDestinationBitsPerPel>1</resolutionDestinationBitsPerPel>
+      <resolutionScanlineMultiple>1</resolutionScanlineMultiple>
+   </deviceResolution>
+</deviceResolutions>

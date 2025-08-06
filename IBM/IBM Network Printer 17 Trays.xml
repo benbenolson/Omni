@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     IBM Omni driver
+     Copyright (c) International Business Machines Corp., 2000
+
+     This library is free software; you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published
+     by the Free Software Foundation; either version 2.1 of the License, or
+     (at your option) any later version.
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+     the GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this library; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
+<deviceTrays xmlns="http://www.ibm.com/linux/ltc/projects/omni/" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:schemaLocation="http://www.ibm.com/linux/ltc/projects/omni/ ../OmniDevice.xsd">
+   <deviceTray>
+      <name>AutoSelect</name>
+      <omniName>TRAY_AUTO</omniName>
+      <trayType>TRAY_TYPE_AUTO</trayType>
+      <command>&quot;&quot;</command>
+   </deviceTray>
+   <deviceTray>
+      <name>BypassTray</name>
+      <omniName>TRAY_AUXILIARY_TRAY</omniName>
+      <trayType>TRAY_TYPE_AUTO</trayType>
+      <command>_ESC_ &quot;&amp;l4H&quot;</command>
+   </deviceTray>
+   <deviceTray>
+      <name>Envelope</name>
+      <omniName>TRAY_ENVELOPE_FEEDER</omniName>
+      <trayType>TRAY_TYPE_AUTO</trayType>
+      <command>_ESC_ &quot;&amp;l6H&quot;</command>
+   </deviceTray>
+   <deviceTray>
+      <name>Tray-1</name>
+      <omniName>TRAY_TRAY_1</omniName>
+      <trayType>TRAY_TYPE_AUTO</trayType>
+      <command>_ESC_ &quot;&amp;l1H&quot;</command>
+   </deviceTray>
+   <deviceTray>
+      <name>Tray-2</name>
+      <omniName>TRAY_TRAY_2</omniName>
+      <trayType>TRAY_TYPE_AUTO</trayType>
+      <command>_ESC_ &quot;&amp;l5H&quot;</command>
+   </deviceTray>
+   <deviceTray>
+      <name>Tray-3</name>
+      <omniName>TRAY_TRAY_3</omniName>
+      <trayType>TRAY_TYPE_AUTO</trayType>
+      <command>_ESC_ &quot;&amp;l7H&quot;</command>
+   </deviceTray>
+   <deviceTray>
+      <name>PanelSelect</name>
+      <omniName>TRAY_USE_PRINTER_SETTING</omniName>
+      <trayType>TRAY_TYPE_AUTO</trayType>
+      <command>_ESC_ &quot;&amp;l0H&quot;</command>
+   </deviceTray>
+</deviceTrays>

@@ -1,0 +1,164 @@
+diff -C 5 ./gomni.c /gs6.51.update/ghostscript-6.51/src/gomni.c
+*** ./gomni.c	Wed Sep  5 10:20:28 2001
+--- /gs6.51.update/ghostscript-6.51/src/gomni.c	Wed Sep  5 09:12:26 2001
+***************
+*** 1,6 ****
+! /*
+   *   IBM Omni driver
+   *   Copyright (c) International Business Machines Corp., 2000
+   *
+   *   This library is free software; you can redistribute it and/or modify
+   *   it under the terms of the GNU Lesser General Public License as published
+--- 1,6 ----
+! /*  
+   *   IBM Omni driver
+   *   Copyright (c) International Business Machines Corp., 2000
+   *
+   *   This library is free software; you can redistribute it and/or modify
+   *   it under the terms of the GNU Lesser General Public License as published
+***************
+*** 644,685 ****
+  
+        pDev->hmodOmni = g_module_open ("libomni.so", (GModuleFlags)0);
+  
+        if (!pDev->hmodOmni)
+        {
+!          // Failure!
+!          fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
+!          fprintf (stderr, "Error: Could not load libomni.so!\n\n");
+!          fprintf (stderr, "The reason was \"%s\"\n\n", g_module_error ());
+!          fprintf (stderr, "LD_LIBRARY_PATH=%s\n\n", getenv ("LD_LIBRARY_PATH"));
+! 
+!          // @TBD - why doesnt return_error(gs_error_Fatal) work?
+!          //        If it is in, then we get the following:
+!          //
+!          // Unrecoverable error: rangecheck in .putdeviceprops
+!          //
+!          // Unexpected interpreter error -15.
+!          // Error object: (1488)op_array(586)0x81bc858:.putdeviceprops
+!          // Execution stack at 0x81b0940:
+!          // 0x81c6c74: 0x0f oper --F---e-- 0x0000 0x08084fcc = %interp_exit
+!          // 0x81c6c7c: 0x03 file --G-rxe-- 0x0001 0x081bd010
+!          // 0x81c6c84: 0x0e null --F---e-- 0x0000 0x08086b94
+!          // 0x81c6c8c: 0x0b int  --F------ 0x01ac 0x00000008 = 8
+!          // 0x81c6c94: 0x0b int  --F------ 0x0007 0x00000004 = 4
+!          // 0x81c6c9c: 0x0f oper --F---e-- 0x0000 0x08086b80 = %oparray_pop
+!          // 0x81c6ca4: 0x05 mpry --G-rxe-- 0x0002 0x0821032c
+!          // 0x81c6cac: 0x0e null --F---e-- 0x0000 0x08086b94
+!          // 0x81c6cb4: 0x0b int  --F------ 0x0001 0x00000008 = 8
+!          // 0x81c6cbc: 0x0b int  --F------ 0x0000 0x00000004 = 4
+!          // 0x81c6cc4: 0x0f oper --F---e-- 0x0000 0x08086b80 = %oparray_pop
+!          // 0x81c6ccc: 0x05 mpry --G-rxe-- 0x0039 0x08210dae
+!          // Dictionary stack at 0x81b0a00:
+!          // 0x81c74a4: 0x02 dict --Gwrx--- 0x081b 0x081b947c
+!          // 0x81c74ac: 0x02 dict --Gwrx--- 0x081c 0x0821d0a8
+!          // 0x81c74b4: 0x02 dict --Lwrx--- 0x4000 0x081c1388
+!          // 0x81c74bc: 0x02 dict --Gwrx--- 0x081b 0x081b947c
+!          return 1;
+        }
+  
+        g_module_symbol (pDev->hmodOmni, "GetPrintModeInfo", (gpointer *)&pDev->pfnGetPrintModeInfo);
+  
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (GetPrintModeInfo) = 0x%08x\n", (int)pDev->pfnGetPrintModeInfo);
+--- 644,688 ----
+  
+        pDev->hmodOmni = g_module_open ("libomni.so", (GModuleFlags)0);
+  
+        if (!pDev->hmodOmni)
+        {
+!           pDev->hmodOmni = g_module_open ("/opt/Omni/bin/libomni.so", (GModuleFlags)0);
+! 
+!           if (!pDev->hmodOmni)
+!           {
+!               // Failure!
+!               fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
+!               fprintf (stderr, "Error: Could not load libomni.so!\n\n");
+! 
+!               // @TBD - why doesnt return_error(gs_error_Fatal) work?
+!               //        If it is in, then we get the following:
+!               //
+!               // Unrecoverable error: rangecheck in .putdeviceprops
+!               //
+!               // Unexpected interpreter error -15.
+!               // Error object: (1488)op_array(586)0x81bc858:.putdeviceprops
+!               // Execution stack at 0x81b0940:
+!               // 0x81c6c74: 0x0f oper --F---e-- 0x0000 0x08084fcc = %interp_exit
+!               // 0x81c6c7c: 0x03 file --G-rxe-- 0x0001 0x081bd010
+!               // 0x81c6c84: 0x0e null --F---e-- 0x0000 0x08086b94
+!               // 0x81c6c8c: 0x0b int  --F------ 0x01ac 0x00000008 = 8
+!               // 0x81c6c94: 0x0b int  --F------ 0x0007 0x00000004 = 4
+!               // 0x81c6c9c: 0x0f oper --F---e-- 0x0000 0x08086b80 = %oparray_pop
+!               // 0x81c6ca4: 0x05 mpry --G-rxe-- 0x0002 0x0821032c
+!               // 0x81c6cac: 0x0e null --F---e-- 0x0000 0x08086b94
+!               // 0x81c6cb4: 0x0b int  --F------ 0x0001 0x00000008 = 8
+!               // 0x81c6cbc: 0x0b int  --F------ 0x0000 0x00000004 = 4
+!               // 0x81c6cc4: 0x0f oper --F---e-- 0x0000 0x08086b80 = %oparray_pop
+!               // 0x81c6ccc: 0x05 mpry --G-rxe-- 0x0039 0x08210dae
+!               // Dictionary stack at 0x81b0a00:
+!               // 0x81c74a4: 0x02 dict --Gwrx--- 0x081b 0x081b947c
+!               // 0x81c74ac: 0x02 dict --Gwrx--- 0x081c 0x0821d0a8
+!               // 0x81c74b4: 0x02 dict --Lwrx--- 0x4000 0x081c1388
+!               // 0x81c74bc: 0x02 dict --Gwrx--- 0x081b 0x081b947c
+!               return 1;
+!           }
+        }
+  
+        g_module_symbol (pDev->hmodOmni, "GetPrintModeInfo", (gpointer *)&pDev->pfnGetPrintModeInfo);
+  
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (GetPrintModeInfo) = 0x%08x\n", (int)pDev->pfnGetPrintModeInfo);
+***************
+*** 1527,1537 ****
+  
+  /* Buffer a (partial) rasterized page & optionally print result multiple times. */
+  private int
+  BufferPage(gx_device_printer *pgx_prt_dev, FILE *file, int num_copies)
+  {
+! #if 1
+      /* locate_overlay_buffer is gone, so for now async printing is disabled */
+      return gs_note_error(gs_error_undefined);
+  #else
+      gx_device_omni * const pasyncDev = (gx_device_omni *)pgx_prt_dev;
+      gx_device * const pgx_dev = (gx_device *)pgx_prt_dev;
+--- 1530,1540 ----
+  
+  /* Buffer a (partial) rasterized page & optionally print result multiple times. */
+  private int
+  BufferPage(gx_device_printer *pgx_prt_dev, FILE *file, int num_copies)
+  {
+! #ifndef OMNI_ASYNC
+      /* locate_overlay_buffer is gone, so for now async printing is disabled */
+      return gs_note_error(gs_error_undefined);
+  #else
+      gx_device_omni * const pasyncDev = (gx_device_omni *)pgx_prt_dev;
+      gx_device * const pgx_dev = (gx_device *)pgx_prt_dev;
+Only in .: jpeg
+Only in .: libpng
+diff -C 5 ./unixlink.mak /gs6.51.update/ghostscript-6.51/src/unixlink.mak
+*** ./unixlink.mak	Wed Sep  5 10:20:28 2001
+--- /gs6.51.update/ghostscript-6.51/src/unixlink.mak	Wed Sep  5 09:12:35 2001
+***************
+*** 72,82 ****
+  $(GS_XE): $(ld_tr) $(ECHOGS_XE) $(XE_ALL)
+  	$(ECHOGS_XE) -w $(ldt_tr) -n - $(CCLDPLUS) $(LDFLAGS) $(XLIBDIRS) $(LIBFLAG) -o $(GS_XE)
+  	$(ECHOGS_XE) -a $(ldt_tr) -n -s $(PSOBJ)gs.$(OBJ) -s
+  	cat $(ld_tr) >>$(ldt_tr)
+  	$(ECHOGS_XE) -a $(ldt_tr) -n - $(LIBDLOPEN) $(LIBCPP)
+! 	$(ECHOGS_XE) -a $(ldt_tr) -s  - $(EXTRALIBS) -lm
+  	if [ x$(XLIBDIR) != x ]; then LD_RUN_PATH=$(XLIBDIR); export LD_RUN_PATH; fi; \
+  	XCFLAGS= XINCLUDE= XLDFLAGS= XLIBDIRS= XLIBS= \
+  	FEATURE_DEVS= DEVICE_DEVS= DEVICE_DEVS1= DEVICE_DEVS2= DEVICE_DEVS3= \
+  	DEVICE_DEVS4= DEVICE_DEVS5= DEVICE_DEVS6= DEVICE_DEVS7= DEVICE_DEVS8= \
+  	DEVICE_DEVS9= DEVICE_DEVS10= DEVICE_DEVS11= DEVICE_DEVS12= \
+--- 72,82 ----
+  $(GS_XE): $(ld_tr) $(ECHOGS_XE) $(XE_ALL)
+  	$(ECHOGS_XE) -w $(ldt_tr) -n - $(CCLDPLUS) $(LDFLAGS) $(XLIBDIRS) $(LIBFLAG) -o $(GS_XE)
+  	$(ECHOGS_XE) -a $(ldt_tr) -n -s $(PSOBJ)gs.$(OBJ) -s
+  	cat $(ld_tr) >>$(ldt_tr)
+  	$(ECHOGS_XE) -a $(ldt_tr) -n - $(LIBDLOPEN) $(LIBCPP)
+! 	$(ECHOGS_XE) -a $(ldt_tr) -s - $(EXTRALIBS) $(STDLIBS)
+  	if [ x$(XLIBDIR) != x ]; then LD_RUN_PATH=$(XLIBDIR); export LD_RUN_PATH; fi; \
+  	XCFLAGS= XINCLUDE= XLDFLAGS= XLIBDIRS= XLIBS= \
+  	FEATURE_DEVS= DEVICE_DEVS= DEVICE_DEVS1= DEVICE_DEVS2= DEVICE_DEVS3= \
+  	DEVICE_DEVS4= DEVICE_DEVS5= DEVICE_DEVS6= DEVICE_DEVS7= DEVICE_DEVS8= \
+  	DEVICE_DEVS9= DEVICE_DEVS10= DEVICE_DEVS11= DEVICE_DEVS12= \
+Only in .: zlib

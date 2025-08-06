@@ -1,0 +1,31 @@
+Source: omni
+Priority: optional
+Maintainer: Rafael Avila de Espíndola <rafael.espindola@ic.unicamp.br>
+Build-Depends: debhelper (>> 3.0.0), libcupsys2-dev, libcupsimage2-dev, libgtkmm-dev
+Standards-Version: 3.5.8
+
+Package: omni-non-free
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: Omni printer driver
+ The Omni printer driver provides support for over 400 printers using the Ghostscript framework. In addition, it provides a model for dynamically loading printer drivers, creating new devices by editing device description files, and simplifies new printer driver development by allowing for the subclassing of previous device features.
+ This packages contains some non-free Epson Drivers.
+ URL: http://www-124.ibm.com/developer/opensource/linux/projects/omni/
+
+
+Package: omni-dev
+Section: devel
+Architecture: any
+Depends: omni (= ${Source-Version})
+Description: Omni printer driver
+ The Omni printer driver provides support for over 400 printers using the Ghostscript framework. In addition, it provides a model for dynamically loading printer drivers, creating new devices by editing device description files, and simplifies new printer driver development by allowing for the subclassing of previous device features.
+ URL: http://www-124.ibm.com/developer/opensource/linux/projects/omni/
+
+Package: omni
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: Omni printer driver
+ The Omni printer driver provides support for over 400 printers using the Ghostscript framework. In addition, it provides a model for dynamically loading printer drivers, creating new devices by editing device description files, and simplifies new printer driver development by allowing for the subclassing of previous device features.
+ URL: http://www-124.ibm.com/developer/opensource/linux/projects/omni/

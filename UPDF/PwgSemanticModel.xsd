@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.pwg.org/schemas/sm/1.0/" xmlns="http://www.pwg.org/schemas/sm/1.0/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.00">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">
+   PWG Model
+   Copyright 2002-2004,  IEEE Industry Standards and Technology Organization/Printer Working Group. 
+All rights reserved
+  </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>Include the master list of semantic elements with included media elements and the well known values for some of the elements</xsd:documentation>
+	</xsd:annotation>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/PwgCommon.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/MediaElements.xsd"/>
+	<xsd:annotation>
+		<xsd:documentation>Include the sub-schemas that describe the Printer object</xsd:documentation>
+	</xsd:annotation>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/PrinterDescription.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/PrinterStatus.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/ProcessingDefault.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/ProcessingSupported.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/ProcessingReady.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/Printer.xsd"/>
+	<xsd:annotation>
+		<xsd:documentation>Include the sub-schemas that describe the Job object</xsd:documentation>
+	</xsd:annotation>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/JobStatus.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/JobDescription.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/JobProcessing.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/DocumentProcessing.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/ProcessingActual.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/Job.xsd"/>
+	<xsd:annotation>
+		<xsd:documentation>Include the sub-schemas that describe the Document Object (Note: DocumentProcessing.xsd from Job is also used)</xsd:documentation>
+	</xsd:annotation>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/DocumentDescription.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/DocumentStatus.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/Document.xsd"/>
+	<xsd:annotation>
+		<xsd:documentation>An example of a Server implementing the PWG Model showing the relationship between Printers, Jobs and Documents</xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="Server">
+		<xsd:annotation>
+			<xsd:documentation>The container object Server is not explicitly modeled in the PWG Semantic Model</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Printer" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:complexContent>
+						<xsd:extension base="Printer">
+							<xsd:sequence>
+								<xsd:element name="Job" minOccurs="0" maxOccurs="unbounded">
+									<xsd:complexType>
+										<xsd:complexContent>
+											<xsd:extension base="Job">
+												<xsd:sequence>
+													<xsd:element name="Document" type="Document" minOccurs="0" maxOccurs="unbounded"/>
+												</xsd:sequence>
+											</xsd:extension>
+										</xsd:complexContent>
+									</xsd:complexType>
+								</xsd:element>
+							</xsd:sequence>
+						</xsd:extension>
+					</xsd:complexContent>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="Server" type="Server">
+		<xsd:annotation>
+			<xsd:documentation>The container object Server is not explicitly modeled in the PWG Semantic Model</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+</xsd:schema>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     IBM Omni driver
+     Copyright (c) International Business Machines Corp., 2000
+
+     This library is free software; you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published
+     by the Free Software Foundation; either version 2.1 of the License, or
+     (at your option) any later version.
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+     the GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this library; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
+
+<deviceCommands
+   xmlns="http://www.ibm.com/linux/ltc/projects/omni/"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+   xs:schemaLocation="http://www.ibm.com/linux/ltc/projects/omni/ ../OmniDevice.xsd">
+   <command name="cmdPJLSignature">_ESC_ "%-12345X</command>
+   
+   <command name="cmdBeginJob">"@PJL JOB " _CR_ _LF_</command>
+
+   <command name="cmdEndJob">"@PJL EOJ " _CR_ _LF_</command>
+   <command name="cmdPJLEnterLanguage">"@PJL ENTER LANGUAGE = RPDL " _CR_ _LF_</command>
+
+   <command name="cmdChangeEmulation">_ESC_ HEX (12) "!1@R00" _ESC_ HEX (20) </command>
+   <command name="cmdGraphicsOut">_ESC_ "4"</command>
+   <command name="cmdInit">_ESC_ HEX (1A) "I"</command>
+   <command name="cmdGraphicsMode">_ESC_ HEX (12) "YP,1 "</command>
+   <command name="cmdGraphicsUnit">_ESC_ HEX (12) "YW,%c "</command>
+   <command name="cmdSpacingUnit2">_ESC_ HEX (12) "YI,%c "</command>
+   <command name="cmdEngineResolution">_ESC_ HEX (12) "YA04,%c "</command>
+   <command name="cmdCoordinateUnit">_ESC_ HEX (12) "#%c "</command>
+   <command name="cmdSpacingUnit">_ESC_ HEX (12) "Q%c "</command>
+   <command name="cmdKanjiCode">_ESC_ HEX (12) "YJ,1 "</command>
+   <command name="cmdPageLength">_ESC_ HEX (12) "YQ,%c "</command>
+   <command name="cmdPrintableArea">_ESC_ HEX (12) "YB,1 "</command>
+   <command name="cmdPrintMode">_ESC_ HEX (12) "YA02,2 "</command>
+   <command name="cmdScale">_ESC_ HEX (12) "YM,1 "</command>
+   <command name="cmdSpecial1">_ESC_ HEX (12) "?M100,0" _ESC_ HEX (20)</command>
+   <command name="cmdLimitLessOn">_ESC_ HEX (12) "Z2 "</command>
+   <command name="cmdLimitLessOff">_ESC_ HEX (12) "Z1 "</command>
+   <command name="cmdTrayChange">_ESC_ HEX (19) "%c"</command>
+   <command name="cmdAutoSelectTray">_ESC_ HEX (12) "53@"</command>
+   <command name="cmdPortrait">_ESC_ HEX (12) "D1 "</command>
+   <command name="cmdLandscape">_ESC_ HEX (12) "D2 "</command>
+   <command name="cmdSecondANK">_ESC_ HEX (0E)</command>
+   <command name="cmdCopyNumber">_ESC_ HEX (12) "N%c " </command>
+   <command name="cmdSpecial2">_ESC_ HEX (12) "?+1" _ESC_ HEX (20)</command>
+   <command name="cmdWriteModeOrWrite">_ESC_ HEX (12) "W0,0 " </command>
+   <command name="cmdWriteModeEraseWrite">_ESC_ HEX (12) "W3,3 " </command>
+   <command name="cmdHalfTone">_ESC_ HEX (12) "P3,64,5 " </command>
+   <command name="cmdTextClipping">_ESC_ HEX (12) "*" </command>
+   <command name="cmdSendImage">_ESC_ HEX (12) "G" </command>
+   <command name="cmdPageEject">_FF_</command>
+   <command name="cmdTerm">_ESC_ HEX (12) "!1@R00" _ESC_ HEX (20)</command>
+</deviceCommands>

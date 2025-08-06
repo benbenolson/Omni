@@ -1,0 +1,4 @@
+cat "../HP LaserJet/HP LaserJet PCL Instance.hpp" | sed -e s/HP_LaserJet_/IBM_/g -e s/hp_laserjet/ibm/ > "IBM PCL Instance.hpp"
+cat "../HP LaserJet/HP LaserJet PCL Instance.cpp" | sed -e s/HP_LaserJet_/IBM_/g -e s/hp_laserjet/ibm/ > "IBM PCL Instance.cpp"
+cat "../HP LaserJet/HP LaserJet PCL Blitter.hpp" | sed -e s/HP_LaserJet_/IBM_/g -e s/hp_laserjet/ibm/ > "IBM PCL Blitter.hpp"
+cat "../HP LaserJet/HP LaserJet PCL Blitter.cpp" | sed -e s/HP_LaserJet_/IBM_/g -e s/hp_laserjet/ibm/ > "IBM PCL Blitter.cpp"

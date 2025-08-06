@@ -1,0 +1,50 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<!--
+     This configuration file describes some of the standard
+     PostScript fonts, and is mainly useful for the
+     demonstration program.
+     
+     David Wagner
+     Nov 21, 2002
+-->
+
+<Commands FileTypeIdentification = "Command sequences and parameters" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation = "UPDF Command Sequences.xsd">
+  <CommandSequences>
+    <!-- Command Sequences for setting the fonts -->
+    <CommandSequence CommandSequence_ID = "Courier"
+                     CommandSequence = "%H1(47)Courier%H1(32)findfont%H1(32)%A0(%K(DRV_FontHeight)/100)%H1(32)scalefont%H1(32)setfont%H1(32)"/>
+    <CommandSequence CommandSequence_ID = "Courier_Italic"
+                     CommandSequence = "%H1(47) Courier%H1(45)Italic%H1(32)findfont%H1(32)%A0(%K(DRV_FontHeight)/100)%H1(32)scalefont%H1(32)setfont%H1(32)"/>
+    <CommandSequence CommandSequence_ID = "Courier_Bold"
+                     CommandSequence = "%H1(47) Courier%H1(45)Bold%H1(32)findfont%H1(32)%A0(%K(DRV_FontHeight)/100)%H1(32)scalefont%H1(32)setfont%H1(32)"/>
+    <CommandSequence CommandSequence_ID = "Courier_Bold_Italic"
+                     CommandSequence = "%H1(47) Courier%H1(45)Bold%H1(45)Italic%H1(32)findfont%H1(32)%A0(%K(DRV_FontHeight)/100)%H1(32)scalefont%H1(32)setfont%H1(32)"/>
+
+    <CommandSequence CommandSequence_ID = "Times_Roman"
+                     CommandSequence = "%H1(47)Times%H1(45)Roman%H1(32)findfont%H1(32)%A0(%K(DRV_FontHeight)/100)%H1(32)scalefont%H1(32)setfont%H1(32)"/>
+    <CommandSequence CommandSequence_ID = "Times_Italic"
+                     CommandSequence = "%H1(47)Times%H1(45)Italic%H1(32)findfont%H1(32)%A0(%K(DRV_FontHeight)/100)%H1(32)scalefont%H1(32)setfont%H1(32)"/>
+    <CommandSequence CommandSequence_ID = "Times_Bold"
+                     CommandSequence = "%H1(47)Times%H1(45)Bold%H1(32)findfont%H1(32)%A0(%K(DRV_FontHeight)/100)%H1(32)scalefont%H1(32)setfont%H1(32)"/>
+    <CommandSequence CommandSequence_ID = "Times_Bold_Italic"
+                     CommandSequence = "%H1(47)Times%H1(45)Bold%H1(45)Italic%H1(32)findfont%H1(32)%A0(%K(DRV_FontHeight)/100)%H1(32)scalefont%H1(32)setfont%H1(32)"/>
+
+    <CommandSequence CommandSequence_ID = "Helvetica"
+                     CommandSequence = "%H1(47)Helvetica%H1(32)findfont%H1(32)%A0(%K(DRV_FontHeight)/100)%H1(32)scalefont%H1(32)setfont%H1(32)"/>
+    <CommandSequence CommandSequence_ID = "Helvetica_Oblique"
+                     CommandSequence = "%H1(47)Helvetica%H1(45)Oblique%H1(32)findfont%H1(32)%A0(%K(DRV_FontHeight)/100)%H1(32)scalefont%H1(32)setfont%H1(32)"/>
+    <CommandSequence CommandSequence_ID = "Helvetica_Bold"
+                     CommandSequence = "%H1(47)Helvetica%H1(45)Bold%H1(32)findfont%H1(32)%A0(%K(DRV_FontHeight)/100)%H1(32)scalefont%H1(32)setfont%H1(32)"/>
+    <CommandSequence CommandSequence_ID = "Helvetica_Bold_Oblique"
+                     CommandSequence = "%H1(47)Helvetica%H1(45)Bold%H1(45)Oblique%H1(32)findfont%H1(32)%A0(%K(DRV_FontHeight)/100)%H1(32)scalefont%H1(32)setfont%H1(32)"/>
+
+    <!-- Command sequences for setting up the page -->
+    <CommandSequence CommandSequence_ID = "PDL_Init" CommandSequence = "%H1(37)%H1(33)PS%H1(45)Adobe%H1(10)"/>
+    <CommandSequence CommandSequence_ID = "PDL_StartPage" CommandSequence = "%H1(37)%H1(37)Page:%H1(32)%A0(%K(DRV_PageNo))%H1(10)"/>
+    <CommandSequence CommandSequence_ID = "PDL_StartText" CommandSequence = "%A0(%K(DRV_HorPos))%H1(32)%A0(%K(DRV_VertPos))%H1(32)moveto%H1(32)%H1(40)"/>
+    <CommandSequence CommandSequence_ID = "PDL_EndText" CommandSequence = "%H1(41)%H1(32)show%H1(10)"/>
+    <CommandSequence CommandSequence_ID = "PDL_Eject" CommandSequence = "showpage%H1(10)"/>
+    <CommandSequence CommandSequence_ID = "PDL_DeInit" CommandSequence = "%H1(37)%H1(37)EOF%H1(10)"/>
+  </CommandSequences>
+</Commands>

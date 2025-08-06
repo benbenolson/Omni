@@ -1,0 +1,13 @@
+/*
+** public interface DeviceCapabilities
+** {
+**    public final long COLOR  = 1L;
+**    public final long MIRROR = 2L;
+** }
+*/
+capabilities
+{
+   COLOR,
+   MONOCHROME,
+   MIRROR
+}

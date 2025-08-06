@@ -1,0 +1,802 @@
+Only in current/gs5.50/: Omni
+Only in current/gs5.50/: debugobj
+diff -C5 042401_clean/gs5.50/gomni.c current/gs5.50/gomni.c
+*** 042401_clean/gs5.50/gomni.c	Thu Apr 26 11:09:39 2001
+--- current/gs5.50/gomni.c	Thu Apr 26 09:32:23 2001
+***************
+*** 67,76 ****
+--- 67,78 ----
+  /*    @@04062001       removed mono dither routines and support from    */
+  /*                     this module into the core omni code              */
+  /*                                                                      */
+  /*    @@04162001       Added support for newFrame                       */
+  /*                                                                      */
++ /*    @@04252001       Added support for GS mono output                 */
++ /*                     -smonodither=GSMONO on the command line          */
+  /*                                                                      */
+  /************************************************************************/
+  
+  
+  #include "gdevprna.h"
+***************
+*** 187,196 ****
+--- 189,199 ----
+  struct _DevStruct { /* All omni specific data */
+  
+     char                  cDeviceName[MAX_LENGTH];
+     char                  cDebugFile[MAX_LENGTH];   /* text value for dither */
+     char                  cAsyncOpt[MAX_LENGTH];   /* text value for dither */
++    char                  cMonoDither[MAX_LENGTH];
+     char                 *pszOtherOptions;
+     void                 *pOutputObject;            // can be used for redirecting cerr in C++ section
+     void                 *pDevice;                  // pointer to the device
+  
+     void                 *vhOmni;                   // handle to libomni.so
+***************
+*** 211,220 ****
+--- 214,224 ----
+     int                   iVertDots;
+     int                   width;
+     int                   height;
+     int                   iSync;
+     int                   iPageNumber;  //@@04162001
++    int                   iGSMono;      //@@04252001
+  
+     byte                 *outbuf;     /* Output-Buffer */
+  
+     int                   iPage;
+     int                   iSetup;
+***************
+*** 243,253 ****
+  BufferPage(gx_device_printer *pgx_prt_dev, FILE *file, int num_copies);
+  
+  private void
+  RenderThread(void *params);
+  
+! private int 
+  StartRenderThread(gdev_prn_start_render_params *params);
+  
+  private int
+  OpenRenderDevice(gx_device_printer *ppdev);
+  
+--- 247,257 ----
+  BufferPage(gx_device_printer *pgx_prt_dev, FILE *file, int num_copies);
+  
+  private void
+  RenderThread(void *params);
+  
+! private int
+  StartRenderThread(gdev_prn_start_render_params *params);
+  
+  private int
+  OpenRenderDevice(gx_device_printer *ppdev);
+  
+***************
+*** 267,285 ****
+  
+  private dev_proc_print_page_copies(PrintPage);
+  private prn_dev_proc_buffer_page(BufferPage);
+  private prn_dev_proc_start_render_thread(StartRenderThread);
+  
+! private dev_proc_open_device(OpenDevice);             
+  
+! private dev_proc_print_page(omni_print_page);         
+  
+  private dev_proc_close_device(CloseDevice);
+  
+! private dev_proc_get_params(GetDeviceParams);         
+  
+! private dev_proc_put_params(SetupDevice);             
+  
+  private dev_proc_output_page(PrintPageMultiple);
+  
+  private prn_dev_proc_get_space_params(GetSpaceParams);
+  
+--- 271,289 ----
+  
+  private dev_proc_print_page_copies(PrintPage);
+  private prn_dev_proc_buffer_page(BufferPage);
+  private prn_dev_proc_start_render_thread(StartRenderThread);
+  
+! private dev_proc_open_device(OpenDevice);
+  
+! private dev_proc_print_page(omni_print_page);
+  
+  private dev_proc_close_device(CloseDevice);
+  
+! private dev_proc_get_params(GetDeviceParams);
+  
+! private dev_proc_put_params(SetupDevice);
+  
+  private dev_proc_output_page(PrintPageMultiple);
+  
+  private prn_dev_proc_get_space_params(GetSpaceParams);
+  
+***************
+*** 290,301 ****
+                    NULL,                      //  get_initial_matrix
+                    NULL,                      //  sync_output
+                    //gx_default_sync_output,    // sync_output
+                    gdev_prn_output_page,      //  output_page
+                    CloseDevice,               //  close_device
+!                   bmp_map_16m_rgb_color,     //  map_rgb_color
+!                   bmp_map_16m_color_rgb,     //  map_color_rgb
+                    NULL,                          /** fill_rectangle */
+                    NULL,                          /** tile_rectangle */
+                    NULL,                          /** copy_mono */
+                    NULL,                          /** copy_color */
+                    NULL,                          /** draw_line */
+--- 294,305 ----
+                    NULL,                      //  get_initial_matrix
+                    NULL,                      //  sync_output
+                    //gx_default_sync_output,    // sync_output
+                    gdev_prn_output_page,      //  output_page
+                    CloseDevice,               //  close_device
+!                   NULL,// bmp_map_16m_rgb_color,     //  map_rgb_color      @@04252001
+!                   NULL, // bmp_map_16m_color_rgb,     //  map_color_rgb     @@04252001
+                    NULL,                          /** fill_rectangle */
+                    NULL,                          /** tile_rectangle */
+                    NULL,                          /** copy_mono */
+                    NULL,                          /** copy_color */
+                    NULL,                          /** draw_line */
+***************
+*** 309,319 ****
+    omni_device(omni16m_procs,"omni",
+                 DEFAULT_WIDTH_10THS, /* 85 x 110 - page physical area non clipped */
+                 DEFAULT_HEIGHT_10THS,
+                 X_DPI, Y_DPI,        /* std resolution - 72 dpi          */
+                 0,0,0,0,             /* margins - need defaults  */
+!                24,                  /* Bpp value */
+                 omni_print_page);   // sync routine for output of raster data
+  
+  
+  /* ------------------------------------------------------*/
+  /* ------------------------------------------------------*/
+--- 313,324 ----
+    omni_device(omni16m_procs,"omni",
+                 DEFAULT_WIDTH_10THS, /* 85 x 110 - page physical area non clipped */
+                 DEFAULT_HEIGHT_10THS,
+                 X_DPI, Y_DPI,        /* std resolution - 72 dpi          */
+                 0,0,0,0,             /* margins - need defaults  */
+!              //  24,                                                          @@04252001
+!                1,                  /* Bpp value */
+                 omni_print_page);   // sync routine for output of raster data
+  
+  
+  /* ------------------------------------------------------*/
+  /* ------------------------------------------------------*/
+***************
+*** 381,393 ****
+      }
+  
+      set_dev_proc(pdev, put_params, SetupDevice);
+      set_dev_proc(pdev, get_params, GetDeviceParams);
+  
+      if(pDev->iSync)
+      {
+!         set_dev_proc(pdev, output_page, PrintPageMultiple);/* hack */
+          pwdev->printer_procs.get_space_params = GetSpaceParams;
+          pwdev->printer_procs.open_render_device =
+          OpenRenderDevice;	/* Included for tutorial value */
+      }
+      /*
+--- 386,404 ----
+      }
+  
+      set_dev_proc(pdev, put_params, SetupDevice);
+      set_dev_proc(pdev, get_params, GetDeviceParams);
+  
++     if(!pDev->iGSMono)                                                  //@@04252001
++     {                                                                   //@@04252001
++         set_dev_proc(pdev, map_rgb_color, bmp_map_16m_rgb_color);       //@@04252001
++         set_dev_proc(pdev, map_color_rgb, bmp_map_16m_color_rgb);       //@@04252001
++     }                                                                   //@@04252001
++ 
+      if(pDev->iSync)
+      {
+!         set_dev_proc(pdev, output_page, PrintPageMultiple);
+          pwdev->printer_procs.get_space_params = GetSpaceParams;
+          pwdev->printer_procs.open_render_device =
+          OpenRenderDevice;	/* Included for tutorial value */
+      }
+      /*
+***************
+*** 425,436 ****
+       return_error(gs_error_Fatal);  // handle no pDev
+     }
+     /***
+      *     WE NEED TO TERMINATE HERE!!!!!!!!!
+      *     @@04162001
+!     ***/  
+!    pDev->pfnEndJob (pDev->pDevice, pDev->pOutputObject);
+  
+     if (pDev->pDevice)
+     {
+        pDev->pfnDeleteDevice (pDev->pDevice);
+        pDev->pDevice = 0;
+--- 436,451 ----
+       return_error(gs_error_Fatal);  // handle no pDev
+     }
+     /***
+      *     WE NEED TO TERMINATE HERE!!!!!!!!!
+      *     @@04162001
+!     ***/
+!    if (pDev->pfnEndJob)
+!    {
+!        pDev->pfnEndJob (pDev->pDevice, pDev->pOutputObject);
+!        pDev->pfnEndJob = 0;
+!    }
+  
+     if (pDev->pDevice)
+     {
+        pDev->pfnDeleteDevice (pDev->pDevice);
+        pDev->pDevice = 0;
+***************
+*** 480,489 ****
+--- 495,505 ----
+  
+     const char   *pszDeviceName       = "";
+     const char   *pszDebug            = "";
+     const char   *pszOther            = "";
+     const char   *pszAsync            = "";
++    const char   *pszMonoDither       = "";
+     char    pszTemp[3];
+     unsigned long ulPelSizeCorrection = 100;
+     bool          bPersist            = false;
+  
+  
+***************
+*** 494,503 ****
+--- 510,520 ----
+         pszDeviceName       = pDev->cDeviceName;
+         pszDebug            = pDev->cDebugFile;
+         pszOther            = pDev->pszOtherOptions;
+         pszAsync            = pDev->cAsyncOpt;
+         ulPelSizeCorrection = pDev->ulPelSizeCorrection;
++        pszMonoDither       = pDev->cMonoDither;
+  
+         // Return if we already did our work here
+         if(strlen(pszDeviceName) > 0)
+         {
+             return iReturnCode;
+***************
+*** 531,540 ****
+--- 548,562 ----
+     strdata.data = pszAsync;
+     strdata.size = strlen(pszAsync);
+     strdata.persistent = bPersist;
+     iReturnCode = param_write_string(plist,"async",&strdata);
+  
++    strdata.data = pszMonoDither;
++    strdata.size = strlen(pszMonoDither);
++    strdata.persistent = bPersist;
++    iReturnCode = param_write_string(plist,"monodither",&strdata);
++ 
+     iReturnCode = param_write_long(plist,"PelSizeCorrection",&ulPelSizeCorrection);
+  
+     return iReturnCode;
+  }
+  
+***************
+*** 550,566 ****
+--- 572,591 ----
+  /* IMPORTANT: async drivers must NOT CLOSE the device while doing put_params.*/
+  
+  private int
+  SetupDevice(gx_device *pgxdev, gs_param_list *plist)
+  {
++ 
+     int                     iReturnCode;
+     BOOL                    bRet;
+     HWMARGINS               hwMargins;
+     HWRESOLUTION            hwRes;
+     gx_device_omni * const prgxdev  = (gx_device_omni *)pgxdev;
+     pDevStruct              pDev     = prgxdev->pDev;
+  
++    PRINTMODE prtMode;  //definition of printed output Bpp ..
++ 
+  // gs_param_string         =    data, size, persistant + byte data
+     gs_param_string         fname    = { NULL, 0, false };
+     gs_param_string         deffname = { NULL, 0, false };
+  
+     if (pDev == NULL)
+***************
+*** 595,607 ****
+        pDev->vhOmni = dlopen ("libomni.so", RTLD_NOW | RTLD_GLOBAL);
+  
+        if (!pDev->vhOmni)
+        {
+           // Failure!
+!          fprintf (stderr, "Could not load libomni.so!\n");
+!          //return 1;
+!          return_error(gs_error_Fatal);
+        }
+  
+        pDev->pfnGetPrintModeInfo = (PFNGETPRINTMODEINFO)dlsym (pDev->vhOmni, "GetPrintModeInfo");
+  
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (GetPrintModeInfo) = 0x%08x\n", (int)pDev->pfnGetPrintModeInfo);
+--- 620,658 ----
+        pDev->vhOmni = dlopen ("libomni.so", RTLD_NOW | RTLD_GLOBAL);
+  
+        if (!pDev->vhOmni)
+        {
+           // Failure!
+!          fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
+!          fprintf (stderr, "Error: Could not load libomni.so!\n\n");
+! 
+!          // @TBD - why doesnt return_error(gs_error_Fatal) work?
+!          //        If it is in, then we get the following:
+!          //
+!          // Unrecoverable error: rangecheck in .putdeviceprops
+!          //
+!          // Unexpected interpreter error -15.
+!          // Error object: (1488)op_array(586)0x81bc858:.putdeviceprops
+!          // Execution stack at 0x81b0940:
+!          // 0x81c6c74: 0x0f oper --F---e-- 0x0000 0x08084fcc = %interp_exit
+!          // 0x81c6c7c: 0x03 file --G-rxe-- 0x0001 0x081bd010
+!          // 0x81c6c84: 0x0e null --F---e-- 0x0000 0x08086b94
+!          // 0x81c6c8c: 0x0b int  --F------ 0x01ac 0x00000008 = 8
+!          // 0x81c6c94: 0x0b int  --F------ 0x0007 0x00000004 = 4
+!          // 0x81c6c9c: 0x0f oper --F---e-- 0x0000 0x08086b80 = %oparray_pop
+!          // 0x81c6ca4: 0x05 mpry --G-rxe-- 0x0002 0x0821032c
+!          // 0x81c6cac: 0x0e null --F---e-- 0x0000 0x08086b94
+!          // 0x81c6cb4: 0x0b int  --F------ 0x0001 0x00000008 = 8
+!          // 0x81c6cbc: 0x0b int  --F------ 0x0000 0x00000004 = 4
+!          // 0x81c6cc4: 0x0f oper --F---e-- 0x0000 0x08086b80 = %oparray_pop
+!          // 0x81c6ccc: 0x05 mpry --G-rxe-- 0x0039 0x08210dae
+!          // Dictionary stack at 0x81b0a00:
+!          // 0x81c74a4: 0x02 dict --Gwrx--- 0x081b 0x081b947c
+!          // 0x81c74ac: 0x02 dict --Gwrx--- 0x081c 0x0821d0a8
+!          // 0x81c74b4: 0x02 dict --Lwrx--- 0x4000 0x081c1388
+!          // 0x81c74bc: 0x02 dict --Gwrx--- 0x081b 0x081b947c
+!          return 1;
+        }
+  
+        pDev->pfnGetPrintModeInfo = (PFNGETPRINTMODEINFO)dlsym (pDev->vhOmni, "GetPrintModeInfo");
+  
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (GetPrintModeInfo) = 0x%08x\n", (int)pDev->pfnGetPrintModeInfo);
+***************
+*** 616,626 ****
+  
+        pDev->pfnBeginJob = (PFNBEGINJOB)dlsym (pDev->vhOmni, "BeginJob");
+  
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (BeginJob) = 0x%08x\n", (int)pDev->pfnBeginJob);
+  
+!       pDev->pfnNewFrame = (PFNBEGINJOB)dlsym (pDev->vhOmni, "NewFrame");  //@@04162001
+  
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (NewFrame) = 0x%08x\n", (int)pDev->pfnNewFrame);
+  
+        pDev->pfnEndJob = (PFNENDJOB)dlsym (pDev->vhOmni, "EndJob");
+  
+--- 667,677 ----
+  
+        pDev->pfnBeginJob = (PFNBEGINJOB)dlsym (pDev->vhOmni, "BeginJob");
+  
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (BeginJob) = 0x%08x\n", (int)pDev->pfnBeginJob);
+  
+!       pDev->pfnNewFrame = (PFNNEWFRAME)dlsym (pDev->vhOmni, "NewFrame");  //@@04162001
+  
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : dlsym (NewFrame) = 0x%08x\n", (int)pDev->pfnNewFrame);
+  
+        pDev->pfnEndJob = (PFNENDJOB)dlsym (pDev->vhOmni, "EndJob");
+  
+***************
+*** 648,663 ****
+           || !pDev->pfnGetMarginInfo
+           || !pDev->pfnMonoDither          //@@04162001
+           )
+        {
+           // Failure!
+!          fprintf (stderr, "Could not load required entry point from libomni.so!\n");
+  
+           dlclose (pDev->vhOmni);
+           pDev->vhOmni = 0;
+!          //return 1;
+!          return_error(gs_error_Fatal);
+        }
+  
+     }
+  
+  //   device name in structure - need to fail if none
+--- 699,716 ----
+           || !pDev->pfnGetMarginInfo
+           || !pDev->pfnMonoDither          //@@04162001
+           )
+        {
+           // Failure!
+!          fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
+!          fprintf (stderr, "Error: Could not load required entry point from libomni.so!\n\n");
+  
+           dlclose (pDev->vhOmni);
+           pDev->vhOmni = 0;
+! 
+!          // @TBD - why doesnt return_error(gs_error_Fatal) work? (see above)
+!          return 1;
+        }
+  
+     }
+  
+  //   device name in structure - need to fail if none
+***************
+*** 771,780 ****
+--- 824,865 ----
+             memcpy ( pDev->pszOtherOptions, fname.data, fname.size );
+             pDev->pszOtherOptions[fname.size] = '\0';
+         }
+     }
+  
++    /*
++     *  Set user options for monodither by GS
++     */
++ 
++    fname = deffname;
++    iReturnCode = param_read_string(plist,"monodither",&fname);
++    if(0 > iReturnCode)
++    {
++       if(iReturnCode < 0)
++       {
++           iReturnCode = param_read_null(plist,"monodither");
++           if(iReturnCode != 0)
++             fprintf(stderr, "Error Reading monodither parameter\n");
++       }
++    }
++    else
++    {
++        if((iReturnCode < 1) && (fname.size > 0))
++        {
++            memcpy ( pDev->cMonoDither, fname.data, fname.size );
++            pDev->cMonoDither[fname.size] = '\0';
++ 
++            if(!strcmp(pDev->cMonoDither, "GSMONO"))
++            {
++                pDev->iGSMono = 1;
++            }
++            else
++            {
++                pDev->iGSMono = 0;
++            }
++        }
++    }
+  
+     if(pDev->iSetup != 1)
+     {
+        // create a device based on the user supplied inputs
+        // To-Do - free the device
+***************
+*** 808,817 ****
+--- 893,911 ----
+        else
+        {
+            if (fDebugOutput) fprintf(stderr,"Device = %s ", pDev->cDeviceName );
+        }
+  
++       bRet = pDev->pfnGetPrintModeInfo (pDev->pDevice, &prtMode);
++ 
++       if(bRet)
++       {          // turn off Ghostscript mono if we are not in mono mode
++           if((prtMode.iBitCount > 1) && pDev->iGSMono )
++           {
++               pDev->iGSMono = 0;
++           }
++       }
+                           //** this routine is called multiple times
+        pDev->iSetup = 1;  //** don't go setting up new devices
+  
+        pDev->pfnDeleteDevice = (PFNDELETEDEVICE)dlsym (pDev->vhDevice, "deleteDevice__FP6Device");
+  
+***************
+*** 859,870 ****
+--- 953,984 ----
+  
+        // set y resolution
+        prgxdev->HWResolution[1] = (float) hwRes.yRes;
+  
+        prgxdev->pDev->iVertDots = (float) hwRes.fScanDots;  // fill in the scan line
++ 
++       if(!pDev->iGSMono)                       //@@04252001
++       {            //1,1,1,0,2,0 - mono        //@@04252001
++                    //3, 24,255,255,5,5 -  color //@@04252001
++          if (fDebugOutput) fprintf(stderr, "depth = %d \n", prgxdev->color_info.depth              );   //@@04252001
++          if (fDebugOutput) fprintf(stderr, "num_comp = %d \n", prgxdev->color_info.num_components  );   //@@04252001
++          if (fDebugOutput) fprintf(stderr, "max_gray = %d \n", prgxdev->color_info.max_gray        );   //@@04252001
++          if (fDebugOutput) fprintf(stderr, "max_color = %d \n", prgxdev->color_info.max_color      );   //@@04252001
++          if (fDebugOutput) fprintf(stderr, "dither_grays = %d \n", prgxdev->color_info.dither_grays   );//@@04252001
++          if (fDebugOutput) fprintf(stderr, "dither_colors = %d \n", prgxdev->color_info.dither_colors );//@@04252001
++                                                                                                         //@@04252001
++           prgxdev->color_info.depth          = 24;                                                      //@@04252001
++           prgxdev->color_info.num_components = 3;                                                       //@@04252001
++           prgxdev->color_info.max_gray       = 255;                                                     //@@04252001
++           prgxdev->color_info.max_color      = 255;                                                     //@@04252001
++           prgxdev->color_info.dither_grays   = 5;                                                       //@@04252001
++           prgxdev->color_info.dither_colors  = 5;                                                       //@@04252001
++       }
+     }                                                            // column size
+  
++ 
++ 
+     iReturnCode = gdev_prn_put_params((gx_device *)prgxdev, plist);
+  
+     return iReturnCode;  // likely not be a failure
+  }
+  
+***************
+*** 919,934 ****
+      BITMAPINFO2 *pbmi;
+  
+  
+      pDevStruct pDev = pasyncDev->pDev;
+  
+!     // Do a new_frame if not first page 
+  
+      if(!pDev || !pDev->pDevice )
+      {
+!         fprintf(stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n");
+!         fprintf(stderr, "                NO DEVICE CREATED \n\n");
+          return_error(gs_error_Fatal);
+      }
+  
+      pDev->iPage++;
+      pDev->iPageNumber++;  //keep track of the page @@04162001
+--- 1033,1048 ----
+      BITMAPINFO2 *pbmi;
+  
+  
+      pDevStruct pDev = pasyncDev->pDev;
+  
+!     // Do a new_frame if not first page
+  
+      if(!pDev || !pDev->pDevice )
+      {
+!         fprintf(stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
+!         fprintf(stderr, "Error: -sDeviceName=XXX is not specified!\n\n");
+          return_error(gs_error_Fatal);
+      }
+  
+      pDev->iPage++;
+      pDev->iPageNumber++;  //keep track of the page @@04162001
+***************
+*** 969,984 ****
+              DiffInfo.bRedWt      = 30; //25
+              DiffInfo.bGreenWt    = 50; //60
+              DiffInfo.bBlueWt     = 20; //15
+              DiffInfo.bPad        =  0;
+  
+!             pbmi->argbColor[0].bBlue  = 0xFF;  // background
+!             pbmi->argbColor[0].bRed   = 0xFF;
+!             pbmi->argbColor[0].bGreen = 0xFF;
+!             pbmi->argbColor[1].bBlue  = 0x00;   // foreground
+!             pbmi->argbColor[1].bRed   = 0x00;
+!             pbmi->argbColor[1].bGreen = 0x00;
+  
+              ImageInfo.pptlSrc             = &ptlBounds;    // rectangle extents
+              ImageInfo.pptlDst             = &ptlTrgBounds;    // rectangle extents
+              ImageInfo.ulSrcBpp            = 24;
+              ImageInfo.ulSrcBytesPerLine   = uiBytesPerLine;   // src bytes per line
+--- 1083,1110 ----
+              DiffInfo.bRedWt      = 30; //25
+              DiffInfo.bGreenWt    = 50; //60
+              DiffInfo.bBlueWt     = 20; //15
+              DiffInfo.bPad        =  0;
+  
+!             if(!pDev->iGSMono)                                         //@@04252001
+!             {                                                          //@@04252001
+!                 pbmi->argbColor[0].bBlue  = 0xFF;  // background       //@@04252001
+!                 pbmi->argbColor[0].bRed   = 0xFF;                      //@@04252001
+!                 pbmi->argbColor[0].bGreen = 0xFF;                      //@@04252001
+!                 pbmi->argbColor[1].bBlue  = 0x00;   // foreground      //@@04252001
+!                 pbmi->argbColor[1].bRed   = 0x00;                      //@@04252001
+!                 pbmi->argbColor[1].bGreen = 0x00;                      //@@04252001
+!             }                                                          //@@04252001
+!             else                                                       //@@04252001
+!             {                                                          //@@04252001
+!                 pbmi->argbColor[1].bBlue  = 0xFF;  // background       //@@04252001
+!                 pbmi->argbColor[1].bRed   = 0xFF;                      //@@04252001
+!                 pbmi->argbColor[1].bGreen = 0xFF;                      //@@04252001
+!                 pbmi->argbColor[0].bBlue  = 0x00;   // foreground      //@@04252001
+!                 pbmi->argbColor[0].bRed   = 0x00;                      //@@04252001
+!                 pbmi->argbColor[0].bGreen = 0x00;                      //@@04252001
+!             }                                                          //@@04252001
+  
+              ImageInfo.pptlSrc             = &ptlBounds;    // rectangle extents
+              ImageInfo.pptlDst             = &ptlTrgBounds;    // rectangle extents
+              ImageInfo.ulSrcBpp            = 24;
+              ImageInfo.ulSrcBytesPerLine   = uiBytesPerLine;   // src bytes per line
+***************
+*** 1068,1081 ****
+         return_error(gs_error_VMerror);
+     }
+  
+      // is the band bigger than the page ?
+  
+!     sizelPage.cx   = pasyncDev->width;
+!     sizelPage.cy   = pasyncDev->height;
+  
+!     ulBandLength = ulBandLength >=sizelPage.cy ? sizelPage.cy : ulBandLength;
+  
+     if(pBitmapMem)
+        memset(pBitmapMem, 0xFF, uiBytesPerLine * ulBandLength ); // memset the memory to white? maybe zero
+     else
+     {
+--- 1194,1207 ----
+         return_error(gs_error_VMerror);
+     }
+  
+      // is the band bigger than the page ?
+  
+!    sizelPage.cx   = pasyncDev->width;
+!    sizelPage.cy   = pasyncDev->height;
+  
+!    ulBandLength = ulBandLength >=sizelPage.cy ? sizelPage.cy : ulBandLength;
+  
+     if(pBitmapMem)
+        memset(pBitmapMem, 0xFF, uiBytesPerLine * ulBandLength ); // memset the memory to white? maybe zero
+     else
+     {
+***************
+*** 1120,1130 ****
+        byte * pBitmapTop = pBitmapMem + ((ulBandLength-1) * uiBytesPerLine);
+  
+        iYBand = 0;
+  
+        // Call DiffusionDither to setup pBuffer - quick in and out  @@04062001
+!       pDev->pfnMonoDither (&DiffInfo, &ImageInfo, &pBuffer, (unsigned long) GDM_DITHER_BEGIN);
+  
+        // Go through the bitmap that we have been given
+        for(y = pasyncDev->height - 1; y >= 0; y--)
+        {                                   //@@10312000
+           if ( (iYBand < ulBandLength) && ((code = dev_proc(pgx_dev, get_bits)(pgx_dev, pasyncDev->height - 1 - y, pGSData, &raster_data)) >= 0) && (y != 0))
+--- 1246,1257 ----
+        byte * pBitmapTop = pBitmapMem + ((ulBandLength-1) * uiBytesPerLine);
+  
+        iYBand = 0;
+  
+        // Call DiffusionDither to setup pBuffer - quick in and out  @@04062001
+!       if(!pDev->iGSMono)          //@@04252001
+!             pDev->pfnMonoDither (&DiffInfo, &ImageInfo, &pBuffer, (unsigned long) GDM_DITHER_BEGIN);
+  
+        // Go through the bitmap that we have been given
+        for(y = pasyncDev->height - 1; y >= 0; y--)
+        {                                   //@@10312000
+           if ( (iYBand < ulBandLength) && ((code = dev_proc(pgx_dev, get_bits)(pgx_dev, pasyncDev->height - 1 - y, pGSData, &raster_data)) >= 0) && (y != 0))
+***************
+*** 1149,1190 ****
+             if(iYBand == ulBandLength)      //@@10312000
+                 y++;
+  
+             // we currently support 24bit or mono so if this is the mono case, allocate memory to be
+             // used for the gray-scaled bitmap buffer
+!            if(prtMode.iBitCount < 16)
+!            {
+!                pMonoData = (byte *) gs_malloc(1, iYBand * ImageInfo.ulTrgBytesPerLine, "Mono Memory");
+! 
+!                if(pMonoData)
+!                    memset(pMonoData, 0xFF, iYBand * ImageInfo.ulTrgBytesPerLine );
+!                else
+                 {
+!                    fprintf(stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n");
+!                    fprintf(stderr, "   Failed allocation of pMonoData in PrintPage\n");
+!                    return_error(gs_error_VMerror);
+!                }
+  
+!                ImageInfo.pptlSrc->y = ImageInfo.pptlDst->y = iYBand;//exclusive??
+!                ImageInfo.pbSrcBits  =  pBitmapTop - ((iYBand-1) * uiBytesPerLine);   // pointer to src image data
+!                ImageInfo.pbTrgBits  = pMonoData;        // pointer to dst image data
+! 
+!                // Call DiffusionDither to generate a gray-scaled image from our 24bit bitmap
+!                //@@04062001
+!                pDev->pfnMonoDither (&DiffInfo, &ImageInfo, &pBuffer, (unsigned long) 0);
+!            }
+  
+             pbmi->cy = iYBand;
+  
+             // set the page location to account for the new band size (cy)
+  
+  //         rectPageLocation.yTop = iCurTop + pbmi->cy;  @@10172000
+             rectPageLocation.yBottom  = rectPageLocation.yTop - pbmi->cy ; // @@10172000
+  
+             // If this in a mono device, we need to send the mono data to the device and
+             // not the color
+!            if(pMonoData)
+             {
+                pDev->pfnRasterize (pasyncDev->pDev->pDevice,
+                                    pMonoData,
+                                    pbmi,
+                                    &sizelPage,
+--- 1276,1319 ----
+             if(iYBand == ulBandLength)      //@@10312000
+                 y++;
+  
+             // we currently support 24bit or mono so if this is the mono case, allocate memory to be
+             // used for the gray-scaled bitmap buffer
+!            if(!pDev->iGSMono)                    //@@04252001
+!                if(prtMode.iBitCount < 16)
+                 {
+!                    pMonoData = (byte *) gs_malloc(1, iYBand * ImageInfo.ulTrgBytesPerLine, "Mono Memory");
+  
+!                    if(pMonoData)
+!                        memset(pMonoData, 0xFF, iYBand * ImageInfo.ulTrgBytesPerLine );
+!                    else
+!                    {
+!                        fprintf(stderr, "<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n");
+!                        fprintf(stderr, "   Failed allocation of pMonoData in PrintPage\n");
+!                        return_error(gs_error_VMerror);
+!                    }
+! 
+!                    ImageInfo.pptlSrc->y = ImageInfo.pptlDst->y = iYBand;//exclusive??
+!                    ImageInfo.pbSrcBits  =  pBitmapTop - ((iYBand-1) * uiBytesPerLine);   // pointer to src image data
+!                    ImageInfo.pbTrgBits  = pMonoData;        // pointer to dst image data
+! 
+!                    // Call DiffusionDither to generate a gray-scaled image from our 24bit bitmap
+!                    //@@04062001
+!                    pDev->pfnMonoDither (&DiffInfo, &ImageInfo, &pBuffer, (unsigned long) 0);
+!                }
+  
+             pbmi->cy = iYBand;
+  
+             // set the page location to account for the new band size (cy)
+  
+  //         rectPageLocation.yTop = iCurTop + pbmi->cy;  @@10172000
+             rectPageLocation.yBottom  = rectPageLocation.yTop - pbmi->cy ; // @@10172000
+  
+             // If this in a mono device, we need to send the mono data to the device and
+             // not the color
+! 
+!            if(pMonoData && !pDev->iGSMono)//@@04252001
+             {
+                pDev->pfnRasterize (pasyncDev->pDev->pDevice,
+                                    pMonoData,
+                                    pbmi,
+                                    &sizelPage,
+***************
+*** 1232,1253 ****
+  //            iCurTop =  rectPageLocation.yTop;     @@10172000
+  
+              iYBand = 0;
+           }
+        }        //@@04062001
+!       pDev->pfnMonoDither(&DiffInfo, &ImageInfo, &pBuffer, (unsigned long) GDM_DITHER_END);
+        pBuffer = NULL;
+     } //END BLOCK
+  
+      //@@04162001
+  //   pDev->pfnEndJob (pasyncDev->pDev->pDevice, pasyncDev->pDev->pOutputObject);
+  
+  done:
+  
+      gs_free((char *) pBitmapMem, uiBytesPerLine * ulBandLength, 1, "Bitmap Memory");
+      fprintf(stderr, "Page Completed\n");
+!     
+      gs_free((char *)pGSData, uiBytesPerLine, 1, "bmp file buffer");
+      gs_free((char *)pbmi, uiBytesPerLine, 1, "Bpmi Memory");
+  
+      /******************************************************************/
+      /* Note:                                         @@08162000       */
+--- 1361,1383 ----
+  //            iCurTop =  rectPageLocation.yTop;     @@10172000
+  
+              iYBand = 0;
+           }
+        }        //@@04062001
+!       if(!pDev->iGSMono)                                      //@@04252001
+!           pDev->pfnMonoDither(&DiffInfo, &ImageInfo, &pBuffer, (unsigned long) GDM_DITHER_END);
+        pBuffer = NULL;
+     } //END BLOCK
+  
+      //@@04162001
+  //   pDev->pfnEndJob (pasyncDev->pDev->pDevice, pasyncDev->pDev->pOutputObject);
+  
+  done:
+  
+      gs_free((char *) pBitmapMem, uiBytesPerLine * ulBandLength, 1, "Bitmap Memory");
+      fprintf(stderr, "Page Completed\n");
+! 
+      gs_free((char *)pGSData, uiBytesPerLine, 1, "bmp file buffer");
+      gs_free((char *)pbmi, uiBytesPerLine, 1, "Bpmi Memory");
+  
+      /******************************************************************/
+      /* Note:                                         @@08162000       */
+Only in current/gs5.50/: jpeg
+Only in current/gs5.50/: libpng
+Only in current/gs5.50/: obj
+Only in current/gs5.50/: temp
+Only in current/gs5.50/: zlib

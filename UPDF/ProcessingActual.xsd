@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.pwg.org/schemas/sm/1.0/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.pwg.org/schemas/sm/1.0/" elementFormDefault="qualified" version="1.00">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">PWG Processing Actual Element schema
+Copyright 2002-2004, IEEE Industry Standards and Technology Organization/Printer Working Group. 
+All rights reserved</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>NOTE: To use this schema you MUST include PwgCommon.xsd, DocumentProcessing.xsd, JobProcessing.xsd</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>Actual elements definition</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>Processing Actual Element definition</xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="DocumentProcessingActual">
+		<xsd:sequence>
+			<xsd:element ref="CopiesActual" minOccurs="0"/>
+			<xsd:element ref="CoverBackActual" minOccurs="0"/>
+			<xsd:element ref="CoverFrontActual" minOccurs="0"/>
+			<xsd:element ref="FeedOrientationActual" minOccurs="0"/>
+			<xsd:element ref="FinishingsColActual" minOccurs="0"/>
+			<xsd:element ref="FinishingsActual" minOccurs="0"/>
+			<xsd:element ref="FontNameRequestedActual" minOccurs="0"/>
+			<xsd:element ref="FontSizeRequestedActual" minOccurs="0"/>
+			<xsd:element ref="ForceFrontSideActual" minOccurs="0"/>
+			<xsd:element ref="ImpositionTemplateActual" minOccurs="0"/>
+			<xsd:element ref="InsertSheetActual" minOccurs="0"/>
+			<xsd:element ref="MediaActual" minOccurs="0"/>
+			<xsd:element ref="MediaColActual" minOccurs="0"/>
+			<xsd:element ref="MediaInputTrayCheckActual" minOccurs="0"/>
+			<xsd:element ref="NumberUpActual" minOccurs="0"/>
+			<xsd:element ref="OrientationRequestedActual" minOccurs="0"/>
+			<xsd:element ref="OutputDeviceActual" minOccurs="0"/>
+			<xsd:element ref="OverridesActual" minOccurs="0"/>
+			<xsd:element ref="PageDeliveryActual" minOccurs="0"/>
+			<xsd:element name="PageRangesActual" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element ref="PageRanges" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element ref="PdlInitFilesActual" minOccurs="0"/>
+			<xsd:element ref="PresentationDirectionNumberUpActual" minOccurs="0"/>
+			<xsd:element name="PrintContentOptimizeActual" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element ref="PrintContentOptimize" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element ref="PrinterResolutionActual" minOccurs="0"/>
+			<xsd:element ref="PrintQualityActual" minOccurs="0"/>
+			<xsd:element ref="SeparatorSheetsActual" minOccurs="0"/>
+			<xsd:element ref="SheetCollateActual" minOccurs="0"/>
+			<xsd:element ref="SidesActual" minOccurs="0"/>
+			<xsd:element ref="XImagePositionActual" minOccurs="0"/>
+			<xsd:element ref="XImageShiftActual" minOccurs="0"/>
+			<xsd:element ref="XSide1ImageShiftActual" minOccurs="0"/>
+			<xsd:element ref="XSide2ImageShiftActual" minOccurs="0"/>
+			<xsd:element ref="YImagePositionActual" minOccurs="0"/>
+			<xsd:element ref="YImageShiftActual" minOccurs="0"/>
+			<xsd:element ref="YSide1ImageShiftActual" minOccurs="0"/>
+			<xsd:element ref="YSide2ImageShiftActual" minOccurs="0"/>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="JobProcessingActual">
+		<xsd:sequence>
+			<xsd:element ref="JobAccountingSheetsActual" minOccurs="0"/>
+			<xsd:element ref="JobCopiesActual" minOccurs="0"/>
+			<xsd:element ref="JobCoverBackActual" minOccurs="0"/>
+			<xsd:element ref="JobCoverFrontActual" minOccurs="0"/>
+			<xsd:element ref="JobErrorSheetActual" minOccurs="0"/>
+			<xsd:element ref="JobFinishingsActual" minOccurs="0"/>
+			<xsd:element ref="JobFinishingsColActual" minOccurs="0"/>
+			<xsd:element ref="JobHoldUntilActual" minOccurs="0"/>
+			<xsd:element ref="JobHoldUntilTimeActual" minOccurs="0"/>
+			<xsd:element ref="JobMessageToOperatorActual" minOccurs="0"/>
+			<xsd:element ref="JobPhoneNumberActual" minOccurs="0"/>
+			<xsd:element ref="JobPriorityActual" minOccurs="0"/>
+			<xsd:element ref="JobRecipientNameActual" minOccurs="0"/>
+			<xsd:element ref="JobSaveDispositionActual" minOccurs="0"/>
+			<xsd:element ref="JobSheetMessageActual" minOccurs="0"/>
+			<xsd:element ref="JobSheetsActual" minOccurs="0"/>
+			<xsd:element ref="JobSheetsColActual" minOccurs="0"/>
+			<xsd:element ref="MultipleDocumentsHandlingActual" minOccurs="0"/>
+			<xsd:element ref="OutputBinActual" minOccurs="0"/>
+			<xsd:element ref="OutputDeviceActual" minOccurs="0"/>
+			<xsd:element ref="OverridesActual" minOccurs="0"/>
+			<xsd:element name="PagesPerSubsetActual" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element ref="PagesPerSubset" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element ref="ProofPrintActual" minOccurs="0"/>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="DocumentProcessingActual" type="DocumentProcessingActual"/>
+	<xsd:element name="JobProcessingActual" type="JobProcessingActual"/>
+	<xsd:annotation>
+		<xsd:documentation>Processing Actual semantic elements </xsd:documentation>
+	</xsd:annotation>
+	<xsd:element name="CopiesActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Copies" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="CoverBackActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="CoverBack" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="CoverFrontActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="CoverFront" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="FeedOrientationActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="FeedOrientation" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="FinishingsActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Finishings" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="FinishingsColActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="FinishingsCol" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="FinishingTemplateActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="FinishingTemplate" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="FontNameRequestedActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="FontNameRequested" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="FontSizeRequestedActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="FontSizeRequested" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ForceFrontSideActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ForceFront" type="xsd:int" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ImpositionTemplateActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="ImpositionTemplate" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="InsertAfterPageActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="InsertAfterPage" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="InsertCountActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="InsertCount" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="InsertSheetActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="InsertSheet" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobAccountingOutputBinActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobAccountingOutputBin" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobAccountingSheetsActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobAccountingSheets" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobCopiesActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobCopies" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobCoverBackActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobCoverBack" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobCoverFrontActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobCoverFront" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobErrorSheetActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobErrorSheet" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobErrorSheetTypeActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobErrorSheetType" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobErrorSheetWhenActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobErrorSheetWhen" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobFinishingsColActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobFinishingsCol" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobFinishingsActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobFinishings" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobHoldUntilActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobHoldUntil" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobHoldUntilTimeActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobHoldUntilTime" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobMessageToOperatorActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobMessageToOperator" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobPhoneNumberActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobPhoneNumber" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobPriorityActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobPriority" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobRecipientNameActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobRecipientName" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobSaveDispositionActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobSaveDisposition" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobSheetMessageActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobSheetMessage" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobSheetsActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobSheets" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="JobSheetsColActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="JobSheetsCol" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MediaInputTrayCheckActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="MediaInputTrayCheck" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MultipleDocumentsHandlingActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="MultipleDocumentsHandling" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="NumberUpActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="NumberUp" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="OrientationRequestedActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="OrientationRequested" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="OutputBinActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="OutputBin" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="OutputDeviceActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="OutputDevice" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="OverridesActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Overrides" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PageDeliveryActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="PageDelivery" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PdlInitFilesActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="PdlInitFiles" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PresentationDirectionNumberUpActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="PresentationDirectionNumberUp" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PrintQualityActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="PrintQuality" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PrinterResolutionActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="PrinterResolution" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ProofPrintActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="ProofPrint" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ProofPrintCopiesActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="ProofPrintCopies" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="SaveDispositionActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="SaveDisposition" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="SaveInfoActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="SaveInfo" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="SeparatorSheetsActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="SeparatorSheets" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="SheetCollateActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="SheetCollate" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="SidesActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Sides" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="StitchingActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Stitching" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="XImagePositionActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="XImagePosition" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="XImageShiftActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="XImageShift" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="XSide1ImageShiftActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="XSide1ImageShift" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="XSide2ImageShiftActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="XSide2ImageShift" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="YImagePositionActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="YImagePosition" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="YImageShiftActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="YImageShift" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="YSide1ImageShiftActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="YSide1ImageShift" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="YSide2ImageShiftActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="YSide2ImageShift" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

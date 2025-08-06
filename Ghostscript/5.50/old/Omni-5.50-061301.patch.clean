@@ -1,0 +1,660 @@
+diff -r -C5 /tmp/gs5.50/contrib.mak /home/gs5.50+omni/contrib.mak
+*** /tmp/gs5.50/contrib.mak	Sun Feb 13 20:28:54 2000
+--- /home/gs5.50+omni/contrib.mak	Wed Jun 13 13:05:29 2001
+***************
+*** 1,23 ****
+  #    Copyright (C) 1989, 1996, 1997, 1998 Aladdin Enterprises.  All rights reserved.
+! # 
+  # This file is part of GNU Ghostscript.
+! # 
+  # GNU Ghostscript is distributed in the hope that it will be useful, but
+  # WITHOUT ANY WARRANTY.  No author or distributor accepts responsibility
+  # to anyone for the consequences of using it or for whether it serves any
+  # particular purpose or works at all, unless he says so in writing.  Refer
+  # to the GNU General Public License for full details.
+! # 
+  # Everyone is granted permission to copy, modify and redistribute GNU
+  # Ghostscript, but only under the conditions described in the GNU General
+  # Public License.  A copy of this license is supposed to have been given
+  # to you along with GNU Ghostscript so you can know your rights and
+  # responsibilities.  It should be in a file named COPYING.  Among other
+  # things, the copyright notice and this notice must be preserved on all
+  # copies.
+! # 
+  # Aladdin Enterprises supports the work of the GNU Project, but is not
+  # affiliated with the Free Software Foundation or the GNU Project.  GNU
+  # Ghostscript, as distributed by Aladdin Enterprises, does not require any
+  # GNU software to build or run it.
+  
+--- 1,23 ----
+  #    Copyright (C) 1989, 1996, 1997, 1998 Aladdin Enterprises.  All rights reserved.
+! #
+  # This file is part of GNU Ghostscript.
+! #
+  # GNU Ghostscript is distributed in the hope that it will be useful, but
+  # WITHOUT ANY WARRANTY.  No author or distributor accepts responsibility
+  # to anyone for the consequences of using it or for whether it serves any
+  # particular purpose or works at all, unless he says so in writing.  Refer
+  # to the GNU General Public License for full details.
+! #
+  # Everyone is granted permission to copy, modify and redistribute GNU
+  # Ghostscript, but only under the conditions described in the GNU General
+  # Public License.  A copy of this license is supposed to have been given
+  # to you along with GNU Ghostscript so you can know your rights and
+  # responsibilities.  It should be in a file named COPYING.  Among other
+  # things, the copyright notice and this notice must be preserved on all
+  # copies.
+! #
+  # Aladdin Enterprises supports the work of the GNU Project, but is not
+  # affiliated with the Free Software Foundation or the GNU Project.  GNU
+  # Ghostscript, as distributed by Aladdin Enterprises, does not require any
+  # GNU software to build or run it.
+  
+***************
+*** 93,103 ****
+  # *	necp6	NEC P6/P6+/P60 printers at 360 x 360 DPI resolution
+  # *	nwp533  Sony Microsystems NWP533 laser printer   [Sony only]
+  # *	oki182	Okidata MicroLine 182
+  # *	okiibm	Okidata MicroLine IBM-compatible printers
+  # *	paintjet  alternate H-P PaintJet color printer
+! # *	pj	H-P PaintJet XL driver 
+  # *	pjetxl	alternate H-P PaintJet XL driver
+  # *	pjxl	H-P PaintJet XL color printer
+  # *	pjxl300  H-P PaintJet XL300 color printer;
+  #		also good for PaintJet 1200C and CopyJet
+  # *	r4081	Ricoh 4081 laser printer
+--- 93,103 ----
+  # *	necp6	NEC P6/P6+/P60 printers at 360 x 360 DPI resolution
+  # *	nwp533  Sony Microsystems NWP533 laser printer   [Sony only]
+  # *	oki182	Okidata MicroLine 182
+  # *	okiibm	Okidata MicroLine IBM-compatible printers
+  # *	paintjet  alternate H-P PaintJet color printer
+! # *	pj	H-P PaintJet XL driver
+  # *	pjetxl	alternate H-P PaintJet XL driver
+  # *	pjxl	H-P PaintJet XL color printer
+  # *	pjxl300  H-P PaintJet XL300 color printer;
+  #		also good for PaintJet 1200C and CopyJet
+  # *	r4081	Ricoh 4081 laser printer
+***************
+*** 133,142 ****
+--- 133,143 ----
+  
+  ###### ------------------- MS-DOS display devices ------------------- ######
+  
+  ### ------------------- The Hercules Graphics display ------------------- ###
+  
++ 
+  herc_=$(GLOBJ)gdevherc.$(OBJ)
+  herc.dev: $(herc_)
+  	$(SETDEV) herc $(herc_)
+  
+  $(GLOBJ)gdevherc.$(OBJ): $(GLSRC)gdevherc.c $(GDEV) $(dos__h)\
+***************
+*** 399,408 ****
+--- 400,411 ----
+  stcolor2_=$(GLOBJ)gdevstc3.$(OBJ) $(GLOBJ)gdevstc4.$(OBJ)
+  stcolor.dev: $(stcolor1_) $(stcolor2_) page.dev
+  	$(SETPDEV) stcolor $(stcolor1_)
+  	$(ADDMOD) stcolor -obj $(stcolor2_)
+  
++ 
++ 
+  gdevstc_h=$(GLSRC)gdevstc.h $(gdevprn_h) $(gsparam_h) $(gsstate_h)
+  
+  $(GLOBJ)gdevstc.$(OBJ): $(GLSRC)gdevstc.c $(gdevstc_h) $(PDEVH)
+  	$(GLCC) $(GLO_)gdevstc.$(OBJ) $(C_) $(GLSRC)gdevstc.c
+  
+***************
+*** 416,425 ****
+--- 419,439 ----
+  	$(GLCC) $(GLO_)gdevstc3.$(OBJ) $(C_) $(GLSRC)gdevstc3.c
+  
+  $(GLOBJ)gdevstc4.$(OBJ): $(GLSRC)gdevstc4.c $(gdevstc_h) $(PDEVH)
+  	$(GLCC) $(GLO_)gdevstc4.$(OBJ) $(C_) $(GLSRC)gdevstc4.c
+  
++ ###--------------- Added Omni --------------------------###
++ 
++ epclr_h1=$(GLSCR)defs.h
++ 
++ omni.dev: $(GLOBJ)gomni.$(OBJ) page.dev
++ 	$(SETPDEV) omni $(GLOBJ)gomni.$(OBJ)
++ 
++ $(GLOBJ)gomni.$(OBJ): $(GLSRC)gomni.c $(epclr_h1) $(PDEVH)
++ 	$(GLCC) $(GLO_)gomni.$(OBJ) `glib-config --cflags gmodule` $(C_) $(GLSRC)gomni.c
++ 
++ 
+  ### --------------- Ugly/Update -> Unified Printer Driver ---------------- ###
+  ### For questions about this driver, please contact:                       ###
+  ###        Gunther Hess (gunther@elmos.de)                                 ###
+  
+  uniprint_=$(GLOBJ)gdevupd.$(OBJ)
+***************
+*** 459,469 ****
+  	$(SETPDEV) paintjet $(PJET)
+  
+  pjetxl.dev: $(PJET) page.dev
+  	$(SETPDEV) pjetxl $(PJET)
+  
+! ###--------------------- The Brother HL 7x0 printer --------------------- ### 
+  ###                    This driver was contributed by a user :            ###
+  ###  Please contact Pierre-Olivier Gaillard (pierre.gaillard@hol.fr)      ###
+  ### if you have any questions.                                            ###
+  
+  hl7x0_=$(GLOBJ)gdevhl7x.$(OBJ)
+--- 473,483 ----
+  	$(SETPDEV) paintjet $(PJET)
+  
+  pjetxl.dev: $(PJET) page.dev
+  	$(SETPDEV) pjetxl $(PJET)
+  
+! ###--------------------- The Brother HL 7x0 printer --------------------- ###
+  ###                    This driver was contributed by a user :            ###
+  ###  Please contact Pierre-Olivier Gaillard (pierre.gaillard@hol.fr)      ###
+  ### if you have any questions.                                            ###
+  
+  hl7x0_=$(GLOBJ)gdevhl7x.$(OBJ)
+diff -r -C5 /tmp/gs5.50/makefile /home/gs5.50+omni/makefile
+*** /tmp/gs5.50/makefile	Sun Feb 13 20:28:41 2000
+--- /home/gs5.50+omni/makefile	Wed Jun 13 13:03:11 2001
+***************
+*** 1,23 ****
+  #    Copyright (C) 1997, 1998 Aladdin Enterprises.  All rights reserved.
+! # 
+  # This file is part of GNU Ghostscript.
+! # 
+  # GNU Ghostscript is distributed in the hope that it will be useful, but
+  # WITHOUT ANY WARRANTY.  No author or distributor accepts responsibility
+  # to anyone for the consequences of using it or for whether it serves any
+  # particular purpose or works at all, unless he says so in writing.  Refer
+  # to the GNU General Public License for full details.
+! # 
+  # Everyone is granted permission to copy, modify and redistribute GNU
+  # Ghostscript, but only under the conditions described in the GNU General
+  # Public License.  A copy of this license is supposed to have been given
+  # to you along with GNU Ghostscript so you can know your rights and
+  # responsibilities.  It should be in a file named COPYING.  Among other
+  # things, the copyright notice and this notice must be preserved on all
+  # copies.
+! # 
+  # Aladdin Enterprises supports the work of the GNU Project, but is not
+  # affiliated with the Free Software Foundation or the GNU Project.  GNU
+  # Ghostscript, as distributed by Aladdin Enterprises, does not require any
+  # GNU software to build or run it.
+  
+--- 1,23 ----
+  #    Copyright (C) 1997, 1998 Aladdin Enterprises.  All rights reserved.
+! #
+  # This file is part of GNU Ghostscript.
+! #
+  # GNU Ghostscript is distributed in the hope that it will be useful, but
+  # WITHOUT ANY WARRANTY.  No author or distributor accepts responsibility
+  # to anyone for the consequences of using it or for whether it serves any
+  # particular purpose or works at all, unless he says so in writing.  Refer
+  # to the GNU General Public License for full details.
+! #
+  # Everyone is granted permission to copy, modify and redistribute GNU
+  # Ghostscript, but only under the conditions described in the GNU General
+  # Public License.  A copy of this license is supposed to have been given
+  # to you along with GNU Ghostscript so you can know your rights and
+  # responsibilities.  It should be in a file named COPYING.  Among other
+  # things, the copyright notice and this notice must be preserved on all
+  # copies.
+! #
+  # Aladdin Enterprises supports the work of the GNU Project, but is not
+  # affiliated with the Free Software Foundation or the GNU Project.  GNU
+  # Ghostscript, as distributed by Aladdin Enterprises, does not require any
+  # GNU software to build or run it.
+  
+***************
+*** 57,67 ****
+  # If your system has installbsd, change install to installbsd in the next line.
+  INSTALL = install -c
+  INSTALL_PROGRAM = $(INSTALL) -m 755
+  INSTALL_DATA = $(INSTALL) -m 644
+  
+! prefix = /usr/local
+  exec_prefix = $(prefix)
+  bindir = $(exec_prefix)/bin
+  scriptdir = $(bindir)
+  mandir = $(prefix)/man
+  man1ext = 1
+--- 57,67 ----
+  # If your system has installbsd, change install to installbsd in the next line.
+  INSTALL = install -c
+  INSTALL_PROGRAM = $(INSTALL) -m 755
+  INSTALL_DATA = $(INSTALL) -m 644
+  
+! prefix = /usr
+  exec_prefix = $(prefix)
+  bindir = $(exec_prefix)/bin
+  scriptdir = $(bindir)
+  mandir = $(prefix)/man
+  man1ext = 1
+***************
+*** 75,85 ****
+  GS_DOCDIR=$(docdir)
+  
+  # Define the default directory/ies for the runtime
+  # initialization and font files.  Separate multiple directories with a :.
+  
+! GS_LIB_DEFAULT=$(gsdatadir):$(gsdir)/fonts
+  
+  # Define whether or not searching for initialization files should always
+  # look in the current directory first.  This leads to well-known security
+  # and confusion problems, but users insist on it.
+  # NOTE: this also affects searching for files named on the command line:
+--- 75,85 ----
+  GS_DOCDIR=$(docdir)
+  
+  # Define the default directory/ies for the runtime
+  # initialization and font files.  Separate multiple directories with a :.
+  
+! GS_LIB_DEFAULT=$(gsdatadir):$(gsdir)/fonts:$(datadir)/fonts/default/ghostscript:$(datadir)/fonts/default/Type1
+  
+  # Define whether or not searching for initialization files should always
+  # look in the current directory first.  This leads to well-known security
+  # and confusion problems, but users insist on it.
+  # NOTE: this also affects searching for files named on the command line:
+***************
+*** 177,191 ****
+--- 177,194 ----
+  # ------ Platform-specific options ------ #
+  
+  # Define the name of the C compiler.
+  
+  CC=gcc
++ CCPLUS=c++
+  
+  # Define the name of the linker for the final link step.
+  # Normally this is the same as the C compiler.
+  
+  CCLD=$(CC)
++ CCLDPLUS=$(CCPLUS)
++ 
+  
+  # Define the default gcc flags.
+  # Note that depending whether or not we are running a version of gcc with
+  # the 2.7.0-2.7.2 optimizer bug, either "-Dconst=" or
+  # "-Wcast-qual -Wwrite-strings" is automatically included.
+***************
+*** 300,311 ****
+  
+  # Choose the device(s) to include.  See devs.mak for details,
+  # devs.mak and contrib.mak for the list of available devices.
+  
+  DEVICE_DEVS=x11.dev x11alpha.dev x11cmyk.dev x11gray2.dev x11gray4.dev x11mono.dev
+! #DEVICE_DEVS1=bmpmono.dev bmpamono.dev posync.dev
+! DEVICE_DEVS1=
+  DEVICE_DEVS2=
+  DEVICE_DEVS3=deskjet.dev djet500.dev laserjet.dev ljetplus.dev ljet2p.dev ljet3.dev ljet4.dev
+  DEVICE_DEVS4=cdeskjet.dev cdjcolor.dev cdjmono.dev cdj550.dev pj.dev pjxl.dev pjxl300.dev
+  DEVICE_DEVS5=uniprint.dev
+  DEVICE_DEVS6=bj10e.dev bj200.dev bjc600.dev bjc800.dev
+--- 303,314 ----
+  
+  # Choose the device(s) to include.  See devs.mak for details,
+  # devs.mak and contrib.mak for the list of available devices.
+  
+  DEVICE_DEVS=x11.dev x11alpha.dev x11cmyk.dev x11gray2.dev x11gray4.dev x11mono.dev
+! DEVICE_DEVS1=bmpmono.dev bmpamono.dev posync.dev omni.dev
+! #DEVICE_DEVS1=
+  DEVICE_DEVS2=
+  DEVICE_DEVS3=deskjet.dev djet500.dev laserjet.dev ljetplus.dev ljet2p.dev ljet3.dev ljet4.dev
+  DEVICE_DEVS4=cdeskjet.dev cdjcolor.dev cdjmono.dev cdj550.dev pj.dev pjxl.dev pjxl300.dev
+  DEVICE_DEVS5=uniprint.dev
+  DEVICE_DEVS6=bj10e.dev bj200.dev bjc600.dev bjc800.dev
+diff -r -C5 /tmp/gs5.50/ugcclib.mak /home/gs5.50+omni/ugcclib.mak
+*** /tmp/gs5.50/ugcclib.mak	Sun Feb 13 20:28:44 2000
+--- /home/gs5.50+omni/ugcclib.mak	Wed Jun 13 13:03:11 2001
+***************
+*** 1,23 ****
+  #    Copyright (C) 1995, 1996, 1997, 1998 Aladdin Enterprises.  All rights reserved.
+! # 
+  # This file is part of GNU Ghostscript.
+! # 
+  # GNU Ghostscript is distributed in the hope that it will be useful, but
+  # WITHOUT ANY WARRANTY.  No author or distributor accepts responsibility
+  # to anyone for the consequences of using it or for whether it serves any
+  # particular purpose or works at all, unless he says so in writing.  Refer
+  # to the GNU General Public License for full details.
+! # 
+  # Everyone is granted permission to copy, modify and redistribute GNU
+  # Ghostscript, but only under the conditions described in the GNU General
+  # Public License.  A copy of this license is supposed to have been given
+  # to you along with GNU Ghostscript so you can know your rights and
+  # responsibilities.  It should be in a file named COPYING.  Among other
+  # things, the copyright notice and this notice must be preserved on all
+  # copies.
+! # 
+  # Aladdin Enterprises supports the work of the GNU Project, but is not
+  # affiliated with the Free Software Foundation or the GNU Project.  GNU
+  # Ghostscript, as distributed by Aladdin Enterprises, does not require any
+  # GNU software to build or run it.
+  
+--- 1,23 ----
+  #    Copyright (C) 1995, 1996, 1997, 1998 Aladdin Enterprises.  All rights reserved.
+! #
+  # This file is part of GNU Ghostscript.
+! #
+  # GNU Ghostscript is distributed in the hope that it will be useful, but
+  # WITHOUT ANY WARRANTY.  No author or distributor accepts responsibility
+  # to anyone for the consequences of using it or for whether it serves any
+  # particular purpose or works at all, unless he says so in writing.  Refer
+  # to the GNU General Public License for full details.
+! #
+  # Everyone is granted permission to copy, modify and redistribute GNU
+  # Ghostscript, but only under the conditions described in the GNU General
+  # Public License.  A copy of this license is supposed to have been given
+  # to you along with GNU Ghostscript so you can know your rights and
+  # responsibilities.  It should be in a file named COPYING.  Among other
+  # things, the copyright notice and this notice must be preserved on all
+  # copies.
+! #
+  # Aladdin Enterprises supports the work of the GNU Project, but is not
+  # affiliated with the Free Software Foundation or the GNU Project.  GNU
+  # Ghostscript, as distributed by Aladdin Enterprises, does not require any
+  # GNU software to build or run it.
+  
+***************
+*** 66,76 ****
+  
+  GCFLAGS=-Wall -Wcast-qual -Wpointer-arith -Wstrict-prototypes -Wwrite-strings -fno-common
+  XCFLAGS=
+  CFLAGS=-g -O $(GCFLAGS) $(XCFLAGS)
+  LDFLAGS=$(XLDFLAGS)
+! EXTRALIBS=
+  XINCLUDE=-I/usr/local/X/include
+  XLIBDIRS=-L/usr/X11/lib
+  XLIBDIR=
+  XLIBS=Xt Xext X11
+  
+--- 66,76 ----
+  
+  GCFLAGS=-Wall -Wcast-qual -Wpointer-arith -Wstrict-prototypes -Wwrite-strings -fno-common
+  XCFLAGS=
+  CFLAGS=-g -O $(GCFLAGS) $(XCFLAGS)
+  LDFLAGS=$(XLDFLAGS)
+! EXTRALIBS=dl # @TBD - what to do on systems that dont have dlopen?
+  XINCLUDE=-I/usr/local/X/include
+  XLIBDIRS=-L/usr/X11/lib
+  XLIBDIR=
+  XLIBS=Xt Xext X11
+  
+***************
+*** 165,177 ****
+  	if ( test -f $(INCLUDE)/sys/time.h ); then $(ECHOGS_XE) -a $(gconfig__h) -x 23 define HAVE_SYS_TIME_H; else true; fi
+  	if ( test -f $(INCLUDE)/sys/times.h ); then $(ECHOGS_XE) -a $(gconfig__h) -x 23 define HAVE_SYS_TIMES_H; else true; fi
+  
+  LIB_ONLY=$(GLOBJ)gslib.$(OBJ) $(GLOBJ)gsnogc.$(OBJ) $(GLOBJ)gconfig.$(OBJ) $(GLOBJ)gscdefs.$(OBJ)
+  ldt_tr=$(GLOBJ)ldt.tr
+  $(GS_XE): $(ld_tr) $(ECHOGS_XE) $(LIB_ALL) $(DEVS_ALL) $(LIB_ONLY)
+! 	$(ECHOGS_XE) -w $(ldt_tr) -n - $(CCLD) $(LDFLAGS) $(XLIBDIRS) -o $(GS_XE)
+  	$(ECHOGS_XE) -a $(ldt_tr) -n -s $(LIB_ONLY) -s
+  	cat $(ld_tr) >>$(ldt_tr)
+  	$(ECHOGS_XE) -a $(ldt_tr) -s - $(EXTRALIBS) -lm
+  	LD_RUN_PATH=$(XLIBDIR); export LD_RUN_PATH; $(SH) <$(ldt_tr)
+  
+  include $(GLSRCDIR)/unix-end.mak
+--- 165,181 ----
+  	if ( test -f $(INCLUDE)/sys/time.h ); then $(ECHOGS_XE) -a $(gconfig__h) -x 23 define HAVE_SYS_TIME_H; else true; fi
+  	if ( test -f $(INCLUDE)/sys/times.h ); then $(ECHOGS_XE) -a $(gconfig__h) -x 23 define HAVE_SYS_TIMES_H; else true; fi
+  
+  LIB_ONLY=$(GLOBJ)gslib.$(OBJ) $(GLOBJ)gsnogc.$(OBJ) $(GLOBJ)gconfig.$(OBJ) $(GLOBJ)gscdefs.$(OBJ)
+  ldt_tr=$(GLOBJ)ldt.tr
++ LIBFLAG=-L
+  $(GS_XE): $(ld_tr) $(ECHOGS_XE) $(LIB_ALL) $(DEVS_ALL) $(LIB_ONLY)
+! #$(ECHOGS_XE) -w $(ldt_tr) -n - $(CCLD) $(LDFLAGS) $(XLIBDIRS) -o $(GS_XE)
+! 	$(ECHOGS_XE) -w $(ldt_tr) -n - $(CCLDPLUS) $(LDFLAGS) $(XLIBDIRS) -o $(GS_XE)
+  	$(ECHOGS_XE) -a $(ldt_tr) -n -s $(LIB_ONLY) -s
+  	cat $(ld_tr) >>$(ldt_tr)
++ 	$(ECHOGS_XE) -a $(ldt_tr) -s - $(OMNIDIR) -q $(OMNIDIR)OmniInterface.o -s
++ 	$(ECHOGS_XE) -a $(ldt_tr) -s - $(LIBFLAG) -s $(OMNIDIR) -s
+  	$(ECHOGS_XE) -a $(ldt_tr) -s - $(EXTRALIBS) -lm
+  	LD_RUN_PATH=$(XLIBDIR); export LD_RUN_PATH; $(SH) <$(ldt_tr)
+  
+  include $(GLSRCDIR)/unix-end.mak
+diff -r -C5 /tmp/gs5.50/unix-gcc.mak /home/gs5.50+omni/unix-gcc.mak
+*** /tmp/gs5.50/unix-gcc.mak	Sun Feb 13 20:28:41 2000
+--- /home/gs5.50+omni/unix-gcc.mak	Wed Jun 13 13:03:11 2001
+***************
+*** 1,23 ****
+  #    Copyright (C) 1997, 1998 Aladdin Enterprises.  All rights reserved.
+! # 
+  # This file is part of GNU Ghostscript.
+! # 
+  # GNU Ghostscript is distributed in the hope that it will be useful, but
+  # WITHOUT ANY WARRANTY.  No author or distributor accepts responsibility
+  # to anyone for the consequences of using it or for whether it serves any
+  # particular purpose or works at all, unless he says so in writing.  Refer
+  # to the GNU General Public License for full details.
+! # 
+  # Everyone is granted permission to copy, modify and redistribute GNU
+  # Ghostscript, but only under the conditions described in the GNU General
+  # Public License.  A copy of this license is supposed to have been given
+  # to you along with GNU Ghostscript so you can know your rights and
+  # responsibilities.  It should be in a file named COPYING.  Among other
+  # things, the copyright notice and this notice must be preserved on all
+  # copies.
+! # 
+  # Aladdin Enterprises supports the work of the GNU Project, but is not
+  # affiliated with the Free Software Foundation or the GNU Project.  GNU
+  # Ghostscript, as distributed by Aladdin Enterprises, does not require any
+  # GNU software to build or run it.
+  
+--- 1,23 ----
+  #    Copyright (C) 1997, 1998 Aladdin Enterprises.  All rights reserved.
+! #
+  # This file is part of GNU Ghostscript.
+! #
+  # GNU Ghostscript is distributed in the hope that it will be useful, but
+  # WITHOUT ANY WARRANTY.  No author or distributor accepts responsibility
+  # to anyone for the consequences of using it or for whether it serves any
+  # particular purpose or works at all, unless he says so in writing.  Refer
+  # to the GNU General Public License for full details.
+! #
+  # Everyone is granted permission to copy, modify and redistribute GNU
+  # Ghostscript, but only under the conditions described in the GNU General
+  # Public License.  A copy of this license is supposed to have been given
+  # to you along with GNU Ghostscript so you can know your rights and
+  # responsibilities.  It should be in a file named COPYING.  Among other
+  # things, the copyright notice and this notice must be preserved on all
+  # copies.
+! #
+  # Aladdin Enterprises supports the work of the GNU Project, but is not
+  # affiliated with the Free Software Foundation or the GNU Project.  GNU
+  # Ghostscript, as distributed by Aladdin Enterprises, does not require any
+  # GNU software to build or run it.
+  
+***************
+*** 57,67 ****
+  # If your system has installbsd, change install to installbsd in the next line.
+  INSTALL = install -c
+  INSTALL_PROGRAM = $(INSTALL) -m 755
+  INSTALL_DATA = $(INSTALL) -m 644
+  
+! prefix = /usr/local
+  exec_prefix = $(prefix)
+  bindir = $(exec_prefix)/bin
+  scriptdir = $(bindir)
+  mandir = $(prefix)/man
+  man1ext = 1
+--- 57,67 ----
+  # If your system has installbsd, change install to installbsd in the next line.
+  INSTALL = install -c
+  INSTALL_PROGRAM = $(INSTALL) -m 755
+  INSTALL_DATA = $(INSTALL) -m 644
+  
+! prefix = /usr
+  exec_prefix = $(prefix)
+  bindir = $(exec_prefix)/bin
+  scriptdir = $(bindir)
+  mandir = $(prefix)/man
+  man1ext = 1
+***************
+*** 75,85 ****
+  GS_DOCDIR=$(docdir)
+  
+  # Define the default directory/ies for the runtime
+  # initialization and font files.  Separate multiple directories with a :.
+  
+! GS_LIB_DEFAULT=$(gsdatadir):$(gsdir)/fonts
+  
+  # Define whether or not searching for initialization files should always
+  # look in the current directory first.  This leads to well-known security
+  # and confusion problems, but users insist on it.
+  # NOTE: this also affects searching for files named on the command line:
+--- 75,85 ----
+  GS_DOCDIR=$(docdir)
+  
+  # Define the default directory/ies for the runtime
+  # initialization and font files.  Separate multiple directories with a :.
+  
+! GS_LIB_DEFAULT=$(gsdatadir):$(gsdir)/fonts:$(datadir)/fonts/default/ghostscript:$(datadir)/fonts/default/Type1
+  
+  # Define whether or not searching for initialization files should always
+  # look in the current directory first.  This leads to well-known security
+  # and confusion problems, but users insist on it.
+  # NOTE: this also affects searching for files named on the command line:
+***************
+*** 177,191 ****
+--- 177,194 ----
+  # ------ Platform-specific options ------ #
+  
+  # Define the name of the C compiler.
+  
+  CC=gcc
++ CCPLUS=c++
+  
+  # Define the name of the linker for the final link step.
+  # Normally this is the same as the C compiler.
+  
+  CCLD=$(CC)
++ CCLDPLUS=$(CCPLUS)
++ 
+  
+  # Define the default gcc flags.
+  # Note that depending whether or not we are running a version of gcc with
+  # the 2.7.0-2.7.2 optimizer bug, either "-Dconst=" or
+  # "-Wcast-qual -Wwrite-strings" is automatically included.
+***************
+*** 300,311 ****
+  
+  # Choose the device(s) to include.  See devs.mak for details,
+  # devs.mak and contrib.mak for the list of available devices.
+  
+  DEVICE_DEVS=x11.dev x11alpha.dev x11cmyk.dev x11gray2.dev x11gray4.dev x11mono.dev
+! #DEVICE_DEVS1=bmpmono.dev bmpamono.dev posync.dev
+! DEVICE_DEVS1=
+  DEVICE_DEVS2=
+  DEVICE_DEVS3=deskjet.dev djet500.dev laserjet.dev ljetplus.dev ljet2p.dev ljet3.dev ljet4.dev
+  DEVICE_DEVS4=cdeskjet.dev cdjcolor.dev cdjmono.dev cdj550.dev pj.dev pjxl.dev pjxl300.dev
+  DEVICE_DEVS5=uniprint.dev
+  DEVICE_DEVS6=bj10e.dev bj200.dev bjc600.dev bjc800.dev
+--- 303,314 ----
+  
+  # Choose the device(s) to include.  See devs.mak for details,
+  # devs.mak and contrib.mak for the list of available devices.
+  
+  DEVICE_DEVS=x11.dev x11alpha.dev x11cmyk.dev x11gray2.dev x11gray4.dev x11mono.dev
+! DEVICE_DEVS1=bmpmono.dev bmpamono.dev posync.dev omni.dev
+! #DEVICE_DEVS1=
+  DEVICE_DEVS2=
+  DEVICE_DEVS3=deskjet.dev djet500.dev laserjet.dev ljetplus.dev ljet2p.dev ljet3.dev ljet4.dev
+  DEVICE_DEVS4=cdeskjet.dev cdjcolor.dev cdjmono.dev cdj550.dev pj.dev pjxl.dev pjxl300.dev
+  DEVICE_DEVS5=uniprint.dev
+  DEVICE_DEVS6=bj10e.dev bj200.dev bjc600.dev bjc800.dev
+diff -r -C5 /tmp/gs5.50/unixtail.mak /home/gs5.50+omni/unixtail.mak
+*** /tmp/gs5.50/unixtail.mak	Sun Feb 13 20:29:08 2000
+--- /home/gs5.50+omni/unixtail.mak	Wed Jun 13 13:07:27 2001
+***************
+*** 1,23 ****
+  #    Copyright (C) 1990, 1995, 1996, 1997, 1998 Aladdin Enterprises.  All rights reserved.
+! # 
+  # This file is part of GNU Ghostscript.
+! # 
+  # GNU Ghostscript is distributed in the hope that it will be useful, but
+  # WITHOUT ANY WARRANTY.  No author or distributor accepts responsibility
+  # to anyone for the consequences of using it or for whether it serves any
+  # particular purpose or works at all, unless he says so in writing.  Refer
+  # to the GNU General Public License for full details.
+! # 
+  # Everyone is granted permission to copy, modify and redistribute GNU
+  # Ghostscript, but only under the conditions described in the GNU General
+  # Public License.  A copy of this license is supposed to have been given
+  # to you along with GNU Ghostscript so you can know your rights and
+  # responsibilities.  It should be in a file named COPYING.  Among other
+  # things, the copyright notice and this notice must be preserved on all
+  # copies.
+! # 
+  # Aladdin Enterprises supports the work of the GNU Project, but is not
+  # affiliated with the Free Software Foundation or the GNU Project.  GNU
+  # Ghostscript, as distributed by Aladdin Enterprises, does not require any
+  # GNU software to build or run it.
+  
+--- 1,23 ----
+  #    Copyright (C) 1990, 1995, 1996, 1997, 1998 Aladdin Enterprises.  All rights reserved.
+! #
+  # This file is part of GNU Ghostscript.
+! #
+  # GNU Ghostscript is distributed in the hope that it will be useful, but
+  # WITHOUT ANY WARRANTY.  No author or distributor accepts responsibility
+  # to anyone for the consequences of using it or for whether it serves any
+  # particular purpose or works at all, unless he says so in writing.  Refer
+  # to the GNU General Public License for full details.
+! #
+  # Everyone is granted permission to copy, modify and redistribute GNU
+  # Ghostscript, but only under the conditions described in the GNU General
+  # Public License.  A copy of this license is supposed to have been given
+  # to you along with GNU Ghostscript so you can know your rights and
+  # responsibilities.  It should be in a file named COPYING.  Among other
+  # things, the copyright notice and this notice must be preserved on all
+  # copies.
+! #
+  # Aladdin Enterprises supports the work of the GNU Project, but is not
+  # affiliated with the Free Software Foundation or the GNU Project.  GNU
+  # Ghostscript, as distributed by Aladdin Enterprises, does not require any
+  # GNU software to build or run it.
+  
+***************
+*** 139,154 ****
+  
+  # Here is the final link step.  The stuff with LD_RUN_PATH is for SVR4
+  # systems with dynamic library loading; I believe it's harmless elsewhere.
+  # The resetting of the environment variables to empty strings is for SCO Unix,
+  # which has limited environment space.
+  ldt_tr=$(PSOBJ)ldt.tr
+  $(GS_XE): $(ld_tr) $(ECHOGS_XE) $(XE_ALL)
+! 	$(ECHOGS_XE) -w $(ldt_tr) -n - $(CCLD) $(LDFLAGS) $(XLIBDIRS) -o $(GS_XE)
+  	$(ECHOGS_XE) -a $(ldt_tr) -n -s $(PSOBJ)gs.$(OBJ) -s
+  	cat $(ld_tr) >>$(ldt_tr)
+! 	$(ECHOGS_XE) -a $(ldt_tr) -s - $(EXTRALIBS) -lm
+  	LD_RUN_PATH=$(XLIBDIR); export LD_RUN_PATH; \
+  	XCFLAGS= XINCLUDE= XLDFLAGS= XLIBDIRS= XLIBS= \
+  	FEATURE_DEVS= DEVICE_DEVS= DEVICE_DEVS1= DEVICE_DEVS2= DEVICE_DEVS3= \
+  	DEVICE_DEVS4= DEVICE_DEVS5= DEVICE_DEVS6= DEVICE_DEVS7= DEVICE_DEVS8= \
+  	DEVICE_DEVS9= DEVICE_DEVS10= DEVICE_DEVS11= DEVICE_DEVS12= \
+--- 139,162 ----
+  
+  # Here is the final link step.  The stuff with LD_RUN_PATH is for SVR4
+  # systems with dynamic library loading; I believe it's harmless elsewhere.
+  # The resetting of the environment variables to empty strings is for SCO Unix,
+  # which has limited environment space.
++ 
+  ldt_tr=$(PSOBJ)ldt.tr
++ 
++ # @TBD - what to do on systems that dont have dlopen?
++ LIBDLOPEN= `glib-config --libs gmodule`
++ # @TBD - we still need the stdc++ library otherwise we trap in exit() in gp_unix.c:60
++ LIBPATHCPP= -L/usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66
++ LIBCPP= -lstdc++
+  $(GS_XE): $(ld_tr) $(ECHOGS_XE) $(XE_ALL)
+! 	$(ECHOGS_XE) -w $(ldt_tr) -n - $(CCLDPLUS) $(LDFLAGS) $(XLIBDIRS) $(LIBFLAG) -o $(GS_XE)
+  	$(ECHOGS_XE) -a $(ldt_tr) -n -s $(PSOBJ)gs.$(OBJ) -s
+  	cat $(ld_tr) >>$(ldt_tr)
+! 	$(ECHOGS_XE) -a $(ldt_tr) -n - $(LIBDLOPEN) $(LIBCPP)
+! 	$(ECHOGS_XE) -a $(ldt_tr) -s  - $(EXTRALIBS) -lm
+  	LD_RUN_PATH=$(XLIBDIR); export LD_RUN_PATH; \
+  	XCFLAGS= XINCLUDE= XLDFLAGS= XLIBDIRS= XLIBS= \
+  	FEATURE_DEVS= DEVICE_DEVS= DEVICE_DEVS1= DEVICE_DEVS2= DEVICE_DEVS3= \
+  	DEVICE_DEVS4= DEVICE_DEVS5= DEVICE_DEVS6= DEVICE_DEVS7= DEVICE_DEVS8= \
+  	DEVICE_DEVS9= DEVICE_DEVS10= DEVICE_DEVS11= DEVICE_DEVS12= \

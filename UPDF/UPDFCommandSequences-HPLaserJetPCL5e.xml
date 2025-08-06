@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 2 (http://www.xmlspy.com) by Norbert Schade (private) -->
+<!-- Copyright (c) 2002 Norbert Schade                                     -->
+<!--                                                                       -->
+<!-- Permission is hereby granted, free of charge, to any person obtaining -->
+<!-- a copy of this software and associated documentation files (the       -->
+<!-- "Software"), to deal in the Software without restriction, including   -->
+<!-- without limitation the rights to use, copy, modify, merge, publish,   -->
+<!-- distribute, sublicense, and/or sell copies of the Software,           -->
+<!-- and to permit persons to whom the Software is furnished to do so,     -->
+<!-- subject to the following conditions: The above copyright notice and   -->
+<!-- this permission notice shall be included in all copies                -->
+<!-- or substantial portions of the Software.                              -->
+<!--                                                                       -->
+<!-- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,       -->
+<!-- EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES       -->
+<!-- OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND              -->
+<!-- NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE-->
+<!-- LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION-->
+<!-- OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION -->
+<!-- WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.       -->
+<Commands FileTypeIdentification="Command sequences and parameters"
+          xmlns="http://www.pwg.org/updf/"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.pwg.org/updf/ UPDFCommandSequences.xsd">
+	<CommandSequences>
+                <CommandSequence CommandSequenceID="JCL_Init" CommandSequence="%H1(27) %H1(37) -12345X"/>
+                <CommandSequence CommandSequenceID="JCL_Copies" CommandSequence="%I (%K (SheetCollate.ClassifyingID) != uncollated ) (@PJL %H1(32) QTY=%A0(%K(Copies.VariableValue)) %H1(13) %H1(10))"/>
+                <CommandSequence CommandSequenceID="JCL_GenericRET" CommandSequence="@PJL %H1(32) RET=%A0(%K(RET.Parameter.ID)) %H1(13) %H1(10)"/>
+                <CommandSequence CommandSequenceID="JCL_Sides" CommandSequence="@PJL %H1(32) DUPLEX=%A0(%K(Sides.Parameter.ID)) %H1(13) %H1(10)"/>
+                <CommandSequence CommandSequenceID="JCL_FinishingBinding" CommandSequence="%I (%K (Sides.ClassifyingID) != simplex) (@PJL %H1(32) BINDING=%A0(%K(Sides.wildcard:Parameter2.ID)) %H1(13) %H1(10))"/>
+                <CommandSequence CommandSequenceID="JCL_GenericEconoMode" CommandSequence="@PJL %H1(32) ECONOMODE=%A0(%K(EconoMode.Parameter.ID)) %H1(13) %H1(10)"/>
+                <CommandSequence CommandSequenceID="JCL_OutputBin" CommandSequence="@PJL %H1(32) OUTBIN=%A0(%K(OutputBin.Parameter.ID)) %H1(13) %H1(10)"/>
+                <CommandSequence CommandSequenceID="JCL_FinishingStapling" CommandSequence="@PJL %H1(32) FINISH=%A0(%K(FinishingStaplingRecord.Parameter.ID)) %H1(13) %H1(10)"/>
+                <CommandSequence CommandSequenceID="JCL_MediaStapleOption" CommandSequence="%I (%K (FinishingStaplingRecord.ID) != Stapling_Off) (@PJL %H1(32) STAPLEOPTION=%A0(%K(FinishingStaplingRecord.wildcard:Parameter2.ID)) %H1(13) %H1(10))"/>
+                <CommandSequence CommandSequenceID="JCL_FinishingJogging" CommandSequence="@PJL %H1(32) OUTBINPROCESS=%A0(%K(FinishingJogging.Parameter.ID)) %H1(13) %H1(10)"/>
+                <CommandSequence CommandSequenceID="JCL_GenericPageProtect" CommandSequence="@PJL %H1(32) PAGEPROTECT=%A0(%K(PageProtect.Parameter.ID)) %H1(13) %H1(10)"/>
+                <CommandSequence CommandSequenceID="JCL_PrinterResolution" CommandSequence="@PJL %H1(32) RESOLUTION=%A0(%K(PrinterResolution.Parameter.ID)) %H1(13) %H1(10)"/>
+                <CommandSequence CommandSequenceID="JCL_GenericEdgeToEdge" CommandSequence="@PJL %H1(32) EDGETOEDGE=%A0(%K(EdgeToEdge.Parameter.ID)) %H1(13) %H1(10)"/>
+                <CommandSequence CommandSequenceID="JCL_Language_PCL5e" CommandSequence="@PJL %H1(32) ENTER LANGUAGE=PCL %H1(13) %H1(10)"/>
+                <CommandSequence CommandSequenceID="PDL_Init" CommandSequence="%H1(27) E"/>
+                <CommandSequence CommandSequenceID="PDL_PrinterResolution" CommandSequence="%H1(27) %H1(38) u %A0(%K(PrinterResolutionRecord.Parameter.ID)) D"/>
+                <CommandSequence CommandSequenceID="PDL_RasterResolution" CommandSequence="%H1(27) %H1(42)t %A0(%K(RasterGraphicRecord.Parameter.ID)) R"/>
+                <CommandSequence CommandSequenceID="PDL_OrientationRequested" CommandSequence="%H1(27) %H1(38) l %A0(%K(OrientationRequestedRecord.Parameter.ID)) O"/>
+                <CommandSequence CommandSequenceID="PDL_MediaSize" CommandSequence="%H1(27) %H1(38) l %A0(%K(MediaSizeRecord.Parameter.ID)) a0E"/>
+                <CommandSequence CommandSequenceID="PDL_MediaType" CommandSequence="%H1(27) %H1(38) n %A0(%K(MediaTypeRecord.Parameter.ID))"/>
+                <CommandSequence CommandSequenceID="PDL_MediaInputTrayCheck" CommandSequence="%H1(27) %H1(38) l %A0(%K(MediaInputTrayCheck.Parameter.ID)) H"/>
+                <CommandSequence CommandSequenceID="PDL_Positioning" CommandSequence="%H1(27) %A0(%K(PositioningRecord.Parameter.ID)) %A0(%K(DRV_HorPos)) x %A0(%K(DRV_VertPos)) Y"/>
+                <CommandSequence CommandSequenceID="PDL_GL_Placeholder" CommandSequence="%H1(27) %H1(37) B %H1(27) %H1(37) 0A"/>
+                <CommandSequence CommandSequenceID="PDL_RasterSize" CommandSequence="%H1(27) %H1(42)r %K(DRV_RasterWidth) s1A"/>
+                <CommandSequence CommandSequenceID="PDL_RasterCompression" CommandSequence="%H1(27) %H1(42)b %A0(%K(Compression.Parameter.ID)) M"/>
+                <CommandSequence CommandSequenceID="PDL_RasterStart" CommandSequence="%H1(27) %H1(42) b %A0(%K(DRV_NumberOfRasterImageBytes)) W"/>
+                <CommandSequence CommandSequenceID="PDL_RasterEnd" CommandSequence="%H1(27) %H1(42)rC"/>
+                <CommandSequence CommandSequenceID="PDL_SymbolSet" CommandSequence="%A0(%K(SymbolSet.Parameter.ID))"/>
+                <CommandSequence CommandSequenceID="PDL_Typeface" CommandSequence="%H1(27) %H1(40) s %A0(%K(DeviceFont.Parameter.ID)) T"/>
+                <CommandSequence CommandSequenceID="PDL_Underline" CommandSequence="%H1(27) %H1(38) d %A0(%K(Underline.Parameter.ID))"/>
+                <CommandSequence CommandSequenceID="PDL_Copies" CommandSequence="%I (%K (SheetCollateRecord.ClassifyingID) = uncollated ) (%H1(27) %H1(38) l %A0(%K(Copies.VariableValue)) X) %E (%H1(27) %H1(38) l 1 X)"/>
+                <CommandSequence CommandSequenceID="PDL_Eject" CommandSequence="%H1(12)"/>
+	</CommandSequences>
+	<ResolvedParameters>
+                <ResolvedParameter Parameter="Param_DestUpper" Value="UPPER"/>
+                <ResolvedParameter Parameter="Param_DestLower" Value="LOWER"/>
+                <ResolvedParameter Parameter="Param_DestOptional2" Value="OPTIONALOUTBIN2"/>
+                <ResolvedParameter Parameter="Param_StapleOff" Value="NONE"/>
+                <ResolvedParameter Parameter="Param_StapleOn" Value="STAPLE"/>
+                <ResolvedParameter Parameter="Param_Staple1" Value="ONE"/>
+                <ResolvedParameter Parameter="Param_Staple1A" Value="ONEANGLED"/>
+                <ResolvedParameter Parameter="Param_Staple2" Value="TWO"/>
+                <ResolvedParameter Parameter="Param_Staple3" Value="THREE"/>
+                <ResolvedParameter Parameter="Param_Staple6" Value="SIX"/>
+                <ResolvedParameter Parameter="Param_StapleCustom" Value="CUSTOM"/>
+                <ResolvedParameter Parameter="Param_JoggingOff" Value="0"/>
+                <ResolvedParameter Parameter="Param_JoggingOn" Value="1"/>
+                <ResolvedParameter Parameter="Param_DuplexOff" Value="OFF"/>
+                <ResolvedParameter Parameter="Param_DuplexOn" Value="ON"/>
+                <ResolvedParameter Parameter="Param_ShortEdge" Value="SHORTEDGE"/>
+                <ResolvedParameter Parameter="Param_LongEdge" Value="LONGEDGE"/>
+                <ResolvedParameter Parameter="Param_StandardMargins" Value="NO"/>
+                <ResolvedParameter Parameter="Param_EdgeToEdge" Value="YES"/>
+                <ResolvedParameter Parameter="Param_RET_Off" Value="OFF"/>
+                <ResolvedParameter Parameter="Param_RET_On" Value="ON"/>
+                <ResolvedParameter Parameter="Param_EconoOff" Value="OFF"/>
+                <ResolvedParameter Parameter="Param_EconoOn" Value="ON"/>
+                <ResolvedParameter Parameter="Param_ProtectOff" Value="OFF"/>
+                <ResolvedParameter Parameter="Param_ProtectOn" Value="ON"/>
+                <ResolvedParameter Parameter="Param_300" Value="300"/>
+                <ResolvedParameter Parameter="Param_600" Value="600"/>
+                <ResolvedParameter Parameter="Param_Portrait" Value="%I (%K (MediaPageRotation.ClassifyingID) = standard ) (0) %E (2)"/>
+                <ResolvedParameter Parameter="Param_Landscape" Value="%I (%K (MediaPageRotation.ClassifyingID) = standard ) (1) %E (3)"/>
+                <ResolvedParameter Parameter="Param_Letter" Value="2"/>
+                <ResolvedParameter Parameter="Param_Legal" Value="3"/>
+                <ResolvedParameter Parameter="Param_Executive" Value="1"/>
+                <ResolvedParameter Parameter="Param_A3" Value="27"/>
+                <ResolvedParameter Parameter="Param_A4" Value="26"/>
+                <ResolvedParameter Parameter="Param_A5" Value="25"/>
+                <ResolvedParameter Parameter="Param_Com10" Value="81"/>
+                <ResolvedParameter Parameter="Param_DL" Value="90"/>
+                <ResolvedParameter Parameter="Param_C5" Value="91"/>
+                <ResolvedParameter Parameter="Param_B5" Value="100"/>
+                <ResolvedParameter Parameter="Param_Monarch" Value="80"/>
+                <ResolvedParameter Parameter="Param_JISB4" Value="46"/>
+                <ResolvedParameter Parameter="Param_JISB5" Value="45"/>
+                <ResolvedParameter Parameter="Param_DoublePostcard" Value="72"/>
+                <ResolvedParameter Parameter="Param_JISEXEC" Value="18"/>
+                <ResolvedParameter Parameter="Param_ROC16K" Value="19"/>
+                <ResolvedParameter Parameter="Param_ROC8K" Value="17"/>
+                <ResolvedParameter Parameter="Param_Ledger" Value="6"/>
+                <ResolvedParameter Parameter="Param_CustomSize" Value="101"/>
+                <ResolvedParameter Parameter="Param_Plain" Value="6WdPlain"/>
+                <ResolvedParameter Parameter="Param_Preprinted" Value="11WdPreprinted"/>
+                <ResolvedParameter Parameter="Param_Letterhead" Value="11WdLetterhead"/>
+                <ResolvedParameter Parameter="Param_Transparency" Value="13WdTransparency"/>
+                <ResolvedParameter Parameter="Param_Prepunched" Value="11WdPrepunched"/>
+                <ResolvedParameter Parameter="Param_Labels" Value="7WdLabels"/>
+                <ResolvedParameter Parameter="Param_Bond" Value="5WdBond"/>
+                <ResolvedParameter Parameter="Param_Recycled" Value="9WdRecycled"/>
+                <ResolvedParameter Parameter="Param_Color" Value="6WdColor"/>
+                <ResolvedParameter Parameter="Param_CardStock" Value="11WdCard Stock"/>
+                <ResolvedParameter Parameter="Param_Rough" Value="6WdRough"/>
+                <ResolvedParameter Parameter="Param_Auto" Value="7"/>
+                <ResolvedParameter Parameter="Param_Tray2" Value="1"/>
+                <ResolvedParameter Parameter="Param_Tray3" Value="5"/>
+                <ResolvedParameter Parameter="Param_Positioning" Value="%H1(42)p"/>
+                <ResolvedParameter Parameter="Param_RasterResolution_600dpi" Value="600"/>
+                <ResolvedParameter Parameter="Param_RasterResolution_300dpi" Value="300"/>
+                <ResolvedParameter Parameter="Param_Compression_Adaptive" Value="5"/>
+                <ResolvedParameter Parameter="Param_Windows_Latin1" Value="%H1(27) %H1(40) 19U"/>
+                <ResolvedParameter Parameter="Param_UnderlineOn" Value="3D"/>
+                <ResolvedParameter Parameter="Param_UnderlineOff" Value="@"/>
+                <ResolvedParameter Parameter="Param_TypefaceCourier" Value="4099"/>
+                <ResolvedParameter Parameter="Param_TypefaceArial" Value="16602"/>
+	</ResolvedParameters>
+</Commands>

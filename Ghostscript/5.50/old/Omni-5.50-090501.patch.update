@@ -1,0 +1,355 @@
+Only in current/gs5.50: Omni
+Only in current/gs5.50: Omni1
+Only in current/gs5.50: Omni2
+Only in current/gs5.50: Omni3
+Only in current/gs5.50: Omni_Parse
+Only in current/gs5.50: debugobj
+Only in current/gs5.50: doitbun760
+Only in current/gs5.50: errval2
+diff -C5 current_code/gs5.50/gomni.c current/gs5.50/gomni.c
+*** current_code/gs5.50/gomni.c	Thu Sep  6 09:19:21 2001
+--- current/gs5.50/gomni.c	Thu Sep  6 09:51:07 2001
+***************
+*** 1,6 ****
+! /*
+   *   IBM Omni driver
+   *   Copyright (c) International Business Machines Corp., 2000
+   *
+   *   This library is free software; you can redistribute it and/or modify
+   *   it under the terms of the GNU Lesser General Public License as published
+--- 1,6 ----
+! /*   :wq
+   *   IBM Omni driver
+   *   Copyright (c) International Business Machines Corp., 2000
+   *
+   *   This library is free software; you can redistribute it and/or modify
+   *   it under the terms of the GNU Lesser General Public License as published
+***************
+*** 419,435 ****
+--- 419,438 ----
+                                         /* multiplied by 2 for 1200 dpi */
+      min_band_height = max(1, (DEFAULT_HEIGHT_10THS * 60) / 100);
+      max_raster = (max_width * pwdev->color_info.depth) / 8;	/* doesn't need to be super accurate */
+      max_src_image_row = max_width * 3 * 2;
+  
++ #ifdef OMNI_ASYNC
+      if(pDev->iSync)
+      {
+          return gdev_prn_async_write_open((gx_device_printer *)pdev,
+                           max_raster, min_band_height,
+                           max_src_image_row);
++ 
+      }
+      else
++ #endif
+      {
+         return gdev_prn_open(pdev);
+      }
+  
+  
+***************
+*** 641,682 ****
+  
+        pDev->hmodOmni = g_module_open ("libomni.so", (GModuleFlags)0);
+  
+        if (!pDev->hmodOmni)
+        {
+!          // Failure!
+!          fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
+!          fprintf (stderr, "Error: Could not load libomni.so!\n\n");
+!          fprintf (stderr, "The reason was \"%s\"\n\n", g_module_error ());
+!          fprintf (stderr, "LD_LIBRARY_PATH=%s\n\n", getenv ("LD_LIBRARY_PATH"));
+! 
+!          // @TBD - why doesnt return_error(gs_error_Fatal) work?
+!          //        If it is in, then we get the following:
+!          //
+!          // Unrecoverable error: rangecheck in .putdeviceprops
+!          //
+!          // Unexpected interpreter error -15.
+!          // Error object: (1488)op_array(586)0x81bc858:.putdeviceprops
+!          // Execution stack at 0x81b0940:
+!          // 0x81c6c74: 0x0f oper --F---e-- 0x0000 0x08084fcc = %interp_exit
+!          // 0x81c6c7c: 0x03 file --G-rxe-- 0x0001 0x081bd010
+!          // 0x81c6c84: 0x0e null --F---e-- 0x0000 0x08086b94
+!          // 0x81c6c8c: 0x0b int  --F------ 0x01ac 0x00000008 = 8
+!          // 0x81c6c94: 0x0b int  --F------ 0x0007 0x00000004 = 4
+!          // 0x81c6c9c: 0x0f oper --F---e-- 0x0000 0x08086b80 = %oparray_pop
+!          // 0x81c6ca4: 0x05 mpry --G-rxe-- 0x0002 0x0821032c
+!          // 0x81c6cac: 0x0e null --F---e-- 0x0000 0x08086b94
+!          // 0x81c6cb4: 0x0b int  --F------ 0x0001 0x00000008 = 8
+!          // 0x81c6cbc: 0x0b int  --F------ 0x0000 0x00000004 = 4
+!          // 0x81c6cc4: 0x0f oper --F---e-- 0x0000 0x08086b80 = %oparray_pop
+!          // 0x81c6ccc: 0x05 mpry --G-rxe-- 0x0039 0x08210dae
+!          // Dictionary stack at 0x81b0a00:
+!          // 0x81c74a4: 0x02 dict --Gwrx--- 0x081b 0x081b947c
+!          // 0x81c74ac: 0x02 dict --Gwrx--- 0x081c 0x0821d0a8
+!          // 0x81c74b4: 0x02 dict --Lwrx--- 0x4000 0x081c1388
+!          // 0x81c74bc: 0x02 dict --Gwrx--- 0x081b 0x081b947c
+!          return 1;
+        }
+  
+        g_module_symbol (pDev->hmodOmni, "GetPrintModeInfo", (gpointer *)&pDev->pfnGetPrintModeInfo);
+  
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (GetPrintModeInfo) = 0x%08x\n", (int)pDev->pfnGetPrintModeInfo);
+--- 644,688 ----
+  
+        pDev->hmodOmni = g_module_open ("libomni.so", (GModuleFlags)0);
+  
+        if (!pDev->hmodOmni)
+        {
+!           pDev->hmodOmni = g_module_open ("/opt/Omni/bin/libomni.so", (GModuleFlags)0);
+! 
+!           if (!pDev->hmodOmni)
+!           {
+!               // Failure!
+!               fprintf (stderr, "\n<<<<<<<<<<<<<<<<<<<<<< ERROR >>>>>>>>>>>>>>>>>>>>>>>\n\n");
+!               fprintf (stderr, "Error: Could not load libomni.so!\n\n");
+! 
+!               // @TBD - why doesnt return_error(gs_error_Fatal) work?
+!               //        If it is in, then we get the following:
+!               //
+!               // Unrecoverable error: rangecheck in .putdeviceprops
+!               //
+!               // Unexpected interpreter error -15.
+!               // Error object: (1488)op_array(586)0x81bc858:.putdeviceprops
+!               // Execution stack at 0x81b0940:
+!               // 0x81c6c74: 0x0f oper --F---e-- 0x0000 0x08084fcc = %interp_exit
+!               // 0x81c6c7c: 0x03 file --G-rxe-- 0x0001 0x081bd010
+!               // 0x81c6c84: 0x0e null --F---e-- 0x0000 0x08086b94
+!               // 0x81c6c8c: 0x0b int  --F------ 0x01ac 0x00000008 = 8
+!               // 0x81c6c94: 0x0b int  --F------ 0x0007 0x00000004 = 4
+!               // 0x81c6c9c: 0x0f oper --F---e-- 0x0000 0x08086b80 = %oparray_pop
+!               // 0x81c6ca4: 0x05 mpry --G-rxe-- 0x0002 0x0821032c
+!               // 0x81c6cac: 0x0e null --F---e-- 0x0000 0x08086b94
+!               // 0x81c6cb4: 0x0b int  --F------ 0x0001 0x00000008 = 8
+!               // 0x81c6cbc: 0x0b int  --F------ 0x0000 0x00000004 = 4
+!               // 0x81c6cc4: 0x0f oper --F---e-- 0x0000 0x08086b80 = %oparray_pop
+!               // 0x81c6ccc: 0x05 mpry --G-rxe-- 0x0039 0x08210dae
+!               // Dictionary stack at 0x81b0a00:
+!               // 0x81c74a4: 0x02 dict --Gwrx--- 0x081b 0x081b947c
+!               // 0x81c74ac: 0x02 dict --Gwrx--- 0x081c 0x0821d0a8
+!               // 0x81c74b4: 0x02 dict --Lwrx--- 0x4000 0x081c1388
+!               // 0x81c74bc: 0x02 dict --Gwrx--- 0x081b 0x081b947c
+!               return 1;
+!           }
+        }
+  
+        g_module_symbol (pDev->hmodOmni, "GetPrintModeInfo", (gpointer *)&pDev->pfnGetPrintModeInfo);
+  
+        if (fDebugOutput) fprintf (stderr, "SetupDevice : g_module_symbol (GetPrintModeInfo) = 0x%08x\n", (int)pDev->pfnGetPrintModeInfo);
+***************
+*** 1484,1494 ****
+--- 1490,1502 ----
+  
+  /* Thread to do rendering, started by StartRenderThread */
+  private void
+  RenderThread(void *params)
+  {
++ #ifdef OMNI_ASYNC
+      gdev_prn_async_render_thread((gdev_prn_start_render_params *)params);
++ #endif
+  }
+  
+  /* ------------------------------------------------------*/
+  /* ------------------------------------------------------*/
+  
+***************
+*** 1508,1526 ****
+--- 1516,1543 ----
+  
+      /* Do anything that needs to be done at open time here... */
+      pasyncDev->copies_printed = 0;
+  
+      /* Cascade down to the default handler */
++ #ifdef OMNI_ASYNC
+      return gdev_prn_async_render_open(ppdev);
++ #else
++     return gs_note_error(gs_error_undefined);
++ #endif
++ 
+  }
+  /* ------------------------------------------------------*/
+  /* ------------------------------------------------------*/
+  
+  /* Buffer a (partial) rasterized page & optionally print result multiple times. */
+  private int
+  BufferPage(gx_device_printer *pgx_prt_dev, FILE *file, int num_copies)
+  {
++ #ifndef OMNI_ASYNC
++     /* locate_overlay_buffer is gone, so for now async printing is disabled */
++     return gs_note_error(gs_error_undefined);
++ #else
+      gx_device_omni * const pasyncDev = (gx_device_omni *)pgx_prt_dev;
+      gx_device * const pgx_dev = (gx_device *)pgx_prt_dev;
+      int code = 0;
+  
+      /* BMP format is single page, so discard all but 1st page */
+***************
+*** 1612,1621 ****
+--- 1629,1639 ----
+   done:
+      if (code >= 0 && pasyncDev->copies_printed > 0)
+         pasyncDev->copies_printed = num_copies;
+      pasyncDev->buffered_page_exists = (code >= 0);
+      return code;
++ #endif
+  }
+  
+  /* ------------------------------------------------------*/
+  /*------------ Procedures common to writer & renderer -------- */
+  /* ------------------------------------------------------*/
+Common subdirectories: current_code/gs5.50/jpeg and current/gs5.50/jpeg
+Common subdirectories: current_code/gs5.50/libpng and current/gs5.50/libpng
+diff -C5 current_code/gs5.50/makefile current/gs5.50/makefile
+*** current_code/gs5.50/makefile	Thu Sep  6 09:14:33 2001
+--- current/gs5.50/makefile	Mon Apr 16 17:58:43 2001
+***************
+*** 1,23 ****
+  #    Copyright (C) 1997, 1998 Aladdin Enterprises.  All rights reserved.
+! # 
+  # This file is part of GNU Ghostscript.
+! # 
+  # GNU Ghostscript is distributed in the hope that it will be useful, but
+  # WITHOUT ANY WARRANTY.  No author or distributor accepts responsibility
+  # to anyone for the consequences of using it or for whether it serves any
+  # particular purpose or works at all, unless he says so in writing.  Refer
+  # to the GNU General Public License for full details.
+! # 
+  # Everyone is granted permission to copy, modify and redistribute GNU
+  # Ghostscript, but only under the conditions described in the GNU General
+  # Public License.  A copy of this license is supposed to have been given
+  # to you along with GNU Ghostscript so you can know your rights and
+  # responsibilities.  It should be in a file named COPYING.  Among other
+  # things, the copyright notice and this notice must be preserved on all
+  # copies.
+! # 
+  # Aladdin Enterprises supports the work of the GNU Project, but is not
+  # affiliated with the Free Software Foundation or the GNU Project.  GNU
+  # Ghostscript, as distributed by Aladdin Enterprises, does not require any
+  # GNU software to build or run it.
+  
+--- 1,23 ----
+  #    Copyright (C) 1997, 1998 Aladdin Enterprises.  All rights reserved.
+! #
+  # This file is part of GNU Ghostscript.
+! #
+  # GNU Ghostscript is distributed in the hope that it will be useful, but
+  # WITHOUT ANY WARRANTY.  No author or distributor accepts responsibility
+  # to anyone for the consequences of using it or for whether it serves any
+  # particular purpose or works at all, unless he says so in writing.  Refer
+  # to the GNU General Public License for full details.
+! #
+  # Everyone is granted permission to copy, modify and redistribute GNU
+  # Ghostscript, but only under the conditions described in the GNU General
+  # Public License.  A copy of this license is supposed to have been given
+  # to you along with GNU Ghostscript so you can know your rights and
+  # responsibilities.  It should be in a file named COPYING.  Among other
+  # things, the copyright notice and this notice must be preserved on all
+  # copies.
+! #
+  # Aladdin Enterprises supports the work of the GNU Project, but is not
+  # affiliated with the Free Software Foundation or the GNU Project.  GNU
+  # Ghostscript, as distributed by Aladdin Enterprises, does not require any
+  # GNU software to build or run it.
+  
+***************
+*** 57,67 ****
+  # If your system has installbsd, change install to installbsd in the next line.
+  INSTALL = install -c
+  INSTALL_PROGRAM = $(INSTALL) -m 755
+  INSTALL_DATA = $(INSTALL) -m 644
+  
+! prefix = /usr/local
+  exec_prefix = $(prefix)
+  bindir = $(exec_prefix)/bin
+  scriptdir = $(bindir)
+  mandir = $(prefix)/man
+  man1ext = 1
+--- 57,67 ----
+  # If your system has installbsd, change install to installbsd in the next line.
+  INSTALL = install -c
+  INSTALL_PROGRAM = $(INSTALL) -m 755
+  INSTALL_DATA = $(INSTALL) -m 644
+  
+! prefix = /usr
+  exec_prefix = $(prefix)
+  bindir = $(exec_prefix)/bin
+  scriptdir = $(bindir)
+  mandir = $(prefix)/man
+  man1ext = 1
+***************
+*** 75,85 ****
+  GS_DOCDIR=$(docdir)
+  
+  # Define the default directory/ies for the runtime
+  # initialization and font files.  Separate multiple directories with a :.
+  
+! GS_LIB_DEFAULT=$(gsdatadir):$(gsdir)/fonts
+  
+  # Define whether or not searching for initialization files should always
+  # look in the current directory first.  This leads to well-known security
+  # and confusion problems, but users insist on it.
+  # NOTE: this also affects searching for files named on the command line:
+--- 75,85 ----
+  GS_DOCDIR=$(docdir)
+  
+  # Define the default directory/ies for the runtime
+  # initialization and font files.  Separate multiple directories with a :.
+  
+! GS_LIB_DEFAULT=$(gsdatadir):$(gsdir)/fonts:$(datadir)/fonts/default/ghostscript:$(datadir)/fonts/default/Type1
+  
+  # Define whether or not searching for initialization files should always
+  # look in the current directory first.  This leads to well-known security
+  # and confusion problems, but users insist on it.
+  # NOTE: this also affects searching for files named on the command line:
+***************
+*** 177,191 ****
+--- 177,194 ----
+  # ------ Platform-specific options ------ #
+  
+  # Define the name of the C compiler.
+  
+  CC=gcc
++ CCPLUS=c++
+  
+  # Define the name of the linker for the final link step.
+  # Normally this is the same as the C compiler.
+  
+  CCLD=$(CC)
++ CCLDPLUS=$(CCPLUS)
++ 
+  
+  # Define the default gcc flags.
+  # Note that depending whether or not we are running a version of gcc with
+  # the 2.7.0-2.7.2 optimizer bug, either "-Dconst=" or
+  # "-Wcast-qual -Wwrite-strings" is automatically included.
+***************
+*** 300,311 ****
+  
+  # Choose the device(s) to include.  See devs.mak for details,
+  # devs.mak and contrib.mak for the list of available devices.
+  
+  DEVICE_DEVS=x11.dev x11alpha.dev x11cmyk.dev x11gray2.dev x11gray4.dev x11mono.dev
+! #DEVICE_DEVS1=bmpmono.dev bmpamono.dev posync.dev
+! DEVICE_DEVS1=
+  DEVICE_DEVS2=
+  DEVICE_DEVS3=deskjet.dev djet500.dev laserjet.dev ljetplus.dev ljet2p.dev ljet3.dev ljet4.dev
+  DEVICE_DEVS4=cdeskjet.dev cdjcolor.dev cdjmono.dev cdj550.dev pj.dev pjxl.dev pjxl300.dev
+  DEVICE_DEVS5=uniprint.dev
+  DEVICE_DEVS6=bj10e.dev bj200.dev bjc600.dev bjc800.dev
+--- 303,314 ----
+  
+  # Choose the device(s) to include.  See devs.mak for details,
+  # devs.mak and contrib.mak for the list of available devices.
+  
+  DEVICE_DEVS=x11.dev x11alpha.dev x11cmyk.dev x11gray2.dev x11gray4.dev x11mono.dev
+! DEVICE_DEVS1=bmpmono.dev bmpamono.dev posync.dev omni.dev
+! #DEVICE_DEVS1=
+  DEVICE_DEVS2=
+  DEVICE_DEVS3=deskjet.dev djet500.dev laserjet.dev ljetplus.dev ljet2p.dev ljet3.dev ljet4.dev
+  DEVICE_DEVS4=cdeskjet.dev cdjcolor.dev cdjmono.dev cdj550.dev pj.dev pjxl.dev pjxl300.dev
+  DEVICE_DEVS5=uniprint.dev
+  DEVICE_DEVS6=bj10e.dev bj200.dev bjc600.dev bjc800.dev
+Only in current/gs5.50: obj
+Only in current/gs5.50: temp
+Common subdirectories: current_code/gs5.50/zlib and current/gs5.50/zlib

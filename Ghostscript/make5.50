@@ -1,0 +1,82 @@
+#! /bin/bash
+#
+# IBM Omni driver
+# Copyright (c) International Business Machines Corp., 2000
+#
+# This library is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation; either version 2.1 of the License, or
+# (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+# the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+#
+
+NEWDATE=052902
+OLDDATE=041602
+
+ORIGDIR=`pwd`
+GHOSTDIR=/home/ghostscript/
+
+NEWCLEANPATCH=$ORIGDIR/5.50/Omni-5.50-$NEWDATE-patch.clean
+if test ! -z "${OLDDATE}"; then
+	OLDCLEANPATCH=$ORIGDIR/5.50/Omni-5.50-$OLDDATE-patch.clean
+fi
+NEWUPDATEPATCH=$ORIGDIR/5.50/Omni-5.50-$NEWDATE-patch.update
+
+# Create clean patch
+echo "Creating clean patch"
+(
+cd $GHOSTDIR
+
+mv gs5.50/Makefile gs5.50/.Makefile
+mv gs5.50/time_.h gs5.50/.time_.h
+
+diff -ur gold-gs5.50/ gs5.50/ |
+	sed -e '/^Common sub/d' -e '/^Only in/d' -e 's/gold-gs5.50\///' -e 's/gs5.50\///' > $NEWCLEANPATCH
+diff -Nu gold-gs5.50/gomni.c gs5.50/gomni.c |
+	sed -e 's/gold-gs5.50\///' -e 's/gs5.50\///' >> $NEWCLEANPATCH
+diff -Nu gold-gs5.50/defs.h gs5.50/defs.h |
+	sed -e 's/gold-gs5.50\///' -e 's/gs5.50\///' >> $NEWCLEANPATCH
+
+mv gs5.50/.Makefile gs5.50/Makefile
+mv gs5.50/.time_.h gs5.50/time_.h
+)
+
+# Create update patch
+if test ! -z "${OLDDATE}"; then
+	echo "Creating update patch"
+	(
+	cd /tmp
+
+	TARBALL=$GHOSTDIR/golden/gnu-gs-5.50.tar.gz
+	OLDGHOST=ghostscript-5.50-$OLDDATE
+	NEWGHOST=ghostscript-5.50-$NEWDATE
+	TARGHOST=gs5.50
+
+	rm -rf $OLDGHOST $NEWGHOST
+
+	tar xzf $TARBALL
+	(
+	cd $TARGHOST
+	patch < $OLDCLEANPATCH #> /dev/null
+	)
+	mv $TARGHOST $OLDGHOST
+
+	tar xzf $TARBALL
+	(
+	cd $TARGHOST
+	patch < $NEWCLEANPATCH #> /dev/null
+	)
+	mv $TARGHOST $NEWGHOST
+
+	diff -ur $OLDGHOST/ $NEWGHOST/ |
+		sed -e '/^Common sub/d' -e '/^Only in/d' -e 's/ghostscript-5.50-[0-9]*\///' -e 's/gs5.50\///' > $NEWUPDATEPATCH
+	)
+fi

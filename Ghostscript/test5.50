@@ -1,0 +1,14 @@
+#! /bin/sh
+(
+cd /tmp;
+rm -rf gs-5.50;
+tar xvzf /home/ghostscript/golden/gnu-gs-5.50.tar.gz;
+cd gs-5.50;
+tar xvzf /home/ghostscript/golden/gnu-gs-5.50jpeg.tar.gz;
+tar xvzf /home/ghostscript/golden/gnu-gs-5.50libpng.tar.gz;
+tar xvzf /home/ghostscript/golden/gnu-gs-5.50zlib.tar.gz;
+mv jpeg-6b jpeg;
+mv libpng-1.0.2 libpng;
+mv zlib-1.1.3 zlib;
+ln -s /home/Omni/Omni.C++/ Omni;
+)

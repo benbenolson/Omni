@@ -1,0 +1,1180 @@
+Here is version 6 of a proposal of what features the communication
+to a printer driver should support.
+
+I propose to call this communication PDC for Printer Driver Communication.
+
+If you want to start coding testcases, the omni driver supports this
+proposal.  The source code is freely available and is located at
+http://www.sourceforge.net/projects/omniprint/ under the following files:
+   OmniServer.[hc]pp, OmniPDCProxy.[hc]pp, DeviceTester8.cpp,
+   PrinterCommand.[hc]pp
+
+What license should this code be under?  We can rerelease it under any
+license that the group decides.
+
+Revision History
+----------------
+
+  5 - added End Of Print Job section
+      added two more form examples.
+      clarified the required/optional form name definition.
+      added what channels are needed in communication method.
+      added Return codes section
+      added PDCCMD_LIST_JOB_PROPERTY_KEY_VALUES
+  6 - removed PDCCMD_HANDLE_DEVICE_JOB_PROPERTY
+              PDCCMD_QUERY_DEVICE_JOB_PROPERTIES
+      documented PDCCMD_PUSH_CURRENT_*
+                 PDCCMD_QUERY_CURRENT_*
+                 PDCCMD_GET_VERSION
+
+Todo
+----
+
+   define input formats (text, bitblt, ...) and raster formats.
+   add more informational stuff to form name (selectable)
+   bidirectional asynchronous notification.
+   band whitespace skipping
+   bitmap compression
+
+0.1 IJS Incompatibilities
+-------------------------
+
+   - binary protocol
+     + add type field
+     + Pascal vs C strings
+   - job properties (JP)
+     + set everything at once.
+       For example, on an Epson Stylus C60, if, first, a JP comes in as
+       quality=fine and, second, another JP comes in as resolution=360,
+       then the print job will fail because the quality key fine is not
+       supported in resolution 720 dpi (which is the default).  Both need
+       to be set at once.
+     + common job properties.
+       Standardize on common key=values for current printer drivers.
+     + a set invalidates past queries.
+       If an application queries the printable size and then another JP
+       comes in then the application will have to requery.
+     + method for querying presentation information instead of examining
+       key=value
+       * can work with no job properties
+   - communications channel / mux
+     + one channel & different job id vs. each stream is a device context
+       and use a global daemon for printer properties get/set
+   - bitmap info header needed with bitmap data
+   - different job properties on a per page basis
+
+1.0 Communication method
+------------------------
+
+Currently:
+
+PDC is based on inter-process communication (IPC) through a named pipe.
+All commands are read and written through this pipe except for commands
+which contain a lot of data.  One example is PDCCMD_RASTERIZE.  This
+command uses shared memory buffers to transfer the bitmap bits.  The
+printer driver will send the printer control language through standard
+output.  This is a client/server approach.  The client will spawn the
+printer driver server program and set two environment variables.  These
+variables are the names of the two named pipes.  The first,
+PDC_SRV_TO_CLIENT, is the server to client channel and the second,
+PDC_CLIENT_TO_SRV, is the client to server channel.
+
+Future:
+
+Obviously, this needs to change.  The client needs to call an API set.
+This has been called a service provider interface (SPI).  This API will
+talk to multiple printer drivers.  They need to be able to run as a daemon
+and handle multiple PDC sessions.
+
+The group needs to agree on a communications method.  Some possibilities
+are: TCP/IP and CORBA.
+
+What channels are needed?
+     client  = application
+     server  = printer driver
+     spooler = print spooling subsystem
+
+   - client  to server  [commands]
+   - server  to client  [responses to commands]
+   - server  to spooler [printer control language]
+   - spooler to server  [printer responses]
+   - server  to client  [asynchronous event notification (ink low, etc)]
+   - spooler to server  [printer installed/removed printer driver installed/
+                         /removed/upgraded]
+
+One thing to keep in mind, though, is that the printer driver may use
+PDC for internal communications between components.  For example, omni
+has a pluggable blitter that uses a stripped down version of PDC to talk
+to a blitter (app -> PDC -> omni -> pdc -> blitter).
+In this case, OMNI_BLITTER_S2C, is the PDC to pdc channel and the second,
+OMNI_BLITTER_C2S, is the pdc to PDC channel.
+
+1.1 Structure of Message Block
+------------------------------
+
+Packets are variably-lengthed.  They will always contain the command, size
+of the packet, and the type of the variable data.
+
+typedef enum _PrinterDriverCommunicationCommand {
+   PDCCMD_ACK = 1,
+   ...
+} PDC_CMD, *PPDC_CMD;
+
+typedef enum _PrinterDriverCommunicationFormat {
+   PDCFMT_NULL = 1,
+   PDCFMT_STRING,
+   PDCFMT_BINARY,
+   PDCFMT_INTEGER,
+   PDCFMT_LONG,
+   PDCFMT_STRING_ARRAY,
+   PDCFMT_XML_DATA
+} PDC_FMT, *PPDC_FMT;
+
+typedef struct _PrinterDriverCommunicationPacket {
+   PDC_CMD eCommand;          // Printer Driver Command
+   size_t  cbLength;          // Length of this packet
+   PDC_FMT eFormat;           // Type of the following data
+   char    achCommandLine[1]; // Start of data
+} __attribute__ ((aligned (1))) __attribute__ ((packed))
+  PDC_PACKET, *PPDC_PACKET;
+
+2.0 Return codes
+----------------
+
+PDCCMD_ACK [reply]
+   This is returned for a successful command.  There may be an optional reply.
+
+PDCCMD_NACK [reply]
+   This is returned for a unsuccessful command.  There may be an optional reply.
+
+PDCCMD_UNSUPPORTED [reply]
+   This is returned for a unsupported command.  There may be an optional reply.
+
+PDCCMD_WARNING [reply]
+   Do we need a warning response?  Ex: setting form=a3 returns
+   "warning: non-unique selection.  Using iso_a3"
+
+2.1 Session management
+----------------------
+
+PDCCMD_INITIALIZE_SESSION "ClientVersion"
+   The first command should be a hand-shaking of the versions.
+
+   Sent:
+      PDCCMD_INITIALIZE_SESSION "ClientVersion"
+   Received:
+      PDCCMD_ACK "ServerVersion"
+
+PDCCMD_CLOSE_SESSION
+   Close the session.
+
+   Sent:
+      PDCCMD_CLOSE_SESSION
+   Received:
+      There is no response.
+
+PDCCMD_IS_CMD_SUPPORTED cmd
+   This command exists so that a client can query if a server supports a
+   command.  This provides more information/granularity than the version
+   string.
+
+   Sent:
+      PDCCMD_IS_CMD_SUPPORTED PDCMD_SET_TRANSLATABLE_LANGUAGE
+   Received:
+      PDCCMD_ACK
+
+PDCMD_SET_TRANSLATABLE_LANGUAGE "abbreviation"
+   This command tells the printer driver to return all translatable strings in
+   the language from these choices:
+     aa - Afar
+     ab - Abkhazian
+     af - Afrikaans
+     am - Amharic
+     ar - Arabic
+     as - Assamese
+     ay - Aymara
+     az - Azerbaijani
+     ba - Bashkir
+     be - Byelorussian
+     bg - Bulgarian
+     bh - Bihari
+     bi - Bislama
+     bn - Bengali Bangla
+     bo - Tibetan
+     br - Breton
+     ca - Catalan
+     co - Corsican
+     cs - Czech
+     cy - Welsh
+     da - Danish
+     de - German
+     dz - Bhutani
+     el - Greek
+     en - English
+     eo - Esperanto
+     es - Spanish
+     et - Estonian
+     eu - Basque
+     fa - Farsi
+     fi - Finnish
+     fj - Fiji
+     fo - Faeroese
+     fr - French
+     fy - Frisian
+     ga - Irish
+     gd - Scots Gaelic
+     gl - Galician
+     gn - Guarani
+     gu - Gujarati
+     gv - Manx Gaelic
+     ha - Hausa
+     he - Hebrew
+     hi - Hindi
+     hr - Croatian
+     hu - Hungarian
+     hy - Armenian
+     ia - Interlingua
+     id - Indonesian
+     ie - Interlingue
+     ik - Inupiak
+     in - Indonesian
+     is - Icelandic
+     it - Italian
+     iu - Inuktitut
+     iw - Hebrew
+     ja - Japanese
+     ji - Yiddish
+     jw - Javanese
+     ka - Georgian
+     kk - Kazakh
+     kl - Greenlandic
+     km - Cambodian
+     kn - Kannada
+     ko - Korean
+     ks - Kashmiri
+     ku - Kurdish
+     ky - Kirghiz
+     la - Latin
+     lo - Laothian
+     ln - Lingala
+     lt - Lithuanian
+     lv - Latvian Lettish
+     mg - Malagasy
+     mi - Maori
+     mk - Macedonian
+     ml - Malayalam
+     mn - Mongolian
+     mo - Moldavian
+     mr - Marathi
+     ms - Malay
+     mt - Maltese
+     my - Burmese
+     na - Nauru
+     ne - Nepali
+     nl - Dutch
+     no - Norwegian
+     oc - Occitan
+     om - Oromo Afan
+     or - Oriya
+     pa - Punjabi
+     pl - Polish
+     ps - Pashto Pushto
+     pt - Portuguese
+     qu - Quechua
+     rm - Rhaeto Romance
+     rn - Kirundi
+     ro - Romanian
+     ru - Russian
+     rw - Kinyarwanda
+     sa - Sanskrit
+     sg - Sangro
+     sh - Serbo Croatian
+     sd - Sindhi
+     si - Singhalese
+     sk - Slovak
+     sl - Slovenian
+     sm - Samoan
+     sn - Shona
+     so - Somali
+     sq - Albanian
+     sr - Serbian
+     ss - Siswati
+     st - Sesotho
+     su - Sundanese
+     sv - Swedish
+     sw - Swahili
+     ta - Tamil
+     te - Telugu
+     tg - Tajik
+     th - Thai
+     ti - Tigrinya
+     tk - Turkmen
+     tl - Tagalog
+     tn - Setswana
+     to - Tonga
+     tr - Turkish
+     ts - Tsonga
+     tt - Tatar
+     tw - Twi
+     ug - Uighur
+     uk - Ukrainian
+     ur - Urdu
+     uz - Uzbek
+     vi - Vietnamese
+     vo - Volapk
+     wo - Wolof
+     xh - Xhosa
+     yi - Yiddish
+     yo - Yoruba
+     zh - Chinese
+     zu - Zulu
+   The default is en (English).
+
+   Sent:
+      PDCMD_SET_TRANSLATABLE_LANGUAGE "en"
+   Received:
+      PDCCMD_ACK
+
+PDCMD_GET_TRANSLATABLE_LANGUAGE
+   This command returns the current translatable language.
+
+   Sent:
+      PDCMD_GET_TRANSLATABLE_LANGUAGE
+   Received:
+      PDCCMD_ACK "en"
+
+PDCMD_QUERY_TRANSLATABLE_LANGUAGES
+   This command asks the printer driver what translatable languages that it
+   supports.  See PDCMD_SET_TRANSLATABLE_LANGUAGE for a list of valid language
+   codes.  The response is a space separated list of language codes.
+
+   Sent:
+      PDCMD_QUERY_TRANSLATABLE_LANGUAGES
+   Received:
+      PDCCMD_ACK "en fr de ja"
+
+2.2 Device management
+---------------------
+
+PDCCMD_ENUM_SHORT_DEVICES [PDLLevel PDLSubLevel PDLMajorRevisionLevel PDLMinorRevisionLevel]
+   Enumerate all supported devices that a printer driver supports.
+   You can optionally pass in a set of PDL information to match against.
+   You receive a nul-terminated separated list of device names.
+   NOTE:  This can either the entire list or what subset is installed.
+
+   Sent:
+      PDCCMD_ENUM_SHORT_DEVICES PDL::PDL_Epson PDL::LEVEL_ESC 1 0
+      NOTE:  The values are integers but are shown with the C++ defines.
+   Received:
+      PDCCMD_ACK "libBrother_HJ_100i.so\0...libStar_ZA_250_Multi_Font.so\0\0"
+
+PDCCMD_ENUM_LONG_DEVICES [PDLLevel PDLSubLevel PDLMajorRevisionLevel PDLMinorRevisionLevel]
+   Enumerate all supported devices that a printer driver supports.
+   You can optionally pass in a set of PDL information to match against.
+   You receive a nul-terminated separated list of device names.
+   NOTE:  This can either the entire list or what subset is installed.
+
+   Sent:
+      PDCCMD_ENUM_LONG_DEVICES PDL::PDL_Epson PDL::LEVEL_ESC 1 0
+      NOTE:  The values are integers but are shown with the C++ defines.
+   Received:
+      PDCCMD_ACK "Brother.Brother HJ-100i\0...Star.Star ZA-250 Multi-Font\0\0"
+
+PDCCMD_SET_DEVICE_NAME "DeviceName"
+   Associate a device name to the communications.  This is a required command
+   for the rest of the following commands in this document.  This must be
+   the name of a supported device.  For the omni driver, this name is taken
+   from the library name with out the lib and .so parts.
+
+   Sent:
+      PDCCMD_SET_DEVICE_NAME "Brother_HJ_100i"
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_IS_VALID_DEVICE_NAME "DeviceName"
+   Query the driver to see if the driver supports a device name.  See
+   PDCCMD_SET_DEVICE_NAME for a description of the name.
+
+   Sent:
+      PDCCMD_IS_VALID_DEVICE_NAME "Star_ZA_250_Multi_Font"
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_GET_PDL_INFO
+   Query a device's programmatic language description. (PCL, ESC/P2, PS, HG/GL).
+   It returns 4 space separated integers in a string as follows: PDL level,
+     PDL sublevel, PDL major revision level, and PDL minor revision level.
+   This of course is a proposal of a simple way to determine a printer driver's
+   language.
+   NOTE:  This can allow spoolers to move jobs between similar print queues.
+
+   Sent:
+      PDCCMD_GET_PDL_INFO
+   Received:
+      PDCCMD_ACK PDL::PDL_Epson PDL::LEVEL_ESC 1 0
+      NOTE:  The values are integers but are shown with the C++ defines.
+
+Configuration Storage
+---------------------
+
+Drivers should standardize on where to store configuration entries on the
+local system.
+
+2.3 Job Properties
+------------------
+
+Drivers should support a set of core properties.  For example, at a minimum,
+a driver should support (note: this is only a sample):
+   form
+   media
+   tray
+   resolution
+   orientation
+   color/monochrome
+   copies
+
+For the core properties, a driver should support a set of standardized
+selections.  This will help in moving jobs between different printer
+drivers that support a printer.  For example:
+
+   form
+      Some examples are:
+         na_letter_8.5x11x0.1x0.1x0.1x0.1in
+         na_legal_8.5x14x0x0x0x0in
+         iso_a3_297x420x0.12x0.08x0x0mm
+         jis_b4_257x364x1x2x1x1mm
+         jpn_hagaki_100x148x0x0x1x1mm
+         prc_16k_146x215x0x0x0x0mm
+         roc_16k_7.75x10.25x0x0x0x0in
+         om_juuro-ku-kai_198x275x0x0x0x0mm
+      The first part is the only part that is required to set the form.
+         It consists of a prefix (na - north america, iso - international
+         standards organization, jis - japan industrial standard, jpn -
+         japan, prc - people's republic of china) followed by an
+         underscore followed by the form name.
+      The rest is optional and is of an informational nature.  It
+         consists of an underscore followed by 6 numbers as follows:
+         width, height, left, top, right, and bottom unprintable margins.
+         Following this is the suffix of the units of measure (in - inches,
+         mm - millimeters).
+
+       A printer driver may allow a short-cut of not requiring the prefix
+         to select the form.  A good example would be "form=letter".
+         However, it does not guarantee an exact match and the result is
+            undefined.  Some conflicting names are jis_b4 vs iso_b4,
+            iso_a2 vs na_a2, iso_c5 vs na_c5, and prc_16k vs roc_16k.
+
+       Finite decimal inches have finite decimal mm equivalents, but the
+         converse is not true.  8.5x11 inches is 215.9x279.4 mm exactly, but
+         210x297 mm is 8.2677165x11.692913 inches (approximately).
+
+   media
+      Some examples are:
+         stationery
+         stationery-coated
+         stationery-inkjet
+         stationery-preprinted
+         stationery-letterhead
+         stationery-prepunched
+         stationery-fine
+         stationery-heavyweight
+         stationery-lightweight
+         transparency
+         envelope
+         envelope-plain
+         envelope-window
+         continuous
+         continuous-long
+         continuous-short
+         tab-stock
+         pre-cut-tabs
+         full-cut-tabs
+         multi-part-form
+         labels
+         multi-layer
+         screen
+         screen-paged
+         photographic
+         photographic-glossy
+         photographic-high-gloss
+         photographic-semi-gloss
+         photographic-satin
+         photographic-matte
+         photographic-film
+         back-print-film
+         cardstock
+         roll
+
+   tray
+
+   resolution
+      Resolution is either given as two integers separated by an 'x' or one
+        integer.  In the second case, the resolution is considered square or
+        equal.  Some examples are 1440x720, 300x300, or 600.
+
+      There can be a word that will associate to a resolution to make life
+        simpler to users.  For example: draft, fine, group-3, group-4, high,
+        low, medium, normal, photo-quality, and presentation.  These are
+        considered non-standard and driver dependent.
+
+   orientation
+      The choices are:
+         portrait
+         landscape
+         reverse-portrait
+         reverse-landscape
+
+   color
+      This is used to select between monochrome or color.  The choices are:
+         monochrome
+         color
+
+   copies
+      This is used to determine how many copies of a job are printed.
+
+The driver should also have a set of driver specific job properties.
+
+PDCCMD_SET_JOB_PROPERTIES "JobProperties"
+   Set the job properties for a session.  The job properties is a space
+   separated list of key=value entries.
+   NOTE: I think that all the properties should be set in one command.  I
+         can envision scenarios where individual sets could paint the
+         driver into a corner.
+         There should be default job properties if some or none of the
+         job properties are set.
+
+   Sent:
+      PDCCMD_SET_JOB_PROPERTIES "orientation=portrait dither=DITHER_STUCKI_DIFFUSION form=na_letter_8.50x11.00in tray=TRAY_REAR_CONTINUOUS media=MEDIA_PLAIN resolution=360x720 printmode=PRINT_MODE_24_CMYK bidirectional=true"
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_QUERY_CURRENT_JOB_PROPERTIES
+   Query the current job properties.  This returns a list of common and
+   driver specific job properties.
+   NOTE: This can happen both before and after the job properties are set.
+
+   Sent:
+      PDCCMD_QUERY_CURRENT_JOB_PROPERTIES
+   Received:
+      PDCCMD_ACK "orientation=portrait dither=DITHER_STUCKI_DIFFUSION form=na_letter_8.50x11.00in tray=TRAY_REAR_CONTINUOUS media=MEDIA_PLAIN resolution=360x720 printmode=PRINT_MODE_24_CMYK bidirectional=true"
+
+PDCCMD_LIST_JOB_PROPERTY_KEYS
+   Enumerate the set of common job properties.  This returns a space
+   separated list of key entries.
+
+   Sent:
+      PDCCMD_LIST_JOB_PROPERTY_KEYS
+   Received:
+      PDCCMD_ACK "orientation form tray media resolution printmode"
+
+PDCCMD_LIST_DEVICE_JOB_PROPERTY_KEYS
+   Enumerate the device specific job properties.  This returns a space
+   separated list of key entries.
+
+   Sent:
+      PDCCMD_LIST_DEVICE_JOB_PROPERTY_KEYS
+   Received:
+      PDCCMD_ACK "bidirectional"
+
+PDCCMD_LIST_JOB_PROPERTY_KEY_VALUES "key"
+   Enumerate the options for a job property.  This returns a space
+   separated list of value entries.
+
+   Sent:
+      PDCCMD_LIST_JOB_PROPERTY_KEY_VALUES "resolution"
+   Received:
+      PDCCMD_ACK "180x360 360x360 360x720"
+
+PDCCMD_GET_JOB_PROPERTY "key"
+   Returns the value for the job property key.
+
+   Sent:
+      PDCCMD_GET_JOB_PROPERTY "orientation"
+   Received:
+      PDCCMD_ACK "portrait"
+
+PDCCMD_GET_JOB_PROPERTY_TYPE "key"
+   Enumerate the type of a job property.  This returns the type followed
+   by the default optionally followed by the minimum range and the maximum
+   range.  The type can be the following: integer, string, float, or
+   boolean.  This is only a proposal.  Comments are welcome.
+
+   Sent:
+      PDCCMD_GET_JOB_PROPERTY_TYPE "orientation"
+   Received:
+      PDCCMD_ACK "string portrait"
+
+PDCMD_XLATE_JOB_PROPERTY_KEY_VALUE "key=value"
+   Ask for the translatable string for the key=value pair.
+
+   Sent:
+      PDCMD_XLATE_JOB_PROPERTY_KEY_VALUE "form=na_letter_8.50x11.00in"
+   Received:
+      PDCCMD_ACK "Form=Letter"
+
+2.4 Printer Properties
+----------------------
+
+Drivers need to know about what optional features are installed for
+a printer.
+
+Perhaps there can be a core set of printer properties.  For example,
+   a duplexer is installed
+   extra memory is installed
+   an extra tray is installed or is configured to hold certain paper
+
+PDCCMD_SET_PRINTER_PROPERTIES "PrinterProperties"
+   Set the printer properties.
+   NOTE: I think that all the properties should be set in one command.  I
+         can envision scenarios where individual sets could paint the
+         driver into a corner.
+         There should be default printer properties if some or none of the
+         printer properties are set.
+
+   Sent:
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_QUERY_CURRENT_PRINTER_PROPERTIES
+   Query the printer properties.  This returns a list of common and
+   driver specific printer properties.
+   NOTE: This can happen both before and after the printer properties are
+         set.
+
+   Sent:
+   Received:
+      PDCCMD_ACK "duplexer=... memory=... ..."
+
+PDCCMD_LIST_PRINTER_PROPERTY_KEYS
+   Enumerate the common printer properties.  This returns a space
+   separated list of key entries.
+
+   Sent:
+   Received:
+      PDCCMD_ACK "duplexer memory ..."
+
+PDCCMD_LIST_DEVICE_PRINTER_PROPERTY_KEYS
+   Enumerate the device specific printer properties.  This returns a space
+   separated list of key entries.
+
+   Sent:
+      PDCCMD_LIST_DEVICE_PRINTER_PROPERTY_KEYS
+   Received:
+      PDCCMD_ACK "stapler ..."
+
+PDCCMD_LIST_PRINTER_PROPERTY_KEY_VALUES "key"
+   Enumerate the options for a printer property.  This returns a space
+   separated list of value entries.
+
+   Sent:
+      PDCCMD_LIST_PRINTER_PROPERTY_KEY_VALUES "stapler"
+   Received:
+      PDCCMD_ACK "on off"
+
+PDCCMD_GET_PRINTER_PROPERTY "key"
+   Enumerate the options for a printer property.  This returns a space
+   separated list of value entries.
+
+   Sent:
+      PDCCMD_GET_PRINTER_PROPERTY "stapler"
+   Received:
+      PDCCMD_ACK "on"
+
+PDCCMD_GET_PRINTER_PROPERTY_TYPE "key"
+   Enumerate the type of a printer property.  This returns the type followed
+   by the default optionally followed by the minimum range and the maximum
+   range.  The type can be the following: integer, string, float, or
+   boolean.  This is only a proposal.  Comments are welcome.
+
+   Sent:
+      PDCCMD_GET_PRINTER_PROPERTY_TYPE "stapler"
+   Received:
+      PDCCMD_ACK "string on"
+
+2.5 Job Control
+---------------
+
+PDCCMD_NEW_DEVICE
+   This command tells the sever to create a new device instance.  This command
+   is required for the rest of the following commands.
+
+   Sent:
+      PDCCMD_NEW_DEVICE
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_SET_OUTPUT_STREAM fileHandle
+   This command tells the server to switch the output stream to the given file
+   handle.
+
+   Sent:
+      PDCCMD_SET_OUTPUT_STREAM fileHandle
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_SET_ERROR_STREAM fileHandle
+   This command tells the server to switch the output stream to the given file
+   handle.
+
+   Sent:
+      PDCCMD_SET_ERROR_STREAM fileHandle
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_BEGIN_JOB
+   Start a job.
+
+   Sent:
+      PDCCMD_BEGIN_JOB
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_START_PAGE
+   Start a page.
+   NOTE: You can optionally change the properties for the page by calling
+         PDCCMD_SET_JOB_PROPERTIES "JobProperties" before this command.
+
+   Sent:
+      PDCCMD_START_PAGE
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_END_PAGE
+   End a page.
+
+   Sent:
+      PDCCMD_END_PAGE
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_END_JOB
+   End a job.
+
+   Sent:
+      PDCCMD_END_JOB
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_ABORT_PAGE
+   Abort a page.
+   NOTE: This is optional.  If this fails then one must abort the
+         entire job.
+
+   Sent:
+      PDCCMD_ABORT_PAGE
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_ABORT_JOB
+   Abort a job.
+   NOTE: This is required.
+
+   Sent:
+      PDCCMD_ABORT_JOB
+   Received:
+      PDCCMD_ACK
+
+2.6 Job Data
+------------
+
+Here is where you have to ask yourself:  Are you a graphics engine
+that is talking to a printer driver or are you an application that
+is talking to a printer driver.
+
+If you are a graphics engine, then you will want to allow the
+device to accelerate high level commands (Ex: drawing a box with rounded
+corners).  Every command that is not supported at a high level will be
+rasterized into a series of banded bitmaps and then sent down to the
+device.  It should be drawn into the bitmap format that the device
+wants  (Ex: RGB, CMYK, CcMmYK; 1, 8, 24 bits per pel; 8 or 32 bit scan
+line aligned; top or bottom orientation; etc).
+
+If you are an application, you want to print simply.  Some examples are:
+   a series (1 or more) of bitmaps of any color depth at any position
+     on the page.
+   postscript commands
+   printer specific data - do not modify this data stream at all!
+   plain text
+
+PDCCMD_MODE_IS_RENDERER boolean
+   This command identifies to the printer driver that a renderer is
+   talking to it.  This command is optional.  The default is false
+   (an application is talking to it).
+
+   Sent:
+      PDCCMD_MODE_IS_RENDERER 1
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_ATTACH_BUFFER1 id
+PDCCMD_ATTACH_BUFFER2 id
+PDCCMD_DETACH_BUFFER1 id
+PDCCMD_DETACH_BUFFER2 id
+PDCCMD_RASTERIZE
+   These commands are shared for printing a series (1 or more) of bitmaps
+   of any color depth and for a series of banded bitmaps of the page.
+   The first is a structure that describes the bitmap data.  It contains:
+      cx             - the width of the bitmap data
+      cy             - the height of the bitmap data
+      cPlanes        - the number of planes in the bitmap
+      cBitCount      - the color depth of the bitmap
+      ulCompresstion - the compression of the bitmap data
+      cclrUsed       - the number of colors used in the bitmap
+      cclrImportant  - the number of colors that are important
+      argbColor      - the color table if there is one
+      We should add a bitmap type field that contains the alignment
+      and direction.
+   The second contains the bits of the bitmap.
+   First the client attaches both buffers, then it will call
+   PDCCMD_RASTERIZE.
+
+PDCMD_QUERY_INPUT_FORMATS
+   This command returns a space separated list of valid input formats for the
+   current device.  They are as follows:
+      bitmap       - Data is a series of bitblts.
+      text         - Data is plain text file.
+      text-unicode - Data is plain text file in unicode format.
+      postscript   - Data is a postscript file.
+      rawdata      - Data is a printer control language.
+
+   Sent:
+      PDCMD_QUERY_INPUT_FORMATS
+   Received:
+      PDCCMD_ACK
+
+PDCMD_SET_INPUT_FORMAT "format"
+
+   Sent:
+      PDCMD_SET_INPUT_FORMAT ""
+   Received:
+      PDCCMD_ACK
+
+2.7 Job Information (Capabilities)
+----------------------------------
+
+This section is for applications to query information about the
+windows equivalent presentation space.
+
+PDCMD_IS_COLOR_PRINTER
+   This command returns 1 if the printer can print in color and 0 if it
+   cannot.
+
+   Sent:
+      PDCMD_IS_COLOR_PRINTER
+   Received:
+      PDCCMD_ACK 1
+
+PDCMD_HAS_HARDWARE_COPY
+   This command returns 1 if the printer supports the number of copies as
+   a hardware command.  If it is 1 then the job will only be sent once.
+
+   Sent:
+      PDCMD_HAS_HARDWARE_COPY
+   Received:
+      PDCCMD_ACK 0
+
+PDCCMD_ TBD
+   Query printable area.
+
+PDCCMD_ TBD
+   Font metric information.
+
+PDCCMD_ TBD
+   Resolution of the page.
+
+2.8 Private PDC to pdc support
+------------------------------
+
+PDCCMD_PUSH_CURRENT_ORIENTATION
+   This command tells the pdc-blitter what the current orientation object is.
+
+   Sent:
+      PDCCMD_PUSH_CURRENT_ORIENTATION "id"
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_PUSH_CURRENT_DITHER_ID
+   This command tells the pdc-blitter what the current dither value is.
+
+   Sent:
+       PDCCMD_PUSH_CURRENT_DITHER_ID "value"
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_PUSH_CURRENT_FORM
+   This command tells the pdc-blitter what the current form object is.
+
+   Sent:
+       PDCCMD_PUSH_CURRENT_FORM "id Capabilities LeftClip TopClip RightClip BottomClip"
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_PUSH_CURRENT_TRAY
+   This command tells the pdc-blitter what the current tray object is.
+
+   Sent:
+       PDCCMD_PUSH_CURRENT_TRAY "id Capabilities"
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_PUSH_CURRENT_MEDIA
+   This command tells the pdc-blitter what the current media object is.
+
+   Sent:
+       PDCCMD_PUSH_CURRENT_MEDIA "id ColorAdjustRequired Absorption"
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_PUSH_CURRENT_RESOLUTION
+   This command tells the pdc-blitter what the current resolution object is.
+
+   Sent:
+       PDCCMD_PUSH_CURRENT_RESOLUTION "id XRes YRes XInternalRes YInternalRes Capabilities DestinationBitsPerPel ScanlineMultiple"
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_PUSH_CURRENT_PRINT_MODE
+   This command tells the pdc-blitter what the current print mode object is.
+
+   Sent:
+       PDCCMD_PUSH_CURRENT_PRINT_MODE "id PhysicalCount LogicalCount Planes"
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_PUSH_CURRENT_GAMMA
+   This command tells the pdc-blitter what the current gamma object is.
+
+   Sent:
+       PDCCMD_PUSH_CURRENT_GAMMA "id CyanGamma MagentaGamma YellowGamma BlackGamma CyanBias MagentaBias YellowBias BlackBias"
+   Received:
+      PDCCMD_ACK
+
+2.9 Omni Application Support (Presentation Space Capabilities)
+--------------------------------------------------------------
+
+This section is for applications or dialog code that wants to know what
+the capabilities are for a device.
+
+PDCCMD_GET_VERSION
+   This command asks for the current printer driver build version.
+
+   Sent:
+      PDCCMD_GET_VERSION
+   Received:
+      PDCCMD_ACK "0.6.1"
+
+PDCCMD_GET_DRIVER_NAME
+PDCCMD_GET_DEVICE_NAME
+PDCCMD_GET_SHORT_NAME
+
+PDCCMD_QUERY_CURRENT_ORIENTATION
+   This command retrieves the current orientation object from the server.
+
+   Sent:
+      PDCCMD_QUERY_CURRENT_ORIENTATION "id"
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_QUERY_CURRENT_DITHER_ID
+   This command retrieves the current dither value from the server.
+
+   Sent:
+       PDCCMD_QUERY_CURRENT_DITHER_ID "value"
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_QUERY_CURRENT_FORM
+   This command retrieves the current form object from the server.
+
+   Sent:
+       PDCCMD_QUERY_CURRENT_FORM "id Capabilities LeftClip TopClip RightClip BottomClip"
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_QUERY_CURRENT_TRAY
+   This command retrieves the current tray object from the server.
+
+   Sent:
+       PDCCMD_QUERY_CURRENT_TRAY "id Capabilities"
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_QUERY_CURRENT_MEDIA
+   This command retrieves the current media object from the server.
+
+   Sent:
+       PDCCMD_QUERY_CURRENT_MEDIA "id ColorAdjustRequired Absorption"
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_QUERY_CURRENT_RESOLUTION
+   This command retrieves the current resolution object from the server.
+
+   Sent:
+       PDCCMD_QUERY_CURRENT_RESOLUTION "id XRes YRes XInternalRes YInternalRes Capabilities DestinationBitsPerPel ScanlineMultiple"
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_QUERY_CURRENT_PRINT_MODE
+   This command retrieves the current print mode object from the server.
+
+   Sent:
+       PDCCMD_QUERY_CURRENT_PRINT_MODE "id PhysicalCount LogicalCount Planes"
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_QUERY_CURRENT_GAMMA
+   This command retrieves the current gamma object from the server.
+
+   Sent:
+       PDCCMD_QUERY_CURRENT_GAMMA "id CyanGamma MagentaGamma YellowGamma BlackGamma CyanBias MagentaBias YellowBias BlackBias"
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_HAS_CAPABILITY
+PDCCMD_HAS_RASTER_CAPABILITY
+PDCCMD_HAS_DEVICE_OPTION
+PDCCMD_HAS_DEVICE_OPTION2
+
+PDCCMD_IS_ORIENTATION_SUPPORTED id
+PDCCMD_IS_FORM_SUPPORTED id
+PDCCMD_IS_TRAY_SUPPORTED id
+PDCCMD_IS_MEDIA_SUPPORTED id
+PDCCMD_IS_RESOLUTION_SUPPORTED id
+PDCCMD_IS_PRINT_MODE_SUPPORTED id
+   This says if an id is supported for the current printer that has been
+   associated to the communications.
+
+   Sent:
+   Received:
+      PDCCMD_ACK
+
+PDCCMD_ENUM_ORIENTATIONS
+PDCCMD_ENUM_DITHER_IDS
+PDCCMD_ENUM_FORMS
+PDCCMD_ENUM_TRAYS
+PDCCMD_ENUM_MEDIAS
+PDCCMD_ENUM_RESOLUTIONS
+PDCCMD_ENUM_PRINT_MODES
+
+3.0 Bidirectional information
+-----------------------------
+
+Bidirectional queries can take two forms.  One is a question/response.  The
+other is an asynchronous notification.
+
+PDCCMD_QUERY_BIDI_STATUS
+   This command returns an integer status that corresponds to the following list:
+
+   900 - 999: Developer Specific Status Codes
+   ------------------------------------------
+
+   850 - 899: Print Device Operational Specific Status Codes
+   ---------------------------------------------------------
+   850 - Printer is not available
+
+   860 - Printer is offline
+   861 - Printer is busy
+   862 - Printer has been paused by user
+   863 - Printer has been resumed by user
+   864 - A generic printer error occurred
+   865 - Printer top cover is open
+
+   870 - Printer communication problem
+   871 - Printer requesting servicing by user
+
+   800 - 849: Print Device Paper Specific Status Codes
+   ---------------------------------------------------
+   800 - Printer is out-of-paper
+   801 - Paper is jammed in printer
+
+   750 - 799: Print Device Ink Specific Status Codes
+   -------------------------------------------------
+   750 - Black ink level is low
+   751 - Color ink level is low
+   752 - Cyan ink level is low
+   753 - Magenta ink level is low
+   754 - Yellow ink level is low
+   755 - Light Cyan ink level is low
+   756 - Light Magenta ink level is low
+
+   760 - Out of Black ink
+   761 - Out of Color ink
+   762 - Out of Cyan ink
+   763 - Out of Magenta ink
+   764 - Out of Yellow ink
+   765 - Out of Light Cyan ink
+   766 - Out of Light Magenta ink
+
+   770 - Black cartage is missing
+   771 - Color cartage is missing
+   772 - Cyan cartage is missing
+   773 - Magenta cartage is missing
+   774 - Yellow cartage is missing
+   775 - Light Cyan cartage is missing
+   776 - Light Magenta cartage is missing
+
+   780 - Printer is cleaning ink cartage
+
+   500 - 549: Job Specific Status Codes
+   ------------------------------------
+   500 - Print job has started
+   501 - Print job has been completed
+   502 - Print job has been canceled
+
+   400 - 449: Page Specific Status Codes
+   -------------------------------------
+   400 - Printing the page has started
+   401 - Printing the page has been completed
+   402 - Printing the page was canceled
+
+   100 - 149: Fatal and/or internal Specific Status Codes
+   ------------------------------------------------------
+   100 - A fatal error has occurred
+   101 - An internal error has occurred
+
+   000 - No error
+
+   Sent:
+   Received:
+      PDCCMD_ACK 0
+
+PDCCMD_TRANSLATE_BIDI_STATUS number
+   This command takes a number and provides a translated text message in the
+   current language.
+
+   Sent:
+   Received:
+      PDCCMD_ACK "No error"
+
+PDCCMD_QUERY_PRINTER_NAME
+   This command returns the IEEE 1284 manufacturer and model strings.
+
+   Sent:
+   Received:
+
+3.1 End Of Print Job
+--------------------
+
+When has the print job stopped.  When does the application/user receive an
+end-of-job notice?
+  - The head has finished spraying?
+  - The paper is ejected?
+  - The ink is dry?
+  - The page has been collated?
+  - The page has been stapled?
+  - Bound?
+  - Shrink-wrapped?
+
+3.1 Acknowledgements
+--------------------
+
+Mark Hamzy     - hamzy@us.ibm.com
+Till Kamppeter - till.kamppeter@gmx.net
+Robert Krawitz - rlk@alum.mit.edu
+Raph Levien    - raph@casper.ghostscript.com
+Glen Petrie    - glen.petrie@eitc.epson.com
+David Suffield - david_suffield@hp.com
+Ben Woodard    - woodard@redhat.com
+Pete Zannucci  - pzaan@us.ibm.com
+               - peter@horizon.com

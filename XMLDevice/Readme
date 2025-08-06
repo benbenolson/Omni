@@ -1,0 +1,39 @@
+This code implements omni device support without compiling the devices.
+It will read any omni XML file for a printer (master file), any other
+supporting XML files for that printer (like for forms or trays) and
+act like the compiled device (ex libEpson_Stylus_Color_760.so).
+This support is called XMLDevice support.
+
+This documents what you need to do to install and use XMLDevice support.
+   - configure and compile the omni driver for XMLDevice support.
+       ./setupOmni --enable-devicexml
+   - install the compiled omni driver.
+       make install
+
+New installed directory structure:
+   /opt/Omni/bin   is unchanged
+   /opt/Omni/lib   only needs libomni.so variants and libXMLOmniDevice.so variants
+                   from the existing build.  The other pre-existing libraries do not
+                   hurt to be left there.  It adds libraries for the indivdual device
+                   instances and blitters. (ex libEpson_High_Res_ESCP2_Instance.so)
+   /opt/Omni/data  is new and contains all of the device XML files.
+                   (ex "Epson Stylus Color 760.xml")
+
+New manditory job properties for XMLDevice support:
+   the key 'XMLMasterFile' is always required for a print job.  Its value is the
+   name of the root or master XML file for a device
+   (ex: '"Epson Stylus Color 760.xml"').  The quotes are necessary because the
+   XML files always have spaces in them.  So, you must always add the following
+   to the job properties that you use in a print job.
+      XMLMasterFile="Epson Stylus Color 760.xml"
+
+How to run existing programs using new XMLDevice support.  These show examples
+   using an Epson Stylus Color 760.
+
+OmniDeviceOptions jobprop 'XMLMasterFile="Epson Stylus Color 760.xml"' driver libXMLOmniDevice.so
+
+DeviceTester driver libXMLOmniDevice.so bmp beach24.bmp cout output24.prn cerr output24.err XMLMasterFile "Epson Stylus Color 760.xml"
+
+JobDialog/Tester XMLMasterFile "Epson Stylus Color 760.xml" driver libXMLOmniDevice.so
+
+gs -dNOPAUSE -dBATCH -sDEVICE=omni -sDeviceName=XMLOmniDevice -sOutputFile=output24.prn -sproperties="XMLMasterFile=\"Epson Stylus Color 760.xml\"" tiger.ps

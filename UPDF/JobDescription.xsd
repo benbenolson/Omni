@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.pwg.org/schemas/sm/1.0/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.pwg.org/schemas/sm/1.0/" elementFormDefault="qualified" version="1.00">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">PWG Job Description Element schema
+Copyright 2002-2004, IEEE Industry Standards and Technology Organization/Printer Working Group. 
+All rights reserved</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>NOTE: To use this schema you MUST include PwgCommon.xsd</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>Job Description Element definition</xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="JobDescription">
+		<xsd:sequence>
+			<xsd:element ref="CompressionSupplied" minOccurs="0"/>
+			<xsd:element ref="DocumentCharsetSupplied" minOccurs="0"/>
+			<xsd:element ref="DocumentDigitalSignatureSupplied" minOccurs="0"/>
+			<xsd:element ref="DocumentFormatDetailsSupplied" minOccurs="0"/>
+			<xsd:element ref="DocumentFormatSupplied" minOccurs="0"/>
+			<xsd:element ref="DocumentFormatVersionSupplied" minOccurs="0"/>
+			<xsd:element ref="DocumentMessageSupplied" minOccurs="0"/>
+			<xsd:element ref="DocumentNameSupplied" minOccurs="0"/>
+			<xsd:element ref="DocumentNaturalLanguageSupplied" minOccurs="0"/>
+			<xsd:element ref="ElementsCharset" minOccurs="0"/>
+			<xsd:element ref="ElementFidelity" minOccurs="0"/>
+			<xsd:element ref="ElementsNaturalLanguage" minOccurs="0"/>
+			<xsd:element ref="Impressions" minOccurs="0"/>
+			<xsd:element ref="JobAccountingID" minOccurs="0"/>
+			<xsd:element ref="JobAccountingUserID" minOccurs="0"/>
+			<xsd:element ref="JobMandatoryElements" minOccurs="0"/>
+			<xsd:element ref="JobMessageFromOperator" minOccurs="0"/>
+			<xsd:element ref="JobName" minOccurs="0"/>
+			<xsd:element ref="JobOriginatingUserName" minOccurs="0"/>
+			<xsd:element ref="JobPassword" minOccurs="0"/>
+			<xsd:element ref="JobPasswordEncryption" minOccurs="0"/>
+			<xsd:element ref="KOctets" minOccurs="0"/>
+			<xsd:element ref="MediaSheets" minOccurs="0"/>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="JobDescription" type="JobDescription"/>
+	<xsd:annotation>
+		<xsd:documentation>Job Description specific semantic elements</xsd:documentation>
+	</xsd:annotation>
+	<xsd:element name="CompressionSupplied" type="CompressionWKV">
+		<xsd:annotation>
+			<xsd:documentation source="pwg.org">Stores Compression supplied by Client on Job creation operation (See DocumentDescription.Compression)</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="DocumentCharsetSupplied" type="CharsetWKV">
+		<xsd:annotation>
+			<xsd:documentation source="pwg.org">Stores DocumentFormat supplied by Client on Job creation operation (See DocumentDescription.DocumentFormat)</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="DocumentDigitalSignatureSupplied" type="DocumentDigitalSignatureWKV">
+		<xsd:annotation>
+			<xsd:documentation source="pwg.org">Stores DocumentDigitalSignature supplied by Client on Job creation operation (See DocumentDescription.DocumentDigitalSignature)</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="DocumentFormatDetailsSupplied" type="DocumentFormatDetail">
+		<xsd:annotation>
+			<xsd:documentation source="pwg.org">Stores DocumentFormatDetails supplied by Client on Job creation operation (See DocumentDescription.DocumentFormatDetails)</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="DocumentFormatSupplied" type="DocumentFormatWKV">
+		<xsd:annotation>
+			<xsd:documentation source="pwg.org">Stores DocumentFor,at supplied by Client on Job creation operation (See DocumentDescription.DocumentFormat)</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="DocumentFormatVersionSupplied">
+		<xsd:annotation>
+			<xsd:documentation source="pwg.org">Stores DocumentFormatVersion supplied by Client on Job creation operation (See DocumentDescription.DocumentFormatVersion)</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="127"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="DocumentMessageSupplied">
+		<xsd:annotation>
+			<xsd:documentation source="pwg.org">Stores DocumentMessage supplied by Client on Job creation operation (See DocumentDescription.DocumentMessage)</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="1023"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="DocumentNameSupplied">
+		<xsd:annotation>
+			<xsd:documentation source="pwg.org">Stores DocumentName supplied by Client on Job creation operation (See DocumentDescription.DocumentName)</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="255"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="DocumentNaturalLanguageSupplied" type="NaturalLanguageWKV">
+		<xsd:annotation>
+			<xsd:documentation source="pwg.org">Stores DocumentNaturalLanguagesupplied by Client on Job creation operation (See DocumentDescription.DocumentNaturalLanguage)</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="ElementFidelity" type="xsd:boolean"/>
+	<xsd:element name="JobAccountingID">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="1023"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobAccountingUserID">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="1023"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobMandatoryElements">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:NMTOKEN">
+				<xsd:maxLength value="127"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobMessageFromOperator">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="127"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobName">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="255"/>
+				<xsd:whiteSpace value="preserve"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobOriginatingUserName">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="255"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="JobPassword" type="xsd:hexBinary"/>
+	<xsd:element name="JobPasswordEncryption">
+		<xsd:simpleType>
+			<xsd:union memberTypes="JobPasswordEncryptionWKV KeywordNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+</xsd:schema>

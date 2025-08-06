@@ -1,0 +1,130 @@
+#!/bin/bash
+#
+# IBM Omni driver
+# Copyright (c) International Business Machines Corp., 2000
+#
+# This library is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published
+# by the Free Software Foundation; either version 2.1 of the License, or
+# (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+# the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+#
+
+cd ..
+
+export VSLICKXNOPLUSNEWMSG=1
+
+vs BinaryData.hpp \
+   BinaryData.cpp \
+   Capability.hpp \
+   Capability.cpp \
+   DebugOutput.hpp \
+   DebugOutput.cpp \
+   Device.hpp \
+   Device.cpp \
+   DeviceBlitter.hpp \
+   DeviceBlitter.cpp \
+   DeviceBooklet.hpp \
+   DeviceBooklet.cpp \
+   DeviceCollation.hpp \
+   DeviceCollation.cpp \
+   DeviceCommand.hpp \
+   DeviceCommand.cpp \
+   DeviceConnection.hpp \
+   DeviceConnection.cpp \
+   DeviceCopies.hpp \
+   DeviceCopies.cpp \
+   DeviceData.hpp \
+   DeviceData.cpp \
+   DeviceDestination.hpp \
+   DeviceDestination.cpp \
+   DeviceDither.hpp \
+   DeviceDither.cpp \
+   DeviceDuplex.hpp \
+   DeviceDuplex.cpp \
+   DeviceForm.hpp \
+   DeviceForm.cpp \
+   DeviceGamma.hpp \
+   DeviceGamma.cpp \
+   DeviceInfo.hpp \
+   DeviceInfo.cpp \
+   DeviceInstance.hpp \
+   DeviceInstance.cpp \
+   DeviceJogging.hpp \
+   DeviceJogging.cpp \
+   DeviceMedia.hpp \
+   DeviceMedia.cpp \
+   DeviceNUp.hpp \
+   DeviceNUp.cpp \
+   DeviceOrientation.hpp \
+   DeviceOrientation.cpp \
+   DevicePrintMode.hpp \
+   DevicePrintMode.cpp \
+   DeviceResolution.hpp \
+   DeviceResolution.cpp \
+   DeviceScaling.hpp \
+   DeviceScaling.cpp \
+   DeviceStapling.hpp \
+   DeviceStapling.cpp \
+   DeviceString.hpp \
+   DeviceString.cpp \
+   DeviceTray.hpp \
+   DeviceTray.cpp \
+   GhostscriptInterface.hpp \
+   GhostscriptInterface.cpp \
+   GplCompression.hpp \
+   GplCompression.cpp \
+   GplDitherInstance.hpp \
+   GplDitherInstance.cpp \
+   HardCopyCap.hpp \
+   HardCopyCap.cpp \
+   JobProperties.hpp \
+   JobProperties.cpp \
+   MonoDither.hpp \
+   MonoDither.cpp \
+   Omni.hpp \
+   Omni.cpp \
+   OmniDevice.hpp \
+   OmniDevice.cpp \
+   OmniPDCProxy.hpp \
+   OmniPDCProxy.cpp \
+   OmniProxy.hpp \
+   OmniProxy.cpp \
+   OmniServer.hpp \
+   OmniServer.cpp \
+   PDL.hpp \
+   PDL.cpp \
+   PluggableBlitter.hpp \
+   PluggableBlitter.cpp \
+   PluggableInstance.hpp \
+   PluggableInstance.cpp \
+   PrintDevice.hpp \
+   PrintDevice.cpp \
+   PrinterCommand.hpp \
+   PrinterCommand.cpp \
+   RasterCapabilities.hpp \
+   RasterCapabilities.cpp \
+   StringResource.hpp \
+   StringResource.cpp \
+   StringResourceEn.hpp \
+   StringResourceEn.cpp \
+   DitherLibraryExample.cpp \
+   PDCBlitterClient.hpp \
+   PDCBlitterClient.cpp \
+   OmniDeviceValid.cpp \
+   OmniDevices.cpp \
+   OmniDeviceOptions.cpp \
+   OmniDeviceTester.cpp \
+   DeviceTester2.cpp \
+   DeviceTester3.cpp \
+   DeviceTester4.cpp \
+   DeviceTester5.cpp \
+&

@@ -1,0 +1,6 @@
+(cd Brother ; ./copyFromEpson)
+(cd IBM ; ./copyFromEpson)
+(cd KS ; ./copyFromEpson)
+(cd Okidata ; ./copyFromEpson)
+(cd Panasonic ; ./copyFromEpson)
+(cd Star ; ./copyFromEpson)

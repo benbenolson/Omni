@@ -1,0 +1,266 @@
+Sections:
+   1.0 Build Components Needed
+     1.1 Current version of Ghostscript
+     1.2 autotools
+     1.3 XML Parser
+       1.3.1 libxml
+       1.3.2 Xerces C++ XML Parser
+       1.3.3 XML4C
+     1.4 glib
+     1.5 Cups
+     1.6 GTK--
+     1.7 SigC++
+     1.8 Debugging Tools
+       1.8.1 DDD debugger
+       1.8.2 Lesstif libraries
+   2.0 Building
+     2.1 Install Ghostscript
+     2.2 Unzip the current Omni source from the ghostscript directory
+     2.3 Make sure that you can build omni
+     2.5 Install the omni driver
+     2.5 Apply patches to Ghostscript
+     2.5 Configure Ghostscript
+     2.6 Build Ghostscript
+  3.0 Install graphical debugger (optional)
+
+NOTE:
+Please use the 2.X version of gcc (version 2.96 20000731 or
+above on RedHat).  There is an issue with classes that are defined within
+a function that are not being compiled by gcc.  A subsequent link
+will fail with unresolved externals.
+
+Please do not use the 3.X version of gcc.  The released versions will not
+compile omni.  Hopefully, version in CVS will (but is untested).
+
+1.0 Build Components Needed
+===========================
+
+1.1 Current version of Ghostscript
+
+http://sourceforge.net/project/showfiles.php?group_id=1897
+
+Download Ghostscript and the required files for the ability of building
+the ghostscript executable.  Example:
+   ghostscript-6.53.tar.gz
+   ghostscript-7.04.tar.gz
+
+To find out where to download the required files, view the file doc/Make.htm
+and look in the section "Third-party library source code".  Example:
+
+   jpegsrc.v6b.tar.gz
+   libpng-1.2.1.tar.gz
+   zlib.tar.gz
+
+Additional components that need to be downloaded to enable
+support of the Omni driver in Ghostscript.
+
+1.2 autotools
+
+You need three packages on your system.  These are autoconf, automake, and
+libtool.  Download and install the latest version from
+http://www.gnu.org/software/software.html
+
+1.3 XML Parser
+
+  Download one of the prebuilt packages from the following sites.
+
+  1.3.1 libxml
+
+  This is the recommended version.
+
+  http://xmlsoft.org/
+
+  example
+    libxml-1.8.6-2.i386.rpm
+    libxml-devel-1.8.6-2.i386.rpm
+
+  You *must* install the developers version of libxml (in this case
+  libxml-devel-1.8.6-2.i386.rpm) because that version contains the include
+  files required by Omni's XML parser.
+
+  1.3.2 Xerces C++ XML Parser
+
+   http://xml.apache.org/xerces-c/index.html
+
+   example
+      xerces-c1_3_0-linux.tar.gz
+
+  Note:  If you are using Red Hat 7.1 or greater, then download the source of
+         xerces at http://xml.apache.org/dist/xerces-c/stable/archives/Xerces-C_1_3_0/
+         and build the source following xerces's instructions.
+
+  1.3.3 XML4C
+
+  http://www.alphaworks.ibm.com/tech/xml4c
+
+  Note:  If you are using Red Hat 7.1 or greater, then download the source of
+         xml4c and build the source following xml4c's instructions.
+
+  example
+     xml4c3_1_0-linux.tar.gz
+
+1.4 glib
+
+Download and install the latest development version of glib located at
+ftp://ftp.gtk.org/pub/gtk/ if it is not already installed on your system.
+
+1.5 Cups
+
+Download and install the latest development version of cups located at
+http://www.cups.org/ if it is not already installed on your system.
+
+example
+ cups-1.1.14-source.tar.bz2
+
+1.6 GTK--
+Download and install the latest version from
+http://gtkmm.sourceforge.net/download.html
+
+example
+ gtkmm-1.2.5-1.i386.rpm
+ gtkmm-devel-1.2.5-1.i386.rpm
+
+1.7 SigC++
+
+Download and install the latest version from
+http://libsigc.sourceforge.net/stable.html
+
+example
+ libsigc++-1.0.1-0_helix_1.i386.rpm
+ libsigc++-devel-1.0.1-0_helix_1.i386.rpm
+
+1.8 Debugging Tools
+
+** The following two items are optional.  They can be very useful if
+   code debugging is necessary to resolve a problem.
+
+1.8.1 DDD debugger
+
+Go to http://www.redhat.com/swr/i386/ddd-3.2-4.i386.html.  This
+will bring you to the download page for DDD debugger interface.
+Select download and you will be brought to a page to allow down-
+loading of the package for instance:
+ftp://ftp.sourceforge.net/pub/mirrors/redhat/redhat/powertools/6.2/i386/i386/ddd-3.2-4.i386.rpm
+
+1.8.2 Lesstif libraries
+
+Go to http://www.redhat.com/swr/i386/lesstif-1.2-devel-0.89.9-2.i386.html
+and select download of the package from one of the available sites.
+ftp://ftp.sourceforge.net/pub/mirrors/redhat/redhat/powertools/6.2/i386/i386/lesstif-1.2-devel-0.89.9-2.i386.rpm
+
+2.0 Building Omni
+=================
+
+NOTE: These commands assume that you use the proper paths for copying/unziping
+      Ex: the files are located in /tmp
+
+2.1 Install Ghostscript
+   cd /tmp;
+   tar xvzf /tmp/ghostscript-6.53.tar.gz;
+   cd ghostscript-6.53;
+   tar xvzf /tmp/jpegsrc.v6b.tar.gz;
+   tar xvzf /tmp/libpng-1.2.1.tar.gz;
+   tar xvzf /tmp/zlib.tar.gz;
+   mv jpeg-6b jpeg;
+   mv libpng-1.2.1 libpng;
+   mv zlib-1.1.3 zlib;
+
+2.2 Unzip the current Omni source from the ghostscript directory
+   tar -xvzf /tmp/Omni-x.x.x.tar.gz (where xxx denotes level)
+   cd Omni;
+
+2.3 Make sure that you can build omni.  For the first time use the following command:
+   ./setupOmni;
+
+    After that, you can build with:
+   make
+
+Note: To build a subset of the full omni build, edit the following files:
+   devices.mak - modify DEVICELIST to include only the driver directories
+              that you are interested in building.
+   (driver)/Device List - comment out the devices that you are not interested
+                          in generating by having '#' be the first character
+                          of the line.
+
+2.4 Generate CUPS configuration data
+   (cd CUPS; make generateBuildPPDs)
+
+2.5 Install the omni driver
+   make install
+   (cd Foomatic; make localInstall)
+   make localInstall
+
+3.0 Enabling Ghostscript
+========================
+
+3.1 Is ghostscript omni enabled?
+
+@TBD
+
+3.2 Apply patches to Ghostscript
+
+Patches are located in the Ghostscript directory.  There are several versions
+of Ghostsctipt supported.  Change into the right directory.
+
+The patch file is named: Omni-gsVer-MMDDYY-patch.xxx)
+   - where gsVer  denotes the ghostscript version
+           MMDDYY denotes the date MM = month DD = day YY = year
+           xxx    denotes clean or update
+
+   For Ghostscript version 5.50:
+      cd ..;
+      patch < Omni/Ghostscript/5.50/Omni-5.50-MMDDYY.patch.clean;
+
+   For Ghostscript version 6.51:
+      cd ../src;
+      patch < Omni/Ghostscript/6.51/Omni-6.51-MMDDYY.patch.clean;
+
+   For Ghostscript version 6.53:
+      cd ..;
+      patch -p0 < Omni/Ghostscript/6.53/Omni-6.53-MMDDYY.patch.clean;
+
+   For Ghostscript version 7.04:
+      cd ..;
+      patch -p0 < Omni/Ghostscript/7.04/Omni-7.04-MMDDYY.patch.clean;
+
+   For Ghostscript version 7.05:
+      cd ..;
+      patch -p0 < Omni/Ghostscript/7.05/Omni-7.05-MMDDYY.patch.clean;
+
+3.3 Configure Ghostscript
+   For Ghostscript version 5.50:
+      Fix time_.h if necessary.  If you cannot build because of
+      (storage size of `ltime' isn't known), then do the following:
+         add #include <time.h>
+      ln -s unix-gcc.mak Makefile;
+
+   For Ghostscript version 6.51:
+      Fix time_.h if necessary.  If you cannot build because of
+      (storage size of `ltime' isn't known), then do the following:
+         add #include <time.h>
+      ln -s src/unix-gcc.mak Makefile;
+
+   For Ghostscript version 6.53:
+      configure;
+
+   For Ghostscript version 7.04:
+      configure;
+
+   For Ghostscript version 7.05:
+      configure;
+
+3.4 Build Ghostscript
+   make clean;
+   make;
+   # "make debug" for debug embedded code
+
+3.5 Install Ghostscript
+
+@TBD
+
+4.0 Install graphical debugger (optional)
+=========================================
+
+   cd /tmp;
+   rpm -i lesstif-0.90.0-1.i386.rpm;
+   rpm -i ddd-3.2-4.i386.rpm;

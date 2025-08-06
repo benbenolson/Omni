@@ -1,0 +1,22 @@
+Document: omni
+Title: Debian omni Manual
+Author: <insert document author here>
+Abstract: This manual describes what omni is
+ and how it can be used to
+ manage online manuals on Debian systems.
+Section: unknown
+
+Format: debiandoc-sgml
+Files: /usr/share/doc/omni/omni.sgml.gz
+
+Format: postscript
+Files: /usr/share/doc/omni/omni.ps.gz
+
+Format: text
+Files: /usr/share/doc/omni/omni.text.gz
+
+Format: HTML
+Index: /usr/share/doc/omni/html/index.html
+Files: /usr/share/doc/omni/html/*.html
+
+  

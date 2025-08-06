@@ -1,0 +1,14 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<!--
+     This configuration file is a stripped down sample that contains
+     just enough information to be useful for testing the Device
+     Font Manager package.
+-->
+
+<DeviceConfiguration FileTypeIdentification = "Device Configuration" 
+                     Unit_Description_Reference = "UPDF Device Description-Sample"
+                     CommandSequences_Reference = "UPDF Command Sequences-Sample"
+                     xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+		     xsi:noNamespaceSchemaLocation = "UPDF Device Configuration.xsd">
+</DeviceConfiguration>

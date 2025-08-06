@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.pwg.org/schemas/sm/1.0/" xmlns="http://www.pwg.org/schemas/sm/1.0/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.00">
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/MediaWellKnownValues.xsd"/>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">PWG Media Element schema (Media Master List)
+Copyright 2002-2004, IEEE Industry Standards and Technology Organization/Printer Working Group. 
+All rights reserved</xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>Media/MediaCol Element definition</xsd:documentation>
+	</xsd:annotation>
+	<xsd:element name="Media">
+		<xsd:simpleType>
+			<xsd:union memberTypes="MediaSizeAliasNameWKV MediaSizeLegacyNamesWKV MediaSizeSelfDescribingNameWKV MediaSizeNameExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaCol" type="MediaCol"/>
+	<xsd:annotation>
+		<xsd:documentation>Associated Media/MediaCol element definitions</xsd:documentation>
+	</xsd:annotation>
+	<xsd:element name="MediaActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Media" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MediaColActual">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="MediaCol" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MediaColDefault" type="MediaCol"/>
+	<xsd:element name="MediaColSupported" type="MediaColSupported"/>
+	<xsd:element name="MediaDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="MediaSizeAliasNameWKV MediaSizeLegacyNamesWKV MediaSizeSelfDescribingNameWKV MediaSizeNameExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Media" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:annotation>
+		<xsd:documentation>Media Col specific semantic elements and associated elements</xsd:documentation>
+	</xsd:annotation>
+	<xsd:element name="MediaBackCoating">
+		<xsd:simpleType>
+			<xsd:union memberTypes="MediaCoatingWKV MediaColorExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaBackCoatingDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="MediaCoatingWKV MediaColorExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaBackCoatingSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="MediaBackCoating" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MediaColor">
+		<xsd:simpleType>
+			<xsd:union memberTypes="MediaColorWKV MediaColorExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaColorDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="MediaColorWKV MediaColorExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaColorSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="MediaColor" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MediaFrontCoating">
+		<xsd:simpleType>
+			<xsd:union memberTypes="MediaCoatingWKV MediaNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaFrontCoatingDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="MediaCoatingWKV MediaNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaFrontCoatingSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="MediaFrontCoating" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MediaGrain">
+		<xsd:simpleType>
+			<xsd:union memberTypes="MediaGrainWKV MediaNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaGrainDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="MediaGrainWKV MediaNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaGrainSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="MediaGrain" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MediaHoleCount" type="xsd:int"/>
+	<xsd:element name="MediaHoleCountDefault" type="xsd:int"/>
+	<xsd:element name="MediaHoleCountSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="MediaHoleCount" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MediaInfo">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="255"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaInfoDefault">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="255"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaInfoSupported" type="xsd:boolean"/>
+	<xsd:element name="MediaKey">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="255"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaKeyDefault">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="255"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaKeySupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="MediaKey" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MediaMaterial">
+		<xsd:simpleType>
+			<xsd:union memberTypes="MediaMaterialWKV MediaNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaMaterialDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="MediaMaterialWKV MediaNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaMaterialSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="MediaMaterial" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MediaOrderCount">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="255"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaOrderCountDefault">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="255"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaOrderCountSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="MediaOrderCount" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MediaPreprinted">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="255"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaPreprintedDefault">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:maxLength value="255"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaPreprintedSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="MediaPreprinted" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MediaRecycled">
+		<xsd:simpleType>
+			<xsd:union memberTypes="MediaRecycledWKV MediaNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaRecycledDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="MediaRecycledWKV MediaNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaRecycledSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="MediaRecycled"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MediaSize" type="mediaSize"/>
+	<xsd:element name="MediaSizeDefault" type="mediaSize"/>
+	<xsd:element name="MediaSizeSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="MediaSize" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MediaSizeName">
+		<xsd:simpleType>
+			<xsd:union memberTypes="MediaSizeNameWKV MediaSizeNameExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaSizeNameDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="MediaSizeNameWKV MediaSizeNameExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaSizeNameSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="MediaSizeName" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MediaThickness" type="xsd:int"/>
+	<xsd:element name="MediaThicknessDefault" type="xsd:int"/>
+	<xsd:element name="MediaThicknessSupported" type="xsd:int"/>
+	<xsd:element name="MediaTooth">
+		<xsd:simpleType>
+			<xsd:union memberTypes="MediaToothWKV MediaNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaToothDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="MediaToothWKV MediaNsExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaToothSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="MediaTooth" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MediaType">
+		<xsd:simpleType>
+			<xsd:union memberTypes="MediaTypeWKV MediaTypeExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaTypeDefault">
+		<xsd:simpleType>
+			<xsd:union memberTypes="MediaTypeWKV MediaTypeExtensionPattern"/>
+		</xsd:simpleType>
+	</xsd:element>
+	<xsd:element name="MediaTypeSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="MediaType" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MediaWeightMetric" type="xsd:int"/>
+	<xsd:element name="MediaWeightMetricDefault" type="xsd:int"/>
+	<xsd:element name="MediaWeightMetricSupported">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="MediaWeightMetric" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:annotation>
+		<xsd:documentation>Complex media types</xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="MediaCol">
+		<xsd:sequence>
+			<xsd:element ref="MediaBackCoating" minOccurs="0"/>
+			<xsd:element ref="MediaColor" minOccurs="0"/>
+			<xsd:element ref="MediaFrontCoating" minOccurs="0"/>
+			<xsd:element ref="MediaGrain" minOccurs="0"/>
+			<xsd:element ref="MediaHoleCount" minOccurs="0"/>
+			<xsd:element ref="MediaInfo" minOccurs="0"/>
+			<xsd:element ref="MediaKey" minOccurs="0"/>
+			<xsd:element ref="MediaMaterial" minOccurs="0"/>
+			<xsd:element ref="MediaOrderCount" minOccurs="0"/>
+			<xsd:element ref="MediaPreprinted" minOccurs="0"/>
+			<xsd:element ref="MediaRecycled" minOccurs="0"/>
+			<xsd:element ref="MediaSize" minOccurs="0"/>
+			<xsd:element ref="MediaThickness" minOccurs="0"/>
+			<xsd:element ref="MediaTooth" minOccurs="0"/>
+			<xsd:element ref="MediaType" minOccurs="0"/>
+			<xsd:element ref="MediaWeightMetric" minOccurs="0"/>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MediaColSupported">
+		<xsd:sequence>
+			<xsd:element ref="MediaBackCoatingSupported" minOccurs="0"/>
+			<xsd:element ref="MediaColorSupported" minOccurs="0"/>
+			<xsd:element ref="MediaFrontCoatingSupported" minOccurs="0"/>
+			<xsd:element ref="MediaGrainSupported" minOccurs="0"/>
+			<xsd:element ref="MediaHoleCountSupported" minOccurs="0"/>
+			<xsd:element ref="MediaInfoSupported" minOccurs="0"/>
+			<xsd:element ref="MediaKeySupported" minOccurs="0"/>
+			<xsd:element ref="MediaMaterialSupported" minOccurs="0"/>
+			<xsd:element ref="MediaOrderCountSupported" minOccurs="0"/>
+			<xsd:element ref="MediaPreprintedSupported" minOccurs="0"/>
+			<xsd:element ref="MediaRecycledSupported" minOccurs="0"/>
+			<xsd:element ref="MediaSizeSupported" minOccurs="0"/>
+			<xsd:element ref="MediaThickness" minOccurs="0"/>
+			<xsd:element ref="MediaToothSupported" minOccurs="0"/>
+			<xsd:element ref="MediaTypeSupported" minOccurs="0"/>
+			<xsd:element ref="MediaWeightMetricSupported" minOccurs="0"/>
+			<xsd:any namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="mediaSize">
+		<xsd:sequence>
+			<xsd:element name="XDimension" type="xsd:int"/>
+			<xsd:element name="YDimension" type="xsd:int"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

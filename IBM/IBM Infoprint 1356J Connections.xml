@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     IBM Omni driver
+     Copyright (c) International Business Machines Corp., 2000
+
+     This library is free software; you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published
+     by the Free Software Foundation; either version 2.1 of the License, or
+     (at your option) any later version.
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+     the GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this library; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
+<deviceConnections xmlns="http://www.ibm.com/linux/ltc/projects/omni/" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:schemaLocation="http://www.ibm.com/linux/ltc/projects/omni/ ../OmniDevice.xsd">
+   <deviceConnection>
+      <name>IBM_CONN_ID_1</name>
+      <connectionForm>iso_a4_210.00x297.00mm</connectionForm>
+      <omniForm>FORM_A4</omniForm>
+      <connectionTray>AutoSelect</connectionTray>
+      <omniTray>TRAY_AUTO</omniTray>
+      <connectionMedia>MEDIA_PLAIN</connectionMedia>
+   </deviceConnection>
+   <deviceConnection>
+      <name>IBM_CONN_ID_2</name>
+      <connectionForm>iso_a5_148.00x210.00mm</connectionForm>
+      <omniForm>FORM_A5</omniForm>
+      <connectionTray>AutoSelect</connectionTray>
+      <omniTray>TRAY_AUTO</omniTray>
+      <connectionMedia>MEDIA_PLAIN</connectionMedia>
+   </deviceConnection>
+   <deviceConnection>
+      <name>IBM_CONN_ID_3</name>
+      <connectionForm>jis_b5_182.00x257.00mm</connectionForm>
+      <omniForm>FORM_JIS_B5</omniForm>
+      <connectionTray>AutoSelect</connectionTray>
+      <omniTray>TRAY_AUTO</omniTray>
+      <connectionMedia>MEDIA_PLAIN</connectionMedia>
+   </deviceConnection>
+</deviceConnections>

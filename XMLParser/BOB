@@ -1,0 +1,5 @@
+directory ..:../hppcl3
+set output-radix 16
+#break OmniDomParser.cpp:62
+break Main.cpp:34
+run < "Device List"

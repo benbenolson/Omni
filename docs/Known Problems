@@ -1,0 +1,13 @@
+- Several of the dithering functions do not work at this point in time.
+  We are changing them and resolving issues with inconsistancies between
+  them i.e. magic square or ordered square dithers will produce black output.
+
+- Some of the devices may require modifications to the page size and printable
+  areas.
+
+- Some of the devices may require modifications to the color correction data.
+
+- Additional work to be done on the color and dithering implementation.
+
+- Gamma values may need to be tweaked for some of the Epson Photo devices such
+  as the 870 and 1270.

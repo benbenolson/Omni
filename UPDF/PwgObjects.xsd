@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.pwg.org/schemas/sm/1.0/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.pwg.org/schemas/sm/1.0/" elementFormDefault="qualified" version="1.00">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">
+   PWG Model
+   Copyright 2002-2004, IEEE Industry Standards and Technology Organization/Printer Working Group. 
+All rights reserved
+  </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation>Include the common list of semantic elements and types</xsd:documentation>
+	</xsd:annotation>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/MediaElements.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/PwgCommon.xsd"/>
+	<xsd:annotation>
+		<xsd:documentation>Include the sub-schemas that describe the Printer object</xsd:documentation>
+	</xsd:annotation>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/PrinterDescription.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/PrinterStatus.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/ProcessingDefault.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/ProcessingSupported.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/ProcessingReady.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/Printer.xsd"/>
+	<xsd:annotation>
+		<xsd:documentation>Include the sub-schemas that describe the Job object</xsd:documentation>
+	</xsd:annotation>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/JobStatus.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/JobDescription.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/JobProcessing.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/DocumentProcessing.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/ProcessingActual.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/Job.xsd"/>
+	<xsd:annotation>
+		<xsd:documentation>Include the sub-schemas that describe the Document Object (Note: DocumentProcessing.xsd and ProcessingActual.xsd from Job is also used)</xsd:documentation>
+	</xsd:annotation>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/DocumentDescription.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/DocumentStatus.xsd"/>
+	<xsd:include schemaLocation="http://www.pwg.org/schemas/sm/1.0/Document.xsd"/>
+	<xsd:annotation>
+		<xsd:documentation>The Objects defined in the PWG Semantic Model</xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="PwgObjects">
+		<xsd:all>
+			<xsd:element ref="Printer"/>
+			<xsd:element ref="Job"/>
+			<xsd:element ref="Document"/>
+		</xsd:all>
+	</xsd:complexType>
+	<xsd:element name="PwgObjects" type="PwgObjects"/>
+</xsd:schema>

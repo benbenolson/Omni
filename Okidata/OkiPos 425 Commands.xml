@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     IBM Omni driver
+     Copyright (c) International Business Machines Corp., 2000
+
+     This library is free software; you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published
+     by the Free Software Foundation; either version 2.1 of the License, or
+     (at your option) any later version.
+
+     This library is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
+     the GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this library; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-->
+
+<deviceCommands
+   xmlns="http://www.ibm.com/linux/ltc/projects/omni/"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+   xs:schemaLocation="http://www.ibm.com/linux/ltc/projects/omni/ ../OmniDevice.xsd">
+   <command name="cmdSetLineSpacing144inch">_ESC_ &quot;3%c&quot;</command>
+   <command name="cmdSetPageLengthInLines">_ESC_ &quot;C%c&quot;</command>
+   <command name="cmdInit">_ESC_ &quot;@&quot; _NUL_ _NUL_</command>
+   <command name="cmdReset">_ESC_ &quot;@&quot;</command>
+   <command name="cmdAbort">_FF_ _ESC_ &quot;@&quot;</command>
+   <command name="cmdPageEject">_FF_</command>
+   <command name="cmdSetXYPos">_ESC_ &quot;$%w&quot;</command>
+   <command name="cmdSetXPos">_ESC_ &quot;$%w&quot;</command>
+   <command name="cmdEndRasterGraphicsLine">_CR_</command>
+   <command name="cmdMoveToNextRasterGraphicsLine">_LF_</command>
+   <command name="cmdSetJournalMode">_ESC_ &quot;z%c&quot;</command>
+   <command name="cmdFullCut">_ESC_ &quot;i&quot;</command>
+   <command name="cmdPartialCut">_ESC_ &quot;m&quot;</command>
+</deviceCommands>
