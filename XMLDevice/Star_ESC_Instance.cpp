@@ -62,7 +62,7 @@ Star_ESC_Instance::
 }
 
 void Star_ESC_Instance::
-initializeInstance ()
+initializeInstance (PSZCRO pszJobProperties)
 {
    if (fHaveInitialized_d)
       return;

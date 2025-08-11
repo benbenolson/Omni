@@ -71,7 +71,7 @@ typedef struct _DeviceInfo
    std::string     *pstringData;
 
    XmlNodePtr       nodeGammaTables;
-   std::string     *pstrGammaTablesXMLFile_d;
+   std::string     *pstrGammaTablesXMLFile_d = NULL;
 
    OrientationList  listOrientations;
    ResolutionList   listResolutions;

@@ -4703,7 +4703,7 @@ main (int argc, char *argv[])
             pbBuffer1 = 0;
          }
 
-         if (0 < pbBuffer1)
+         if (pbBuffer1)
          {
             eCommand = PDCCMD_ACK;
          }
@@ -4735,12 +4735,12 @@ main (int argc, char *argv[])
             pbBuffer2 = 0;
          }
 
-         if (0 < pbBuffer2)
+         if (pbBuffer2)
          {
             eCommand = PDCCMD_ACK;
          }
 
-         if (0 < pbBuffer2)
+         if (pbBuffer2)
          {
             eCommand = PDCCMD_ACK;
          }

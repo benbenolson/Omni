@@ -33,7 +33,7 @@ public:
                          Epson_ESCP2_Instance      (PrintDevice                *pDevice);
    virtual              ~Epson_ESCP2_Instance      ();
 
-   void                  initializeInstance        ();
+   void                  initializeInstance        (PSZCRO                      pszJobProperties);
 
    std::string          *getJobProperties          (bool                        fInDeviceSpecific);
    bool                  setJobProperties          (PSZCRO                      pszJobProperties);

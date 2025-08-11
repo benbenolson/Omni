@@ -33,7 +33,7 @@ public:
                          Panasonic_ESC_Instance        (PrintDevice              *pDevice);
    virtual              ~Panasonic_ESC_Instance        ();
 
-   void                  initializeInstance        ();
+   void                  initializeInstance        (PSZCRO                    pszJobProperties);
 
    std::string          *getJobProperties          (bool                      fInDeviceSpecific);
    bool                  setJobProperties          (PSZCRO                    pszJobProperties);

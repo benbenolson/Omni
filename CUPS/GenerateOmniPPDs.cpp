@@ -227,6 +227,8 @@ main (int argc, char *argv[])
    {
       return 1;
    }
+   
+   std::cerr << "Created " << stringRoot << std::endl;
 
    for (int i = 1; i < argc; i++)
    {
@@ -247,15 +249,21 @@ main (int argc, char *argv[])
    Omni::initialize ();
 
    Enumeration *pEnum = Omni::listDevices (fBuildOnly);
+   
+   std::cerr << "Got devices." << std::endl;
 
    while (pEnum->hasMoreElements ())
    {
       OmniDevice *pOD = (OmniDevice *)pEnum->nextElement ();
+      
+      std::cerr << "Got a device of some kind." << std::endl;
 
       if (pOD)
       {
          PSZCRO pszLibName       = pOD->getLibraryName ();
          PSZCRO pszJobProperties = pOD->getJobProperties ();
+         
+        std::cerr << "Got driver: " << pszLibName << std::endl;
 
 #ifndef RETAIL
          if (DebugOutput::shouldOutputDeviceTester ()) DebugOutput::getErrorStream () << "GenerateOmniPPDs::" << __FUNCTION__ << ": pszLibName = " << pszLibName << ", pszJobProperties = " << (pszJobProperties ? pszJobProperties : "NULL") << std::endl;

@@ -326,7 +326,7 @@ public:
    {
       if (!hasMoreElements ())
       {
-         return false;
+         return NULL;
       }
 
       std::ostringstream  oss;

@@ -535,7 +535,7 @@ getJobProperties (bool fInDeviceSpecific)
 
       if (!pCmd_d)
       {
-         return false;
+         return NULL;
       }
    }
 
@@ -673,7 +673,7 @@ getJobPropertyType (PSZCRO pszKey)
 
       if (!pCmd_d)
       {
-         return false;
+         return NULL;
       }
    }
 
@@ -698,7 +698,7 @@ getJobProperty (PSZCRO pszKey)
 
       if (!pCmd_d)
       {
-         return false;
+         return NULL;
       }
    }
 
@@ -724,7 +724,7 @@ translateKeyValue (PSZCRO pszKey,
 
       if (!pCmd_d)
       {
-         return false;
+         return NULL;
       }
    }
 

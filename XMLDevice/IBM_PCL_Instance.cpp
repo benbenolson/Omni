@@ -67,7 +67,7 @@ IBM_PCL_Instance::
 }
 
 void IBM_PCL_Instance::
-initializeInstance ()
+initializeInstance (PSZCRO pszJobProperties)
 {
    if (fHaveInitialized_d)
       return;
