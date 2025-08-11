@@ -39,7 +39,7 @@ public:
                         IBM_Pages_Instance        (PrintDevice              *pDevice);
    virtual             ~IBM_Pages_Instance        ();
 
-   void                 initializeInstance        (PSZCRO                pszJobProperties);
+   void                 initializeInstance        ();
 
    std::string         *getJobProperties          (bool                      fInDeviceSpecific);
    bool                 setJobProperties          (PSZCRO                    pszJobProperties);

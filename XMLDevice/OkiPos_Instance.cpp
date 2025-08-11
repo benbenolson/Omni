@@ -63,7 +63,7 @@ OkiPos_Instance::
 }
 
 void OkiPos_Instance::
-initializeInstance (PSZCRO pszJobProperties)
+initializeInstance ()
 {
    if (fHaveInitialized_d)
       return;

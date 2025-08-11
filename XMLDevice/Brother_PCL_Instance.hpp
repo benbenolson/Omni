@@ -33,7 +33,7 @@ public:
                         Brother_PCL_Instance  (PrintDevice                    *pDevice);
    virtual             ~Brother_PCL_Instance  ();
 
-   void                 initializeInstance        (PSZCRO                          pszJobProperties);
+   void                 initializeInstance        ();
 
    std::string         *getJobProperties          (bool                            fInDeviceSpecific);
    bool                 setJobProperties          (PSZCRO                          pszJobProperties);

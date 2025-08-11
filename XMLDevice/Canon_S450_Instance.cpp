@@ -76,7 +76,7 @@ Canon_S450_Instance::
 }
 
 void Canon_S450_Instance::
-initializeInstance (PSZCRO pszJobProperties)
+initializeInstance ()
 {
 #ifndef RETAIL
    if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "Canon_S450_Instance::initializeInstance ()" << std::endl;

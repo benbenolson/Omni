@@ -62,7 +62,7 @@ Okidata_ESC_Instance::
 }
 
 void Okidata_ESC_Instance::
-initializeInstance (PSZCRO pszJobProperties)
+initializeInstance ()
 {
    if (fHaveInitialized_d)
       return;

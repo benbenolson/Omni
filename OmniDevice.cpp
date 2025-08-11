@@ -19,7 +19,6 @@
 #include "OmniDevice.hpp"
 
 #include <string>
-#include <cstring>
 
 OmniDevice::
 OmniDevice (PSZCRO pszLibraryName,

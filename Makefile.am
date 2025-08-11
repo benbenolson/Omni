@@ -118,39 +118,39 @@ libDitherLibraryExample_la_SOURCES = DitherLibraryExample.cpp
 libDitherLibraryExample_la_LDFLAGS = -version-info @LT_CURRENT@:@LT_REVISION@:@LT_AGE@ @DEBUG_LIBS@
 
 OmniDeviceValid_SOURCES = OmniDeviceValid.cpp
-OmniDeviceValid_LDFLAGS = -Wl,--export-dynamic -lgmodule-2.0 -pthread -lglib-2.0
+OmniDeviceValid_LDFLAGS = @GLIB_LIBS@
 OmniDeviceValid_LDADD   = $(top_builddir)/libomni.la
 
 OmniDevices_SOURCES = OmniDevices.cpp
-OmniDevices_LDFLAGS = -Wl,--export-dynamic -lgmodule-2.0 -pthread -lglib-2.0 @DEBUG_LIBS@
+OmniDevices_LDFLAGS = @GLIB_LIBS@ @DEBUG_LIBS@
 OmniDevices_LDADD   = $(top_builddir)/libomni.la
 
 OmniDeviceOptions_SOURCES = OmniDeviceOptions.cpp
-OmniDeviceOptions_LDFLAGS = -Wl,--export-dynamic -lgmodule-2.0 -pthread -lglib-2.0 @DEBUG_LIBS@
+OmniDeviceOptions_LDFLAGS = @GLIB_LIBS@ @DEBUG_LIBS@
 OmniDeviceOptions_LDADD   = $(top_builddir)/libomni.la
 
 OmniPDCServer_SOURCES = OmniServer.cpp
-OmniPDCServer_LDFLAGS = -Wl,--export-dynamic -lgmodule-2.0 -pthread -lglib-2.0 @DEBUG_LIBS@
+OmniPDCServer_LDFLAGS = @GLIB_LIBS@ @DEBUG_LIBS@
 OmniPDCServer_LDADD   = $(top_builddir)/libomni.la
 
 OmniDeviceTester_SOURCES = OmniDeviceTester.cpp
-OmniDeviceTester_LDFLAGS = -Wl,--export-dynamic -lgmodule-2.0 -pthread -lglib-2.0 @DEBUG_LIBS@
+OmniDeviceTester_LDFLAGS = @GLIB_LIBS@ @DEBUG_LIBS@
 OmniDeviceTester_LDADD   = $(top_builddir)/libomni.la
 
 DeviceTester2_SOURCES = DeviceTester2.cpp
-DeviceTester2_LDFLAGS = -Wl,--export-dynamic -lgmodule-2.0 -pthread -lglib-2.0 @DEBUG_LIBS@
+DeviceTester2_LDFLAGS = @GLIB_LIBS@ @DEBUG_LIBS@
 DeviceTester2_LDADD   = $(top_builddir)/libomni.la
 
 DeviceTester3_SOURCES = DeviceTester3.cpp
-DeviceTester3_LDFLAGS = -Wl,--export-dynamic -lgmodule-2.0 -pthread -lglib-2.0 @DEBUG_LIBS@
+DeviceTester3_LDFLAGS = @GLIB_LIBS@ @DEBUG_LIBS@
 DeviceTester3_LDADD   = $(top_builddir)/libomni.la
 
 DeviceTester4_SOURCES = DeviceTester4.cpp
-DeviceTester4_LDFLAGS = -Wl,--export-dynamic -lgmodule-2.0 -pthread -lglib-2.0 @DEBUG_LIBS@
+DeviceTester4_LDFLAGS = @GLIB_LIBS@ @DEBUG_LIBS@
 DeviceTester4_LDADD   = $(top_builddir)/libomni.la
 
 DeviceTester5_SOURCES = DeviceTester5.cpp
-DeviceTester5_LDFLAGS = -Wl,--export-dynamic -lgmodule-2.0 -pthread -lglib-2.0 @DEBUG_LIBS@
+DeviceTester5_LDFLAGS = @GLIB_LIBS@ @DEBUG_LIBS@
 DeviceTester5_LDADD   = $(top_builddir)/libomni.la
 
 BVT:

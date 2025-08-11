@@ -39,7 +39,7 @@ public:
                         OkiPos_Instance           (PrintDevice           *pDevice);
    virtual             ~OkiPos_Instance           ();
 
-   void                 initializeInstance        (PSZCRO                 pszJobProperties);
+   void                 initializeInstance        ();
 
    std::string         *getJobProperties          (bool                   fInDeviceSpecific);
    bool                 setJobProperties          (PSZCRO                 pszJobProperties);

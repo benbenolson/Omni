@@ -33,7 +33,7 @@ public:
                          Epson_High_Res_ESCP2_Instance (PrintDevice                         *pDevice);
    virtual              ~Epson_High_Res_ESCP2_Instance ();
 
-   void                  initializeInstance            (PSZCRO                               pszJobProperties);
+   void                  initializeInstance            ();
 
    virtual bool          deviceOptionValid             (PSZRO                                pszDeviceOption);
 

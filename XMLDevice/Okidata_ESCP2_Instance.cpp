@@ -62,7 +62,7 @@ Okidata_ESCP2_Instance::
 }
 
 void Okidata_ESCP2_Instance::
-initializeInstance (PSZCRO pszJobProperties)
+initializeInstance ()
 {
    if (fHaveInitialized_d)
       return;

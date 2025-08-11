@@ -62,7 +62,7 @@ IBM_ESC_Instance::
 }
 
 void IBM_ESC_Instance::
-initializeInstance (PSZCRO pszJobProperties)
+initializeInstance ()
 {
    if (fHaveInitialized_d)
       return;

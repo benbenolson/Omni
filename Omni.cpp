@@ -993,7 +993,6 @@ private:
                                            << ") "
                                            << (fFound ? '+' : '-')
                                            << std::endl;
-            DebugOutput::getErrorStream () << "Running: " << stringSystem << std::endl;
          }
 
          if (fFound)
@@ -1048,7 +1047,7 @@ public:
       char           achLine[512];             // @TBD
       std::ifstream  ifIn ("/etc/ld.so.conf");
 
-      while (ifIn.getline (achLine, sizeof (achLine)))
+      while (0 < ifIn.getline (achLine, sizeof (achLine)))
       {
          char *pszEnd = achLine + strlen (achLine) - 1;
 
@@ -1909,7 +1908,7 @@ private:
          return false;
       }
 
-      while (pifstreamIn_d->getline (achLine, sizeof (achLine)))
+      while (0 < pifstreamIn_d->getline (achLine, sizeof (achLine)))
       {
          if ('#' == achLine[0])
             continue;

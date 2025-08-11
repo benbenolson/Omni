@@ -62,7 +62,7 @@ Panasonic_ESCP2_Instance::
 }
 
 void Panasonic_ESCP2_Instance::
-initializeInstance (PSZCRO pszJobProperties)
+initializeInstance ()
 {
    if (fHaveInitialized_d)
       return;

@@ -33,7 +33,7 @@ public:
                          Canon_BJC_8500_Instance   (PrintDevice                   *pDevice);
    virtual              ~Canon_BJC_8500_Instance   ();
 
-   void                  initializeInstance        (PSZCRO                         pszJobProperties);
+   void                  initializeInstance        ();
 
    virtual bool          beginJob                  ();
    virtual bool          beginJob                  (bool                           fJobPropertiesChanged);

@@ -23,15 +23,15 @@ CUPSEXEROOT  = @DEFAULTCUPSEXEROOT@
 CUPSDATAROOT = @DEFAULTCUPSDATAROOT@
 
 CUPSToOmni_SOURCES = CUPSToOmni.cpp
-CUPSToOmni_LDFLAGS = -Wl,--export-dynamic -lgmodule-2.0 -pthread -lglib-2.0 @CUPS_LIBS@ @DEBUG_LIBS@
+CUPSToOmni_LDFLAGS = @GLIB_LIBS@ @CUPS_LIBS@ @DEBUG_LIBS@
 CUPSToOmni_LDADD   = $(top_builddir)/libomni.la
 
 GenerateOmniPPDs_SOURCES = GenerateOmniPPDs.cpp
-GenerateOmniPPDs_LDFLAGS = -Wl,--export-dynamic -lgmodule-2.0 -pthread -lglib-2.0 @CUPS_LIBS@ @DEBUG_LIBS@
+GenerateOmniPPDs_LDFLAGS = @GLIB_LIBS@ @CUPS_LIBS@ @DEBUG_LIBS@
 GenerateOmniPPDs_LDADD   = $(top_builddir)/libomni.la
 
 GenerateOmniPPD_SOURCES = GenerateOmniPPD.cpp
-GenerateOmniPPD_LDFLAGS = -Wl,--export-dynamic -lgmodule-2.0 -pthread -lglib-2.0 @CUPS_LIBS@ @DEBUG_LIBS@
+GenerateOmniPPD_LDFLAGS = @GLIB_LIBS@ @CUPS_LIBS@ @DEBUG_LIBS@
 GenerateOmniPPD_LDADD   = $(top_builddir)/libomni.la
 
 generateBuildPPDs:		${bin_PROGRAMS}

@@ -76,7 +76,7 @@ Canon_Instance::
 }
 
 void Canon_Instance::
-initializeInstance (PSZCRO pszJobProperties)
+initializeInstance ()
 {
 #ifndef RETAIL
    if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "Canon_Instance::initializeInstance ()" << std::endl;

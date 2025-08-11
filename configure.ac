@@ -59,7 +59,7 @@ dnl automake bug. should be (${PACKAGE}, ${OMNI_MAJOR_VERSION}.${OMNI_MINOR_VERS
 dnl yet another automake bug.  ${pkgdatadir} and ${pkglibdir} use the tar name instead of the package name.
 AC_INIT(Omni, 0.9.2, linuxprt@us.ibm.com, Omni)
 AC_CONFIG_SRCDIR(BinaryData.cpp)
-dnl AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE
 AC_PREREQ(2.52)
 AC_SUBST(PACKAGE)
 
@@ -131,6 +131,18 @@ if test x$ef_debug = xtrue; then
 	DEBUG_LIBS=-lefence
 fi
 AC_SUBST(DEBUG_LIBS)
+
+dnl
+dnl Test for glib package
+dnl
+AC_PATH_PROG(GLIB_CONFIG, glib-config)
+if test -z "$GLIB_CONFIG"; then
+	AC_MSG_ERROR([Please install glib development package. (Perhaps 1.2 version that contains glib-config?)])
+fi
+GLIB_INCLUDES=`$GLIB_CONFIG --cflags gmodule`
+GLIB_LIBS=`$GLIB_CONFIG --libs gmodule`
+AC_SUBST(GLIB_INCLUDES)
+AC_SUBST(GLIB_LIBS)
 
 dnl
 dnl AC_CHECK_LIB (library, function, [action-if-found], [action-if-not-found], [other-libraries])
@@ -609,13 +621,10 @@ dnl
 dnl configure.ac:344: warning: do not use m4_patsubst: use patsubst or m4_bpatsubst
 AM_CONFIG_HEADER(config.h)
 
-GLIB_LIBS="-Wl,--export-dynamic -lgmodule-2.0 -pthread -lglib-2.0"
-AC_SUBST(GLIB_LIBS)
-
 dnl
 dnl Compiler options and definitions
 dnl
-INCLUDES="-I\$(top_srcdir) -I\$(top_srcdir)/hppcl3 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/sysprof-6 -pthread ${XML_INCLUDES}"
+INCLUDES="-I\$(top_srcdir) -I\$(top_srcdir)/hppcl3 ${GLIB_INCLUDES} ${XML_INCLUDES}"
 
 AC_SUBST(INCLUDES)
 
@@ -659,7 +668,7 @@ for flag in $cflags_to_try; do
 done
 AC_MSG_RESULT([ ...done.])
 
-CXXFLAGS="${CDEFINES} ${CFLAGS} ${GCFLAGS} -std=c++14 -fpermissive"
+CXXFLAGS="${CDEFINES} ${CFLAGS} ${GCFLAGS}"
 AC_SUBST(CXXFLAGS)
 
 dnl
@@ -918,6 +927,18 @@ test/Makefile
 
 fi
 
+dnl @BEGIN-HACK-3
+if test "x$BUILD_VENDORSUPPLIED" != "x"; then
+
+AC_CONFIG_FILES(
+VendorSupplied/Makefile
+dnl @BEGIN-HACK-2
+ VendorSupplied/Epson.PDC/Makefile
+dnl @END-HACK-2
+)
+
+fi
+dnl @END-HACK-3
 
 if test "x$BUILD_COMPILED_DEVICE" != "x"; then
 

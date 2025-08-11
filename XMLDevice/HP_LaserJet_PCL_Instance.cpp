@@ -67,7 +67,7 @@ HP_LaserJet_PCL_Instance::
 }
 
 void HP_LaserJet_PCL_Instance::
-initializeInstance (PSZCRO pszJobProperties)
+initializeInstance ()
 {
    if (fHaveInitialized_d)
       return;
