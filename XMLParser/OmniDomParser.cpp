@@ -12573,10 +12573,10 @@ parse ()
          && pdi_d->pstringPrintModeClassName
          )
       {
-         std::string stringGammaTablesXMLFile = *pdi_d->pstrGammaTablesXMLFile_d;
+         std::string stringGammaTablesXMLFile = std::move(*(pdi_d->pstrGammaTablesXMLFile_d));
 
-         delete pdi_d->pstrGammaTablesXMLFile_d;
-         pdi_d->pstrGammaTablesXMLFile_d = 0;
+//          delete pdi_d->pstrGammaTablesXMLFile_d;
+//          pdi_d->pstrGammaTablesXMLFile_d = 0;
 
          OmniDomParser parser (stringGammaTablesXMLFile.c_str (),
                                pdi_d,

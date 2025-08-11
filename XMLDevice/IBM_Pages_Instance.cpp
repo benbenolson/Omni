@@ -63,7 +63,7 @@ IBM_Pages_Instance::
 }
 
 void IBM_Pages_Instance::
-initializeInstance ()
+initializeInstance (PSZCRO pszJobProperties)
 {
    if (fHaveInitialized_d)
       return;
@@ -551,89 +551,17 @@ deviceOptionValid (PSZRO pszDeviceOption)
 void IBM_Pages_Instance::
 setupPrinter ()
 {
+   DeviceCommand    *pCommands = getCommands ();
+   BinaryData       *pCmd      = 0;
+   DeviceForm       *pDF       = getCurrentForm ();
+   DeviceTray       *pDT       = getCurrentTray ();
+
    if (fHaveSetupPrinter_d)
       return;
 
 #ifndef RETAIL
    if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "IBM_Pages_Instance::setupPrinter ()" << std::endl;
 #endif
-
-   fHaveSetupPrinter_d = true;
-}
-
-bool IBM_Pages_Instance::
-beginJob ()
-{
-   DeviceCommand    *pCommands = getCommands ();
-   BinaryData       *pCmd      = 0;
-   DeviceForm       *pDF       = getCurrentForm ();
-   DeviceTray       *pDT       = getCurrentTray ();
-#if 0
-   DeviceDuplex     *pDD       = getCurrentForm ();
-#endif
-
-#ifndef RETAIL
-   if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "IBM_Pages_Instance::beginJob ()" << std::endl;
-#endif
-
-   if (hasDeviceOption ("SUPPORTS_PJL"))
-   {
-      pCmd = pCommands->getCommandData ("cmdPJLSignature");
-      if (pCmd)
-      {
-#ifndef RETAIL
-         if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "cmdPJLSignature = " << *pCmd << std::endl;
-#endif
-
-         sendBinaryDataToDevice (pCmd);
-      }
-
-      pCmd = pCommands->getCommandData ("cmdBeginJob");
-      if (pCmd)
-      {
-#ifndef RETAIL
-         if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "cmdBeginJob = " << *pCmd << std::endl;
-#endif
-
-         sendBinaryDataToDevice (pCmd);
-      }
-
-      // @TBD Job prop stuff
-
-      pCmd = pCommands->getCommandData ("cmdEnterLanguage");
-      if (pCmd)
-      {
-#ifndef RETAIL
-         if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "cmdEnterLanguage = " << *pCmd << std::endl;
-#endif
-
-         sendBinaryDataToDevice (pCmd);
-      }
-
-      // @TBD Job prop stuff
-   }
-   else if (hasDeviceOption ("SUPPORTS_EMULATIONMODE"))
-   {
-      pCmd = pCommands->getCommandData ("cmdPagesMode");
-      if (pCmd)
-      {
-#ifndef RETAIL
-         if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "cmdPagesMode = " << *pCmd << std::endl;
-#endif
-
-         sendBinaryDataToDevice (pCmd);
-      }
-   }
-
-   pCmd = pCommands->getCommandData ("cmdInit");
-   if (pCmd)
-   {
-#ifndef RETAIL
-      if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "cmdInit = " << *pCmd << std::endl;
-#endif
-
-      sendBinaryDataToDevice (pCmd);
-   }
 
    // @TBD hardware copies
 
@@ -676,6 +604,9 @@ beginJob ()
 #if 1 /* shima */
    /* form select */
    pCmd = pDF->getData ();
+#ifndef RETAIL
+         if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "cmdLogicalPage = " << *pCmd << std::endl;
+#endif
    sendBinaryDataToDevice (pCmd);
 
    std::string *pstringTray = 0;
@@ -684,45 +615,45 @@ beginJob ()
 
    /* tray select */
    if (  pstringTray
-      && 0 == pstringTray->compare ("TRAY_AUTO")
+      && 0 == pstringTray->compare ("AutoSelect")
       )
    {
-      unsigned char  tray        = 0;
+      int           tray         = 0;
       std::string   *pstringForm = 0;
 
       pstringForm = pDF->getForm ();
 
       if (pstringForm)
       {
-         if (0 == pstringForm->compare ("FORM_A3"))
+         if (0 == pstringForm->compare ("iso_a3_297.00x420.00mm"))
          {
             tray = 0x11;
          }
-         else if (0 == pstringForm->compare ("FORM_JIS_B4"))
+         else if (0 == pstringForm->compare ("jis_b4_257.00x364.00mm"))
          {
             tray = 0x12;
          }
-         else if (0 == pstringForm->compare ("FORM_A4"))
+         else if (0 == pstringForm->compare ("iso_a4_210.00x297.00mm"))
          {
             tray = 0x13;
          }
-         else if (0 == pstringForm->compare ("FORM_JIS_B5"))
+         else if (0 == pstringForm->compare ("jis_b5_182.00x257.00mm"))
          {
             tray = 0x14;
          }
-         else if (0 == pstringForm->compare ("FORM_A5"))
+         else if (0 == pstringForm->compare ("iso_a5_148.00x210.00mm"))
          {
             tray = 0x15;
          }
-         else if (0 == pstringForm->compare ("FORM_LETTER"))
+         else if (0 == pstringForm->compare ("na_letter_8.50x11.00in"))
          {
             tray = 0x18;
          }
-         else if (0 == pstringForm->compare ("FORM_LEGAL"))
+         else if (0 == pstringForm->compare ("na_legal_8.50x14.00in"))
          {
             tray = 0x19;
          }
-         else if (0 == pstringForm->compare ("FORM_HAGAKI_CARD"))
+         else if (0 == pstringForm->compare ("jpn_hagaki_100.00x148.00mm"))
          {
             tray = 0x1A;
          }
@@ -732,12 +663,18 @@ beginJob ()
          }
 
          pCmd = pCommands->getCommandData ("cmdSelectTray");
+#ifndef RETAIL
+         if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "cmdSelectTray = " << *pCmd << "(0x" << std::hex << tray << ")" << std::endl;
+#endif
          sendPrintfToDevice (pCmd, tray);
       }
    }
    else
    {
       pCmd = pDT->getData ();
+#ifndef RETAIL
+         if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "cmdSelectTray = " << *pCmd << std::endl;
+#endif
       sendBinaryDataToDevice (pCmd);
    }
 
@@ -762,6 +699,88 @@ beginJob ()
    }
 #endif
 #endif
+
+   fHaveSetupPrinter_d = true;
+}
+
+bool IBM_Pages_Instance::
+beginJob ()
+{
+   DeviceCommand    *pCommands = getCommands ();
+   BinaryData       *pCmd      = 0;
+
+#ifndef RETAIL
+   if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "IBM_Pages_Instance::beginJob ()" << std::endl;
+#endif
+
+   if (hasDeviceOption ("SUPPORTS_PJL"))
+   {
+      pCmd = pCommands->getCommandData ("cmdPJLSignature");
+      if (pCmd)
+      {
+#ifndef RETAIL
+         if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "cmdPJLSignature = " << *pCmd << std::endl;
+#endif
+
+         sendBinaryDataToDevice (pCmd);
+      }
+
+      pCmd = pCommands->getCommandData ("cmdBeginJob");
+      if (pCmd)
+      {
+#ifndef RETAIL
+         if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "cmdBeginJob = " << *pCmd << std::endl;
+#endif
+
+         sendBinaryDataToDevice (pCmd);
+      }
+
+      // @TBD Job prop stuff
+
+      pCmd = pDevice_d->getCurrentOutputBin ()->getData ();
+      if (pCmd)
+      {
+#ifndef RETAIL
+         if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "OutputBin = " << *pCmd << std::endl;
+#endif
+         sendBinaryDataToDevice (pCmd);
+      }
+
+      pCmd = pCommands->getCommandData ("cmdEnterLanguage");
+      if (pCmd)
+      {
+#ifndef RETAIL
+         if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "cmdEnterLanguage = " << *pCmd << std::endl;
+#endif
+
+         sendBinaryDataToDevice (pCmd);
+      }
+
+      // @TBD Job prop stuff
+   }
+
+   else if (hasDeviceOption ("SUPPORTS_EMULATIONMODE"))
+   {	
+      pCmd = pCommands->getCommandData ("cmdPagesMode");
+      if (pCmd)
+      {
+#ifndef RETAIL
+         if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "cmdPagesMode = " << *pCmd << std::endl;
+#endif
+
+         sendBinaryDataToDevice (pCmd);
+      }
+   }
+
+   pCmd = pCommands->getCommandData ("cmdInit");
+   if (pCmd)
+   {
+#ifndef RETAIL
+      if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "cmdInit = " << *pCmd << std::endl;
+#endif
+
+      sendBinaryDataToDevice (pCmd);
+   }
 
    return true;
 }
@@ -856,6 +875,39 @@ endJob ()
       sendBinaryDataToDevice (pCmd);
    }
 
+   if (hasDeviceOption ("SUPPORTS_PJL"))
+   {
+      pCmd = pCommands->getCommandData ("cmdPJLSignature");
+      if (pCmd)
+      {
+#ifndef RETAIL
+         if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "cmdPJLSignature = " << *pCmd << std::endl;
+#endif
+
+         sendBinaryDataToDevice (pCmd);
+      }
+
+      pCmd = pCommands->getCommandData ("cmdEndJob");
+      if (pCmd)
+      {
+#ifndef RETAIL
+         if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "cmdEndJob = " << *pCmd << std::endl;
+#endif
+
+         sendBinaryDataToDevice (pCmd);
+      }
+
+      pCmd = pCommands->getCommandData ("cmdPJLSignature");
+      if (pCmd)
+      {
+#ifndef RETAIL
+         if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "cmdPJLSignature = " << *pCmd << std::endl;
+#endif
+
+         sendBinaryDataToDevice (pCmd);
+      }
+   }
+
    pCmd = pCommands->getCommandData ("cmdTerm");
    if (pCmd)
    {
@@ -873,7 +925,7 @@ bool IBM_Pages_Instance::
 abortJob ()
 {
 #ifndef RETAIL
-   if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "IBM_Pages_Instance::endJob ()" << std::endl;
+   if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "IBM_Pages_Instance::abortJob ()" << std::endl;
 #endif
 
    // @TBD

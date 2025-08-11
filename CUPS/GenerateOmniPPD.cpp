@@ -155,13 +155,15 @@ main (int argc, char *argv[])
       pszDriverLibrary = (char *)stringOss.c_str ();
    }
 
-   std::cerr << "Trying to load " << pszDriverLibrary << std::endl;
+   std::cerr << "Trying to LOAD " << pszDriverLibrary << std::endl;
 
    if (!Omni::openAndTestDeviceLibrary (pszDriverLibrary, &hmodDevice))
    {
       rc = __LINE__;
       goto BUGOUT;
    }
+   
+   std::cerr << "Successfully loaded " << pszDriverLibrary << std::endl;
 
    g_module_symbol (hmodDevice,
                     "newDeviceW_JopProp_Advanced",
