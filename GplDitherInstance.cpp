@@ -357,12 +357,56 @@ createDitherInstance (PSZCRO  pszDitherType,
    } BOOLPARMMAPPING, *PBOOlPARMMAPPING;
    BOOLPARMMAPPING aBoolMappings[] = {
       { "fDataInRGB=", &fDataInRGB }
-   };
-
-   for (i = 0; i < (int)dimof (aBoolMappings); i++)
+      for (i = 0; i < (int)dimof (aBoolMappings); i++)
    {
       const char *pszName = aBoolMappings[i].pszName;
       const char *pszPos  = strstr (pszOptions, pszName);
+
+      if (!pszPos)
+         break;
+
+#ifndef RETAIL
+      if (DebugOutput::shouldOutputGplDitherInstance ())
+      {
+         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Found " << pszName << " at offset " << (pszPos - pszOptions) << std::endl;
+         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Looking at " << (pszPos + strlen (pszName)) << std::endl;
+      }
+#endif
+
+      if (0 == strncasecmp (pszPos + strlen (pszName), "true", 4))
+      {
+         *aBoolMappings[i].pfParm = true;
+      }
+      else if (0 == strncasecmp (pszPos + strlen (pszName), "false", 5))
+      {
+         *aBoolMappings[i].pfParm = false;
+      }
+      else
+      {
+         break;
+      }
+
+#ifndef RETAIL
+      if (DebugOutput::shouldOutputGplDitherInstance ())
+      {
+         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Its value is " << *aBoolMappings[i].pfParm << std::endl;
+      }
+#endif
+   }
+
+   typedef struct _IntParmMapping {
+      const char *pszName;
+      int  *piParm;
+   } INTPARMMAPPING, *PINTPARMMAPPING;
+   INTPARMMAPPING aIntMappings[] = {
+      { "iBlackReduction=",  &iBlackReduction  },
+      { "iColorTech=",       &iColorTech       },
+      { "iNumDitherRows=",   &iNumDitherRows   },
+      { "iSrcRowPels=",      &iSrcRowPels      },
+      { "iNumDestRowBytes=", &iNumDestRowBytes },
+      { "iDestBitsPerPel=",  &iDestBitsPerPel  }
+   };
+zName);
 
       if (!pszPos)
          break;
