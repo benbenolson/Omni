@@ -926,18 +926,6 @@ test/Makefile
 
 fi
 
-dnl @BEGIN-HACK-3
-if test "x$BUILD_VENDORSUPPLIED" != "x"; then
-
-AC_CONFIG_FILES(
-VendorSupplied/Makefile
-dnl @BEGIN-HACK-2
- VendorSupplied/Epson.PDC/Makefile
-dnl @END-HACK-2
-)
-
-fi
-dnl @END-HACK-3
 
 if test "x$BUILD_COMPILED_DEVICE" != "x"; then
 
