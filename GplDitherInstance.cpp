@@ -459,20 +459,35 @@ Found " << pszName << " at offset " << pszPos - pszOptions << std::endl;
 
       if (0 == sscanf (pszPos + strlen (pszName),
                        "%d",
-                       aIntMappings[i].piPa         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Found " << pszName << " at offset " << (pszPos - pszOptions) << std::endl;
-         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Looking at " << (pszPos + strlen (pszName)) << std::endl;ings[i].piParm << std::endl;
+                       aIntMappings[i].   };
+
+   for (i = 0; i < (int)dimof (aIntMappings); i++)
+   {
+      const char *pszName = aIntMappings[i].pszName;
+      const char *pszPos  = strstr (pszOptions, pszName);
+
+      if (!pszPos)
+         break;
+
+#ifndef RETAIL
+      if (DebugOutput::shouldOutputGplDitherInstance ())
+      {
+         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Found " << pszName << " at offset " << (pszPos - pszOptions) << std::endl;
+         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Looking at " << (pszPos + strlen (pszName)) << std::endl;
+      }
+#endif
+
+      if (0 == sscanf (pszPos + strlen (pszName), "%d", aIntMappings[i].piParm))
+         break;
+
+#ifndef RETAIL
+      if (DebugOutput::shouldOutputGplDitherInstance ())
+      {
+         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Its value is " << *aIntMappings[i].piParm << std::endl;
       }
 #endif
    }
-
-
-#ifndef RETAIL
-   if (DebugOutput::shouldOutputGplDitherInstance ())
-   {
-      if (i != (int)dimof (aIntMappings))
-         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Failure @ " << __LINE__ << "!" << std::endl;
-      else
-         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Success @ " << __LINE__ << "!" << std::endl;
+INE__ << "!" << std::endl;
    }
 #endif
 
