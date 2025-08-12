@@ -415,13 +415,8 @@ Found " << pszName << " at offset " << pszPos - pszOptions << std::endl;
 
       if (0 == sscanf (pszPos + strlen (pszName),
                        "%d",
-                       aIntMappings[i].piParm))
-         break;
-
-#ifndef RETAIL
-      if (DebugOutput::shouldOutputGplDitherInstance ())
-      {
-         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Its value is " << *aIntMappings[i].piParm << std::endl;
+                       aIntMappings[i].piPa         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Found " << pszName << " at offset " << (pszPos - pszOptions) << std::endl;
+         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Looking at " << (pszPos + strlen (pszName)) << std::endl;ings[i].piParm << std::endl;
       }
 #endif
    }
