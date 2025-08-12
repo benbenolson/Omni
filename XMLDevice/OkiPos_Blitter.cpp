@@ -178,7 +178,7 @@ okiPosMonoRasterize (PBYTE        pbBits,
    const char *pszDumpEnvironmentVar = getenv ("OMNI_DUMP_OUTGOING_BITMAPS");
    bool        fDumpOutgoingBitmaps  = false;
    static int  iNum = 0;
-   char        achName[4 + 1 + 3 + 1];
+   char        achName[4 + 7 + 1];
 
    sprintf (achName, "%04dOUT.bmp", iNum++);
 

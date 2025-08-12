@@ -780,7 +780,7 @@ getShortFormName (PSZCRO pszLongName)
 
 typedef struct _ReservedMap {
    PSZCRO pszName;
-   int    iValue;
+   unsigned int    iValue;
 } RESERVEDMAP, *PRESERVEDMAP;
 
 static const RESERVEDMAP vaReservedKeywords[] = {

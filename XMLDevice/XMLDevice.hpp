@@ -23,6 +23,7 @@
 #include <OmniProxy.hpp>
 
 #include <map>
+#include <cstdint>
 
 #include "XMLInterface.hpp"
 
@@ -151,7 +152,7 @@ public:
 
    static bool                 parseBinaryData          (PSZRO                pszData,
                                                          byte               **ppbData,
-                                                         int                 *pcbData) throw (std::string *);
+                                                         int                 *pcbData);
 
    static std::string         *getXMLJobProperties      (XmlNodePtr           root,
                                                          XmlDocPtr            doc,
@@ -294,7 +295,6 @@ getXMLContentInt (XmlNodePtr root,
                   PSZCRO     pszXMLNodeName,
                   bool       fRequired = true,
                   int        iDefault  = 0)
-   throw (std::string *)
 {
    XmlNodePtr elm = XMLFindEntry (root, pszXMLNodeName, false);
 
@@ -334,7 +334,7 @@ getXMLContentInt (XmlNodePtr root,
       oss << "Could not find entry \""
           << pszXMLNodeName
           << "\" for root = 0x"
-          << std::hex << (int)root << std::dec;
+          << std::hex << reinterpret_cast<uintptr_t>(root) << std::dec;
 
       throw new std::string (oss.str ());
    }
@@ -350,7 +350,6 @@ getXMLContentBool (XmlNodePtr root,
                    PSZCRO     pszXMLNodeName,
                    bool       fRequired = true,
                    bool       fDefault  = false)
-   throw (std::string *)
 {
    XmlNodePtr elm = XMLFindEntry (root, pszXMLNodeName, false);
 
@@ -396,7 +395,7 @@ getXMLContentBool (XmlNodePtr root,
       oss << "Could not find entry \""
           << pszXMLNodeName
           << "\" for root = 0x"
-          << std::hex << (int)root << std::dec;
+          << std::hex << reinterpret_cast<uintptr_t>(root) << std::dec;
 
       throw new std::string (oss.str ());
    }

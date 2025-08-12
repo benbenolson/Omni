@@ -20,6 +20,7 @@
 #include "JobProperties.hpp"
 
 #include <cmath>
+#include <cstdint>
 
 #undef  MAX3
 #define MAX3(a, b, c)                        ((a) > (b) ? ((a) > (c) ? (a) : (c)) : (b) > (c) ? (b) : (c))
@@ -351,7 +352,7 @@ createDitherInstance (PSZCRO  pszDitherType,
    for (i = 0; i < (int)dimof (aBoolMappings); i++)
    {
       char *pszName = aBoolMappings[i].pszName;
-      char *pszPos  = strstr (pszOptions, pszName);
+      const char *pszPos  = strstr (pszOptions, pszName);
 
       if (!pszPos)
          break;
@@ -415,7 +416,7 @@ createDitherInstance (PSZCRO  pszDitherType,
    for (i = 0; i < (int)dimof (aIntMappings); i++)
    {
       char *pszName = aIntMappings[i].pszName;
-      char *pszPos  = strstr (pszOptions, pszName);
+      const char *pszPos  = strstr (pszOptions, pszName);
 
       if (!pszPos)
          break;
@@ -1464,7 +1465,7 @@ GplLevel (PBITMAPINFO2 pbmi2, PBYTE pbSource)
                               pbDest     = pbDestNext;             \
                               pbDestNext = pbDest + params.iDestRowSize;  \
                               pbSrcNext  = pbSrc  + params.iSrcRowSize;   \
-                              if ((ULONG)pbSrc >= (ULONG)pbMapEnd) \
+                              if ((uintptr_t)pbSrc >= (uintptr_t)pbMapEnd) \
                                  break;                            \
                            }
 
@@ -1482,7 +1483,7 @@ GplLevel (PBITMAPINFO2 pbmi2, PBYTE pbSource)
 //
 // The next 4 macros perform 8 bit pel bitmap scans
 
-#define ECMY4(c, p)        while((ULONG)pbSrc < (ULONG)pbMapEnd)                       \
+#define ECMY4(c, p)        while((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)                       \
                            {                                                           \
                               SNAP (pColor->is[(LONG)((*pbSrc & 0xf0) >> 4)].c, c, p)  \
                               i++;                                                     \
@@ -1492,7 +1493,7 @@ GplLevel (PBITMAPINFO2 pbmi2, PBYTE pbSource)
                               TESTROWEND                                               \
                            }
 
-#define EBLACK4            while ((ULONG)pbSrc < (ULONG)pbMapEnd)                                 \
+#define EBLACK4            while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)                                 \
                            {                                                                      \
                               if (  pColor->is[(LONG)((*pbSrc & 0xf0)>>4)].bRed <= midpt.bRed     \
                                  && pColor->is[(LONG)((*pbSrc & 0xf0)>>4)].bGreen <= midpt.bGreen \
@@ -1518,7 +1519,7 @@ GplLevel (PBITMAPINFO2 pbmi2, PBYTE pbSource)
                                TESTROWEND                    \
                            }
 
-#define ECMY8(c, p)        while ((ULONG)pbSrc < (ULONG)pbMapEnd)        \
+#define ECMY8(c, p)        while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)        \
                            {                                             \
                               SNAP (pColor->is[(LONG)(*pbSrc)].c, c, p)  \
                               INC                                        \
@@ -1531,7 +1532,7 @@ GplLevel (PBITMAPINFO2 pbmi2, PBYTE pbSource)
 // to white, an RGB pColor in which all pColor values are greater than
 // the mid point.
 
-#define EBLACK8            while ((ULONG)pbSrc < (ULONG)pbMapEnd)                     \
+#define EBLACK8            while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)                     \
                            {                                                          \
                               if (  pColor->is[(LONG)(*pbSrc)].bRed <= midpt.bRed     \
                                  && pColor->is[(LONG)(*pbSrc)].bGreen <= midpt.bGreen \
@@ -1598,7 +1599,7 @@ GplLevel (PBITMAPINFO2 pbmi2, PBYTE pbSource)
             case 1:                                        \
                savepbDest = pbDest;                        \
                if (pColor->is[0].c <= midpt.c)             \
-                  while ((ULONG)pbSrc < (ULONG)pbMapEnd)   \
+                  while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)   \
                   {                                        \
                      *pbDest = ~(*pbSrc);                  \
                      i+=8; pbSrc++; pbDest++;              \
@@ -1610,7 +1611,7 @@ GplLevel (PBITMAPINFO2 pbmi2, PBYTE pbSource)
                pbSrcNext = pbSource + params.iSrcRowSize;         \
                i = 0;                                      \
                if (pColor->is[1].c <= midpt.c)             \
-                  while ((ULONG)pbSrc < (ULONG)pbMapEnd)   \
+                  while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)   \
                   {                                        \
                      *pbDest |= (*pbSrc);                  \
                      i+=8; pbSrc++; pbDest++;              \
@@ -1618,7 +1619,7 @@ GplLevel (PBITMAPINFO2 pbmi2, PBYTE pbSource)
                   }                                        \
                break;                                      \
             case 2:                                        \
-               while ((ULONG)pbSrc < (ULONG)pbMapEnd)                   \
+               while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)                   \
                {                                                        \
                   SNAP (pColor->is[(LONG)(*pbSrc & 0xC0) >> 6].c, c, p) \
                   i++;                                                  \
@@ -1643,7 +1644,7 @@ GplLevel (PBITMAPINFO2 pbmi2, PBYTE pbSource)
                CMY8                                        \
                break;                                      \
             case 16:                                       \
-               while ((ULONG)pbSrc < (ULONG)pbMapEnd)      \
+               while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)      \
                {                                           \
                   BLACK16                                  \
                   CMY16                                    \
@@ -1653,7 +1654,7 @@ GplLevel (PBITMAPINFO2 pbmi2, PBYTE pbSource)
                }                                           \
                 break;                                     \
             case 24:                                       \
-               while ((ULONG)pbSrc < (ULONG)pbMapEnd)      \
+               while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)      \
                {                                           \
                   BLACK24                                  \
                   CMY24                                    \
@@ -1692,7 +1693,7 @@ GplLevel (PBITMAPINFO2 pbmi2, PBYTE pbSource)
 
    SetInitialParameters(pbmi2, &params);
 
-   pbMapEnd = (PBYTE)((ULONG)pbSource + (ULONG)params.iMapSize);
+   pbMapEnd = (PBYTE)((uintptr_t)pbSource + (uintptr_t)params.iMapSize);
 
    if (params.iMapSize == 0)
       return INVALID_BITMAP;
@@ -1956,7 +1957,7 @@ GplDitherMatrix (PBITMAPINFO2 pbmi2,
                                          pbSrc = pbSrcNext;                     \
                                          pbSrcNext = pbSrc + params.iSrcRowSize;       \
                                          y++;                                   \
-                                         if ((ULONG)pbSrc >= (ULONG)pbMapEnd)   \
+                                         if ((uintptr_t)pbSrc >= (uintptr_t)pbMapEnd)   \
                                             break;                              \
                                       }
 
@@ -2015,7 +2016,7 @@ GplDitherMatrix (PBITMAPINFO2 pbmi2,
 
    SetInitialParameters(pbmi2, &params);
 
-   pbMapEnd     = (PBYTE)((ULONG)pbSource + (ULONG)params.iMapSize);
+   pbMapEnd     = (PBYTE)((uintptr_t)pbSource + (uintptr_t)params.iMapSize);
 
    // For pels less than 16 bits,
    //    the pColor table must be provided at the end of BITMAPINFO2
@@ -2080,7 +2081,7 @@ GplDitherMatrix (PBITMAPINFO2 pbmi2,
 #ifdef ENABLE124
    case 1:
    {
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
          LOW_BIT_CONV(0x80, 7)
          SNAP (pbRGamma_d[tToCMYK.lC], bRed,   Cyan,     pbCDest, piRedErrRow,   piRedCurRow,   iRedLast)
@@ -2136,7 +2137,7 @@ GplDitherMatrix (PBITMAPINFO2 pbmi2,
 
    case 2:
    {
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
          LOW_BIT_CONV(0xC0,6)
          SNAP (pbRGamma_d[tToCMYK.lC], bRed,   Cyan,     pbCDest, piRedErrRow,   piRedCurRow,   iRedLast)
@@ -2170,7 +2171,7 @@ GplDitherMatrix (PBITMAPINFO2 pbmi2,
 
    case 4:
    {
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
          LOW_BIT_CONV(0xF0,4)
          SNAP (pbRGamma_d[tToCMYK.lC], bRed,   Cyan,     pbCDest, piRedErrRow,   piRedCurRow,   iRedLast)
@@ -2193,7 +2194,7 @@ GplDitherMatrix (PBITMAPINFO2 pbmi2,
    {
       if (iColorTech_d == DevicePrintMode::COLOR_TECH_CMYK)
       {
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
 //            ulTempR =pColor->is[(ULONG)*pbSrc].bRed;
 //            ulTempG =pColor->is[(ULONG)*pbSrc].bGreen;
@@ -2221,7 +2222,7 @@ GplDitherMatrix (PBITMAPINFO2 pbmi2,
       }
       else
       {
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
             tToCMYK.bR = pColor->is[(LONG)(*pbSrc)].bRed;
             tToCMYK.bB = pColor->is[(LONG)(*pbSrc)].bGreen;
@@ -2241,7 +2242,7 @@ GplDitherMatrix (PBITMAPINFO2 pbmi2,
 
    case 16:
    {
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
          tToCMYK.bR = (*pbSrc & 0xf8);
          tToCMYK.bG = (((*pbSrc & 0x07) << 5) & ((*(pbSrc+1) & 0xE0) >> 3));
@@ -2267,7 +2268,7 @@ GplDitherMatrix (PBITMAPINFO2 pbmi2,
    {
       if (iColorTech_d == DevicePrintMode::COLOR_TECH_CMYK)
       {
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
             if(isNotWhite(pbSrc, &tToCMYK))
             {
@@ -2292,7 +2293,7 @@ GplDitherMatrix (PBITMAPINFO2 pbmi2,
       else
       if (iColorTech_d == DevicePrintMode::COLOR_TECH_CMY)
       {
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
              if(isNotWhite(pbSrc, &tToCMYK))
              {
@@ -2315,7 +2316,7 @@ GplDitherMatrix (PBITMAPINFO2 pbmi2,
       else
       if (iColorTech_d == DevicePrintMode::COLOR_TECH_CcMmYK)
       {
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
              if(isNotWhite(pbSrc, &tToCMYK))
              {
@@ -2690,7 +2691,7 @@ GplColorSquares (PBITMAPINFO2 pbmi2,
 
    SetInitialParameters(pbmi2, &params);
 
-   pbMapEnd     = (PBYTE)((ULONG)pbSource + (ULONG)params.iMapSize);
+   pbMapEnd     = (PBYTE)((uintptr_t)pbSource + (uintptr_t)params.iMapSize);
 
    pArray = (P2ABYTE)table;
 
@@ -2764,7 +2765,7 @@ GplColorSquares (PBITMAPINFO2 pbmi2,
 
             if (fBlackFlag)
             {
-               while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+               while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
                {
                   *pbKDest |= (*pbSrc ^ bXor);
                   INCBYTE
@@ -2772,7 +2773,7 @@ GplColorSquares (PBITMAPINFO2 pbmi2,
             }
             else
             {
-               while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+               while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
                {
                   *pbCDest |= (*pbSrc ^ bXor);
                   *pbMDest |= (*pbSrc ^ bXor);
@@ -2786,7 +2787,7 @@ GplColorSquares (PBITMAPINFO2 pbmi2,
          {
             fEmptyMagenta_d = false;
             fEmptyYellow_d = false;
-            while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+            while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
             {
                *pbMDest |= (*pbSrc ^ bXor);
                *pbYDest |= (*pbSrc ^ bXor);
@@ -2798,7 +2799,7 @@ GplColorSquares (PBITMAPINFO2 pbmi2,
          {
             fEmptyCyan_d = false;
             fEmptyYellow_d = false;
-            while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+            while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
             {
                *pbCDest |= (*pbSrc ^ bXor);
                *pbYDest |= (*pbSrc ^ bXor);
@@ -2810,7 +2811,7 @@ GplColorSquares (PBITMAPINFO2 pbmi2,
          {
             fEmptyCyan_d = false;
             fEmptyMagenta_d = false;
-            while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+            while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
             {
                *pbCDest |= (*pbSrc ^ bXor);
                *pbMDest |= (*pbSrc ^ bXor);
@@ -2821,7 +2822,7 @@ GplColorSquares (PBITMAPINFO2 pbmi2,
          case CLR_CYAN:
          {
             fEmptyCyan_d = false;
-            while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+            while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
             {
                *pbCDest |= (*pbSrc ^ bXor);
                INCBYTE
@@ -2831,7 +2832,7 @@ GplColorSquares (PBITMAPINFO2 pbmi2,
          case CLR_PINK:
          {
             fEmptyMagenta_d = false;
-            while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+            while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
             {
                *pbMDest |= (*pbSrc ^ bXor);
                INCBYTE
@@ -2841,7 +2842,7 @@ GplColorSquares (PBITMAPINFO2 pbmi2,
          case CLR_YELLOW:
          {
             fEmptyYellow_d = false;
-            while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+            while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
             {
                *pbYDest |= (*pbSrc ^ bXor);
                INCBYTE
@@ -2856,7 +2857,7 @@ GplColorSquares (PBITMAPINFO2 pbmi2,
 
    case 2:
    {
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
          switch (pos.x & 3)
          {
@@ -2881,7 +2882,7 @@ GplColorSquares (PBITMAPINFO2 pbmi2,
 
    case 4:
    {
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
          if (pos.x & 1)
          {
@@ -2901,7 +2902,7 @@ GplColorSquares (PBITMAPINFO2 pbmi2,
 
    case 8:
    {
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
          i = *pbSrc;
          SETPEL8 (i)
@@ -2914,7 +2915,7 @@ GplColorSquares (PBITMAPINFO2 pbmi2,
 
    case 16:
    {
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
         tToCMYK.bR = *pbSrc & 0xf8;
         tToCMYK.bG = ((*pbSrc & 7) << 5) & ((*(pbSrc+1) & 0xE0) >> 3);
@@ -2935,7 +2936,7 @@ GplColorSquares (PBITMAPINFO2 pbmi2,
    case 24:
    {
       i = params.iPelSize / 8;
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
 
          if(isNotWhite(pbSrc, &tToCMYK))
@@ -3447,7 +3448,7 @@ GplStuckiDiffusion (PBITMAPINFO2 pbmi2,
 
    SetInitialParameters(pbmi2, &params);
 
-   pbMapEnd = (PBYTE)((ULONG)pbSource + (ULONG)params.iMapSize);
+   pbMapEnd = (PBYTE)((uintptr_t)pbSource + (uintptr_t)params.iMapSize);
 
 
 #ifndef RETAIL
@@ -3513,7 +3514,7 @@ GplStuckiDiffusion (PBITMAPINFO2 pbmi2,
       //-----------------------------
       // STUCKI: 1-bit:
       //-----------------------------
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
          LOW_BIT_CONV(0x80, 7)
          SNAP (pbRGamma_d[tToCMYK.lC], lRed,   Cyan,     pbCDest, piRedErrRow1,   piRedErrRow2,   piRedCurRow,   iRedLast1,   iRedLast2)
@@ -3571,7 +3572,7 @@ GplStuckiDiffusion (PBITMAPINFO2 pbmi2,
       //-----------------------------
       // STUCKI: 2-bit:
       //-----------------------------
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
          LOW_BIT_CONV(0xC0, 6)
          SNAP (pbRGamma_d[tToCMYK.lC], lRed,   Cyan,     pbCDest, piRedErrRow1,   piRedErrRow2,   piRedCurRow,   iRedLast1,   iRedLast2)
@@ -3605,7 +3606,7 @@ GplStuckiDiffusion (PBITMAPINFO2 pbmi2,
       //-----------------------------
       // STUCKI: 4-bit:
       //-----------------------------
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
          LOW_BIT_CONV(0xF0, 4)
          SNAP (pbRGamma_d[tToCMYK.lC], lRed,   Cyan,     pbCDest, piRedErrRow1,   piRedErrRow2,   piRedCurRow,   iRedLast1,   iRedLast2)
@@ -3630,7 +3631,7 @@ GplStuckiDiffusion (PBITMAPINFO2 pbmi2,
          //-----------------------------
          // STUCKI: 8-bit:CMYK
          //-----------------------------
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
 //            ulTempR = pColor->is[(ULONG)*pbSrc].bRed;
 //            ulTempG = pColor->is[(ULONG)*pbSrc].bGreen;
@@ -3661,7 +3662,7 @@ GplStuckiDiffusion (PBITMAPINFO2 pbmi2,
          //-----------------------------
          // STUCKI: 8-bit:CMY
          //-----------------------------
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
             tToCMYK.bR = pColor->is[(ULONG)*pbSrc].bRed;
             tToCMYK.bG = pColor->is[(ULONG)*pbSrc].bGreen;
@@ -3687,7 +3688,7 @@ GplStuckiDiffusion (PBITMAPINFO2 pbmi2,
          //-----------------------------
          // STUCKI: 16-bit:CMYK
          //-----------------------------
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
             tToCMYK.bR = (*pbSrc & 0xf8);
             tToCMYK.bG = (((*pbSrc & 0x07) << 5) & ((*(pbSrc+1) & 0xE0) >> 3));
@@ -3712,7 +3713,7 @@ GplStuckiDiffusion (PBITMAPINFO2 pbmi2,
          //-----------------------------
          // STUCKI: 16-bit:CMY
          //-----------------------------
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
             tToCMYK.bR = (*pbSrc & 0xf8);
             tToCMYK.bG = (((*pbSrc & 0x07) << 5) & ((*(pbSrc+1) & 0xE0) >> 3));
@@ -3740,7 +3741,7 @@ GplStuckiDiffusion (PBITMAPINFO2 pbmi2,
          //-----------------------------
          // STUCKI: 24-bit:CcMmYK
          //-----------------------------
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
 
             if(isNotWhite(pbSrc, &tToCMYK))
@@ -3768,7 +3769,7 @@ GplStuckiDiffusion (PBITMAPINFO2 pbmi2,
          //-----------------------------
          // STUCKI: 24-bit:CMYK
          //-----------------------------
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
             if(isNotWhite(pbSrc, &tToCMYK))
             {
@@ -3793,7 +3794,7 @@ GplStuckiDiffusion (PBITMAPINFO2 pbmi2,
          //-----------------------------
          // STUCKI: 24-bit: CMY
          //-----------------------------
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
 
             if(isNotWhite(pbSrc, &tToCMYK))
@@ -4407,7 +4408,7 @@ GplEnhancedStuckiDiffusion (PBITMAPINFO2 pbmi2,
 
    SetInitialParameters(pbmi2, &params);
 
-   pbMapEnd = (PBYTE)((ULONG)pbSource + (ULONG)params.iMapSize);
+   pbMapEnd = (PBYTE)((uintptr_t)pbSource + (uintptr_t)params.iMapSize);
 
 #ifndef RETAIL
    if (DebugOutput::shouldOutputGplDitherInstance ()) DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": iSrcRowSize = " << params.iSrcRowSize << ", iDestRowSize = " << params.iDestRowSize << std::endl;
@@ -4473,7 +4474,7 @@ GplEnhancedStuckiDiffusion (PBITMAPINFO2 pbmi2,
       //-----------------------------
       // STUCKI: 1-bit:
       //-----------------------------
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
          LOW_BIT_CONV(0x80, 7)
          SNAP (pbRGamma_d[tToCMYK.lC], lRed,   Cyan,     pbCDest, piRedErrRow1,   piRedErrRow2,   piRedCurRow,   iRedLast1,   iRedLast2)
@@ -4531,7 +4532,7 @@ GplEnhancedStuckiDiffusion (PBITMAPINFO2 pbmi2,
       //-----------------------------
       // STUCKI: 2-bit:
       //-----------------------------
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
          LOW_BIT_CONV(0xC0, 6)
          SNAP (pbRGamma_d[tToCMYK.lC], lRed,   Cyan,     pbCDest, piRedErrRow1,   piRedErrRow2,   piRedCurRow,   iRedLast1,   iRedLast2)
@@ -4565,7 +4566,7 @@ GplEnhancedStuckiDiffusion (PBITMAPINFO2 pbmi2,
       //-----------------------------
       // STUCKI: 4-bit:
       //-----------------------------
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
          LOW_BIT_CONV(0xF0, 4)
          SNAP (pbRGamma_d[tToCMYK.lC], lRed,   Cyan,     pbCDest, piRedErrRow1,   piRedErrRow2,   piRedCurRow,   iRedLast1,   iRedLast2)
@@ -4590,7 +4591,7 @@ GplEnhancedStuckiDiffusion (PBITMAPINFO2 pbmi2,
          //-----------------------------
          // STUCKI: 8-bit:CMYK
          //-----------------------------
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
 //            ulTempR = pColor->is[(ULONG)*pbSrc].bRed;
 //            ulTempG = pColor->is[(ULONG)*pbSrc].bGreen;
@@ -4622,7 +4623,7 @@ GplEnhancedStuckiDiffusion (PBITMAPINFO2 pbmi2,
          //-----------------------------
          // STUCKI: 8-bit:CMY
          //-----------------------------
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
             tToCMYK.bR = pColor->is[(ULONG)*pbSrc].bRed;
             tToCMYK.bG = pColor->is[(ULONG)*pbSrc].bGreen;
@@ -4648,7 +4649,7 @@ GplEnhancedStuckiDiffusion (PBITMAPINFO2 pbmi2,
          //-----------------------------
          // STUCKI: 16-bit:CMYK
          //-----------------------------
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
             tToCMYK.bR = (*pbSrc & 0xf8);
             tToCMYK.bG = (((*pbSrc & 0x07) << 5) & ((*(pbSrc+1) & 0xE0) >> 3));
@@ -4673,7 +4674,7 @@ GplEnhancedStuckiDiffusion (PBITMAPINFO2 pbmi2,
          //-----------------------------
          // STUCKI: 16-bit:CMY
          //-----------------------------
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
             tToCMYK.bR = (*pbSrc & 0xf8);
             tToCMYK.bG = (((*pbSrc & 0x07) << 5) & ((*(pbSrc+1) & 0xE0) >> 3));
@@ -4702,7 +4703,7 @@ GplEnhancedStuckiDiffusion (PBITMAPINFO2 pbmi2,
          //-----------------------------
          // STUCKI: 24-bit:CcMmYK
          //-----------------------------
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
 
             if(isNotWhite(pbSrc, &tToCMYK))
@@ -4730,7 +4731,7 @@ GplEnhancedStuckiDiffusion (PBITMAPINFO2 pbmi2,
          //-----------------------------
          // STUCKI: 24-bit:CMYK
          //-----------------------------
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
             if(isNotWhite(pbSrc, &tToCMYK))
             {
@@ -4755,7 +4756,7 @@ GplEnhancedStuckiDiffusion (PBITMAPINFO2 pbmi2,
          //-----------------------------
          // STUCKI: 24-bit: CMY
          //-----------------------------
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
 
             if(isNotWhite(pbSrc, &tToCMYK))
@@ -4898,7 +4899,7 @@ GplStuckiBiffusion (PBITMAPINFO2 pbmi2,
                               pbYDestNext = pbYDest +  params.iDestRowSize; \
                               pbSrc       = pbSrcNext;               \
                               pbSrcNext   = pbSrc + params.iSrcRowSize;     \
-                              if ((ULONG)pbSrc >= (ULONG)pbMapEnd)   \
+                              if ((uintptr_t)pbSrc >= (uintptr_t)pbMapEnd)   \
                                  break;                              \
                               if (n  == 0)                           \
                               {                                      \
@@ -4937,7 +4938,7 @@ GplStuckiBiffusion (PBITMAPINFO2 pbmi2,
                               pbYDest = pbYDestNext - 1;             \
                               pbSrc = pbSrcNext + iSrcDataEnd;       \
                               pbSrcNext = pbSrcNext + params.iSrcRowSize;   \
-                              if ((ULONG)pbSrc >= (ULONG)pbMapEnd )  \
+                              if ((uintptr_t)pbSrc >= (uintptr_t)pbMapEnd )  \
                                  break;                              \
                               if (n == 0)                            \
                               {                                      \
@@ -5117,7 +5118,7 @@ GplStuckiBiffusion (PBITMAPINFO2 pbmi2,
    //TBD:  iSrcDataEnd is INVALID for pel sizes less than 8 bits
    iSrcDataEnd = ((((LONG)pbmi2->cx - 1) * (LONG)pbmi2->cBitCount)/8) ;
 
-   pbMapEnd = (PBYTE)((ULONG)pbSource + (ULONG)params.iMapSize); // This points to a Pel after the last valid pel
+   pbMapEnd = (PBYTE)((uintptr_t)pbSource + (uintptr_t)params.iMapSize); // This points to a Pel after the last valid pel
 
    pColor = (PCOLR)&pbmi2->argbColor[0];
 
@@ -5236,7 +5237,7 @@ GplStuckiBiffusion (PBITMAPINFO2 pbmi2,
 #ifdef ENABLE124
    case 1:
    {
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
          LOW_BIT_CONV(0x80, 7)
          SNAP (pbRGamma_d[tToCMYK.lC], lRed,   Cyan,    pbCDest, piRedErrRow1,   piRedErrRow2,   piRedCurRow,   iRedLast1,   iRedLast2)
@@ -5292,7 +5293,7 @@ GplStuckiBiffusion (PBITMAPINFO2 pbmi2,
 
    case 2:
    {
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
          LOW_BIT_CONV(0xc0, 6)
          SNAP (pbRGamma_d[tToCMYK.lC], lRed,   Cyan,    pbCDest, piRedErrRow1,   piRedErrRow2,   piRedCurRow,   iRedLast1,   iRedLast2)
@@ -5324,7 +5325,7 @@ GplStuckiBiffusion (PBITMAPINFO2 pbmi2,
 
    case 4:
    {
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
          LOW_BIT_CONV(0xf0, 4)
          SNAP (pbRGamma_d[tToCMYK.lC],  lRed,   Cyan,    pbCDest, piRedErrRow1,   piRedErrRow2,   piRedCurRow,   iRedLast1,   iRedLast2)
@@ -5345,7 +5346,7 @@ GplStuckiBiffusion (PBITMAPINFO2 pbmi2,
 
    case 8:
    {
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
 
          tToCMYK.bR = pColor->is[(ULONG)*pbSrc].bRed;
@@ -5368,7 +5369,7 @@ GplStuckiBiffusion (PBITMAPINFO2 pbmi2,
 
    case 16:
    {
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
          tToCMYK.bR = (*pbSrc & 0xf8);
          tToCMYK.bG = (((*pbSrc & 0x07) << 5) & ((*(pbSrc+1) & 0xE0) >> 3));
@@ -5393,7 +5394,7 @@ GplStuckiBiffusion (PBITMAPINFO2 pbmi2,
    {
       if (iColorTech_d == DevicePrintMode::COLOR_TECH_CMY)
       {
-          while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+          while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
           {
              if(isNotWhite(pbSrc, &tToCMYK))
              {
@@ -5416,7 +5417,7 @@ GplStuckiBiffusion (PBITMAPINFO2 pbmi2,
       {
           if (iColorTech_d == DevicePrintMode::COLOR_TECH_CMYK)    //@@TBD
           {
-              while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+              while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
               {
 
                  if(isNotWhite(pbSrc, &tToCMYK))
@@ -5441,7 +5442,7 @@ GplStuckiBiffusion (PBITMAPINFO2 pbmi2,
           {
               if (iColorTech_d == DevicePrintMode::COLOR_TECH_CcMmYK)    //@@TBD
               {
-                  while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+                  while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
                   {
 
                      if(isNotWhite(pbSrc, &tToCMYK))
@@ -5880,7 +5881,7 @@ GplSteinbergDiffusion (PBITMAPINFO2 pbmi2,
 
    SetInitialParameters(pbmi2, &params);
 
-   pbMapEnd = (PBYTE)((ULONG)pbSource + (ULONG)params.iMapSize); // This points to a Pel after the last valid pel
+   pbMapEnd = (PBYTE)((uintptr_t)pbSource + (uintptr_t)params.iMapSize); // This points to a Pel after the last valid pel
 
    pColor = (PCOLR)&pbmi2->argbColor[0];
 
@@ -5935,7 +5936,7 @@ GplSteinbergDiffusion (PBITMAPINFO2 pbmi2,
       //-----------------------------
       //  1-bit:
       //-----------------------------
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
          LOW_BIT_CONV(0x80, 7)
          SNAP (pbRGamma_d[tToCMYK.lC], lRed,   Cyan,    pbCDest, piRedErrRow,  piRedCurRow,   iRedLast)
@@ -5993,7 +5994,7 @@ GplSteinbergDiffusion (PBITMAPINFO2 pbmi2,
       //-----------------------------
       //  2-bit:
       //-----------------------------
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
          LOW_BIT_CONV(0xC0, 6)
          SNAP (pbRGamma_d[tToCMYK.lC], lRed,   Cyan,    pbCDest, piRedErrRow,  piRedCurRow,   iRedLast)
@@ -6027,7 +6028,7 @@ GplSteinbergDiffusion (PBITMAPINFO2 pbmi2,
       //-----------------------------
       //  4-bit:
       //-----------------------------
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
          LOW_BIT_CONV(0xF0, 4)
          SNAP (pbRGamma_d[tToCMYK.lC], lRed,   Cyan,    pbCDest, piRedErrRow,  piRedCurRow,   iRedLast)
@@ -6052,7 +6053,7 @@ GplSteinbergDiffusion (PBITMAPINFO2 pbmi2,
          //-----------------------------
          //  8-bit:CMYK
          //-----------------------------
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
             ulTempR = pColor->is[(ULONG)*pbSrc].bRed;
             ulTempG = pColor->is[(ULONG)*pbSrc].bGreen;
@@ -6080,7 +6081,7 @@ GplSteinbergDiffusion (PBITMAPINFO2 pbmi2,
          //-----------------------------
          //  8-bit:CMY
          //-----------------------------
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
             tToCMYK.bR = pColor->is[(ULONG)*pbSrc].bRed;
             tToCMYK.bG = pColor->is[(ULONG)*pbSrc].bGreen;
@@ -6108,7 +6109,7 @@ GplSteinbergDiffusion (PBITMAPINFO2 pbmi2,
          //-----------------------------
          //  16-bit:CMYK
          //-----------------------------
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
             tToCMYK.bR = (*pbSrc & 0xf8);
             tToCMYK.bG = (((*pbSrc & 0x07) << 5) & ((*(pbSrc+1) & 0xE0) >> 3));
@@ -6133,7 +6134,7 @@ GplSteinbergDiffusion (PBITMAPINFO2 pbmi2,
          //-----------------------------
          //  16-bit:CMY
          //-----------------------------
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
             tToCMYK.bR = (*pbSrc & 0xf8);
             tToCMYK.bG = (((*pbSrc & 0x07) << 5) & ((*(pbSrc+1) & 0xE0) >> 3));
@@ -6162,7 +6163,7 @@ GplSteinbergDiffusion (PBITMAPINFO2 pbmi2,
          //-----------------------------
          // STUCKI: 24-bit:CcMmYK
          //-----------------------------
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
 
             if(isNotWhite(pbSrc, &tToCMYK))
@@ -6190,7 +6191,7 @@ GplSteinbergDiffusion (PBITMAPINFO2 pbmi2,
          //-----------------------------
          // STUCKI: 24-bit:CMYK
          //-----------------------------
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
 
 
@@ -6217,7 +6218,7 @@ GplSteinbergDiffusion (PBITMAPINFO2 pbmi2,
          //-----------------------------
          // STUCKI: 24-bit: CMY
          //-----------------------------
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
 
             if(isNotWhite(pbSrc, &tToCMYK))
@@ -6391,7 +6392,7 @@ GplFastDiffusion (PBITMAPINFO2 pbmi2,
                               pbSrc       = pbSrcNext;                               \
                               pbSrcNext   = pbSrc + params.iSrcRowSize;              \
                               y++;                                                   \
-                              if ((ULONG)pbSrc >= (ULONG)pbMapEnd)                   \
+                              if ((uintptr_t)pbSrc >= (uintptr_t)pbMapEnd)                   \
                                  break;                                              \
                               if ((y & 1) == 0)                                      \
                               {                                                      \
@@ -6557,7 +6558,7 @@ GplFastDiffusion (PBITMAPINFO2 pbmi2,
 
    SetInitialParameters(pbmi2, &params);
 
-   pbMapEnd = (PBYTE)((ULONG)pbSource + (ULONG)params.iMapSize);
+   pbMapEnd = (PBYTE)((uintptr_t)pbSource + (uintptr_t)params.iMapSize);
 
    pColor = (PCOLR)&pbmi2->argbColor[0];
 
@@ -6649,7 +6650,7 @@ GplFastDiffusion (PBITMAPINFO2 pbmi2,
 #ifdef ENABLE124
    case 1:
    {
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
          GET_RANDOM_COEFFICIENT ((*pidx1), (*pidx2), plmix, ltemp, lbig, lcoeff1)
 
@@ -6699,7 +6700,7 @@ GplFastDiffusion (PBITMAPINFO2 pbmi2,
 
    case 2:
    {
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
          GET_RANDOM_COEFFICIENT ((*pidx1), (*pidx2), plmix, ltemp, lbig, lcoeff1)
 
@@ -6730,7 +6731,7 @@ GplFastDiffusion (PBITMAPINFO2 pbmi2,
 
    case 4:
    {
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
          GET_RANDOM_COEFFICIENT ((*pidx1), (*pidx2), plmix, ltemp, lbig, lcoeff1)
 
@@ -6753,7 +6754,7 @@ GplFastDiffusion (PBITMAPINFO2 pbmi2,
    {
       if (DevicePrintMode::COLOR_TECH_CMYK == iColorTech_d)
       {
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
             GET_RANDOM_COEFFICIENT ((*pidx1), (*pidx2), plmix, ltemp, lbig, lcoeff1)
 
@@ -6767,7 +6768,7 @@ GplFastDiffusion (PBITMAPINFO2 pbmi2,
       }
       else
       {
-         while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+         while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
          {
             GET_RANDOM_COEFFICIENT ((*pidx1), (*pidx2), plmix, ltemp, lbig, lcoeff1)
 
@@ -6783,7 +6784,7 @@ GplFastDiffusion (PBITMAPINFO2 pbmi2,
 
    case 16:
    {
-      while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+      while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
       {
          GET_RANDOM_COEFFICIENT ((*pidx1), (*pidx2), plmix, ltemp, lbig, lcoeff1)
 
@@ -6810,7 +6811,7 @@ GplFastDiffusion (PBITMAPINFO2 pbmi2,
    {
       if (DevicePrintMode::COLOR_TECH_CcMmYK == iColorTech_d)
       {
-          while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+          while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
           {
 
              GET_RANDOM_COEFFICIENT ((*pidx1), (*pidx2), plmix, ltemp, lbig, lcoeff1)
@@ -6841,7 +6842,7 @@ GplFastDiffusion (PBITMAPINFO2 pbmi2,
       {
           if (DevicePrintMode::COLOR_TECH_CMYK == iColorTech_d)
           {
-             while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+             while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
              {
                 GET_RANDOM_COEFFICIENT ((*pidx1), (*pidx2), plmix, ltemp, lbig, lcoeff1)
 
@@ -6866,7 +6867,7 @@ GplFastDiffusion (PBITMAPINFO2 pbmi2,
           }
           else
           {
-             while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+             while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
              {
                 GET_RANDOM_COEFFICIENT ((*pidx1), (*pidx2), plmix, ltemp, lbig, lcoeff1)
 
@@ -7434,7 +7435,7 @@ GplHSVDiffusion (PBITMAPINFO2 pbmi2,
                         pbSrcNext   = pbSrc + params.iSrcRowSize;                        \
                         y++;                                                      \
                         CLAMP_ROWS                                                \
-                        if ((ULONG)pbSrc >= (ULONG)pbMapEnd)                      \
+                        if ((uintptr_t)pbSrc >= (uintptr_t)pbMapEnd)                      \
                            break;                                                 \
                      }
 
@@ -7714,7 +7715,7 @@ GplHSVDiffusion (PBITMAPINFO2 pbmi2,
 
    SetInitialParameters(pbmi2, &params);
 
-   pbMapEnd = (PBYTE)((ULONG)pbSource + (ULONG)params.iMapSize);
+   pbMapEnd = (PBYTE)((uintptr_t)pbSource + (uintptr_t)params.iMapSize);
 
    if (params.iPelSize < 16)
       pColor = (PCOLR)&pbmi2->argbColor[0];
@@ -7750,7 +7751,7 @@ GplHSVDiffusion (PBITMAPINFO2 pbmi2,
    pesRow4 = pesStartRow4;
 #endif
 
-   while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+   while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
    {
       if (24 == params.iPelSize)
       {
@@ -8211,7 +8212,7 @@ GplHSVBidiffusion (PBITMAPINFO2 pbmi2,
                            pbSrcNext   = pbSrcNext + params.iSrcRowSize;        \
                         }                                                \
                         CLAMP_ROWS                                       \
-                        if ((ULONG)pbSrc >= (ULONG)pbMapEnd)             \
+                        if ((uintptr_t)pbSrc >= (uintptr_t)pbMapEnd)             \
                            break;                                        \
                      }
 
@@ -8530,7 +8531,7 @@ GplHSVBidiffusion (PBITMAPINFO2 pbmi2,
 
    SetInitialParameters(pbmi2, &params);
 
-   pbMapEnd = (PBYTE)((ULONG)pbSource + (ULONG)params.iMapSize);
+   pbMapEnd = (PBYTE)((uintptr_t)pbSource + (uintptr_t)params.iMapSize);
 
    if (params.iPelSize < 16)
       pColor = (PCOLR)&pbmi2->argbColor[0];
@@ -8601,7 +8602,7 @@ GplHSVBidiffusion (PBITMAPINFO2 pbmi2,
 #endif
    }
 
-   while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+   while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
    {
       if (24 == params.iPelSize)
       {
@@ -8909,7 +8910,7 @@ GplCMYKDiffusion (PBITMAPINFO2 pbmi2,
                         pbSrcNext   = pbSrc + iSrcRowSize;                        \
                         y++;                                                      \
                         CLAMP_ROWS                                                \
-                        if ((ULONG)pbSrc >= (ULONG)pbMapEnd)                      \
+                        if ((uintptr_t)pbSrc >= (uintptr_t)pbMapEnd)                      \
                            break;                                                 \
                      }
 
@@ -9303,7 +9304,7 @@ GplCMYKDiffusion (PBITMAPINFO2 pbmi2,
 
    // MapSize in bytes
    iMapSize = iSrcRowSize * (LONG)pbmi2->cPlanes * (LONG)pbmi2->cy;
-   pbMapEnd = (PBYTE)((ULONG)pbSource + (ULONG)iMapSize);
+   pbMapEnd = (PBYTE)((uintptr_t)pbSource + (uintptr_t)iMapSize);
 
    // DestRowSize in bytes
    iDestRowSize = ((LONG)pbmi2->cx + 7)/8;
@@ -9342,7 +9343,7 @@ GplCMYKDiffusion (PBITMAPINFO2 pbmi2,
    pesRow4 = pesStartRow4;
 #endif
 
-   while ((ULONG)pbSrc < (ULONG)pbMapEnd)
+   while ((uintptr_t)pbSrc < (uintptr_t)pbMapEnd)
    {
       if (24 == iPelSize)
       {

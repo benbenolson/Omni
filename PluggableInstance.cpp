@@ -535,7 +535,7 @@ getJobProperties (bool fInDeviceSpecific)
 
       if (!pCmd_d)
       {
-         return false;
+         return nullptr;
       }
    }
 
@@ -673,7 +673,7 @@ getJobPropertyType (PSZCRO pszKey)
 
       if (!pCmd_d)
       {
-         return false;
+         return nullptr;
       }
    }
 
@@ -698,7 +698,7 @@ getJobProperty (PSZCRO pszKey)
 
       if (!pCmd_d)
       {
-         return false;
+         return nullptr;
       }
    }
 
@@ -724,7 +724,7 @@ translateKeyValue (PSZCRO pszKey,
 
       if (!pCmd_d)
       {
-         return false;
+         return nullptr;
       }
    }
 
@@ -1893,7 +1893,7 @@ rasterize (PBYTE        pbBits,
          cbBuffer1_d = pbmi->cbFix;
          pbBuffer1_d = (byte *)shmat (idBuffer1_d, 0, 0);
 
-         if (-1 == (int)pbBuffer1_d)
+         if ((void*)-1 == pbBuffer1_d)
          {
 #ifndef RETAIL
             if (DebugOutput::shouldOutputPluggableInstance ())
@@ -1967,7 +1967,7 @@ rasterize (PBYTE        pbBits,
          cbBuffer2_d = cbBuffer2;
          pbBuffer2_d = (byte *)shmat (idBuffer2_d, 0, 0);
 
-         if (-1 == (int)pbBuffer2_d)
+         if ((void*)-1 == pbBuffer2_d)
          {
 #ifndef RETAIL
             if (DebugOutput::shouldOutputPluggableInstance ())

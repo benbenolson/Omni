@@ -33,7 +33,7 @@ public:
                         HP_LaserJet_PCL_Instance  (PrintDevice                    *pDevice);
    virtual             ~HP_LaserJet_PCL_Instance  ();
 
-   void                 initializeInstance        ();
+   void                 initializeInstance        (PSZCRO                          pszJobProperties);
 
    std::string         *getJobProperties          (bool                            fInDeviceSpecific);
    bool                 setJobProperties          (PSZCRO                          pszJobProperties);

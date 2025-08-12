@@ -2964,7 +2964,6 @@ bool XMLDevice::
 parseBinaryData (PSZRO    pszData,
                  byte   **ppbData,
                  int     *pcbData)
-   throw (std::string *)
 {
    int          cbDataAlloc    = 64;
    int          cbDataLeft     = 64;

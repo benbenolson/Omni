@@ -56,6 +56,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <cstdint>
 
 #include <sys/types.h>
 #include <fcntl.h>
@@ -491,9 +492,9 @@ main (int argc, char *argv[])
    }
 
 #ifdef DEBUG
-   fprintf (fpCUPSDebug, "CUPSToOmni: pszJobProperties = %08X, pDeviceTmp = %08x\n", (int)pszJobProperties, (int)pDeviceTmp);
+   fprintf (fpCUPSDebug, "CUPSToOmni: pszJobProperties = %08lX, pDeviceTmp = %08lx\n", (uintptr_t)pszJobProperties, (uintptr_t)pDeviceTmp);
 #endif
-   cerrReal << "DEBUG: CUPSToOmni: pszJobProperties = 0x" << std::hex << (int)pszJobProperties << ", pDeviceTmp = 0x" << (int)pDeviceTmp << std::dec << std::endl;
+   cerrReal << "DEBUG: CUPSToOmni: pszJobProperties = 0x" << std::hex << (uintptr_t)pszJobProperties << ", pDeviceTmp = 0x" << (uintptr_t)pDeviceTmp << std::dec << std::endl;
 
    ppdMarkDefaults (ppd);
 

@@ -62,7 +62,7 @@ Epson_ESCP2_Instance::
 }
 
 void Epson_ESCP2_Instance::
-initializeInstance ()
+initializeInstance (PSZCRO pszJobProperties)
 {
    if (fHaveInitialized_d)
       return;

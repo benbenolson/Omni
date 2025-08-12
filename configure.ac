@@ -59,7 +59,6 @@ dnl automake bug. should be (${PACKAGE}, ${OMNI_MAJOR_VERSION}.${OMNI_MINOR_VERS
 dnl yet another automake bug.  ${pkgdatadir} and ${pkglibdir} use the tar name instead of the package name.
 AC_INIT(Omni, 0.9.2, linuxprt@us.ibm.com, Omni)
 AC_CONFIG_SRCDIR(BinaryData.cpp)
-AM_INIT_AUTOMAKE
 AC_PREREQ(2.52)
 AC_SUBST(PACKAGE)
 
@@ -135,12 +134,12 @@ AC_SUBST(DEBUG_LIBS)
 dnl
 dnl Test for glib package
 dnl
-AC_PATH_PROG(GLIB_CONFIG, glib-config)
-if test -z "$GLIB_CONFIG"; then
-	AC_MSG_ERROR([Please install glib development package. (Perhaps 1.2 version that contains glib-config?)])
-fi
-GLIB_INCLUDES=`$GLIB_CONFIG --cflags gmodule`
-GLIB_LIBS=`$GLIB_CONFIG --libs gmodule`
+PKG_CHECK_MODULES(GLIB, [glib-2.0 >= 2.0 gmodule-2.0 >= 2.0], [
+	GLIB_INCLUDES="$GLIB_CFLAGS"
+	GLIB_LIBS="$GLIB_LIBS"
+], [
+	AC_MSG_ERROR([Please install glib-2.0 development package])
+])
 AC_SUBST(GLIB_INCLUDES)
 AC_SUBST(GLIB_LIBS)
 
@@ -650,8 +649,8 @@ dnl
 dnl Add our standard set of gcc flags if possible
 dnl
 if test x$ac_cv_prog_gcc = xyes; then
-	dnl cc1plus: warning: "-Wmissing-declarations" is valid for C/ObjC but not for C++
-        cflags_to_try="-Wall -Wstrict-prototypes -Wmissing-prototypes -fno-builtin -fno-common"
+        dnl Use flags appropriate for C++, avoid C-only flags
+        cflags_to_try="-Wall -fno-builtin -fno-common"
 else
 	cflags_to_try=
 fi
@@ -927,18 +926,6 @@ test/Makefile
 
 fi
 
-dnl @BEGIN-HACK-3
-if test "x$BUILD_VENDORSUPPLIED" != "x"; then
-
-AC_CONFIG_FILES(
-VendorSupplied/Makefile
-dnl @BEGIN-HACK-2
- VendorSupplied/Epson.PDC/Makefile
-dnl @END-HACK-2
-)
-
-fi
-dnl @END-HACK-3
 
 if test "x$BUILD_COMPILED_DEVICE" != "x"; then
 

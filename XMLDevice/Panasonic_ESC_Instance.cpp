@@ -62,7 +62,7 @@ Panasonic_ESC_Instance::
 }
 
 void Panasonic_ESC_Instance::
-initializeInstance ()
+initializeInstance (PSZCRO pszJobProperties)
 {
    if (fHaveInitialized_d)
       return;

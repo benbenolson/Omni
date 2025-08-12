@@ -2694,14 +2694,14 @@ expand1To2Bpp (PBYTE        pbFrom,
    PBYTE         pbCurrent  = pbTo;
    unsigned char uchSrcMask    = 0x80;
    int iBitValue = 8;         // handle bits that should not be set on the outgoing bitmap
-   char *achDestPelMask;
-   static char   ach720DestPelMask[] = {
+   unsigned char *achDestPelMask;
+   static unsigned char   ach720DestPelMask[] = {
 //    0xC0, 0x30, 0x0C, 0x03                       //  large
 //    0x80, 0x20, 0x08, 0x02                       //  medium
       0x40, 0x10, 0x04, 0x01                       //  small
    };
 
-   static char   ach360DestPelMask[] = {
+   static unsigned char   ach360DestPelMask[] = {
 //    0xC0, 0x30, 0x0C, 0x03                       //  large
       0x80, 0x20, 0x08, 0x02                       //  medium
 //    0x40, 0x10, 0x04, 0x01                       //  small

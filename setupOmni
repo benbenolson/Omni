@@ -457,16 +457,21 @@ if ! which automake 2>/dev/null 1>&2; then
 	echo "Error: Please install automake version 1.6 or greater"
 	exit
 fi
-automake --version | awk -v version="1.6" '
+automake --version | awk -v minversion="1.6" '
 BEGIN {
    found        = 0
    valid        = 0
-   foundversion = a
+   foundversion = "unknown"
 }
 /^automake [(]GNU automake[)]/ {
    found        = 1
    foundversion = $4
-   if (foundversion >= version)
+   # Split version numbers by dots for proper numeric comparison
+   split(foundversion, fv, ".")
+   split(minversion, mv, ".")
+   
+   # Compare major.minor version
+   if (fv[1] > mv[1] || (fv[1] == mv[1] && fv[2] >= mv[2]))
    {
       valid = 1
    }
@@ -479,7 +484,7 @@ END {
 
    if (!valid)
    {
-      print "Error: The current automake version is "foundversion". Please install version "version" or greater"
+      print "Error: The current automake version is "foundversion". Please install version "minversion" or greater"
       exit 0
    }
    else
@@ -497,16 +502,21 @@ if ! which autoconf 2>/dev/null 1>&2; then
 	echo "Error: Please install automake version 2.52 or greater"
 	exit
 fi
-autoconf --version | awk -v version="2.52" '
+autoconf --version | awk -v minversion="2.52" '
 BEGIN {
    found        = 0
    valid        = 0
-   foundversion = a
+   foundversion = "unknown"
 }
 /^autoconf [(]GNU Autoconf[)]/ {
    found        = 1
    foundversion = $4
-   if (foundversion >= version)
+   # Split version numbers by dots for proper numeric comparison
+   split(foundversion, fv, ".")
+   split(minversion, mv, ".")
+   
+   # Compare major.minor version
+   if (fv[1] > mv[1] || (fv[1] == mv[1] && fv[2] >= mv[2]))
    {
       valid = 1
    }
@@ -519,7 +529,7 @@ END {
 
    if (!valid)
    {
-      print "Error: The current autoconf version is "foundversion". Please install version "version" or greater"
+      print "Error: The current autoconf version is "foundversion". Please install version "minversion" or greater"
       exit 0
    }
    else
@@ -537,16 +547,26 @@ if ! which libtool 2>/dev/null 1>&2; then
 	echo "Error: Please install libtool version 1.4 or greater"
 	exit
 fi
-libtool --version | awk -v version="1.4" '
+libtool --version | awk -v minversion="1.4" '
 BEGIN {
    found        = 0
    valid        = 0
-   foundversion = a
+   foundversion = "unknown"
 }
-/^ltmain.sh [(]GNU libtool[)]/ {
+/^ltmain.sh [(]GNU libtool[)]/ || /libtool [(]GNU libtool[)]/ {
    found        = 1
-   foundversion = $4
-   if (foundversion >= version)
+   # Handle different libtool version output formats
+   if ($0 ~ /^libtool [(]GNU libtool[)]/) {
+      foundversion = $4
+   } else {
+      foundversion = $4
+   }
+   # Split version numbers by dots for proper numeric comparison
+   split(foundversion, fv, ".")
+   split(minversion, mv, ".")
+   
+   # Compare major.minor version
+   if (fv[1] > mv[1] || (fv[1] == mv[1] && fv[2] >= mv[2]))
    {
       valid = 1
    }
@@ -559,7 +579,7 @@ END {
 
    if (!valid)
    {
-      print "Error: The current libtool version is "foundversion". Please install version "version" or greater"
+      print "Error: The current libtool version is "foundversion". Please install version "minversion" or greater"
       exit 0
    }
    else

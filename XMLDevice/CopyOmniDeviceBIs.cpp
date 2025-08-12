@@ -74,14 +74,14 @@ my_system (const char *pszCommand)
    else
    {
       // child
-      char *argv[4];
+      const char *argv[4];
 
       argv[0] = "sh";
       argv[1] = "-c";
       argv[2] = (char *)pszCommand;
       argv[3] = 0;
 
-      execvp ("/bin/sh", argv);
+      execvp ("/bin/sh", const_cast<char* const*>(argv));
 
       exit (1);
    }
@@ -189,7 +189,7 @@ appendPreLibraryList (FileList& fileList,
    bool          fFound = false;
 
    while (  !fFound
-         && 0 < ifLibraries1MAK.getline (achLine, sizeof (achLine))
+         && ifLibraries1MAK.getline (achLine, sizeof (achLine))
          )
    {
       for (FileList::iterator nextFileHeader = fileHeader.begin ();
@@ -224,7 +224,7 @@ appendPostLibraryList (FileList& fileList,
    char          achLine[512];                                     // @TBD
    ESTATE        eState                             = BEFORE_NAME;
 
-   while (0 < ifLibraries1MAK.getline (achLine, sizeof (achLine)))
+   while (ifLibraries1MAK.getline (achLine, sizeof (achLine)))
    {
       switch (eState)
       {
@@ -284,7 +284,7 @@ processDeviceList (std::string&     stringFileNameDeviceList,
    SeenList      seenList;
    char          achLine[512];   // @TBD
 
-   while (0 < ifIn.getline (achLine, sizeof (achLine)))
+   while (ifIn.getline (achLine, sizeof (achLine)))
    {
       if ('#' == achLine[0])
          continue;
