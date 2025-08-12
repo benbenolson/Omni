@@ -18,6 +18,7 @@
  */
 #include "DeviceConnection.hpp"
 #include "StringResource.hpp"
+#include <cstdint>
 
 DeviceConnection::
 DeviceConnection (Device *pDevice,
@@ -131,7 +132,7 @@ outputSelf ()
 std::string DeviceConnection::
 toString (std::ostringstream& oss)
 {
-   oss << "{DeviceConnection: 0x" << std::hex << (int)this << std::dec << "}";
+   oss << "{DeviceConnection: 0x" << std::hex << (uintptr_t)this << std::dec << "}";
 
    return oss.str ();
 }

@@ -86,7 +86,7 @@ public:
    static PSZCRO               getShortFormName        (PSZCRO              pszLongName);
 
    static bool                 isReservedKeyword       (PSZCRO              pszId);
-   static int                  getReservedValue        (PSZCRO              pszId);
+   static unsigned int         getReservedValue        (PSZCRO              pszId);
 
    virtual Enumeration        *getEnumeration          (bool                fInDeviceSpecific = false) = 0;
    static Enumeration         *getAllEnumeration       ();

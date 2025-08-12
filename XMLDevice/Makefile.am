@@ -26,8 +26,8 @@ InstallOmniDeviceXMLs_LDADD   = $(top_builddir)/XMLLib/libOmniXMLLibrary.la
 InstallOmniDeviceXMLs_LDFLAGS = @XML_LIBS@
 
 CopyOmniDeviceBIs_SOURCES = CopyOmniDeviceBIs.cpp
-CopyOmniDeviceBIs_LDADD   = $(top_builddir)/XMLLib/libOmniXMLLibrary.la
-CopyOmniDeviceBIs_LDFLAGS = @XML_LIBS@
+CopyOmniDeviceBIs_LDADD   = $(top_builddir)/XMLLib/libOmniXMLLibrary.la @XML_LIBS@
+CopyOmniDeviceBIs_LDFLAGS =
 
 libXMLOmniDevice_la_SOURCES = XMLDeviceCopies.cpp \
                               XMLDeviceForm.cpp \

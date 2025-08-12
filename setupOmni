@@ -465,7 +465,7 @@ BEGIN {
 }
 /^automake [(]GNU automake[)]/ {
    found        = 1
-   foundversion = $4
+   foundversion = $3
    if (foundversion >= version)
    {
       valid = 1
@@ -505,7 +505,7 @@ BEGIN {
 }
 /^autoconf [(]GNU Autoconf[)]/ {
    found        = 1
-   foundversion = $4
+   foundversion = $3
    if (foundversion >= version)
    {
       valid = 1
@@ -533,19 +533,19 @@ if test ${rc} = 0; then
 	exit
 fi
 #    libtool
-if ! which libtool 2>/dev/null 1>&2; then
+if ! which libtoolize 2>/dev/null 1>&2; then
 	echo "Error: Please install libtool version 1.4 or greater"
 	exit
 fi
-libtool --version | awk -v version="1.4" '
+libtoolize --version | awk -v version="1.4" '
 BEGIN {
    found        = 0
    valid        = 0
    foundversion = a
 }
-/^ltmain.sh [(]GNU libtool[)]/ {
+/^libtoolize [(]GNU libtool[)]/ {
    found        = 1
-   foundversion = $4
+   foundversion = $3
    if (foundversion >= version)
    {
       valid = 1

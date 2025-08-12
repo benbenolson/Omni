@@ -59,7 +59,6 @@ dnl automake bug. should be (${PACKAGE}, ${OMNI_MAJOR_VERSION}.${OMNI_MINOR_VERS
 dnl yet another automake bug.  ${pkgdatadir} and ${pkglibdir} use the tar name instead of the package name.
 AC_INIT(Omni, 0.9.2, linuxprt@us.ibm.com, Omni)
 AC_CONFIG_SRCDIR(BinaryData.cpp)
-AM_INIT_AUTOMAKE
 AC_PREREQ(2.52)
 AC_SUBST(PACKAGE)
 
@@ -927,18 +926,6 @@ test/Makefile
 
 fi
 
-dnl @BEGIN-HACK-3
-if test "x$BUILD_VENDORSUPPLIED" != "x"; then
-
-AC_CONFIG_FILES(
-VendorSupplied/Makefile
-dnl @BEGIN-HACK-2
- VendorSupplied/Epson.PDC/Makefile
-dnl @END-HACK-2
-)
-
-fi
-dnl @END-HACK-3
 
 if test "x$BUILD_COMPILED_DEVICE" != "x"; then
 

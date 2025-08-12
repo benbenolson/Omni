@@ -1249,7 +1249,7 @@ public:
          int     iSimulationRequired = 0;
          bool    fSimulationRequired = false;
 
-         pszSpace = strchr (pszJPQuoted, ' ');
+         pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
          if (!pszSpace)
             return 0;
@@ -1403,7 +1403,7 @@ getCurrentCopies ()
             PSZRO  pszJobProperties = 0;
             char  *pszSpace         = 0;
 
-            pszSpace = strchr (pszNetworkJobProperties, ' ');
+            pszSpace = const_cast<char*>(strchr (pszNetworkJobProperties, ' '));
 
             if (pszSpace)
             {
@@ -1694,7 +1694,7 @@ public:
          int     iRightClip    = 0;
          int     iBottomClip   = 0;
 
-         pszSpace = strchr (pszJPQuoted, ' ');
+         pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
          if (!pszSpace)
             return 0;
@@ -1857,7 +1857,7 @@ getCurrentForm ()
             PSZRO  pszJobProperties = 0;
             char  *pszSpace         = 0;
 
-            pszSpace = strchr (pszNetworkJobProperties, ' ');
+            pszSpace = const_cast<char*>(strchr (pszNetworkJobProperties, ' '));
 
             if (pszSpace)
             {
@@ -2234,7 +2234,7 @@ public:
          int     iColorAdjustRequired = 0;
          int     iAbsorption          = 0;
 
-         pszSpace = strchr (pszJPQuoted, ' ');
+         pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
          if (!pszSpace)
             return 0;
@@ -2380,7 +2380,7 @@ getCurrentMedia ()
             PSZRO  pszJobProperties = 0;
             char  *pszSpace         = 0;
 
-            pszSpace = strchr (pszNetworkJobProperties, ' ');
+            pszSpace = const_cast<char*>(strchr (pszNetworkJobProperties, ' '));
 
             if (pszSpace)
             {
@@ -2509,7 +2509,7 @@ public:
          int     iSimulationRequired = 0;
          bool    fSimulationRequired = false;
 
-         pszSpace = strchr (pszJPQuoted, ' ');
+         pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
          if (!pszSpace)
             return 0;
@@ -2657,7 +2657,7 @@ getCurrentNUp ()
             PSZRO  pszJobProperties = 0;
             char  *pszSpace         = 0;
 
-            pszSpace = strchr (pszNetworkJobProperties, ' ');
+            pszSpace = const_cast<char*>(strchr (pszNetworkJobProperties, ' '));
 
             if (pszSpace)
             {
@@ -2784,7 +2784,7 @@ public:
          int     iSimulationRequired = 0;
          bool    fSimulationRequired = false;
 
-         pszSpace = strchr (pszJPQuoted, ' ');
+         pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
          if (!pszSpace)
             return 0;
@@ -2931,7 +2931,7 @@ getCurrentOrientation ()
             PSZRO  pszJobProperties = 0;
             char  *pszSpace         = 0;
 
-            pszSpace = strchr (pszNetworkJobProperties, ' ');
+            pszSpace = const_cast<char*>(strchr (pszNetworkJobProperties, ' '));
 
             if (pszSpace)
             {
@@ -3308,7 +3308,7 @@ public:
          int     iLogicalCount  = 0;
          int     iPlanes        = 0;
 
-         pszSpace = strchr (pszJPQuoted, ' ');
+         pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
          if (!pszSpace)
             return 0;
@@ -3456,7 +3456,7 @@ getCurrentPrintMode ()
             PSZRO  pszJobProperties = 0;
             char  *pszSpace         = 0;
 
-            pszSpace = strchr (pszNetworkJobProperties, ' ');
+            pszSpace = const_cast<char*>(strchr (pszNetworkJobProperties, ' '));
 
             if (pszSpace)
             {
@@ -3596,7 +3596,7 @@ public:
          int     iDestinationBitsPerPel = 0;
          int     iScanlineMultiple      = 0;
 
-         pszSpace = strchr (pszJPQuoted, ' ');
+         pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
          if (!pszSpace)
             return 0;
@@ -3753,7 +3753,7 @@ getCurrentResolution ()
             PSZRO  pszJobProperties = 0;
             char  *pszSpace         = 0;
 
-            pszSpace = strchr (pszNetworkJobProperties, ' ');
+            pszSpace = const_cast<char*>(strchr (pszNetworkJobProperties, ' '));
 
             if (pszSpace)
             {
@@ -3884,7 +3884,7 @@ public:
          int     iMinimumScale = 0;
          int     iMaximumScale = 0;
 
-         pszSpace = strchr (pszJPQuoted, ' ');
+         pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
          if (!pszSpace)
             return 0;
@@ -4030,7 +4030,7 @@ getCurrentScaling ()
             PSZRO  pszJobProperties = 0;
             char  *pszSpace         = 0;
 
-            pszSpace = strchr (pszNetworkJobProperties, ' ');
+            pszSpace = const_cast<char*>(strchr (pszNetworkJobProperties, ' '));
 
             if (pszSpace)
             {
@@ -4408,7 +4408,7 @@ public:
          int     iSimulationRequired = 0;
          bool    fSimulationRequired = false;
 
-         pszSpace = strchr (pszJPQuoted, ' ');
+         pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
          if (!pszSpace)
             return 0;
@@ -4556,7 +4556,7 @@ getCurrentSide ()
             PSZRO  pszJobProperties = 0;
             char  *pszSpace         = 0;
 
-            pszSpace = strchr (pszNetworkJobProperties, ' ');
+            pszSpace = const_cast<char*>(strchr (pszNetworkJobProperties, ' '));
 
             if (pszSpace)
             {
@@ -4931,7 +4931,7 @@ public:
          PSZRO   pszJP       = 0;
          int     iType       = 0;
 
-         pszSpace = strchr (pszJPQuoted, ' ');
+         pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
          if (!pszSpace)
             return 0;
@@ -5074,7 +5074,7 @@ getCurrentTray ()
             PSZRO  pszJobProperties = 0;
             char  *pszSpace         = 0;
 
-            pszSpace = strchr (pszNetworkJobProperties, ' ');
+            pszSpace = const_cast<char*>(strchr (pszNetworkJobProperties, ' '));
 
             if (pszSpace)
             {
@@ -5803,7 +5803,7 @@ rasterize (PBYTE        pbBits,
          cbBuffer1_d = pbmi->cbFix;
          pbBuffer1_d = (byte *)shmat (idBuffer1_d, 0, 0);
 
-         if (-1 == (int)pbBuffer1_d)
+         if (-1 == (uintptr_t)pbBuffer1_d)
          {
 #ifndef RETAIL
             if (DebugOutput::shouldOutputOmniPDCProxy ())
@@ -5877,7 +5877,7 @@ rasterize (PBYTE        pbBits,
          cbBuffer2_d = cbBuffer2;
          pbBuffer2_d = (byte *)shmat (idBuffer2_d, 0, 0);
 
-         if (-1 == (int)pbBuffer2_d)
+         if (-1 == (uintptr_t)pbBuffer2_d)
          {
 #ifndef RETAIL
             if (DebugOutput::shouldOutputOmniPDCProxy ())

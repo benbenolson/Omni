@@ -20,6 +20,7 @@
 #include "PrintDevice.hpp"
 
 #include <sstream>
+#include <cstdint>
 
 DeviceInstance::
 DeviceInstance (PrintDevice *pDevice)
@@ -409,7 +410,7 @@ outputSelf ()
 std::string DeviceInstance::
 toString (std::ostringstream& oss)
 {
-   oss << "{DeviceInstance: pDevice_d = " << std::hex << (int)pDevice_d << std::dec << " }";
+   oss << "{DeviceInstance: pDevice_d = " << std::hex << (uintptr_t)pDevice_d << std::dec << " }";
 
    return oss.str ();
 }

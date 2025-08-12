@@ -389,7 +389,7 @@ writeHeader ()
 int
 chsize (int fileno, long int iSize)
 {
-   byte abData[512];
+   ::byte abData[512];
    int  rc;
 
    memset (abData, 0, sizeof (abData));

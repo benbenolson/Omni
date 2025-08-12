@@ -360,7 +360,7 @@ public:
    {
       if (!hasMoreElements ())
       {
-         return false;
+         return nullptr;
       }
 
       std::ostringstream  oss;

@@ -1,0 +1,95 @@
+#!/bin/bash
+#
+# glib-config compatibility script for modern glib2.0
+# This script provides the old glib-config interface that the Omni project expects
+#
+
+# Get the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Function to show usage
+usage() {
+    echo "Usage: $0 [OPTION]..."
+    echo "Options:"
+    echo "  --version          Show version information"
+    echo "  --cflags [MODULE]  Show C compiler flags"
+    echo "  --libs [MODULE]    Show linker flags"
+    echo "  --prefix           Show installation prefix"
+    echo "  --exec-prefix      Show executable installation prefix"
+    echo "  --libdir           Show library installation directory"
+    echo "  --includedir       Show header file installation directory"
+    echo ""
+    echo "Available modules: gmodule"
+}
+
+# Function to get pkg-config value
+get_pkg_config() {
+    local module="$1"
+    local flag="$2"
+    
+    if pkg-config --exists "$module" 2>/dev/null; then
+        pkg-config "$flag" "$module" 2>/dev/null
+    else
+        echo ""
+    fi
+}
+
+# Function to get glib2.0 flags
+get_glib_flags() {
+    local module="$1"
+    local flag="$2"
+    
+    case "$module" in
+        gmodule)
+            # For gmodule, we need both glib-2.0 and gmodule-2.0
+            local glib_cflags=$(get_pkg_config glib-2.0 "$flag")
+            local gmodule_cflags=$(get_pkg_config gmodule-2.0 "$flag")
+            if [ -n "$glib_cflags" ] && [ -n "$gmodule_cflags" ]; then
+                echo "$glib_cflags $gmodule_cflags"
+            else
+                echo ""
+            fi
+            ;;
+        "")
+            # No module specified, just glib-2.0
+            get_pkg_config glib-2.0 "$flag"
+            ;;
+        *)
+            echo ""
+            ;;
+    esac
+}
+
+# Main script logic
+case "$1" in
+    --version)
+        echo "glib-config (GNU glib) 2.0.0"
+        ;;
+    --cflags)
+        shift
+        get_glib_flags "$1" --cflags
+        ;;
+    --libs)
+        shift
+        get_glib_flags "$1" --libs
+        ;;
+    --prefix)
+        pkg-config --variable=prefix glib-2.0 2>/dev/null || echo "/usr"
+        ;;
+    --exec-prefix)
+        pkg-config --variable=exec_prefix glib-2.0 2>/dev/null || echo "/usr"
+        ;;
+    --libdir)
+        pkg-config --variable=libdir glib-2.0 2>/dev/null || echo "/usr/lib"
+        ;;
+    --includedir)
+        pkg-config --variable=includedir glib-2.0 2>/dev/null || echo "/usr/include"
+        ;;
+    --help|-h)
+        usage
+        ;;
+    *)
+        usage
+        exit 1
+        ;;
+esac
