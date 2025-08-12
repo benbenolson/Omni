@@ -533,17 +533,17 @@ if test ${rc} = 0; then
 	exit
 fi
 #    libtool
-if ! which libtool 2>/dev/null 1>&2; then
+if ! which libtoolize 2>/dev/null 1>&2; then
 	echo "Error: Please install libtool version 1.4 or greater"
 	exit
 fi
-libtool --version | awk -v version="1.4" '
+libtoolize --version | awk -v version="1.4" '
 BEGIN {
    found        = 0
    valid        = 0
    foundversion = a
 }
-/^libtool [(]GNU libtool[)]/ || /^GNU libtool/ {
+/^ltmain.sh [(]GNU libtool[)]/ || /^libtoolize [(]GNU libtool[)]/ || /^GNU libtool/ {
    found        = 1
    foundversion = $3
    if (foundversion >= version)
