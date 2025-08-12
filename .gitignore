@@ -1,0 +1,49 @@
+# Build artifacts
+*.o
+*.lo
+*.la
+*.lai
+*.so
+*.so.*
+*.a
+*.dylib
+
+# Autotools generated files
+Makefile.in
+config.log
+config.status
+configure
+aclocal.m4
+autom4te.cache/
+*.m4
+
+# Dependency files
+.deps/
+*.Po
+*.Plo
+
+# Libraries and executables
+*.la
+lib*.so*
+lib*.a
+
+# Core files
+core
+
+# Scripts created during development
+fix_*.sh
+
+# Build directories
+.libs/
+build/
+dist/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store

@@ -1,0 +1,25 @@
+#!/bin/bash
+# glib-config compatibility script for glib-2.0
+# This script provides the old glib-1.2 API interface using modern glib-2.0
+
+case "$1" in
+    --version)
+        pkg-config --modversion glib-2.0
+        ;;
+    --cflags)
+        pkg-config --cflags glib-2.0
+        ;;
+    --libs)
+        pkg-config --libs glib-2.0
+        ;;
+    --cflags gmodule)
+        pkg-config --cflags glib-2.0 gmodule-2.0
+        ;;
+    --libs gmodule)
+        pkg-config --libs glib-2.0 gmodule-2.0
+        ;;
+    *)
+        echo "Usage: $0 {--version|--cflags|--libs|--cflags gmodule|--libs gmodule}"
+        exit 1
+        ;;
+esac

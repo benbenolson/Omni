@@ -97,7 +97,6 @@ AC_SUBST(LT_AGE)
 dnl
 dnl Initialize automake stuff.
 dnl
-AM_INIT_AUTOMAKE(${PACKAGE}, ${OMNI_VERSION})
 
 dnl
 dnl Enable debugging
