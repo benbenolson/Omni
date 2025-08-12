@@ -354,9 +354,12 @@ createDitherInstance (PSZCRO  pszDitherType,
       char *pszPos  = strstr (pszOptio   typedef struct _BoolParmMapping {
       const char *pszName;
       bool *pfParm;
-   } BOOLPARMMAPPING, *PBOOlPARMMAPPING;MMAPPING;MMAPPING;MMAPPING;
+   } BOOLPARMMAPPING, *PBOOlPARMMAPPING;
    BOOLPARMMAPPING aBoolMappings[] = {
-      { "fDataInRGB=", &fDataInR   for (i = 0; i < (int)dimof (aBoolMappings); i++)
+      { "fDataInRGB=", &fDataInRGB }
+   };
+
+   for (i = 0; i < (int)dimof (aBoolMappings); i++)
    {
       const char *pszName = aBoolMappings[i].pszName;
       const char *pszPos  = strstr (pszOptions, pszName);
@@ -392,25 +395,20 @@ createDitherInstance (PSZCRO  pszDitherType,
       }
 #endif
    }
-       &iColorTech       },
+
+   typedef struct _IntParmMapping {
+      const char *pszName;
+      int  *piParm;
+   } INTPARMMAPPING, *PINTPARMMAPPING;
+   INTPARMMAPPING aIntMappings[] = {
+      { "iBlackReduction=",  &iBlackReduction  },
+      { "iColorTech=",       &iColorTech       },
       { "iNumDitherRows=",   &iNumDitherRows   },
       { "iSrcRowPels=",      &iSrcRowPels      },
       { "iNumDestRowBytes=", &iNumDestRowBytes },
       { "iDestBitsPerPel=",  &iDestBitsPerPel  }
    };
-
-   for (i = 0; i < (int)dimof (aIntMappings); i++)
-   {
-      char *pszName = aIntMappings[i].pszName;
-      char *pszPos  = strstr (pszOptions, pszName);
-
-      if (!pszPos)
-         break;
-
-#ifndef RETAIL
-      if (DebugOutput::shouldOutputGplDitherInstance ())
-      {
-         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Found " << pszName << " at offset " << pszPos - pszOptions << std::endl;
+Found " << pszName << " at offset " << pszPos - pszOptions << std::endl;
          DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Looking at " << pszPos + strlen (pszName) << std::endl;
       }
 #endif
