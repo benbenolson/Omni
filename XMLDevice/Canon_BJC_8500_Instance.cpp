@@ -76,7 +76,7 @@ Canon_BJC_8500_Instance::
 }
 
 void Canon_BJC_8500_Instance::
-initializeInstance ()
+initializeInstance (PSZCRO pszJobProperties)
 {
 #ifndef RETAIL
    if (DebugOutput::shouldOutputInstance ()) DebugOutput::getErrorStream () << "Canon_BJC_8500_Instance::initializeInstance ()" << std::endl;

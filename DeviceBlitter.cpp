@@ -17,6 +17,7 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 #include "Device.hpp"
+#include <cstdint>
 
 DeviceBlitter::
 DeviceBlitter (PrintDevice *pDevice)
@@ -500,11 +501,11 @@ toString (std::ostringstream& oss)
 {
    oss << "{DeviceBlitter: pDevice_d = "
        << std::hex
-       << (int)pDevice_d
+       << reinterpret_cast<uintptr_t>(pDevice_d)
        << ", pDitherInstance_d = "
-       << (int)pDitherInstance_d
+       << reinterpret_cast<uintptr_t>(pDitherInstance_d)
        << ", pCompressionInstance_d = "
-       << (int)pCompressionInstance_d
+       << reinterpret_cast<uintptr_t>(pCompressionInstance_d)
        << std::dec
        << " }";
 

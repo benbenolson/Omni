@@ -152,7 +152,7 @@ public:
 
    static bool                 parseBinaryData          (PSZRO                pszData,
                                                          byte               **ppbData,
-                                                         int                 *pcbData) throw (std::string *);
+                                                         int                 *pcbData);
 
    static std::string         *getXMLJobProperties      (XmlNodePtr           root,
                                                          XmlDocPtr            doc,

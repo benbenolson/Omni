@@ -351,7 +351,15 @@ createDitherInstance (PSZCRO  pszDitherType,
    for (i = 0; i < (int)dimof (aBoolMappings); i++)
    {
       char *pszName = aBoolMappings[i].pszName;
-      char *pszPos  = strstr (pszOptions, pszName);
+      char *pszPos  = strstr (pszOptio   typedef struct _BoolParmMapping {
+      const char *pszName;
+      bool *pfParm;
+   } BOOLPARMMAPPING, *PBOOlPARMMAPPING;MMAPPING;MMAPPING;MMAPPING;
+   BOOLPARMMAPPING aBoolMappings[] = {
+      { "fDataInRGB=", &fDataInR   for (i = 0; i < (int)dimof (aBoolMappings); i++)
+   {
+      const char *pszName = aBoolMappings[i].pszName;
+      const char *pszPos  = strstr (pszOptions, pszName);
 
       if (!pszPos)
          break;
@@ -359,8 +367,8 @@ createDitherInstance (PSZCRO  pszDitherType,
 #ifndef RETAIL
       if (DebugOutput::shouldOutputGplDitherInstance ())
       {
-         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Found " << pszName << " at offset " << pszPos - pszOptions << std::endl;
-         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Looking at " << pszPos + strlen (pszName) << std::endl;
+         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Found " << pszName << " at offset " << (pszPos - pszOptions) << std::endl;
+         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Looking at " << (pszPos + strlen (pszName)) << std::endl;
       }
 #endif
 
@@ -384,28 +392,7 @@ createDitherInstance (PSZCRO  pszDitherType,
       }
 #endif
    }
-
-#ifndef RETAIL
-   if (DebugOutput::shouldOutputGplDitherInstance ())
-   {
-      if (i != (int)dimof (aBoolMappings))
-         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Failure @ " << __LINE__ << "!" << std::endl;
-      else
-         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Success @ " << __LINE__ << "!" << std::endl;
-   }
-#endif
-
-   if (i != (int)dimof (aBoolMappings))
-      // Failure!  Every element was supposed to be on the options line.
-      return 0;
-
-   typedef struct _IntParmMapping {
-      char *pszName;
-      int  *piParm;
-   } INTPARMMAPPING, *PINTPARMMAPPING;
-   INTPARMMAPPING aIntMappings[] = {
-      { "iBlackReduction=",  &iBlackReduction  },
-      { "iColorTech=",       &iColorTech       },
+       &iColorTech       },
       { "iNumDitherRows=",   &iNumDitherRows   },
       { "iSrcRowPels=",      &iSrcRowPels      },
       { "iNumDestRowBytes=", &iNumDestRowBytes },

@@ -21,4 +21,14 @@
 # NOTE: underscores will be replaced with spaces
 #
 
-DEVICELIST="XMLDevice~"
+DEVICELIST="XMLDevice~ \
+            Brother~ \
+            Canon~ \
+            Epson~ \
+            HP_LaserJet~ \
+            IBM~ \
+            KS~ \
+            Kyocera~ \
+            Okidata~ \
+            Panasonic~ \
+            Star~"

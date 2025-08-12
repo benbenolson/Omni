@@ -531,10 +531,10 @@ public:
    virtual void *
    nextElement ()
    {
-      if (!hasMoreElements ())
-      {
-         return false;
-      }
+             if (!hasMoreElements ())
+       {
+          return nullptr;
+       }
 
       std::ostringstream  oss;
       std::string         stringName;

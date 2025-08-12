@@ -1047,7 +1047,7 @@ public:
       char           achLine[512];             // @TBD
       std::ifstream  ifIn ("/etc/ld.so.conf");
 
-      while (0 < ifIn.getline (achLine, sizeof (achLine)))
+      while (ifIn.getline (achLine, sizeof (achLine)))
       {
          char *pszEnd = achLine + strlen (achLine) - 1;
 
@@ -1908,7 +1908,7 @@ private:
          return false;
       }
 
-      while (0 < pifstreamIn_d->getline (achLine, sizeof (achLine)))
+      while (pifstreamIn_d->getline (achLine, sizeof (achLine)))
       {
          if ('#' == achLine[0])
             continue;

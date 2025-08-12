@@ -79,7 +79,7 @@ readDrivers ()
    DriverMap     *pMapDriver         = 0;
 
 ///while (std::getline (ifIn, stringLine))
-   while (0 < ifIn.getline (achLine, sizeof (achLine)))
+   while (ifIn.getline (achLine, sizeof (achLine)))
    {
       if (!pMapDrivers)
       {

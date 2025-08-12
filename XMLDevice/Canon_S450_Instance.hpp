@@ -33,7 +33,7 @@ public:
                          Canon_S450_Instance       (PrintDevice               *pDevice);
    virtual              ~Canon_S450_Instance       ();
 
-   void                  initializeInstance        ();
+   void                  initializeInstance        (PSZCRO                     pszJobProperties);
 
    virtual bool          beginJob                  ();
    virtual bool          beginJob                  (bool                       fJobPropertiesChanged);

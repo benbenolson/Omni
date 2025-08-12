@@ -188,9 +188,7 @@ appendPreLibraryList (FileList& fileList,
    char          achLine[512];                                // @TBD
    bool          fFound = false;
 
-   while (  !fFound
-         && 0 < ifLibraries1MAK.getline (achLine, sizeof (achLine))
-         )
+   while (!fFound && ifLibraries1MAK.getline(achLine, sizeof(achLine)))
    {
       for (FileList::iterator nextFileHeader = fileHeader.begin ();
            nextFileHeader != fileHeader.end ();
@@ -224,7 +222,7 @@ appendPostLibraryList (FileList& fileList,
    char          achLine[512];                                     // @TBD
    ESTATE        eState                             = BEFORE_NAME;
 
-   while (0 < ifLibraries1MAK.getline (achLine, sizeof (achLine)))
+   while (ifLibraries1MAK.getline(achLine, sizeof(achLine)))
    {
       switch (eState)
       {
@@ -284,7 +282,7 @@ processDeviceList (std::string&     stringFileNameDeviceList,
    SeenList      seenList;
    char          achLine[512];   // @TBD
 
-   while (0 < ifIn.getline (achLine, sizeof (achLine)))
+   while (ifIn.getline(achLine, sizeof(achLine)))
    {
       if ('#' == achLine[0])
          continue;

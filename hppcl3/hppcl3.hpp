@@ -40,7 +40,7 @@ namespace omni {
 typedef unsigned char byte, BYTE, *PBYTE;
 typedef short int SHORT, *PSHORT;
 typedef unsigned short int USHORT, *PUSHORT;
-typedef unsigned int ULONG, *PULONG;
+typedef unsigned long ULONG, *PULONG;
 
 /* bitmap parameterization used by GpiCreateBitmap and others */
 typedef struct _OS2BITMAPINFOHEADER         /* bmp */
