@@ -28,6 +28,7 @@
 #include <sys/stat.h>
 #include <sys/fcntl.h>
 #include <sys/shm.h>
+#include <cstdint>
 #include <errno.h>
 
 #ifdef INCLUDE_JP_UPDF_BOOKLET
@@ -2107,7 +2108,7 @@ main (int argc, char *argv[])
 
                while (pEnum->hasMoreElements ())
                {
-                  int iLangSupported = (int)pEnum->nextElement ();
+                  int iLangSupported = (int)(uintptr_t)pEnum->nextElement ();
 
                   if (iLangIn == iLangSupported)
                   {
@@ -2683,7 +2684,7 @@ main (int argc, char *argv[])
             pbBuffer1 = 0;
          }
 
-         if (0 < pbBuffer1)
+         if (pbBuffer1 != nullptr)
          {
             eCommand = PDCCMD_ACK;
          }
@@ -2715,7 +2716,7 @@ main (int argc, char *argv[])
             pbBuffer2 = 0;
          }
 
-         if (0 < pbBuffer2)
+         if (pbBuffer2 != nullptr)
          {
             eCommand = PDCCMD_ACK;
          }
@@ -2831,7 +2832,7 @@ main (int argc, char *argv[])
             PSZCRO  pszJPQuoted = pCmd->getCommandString (false);
             PSZRO   pszJP       = 0;
 
-            pszSpace = strchr (pszJPQuoted, ' ');
+            pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
             if (pszSpace)
             {
@@ -2892,7 +2893,7 @@ main (int argc, char *argv[])
             int     iSimulationRequired = 0;
             bool    fSimulationRequired = false;
 
-            pszSpace = strchr (pszJPQuoted, ' ');
+            pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
             if (pszSpace)
             {
@@ -2982,7 +2983,7 @@ main (int argc, char *argv[])
             int     iRightClip    = 0;
             int     iBottomClip   = 0;
 
-            pszSpace = strchr (pszJPQuoted, ' ');
+            pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
             if (pszSpace)
             {
@@ -3058,7 +3059,7 @@ main (int argc, char *argv[])
             PSZCRO  pszJPQuoted = pCmd->getCommandString (false);
             PSZRO   pszJP       = 0;
 
-            pszSpace = strchr (pszJPQuoted, ' ');
+            pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
             if (pszSpace)
             {
@@ -3116,7 +3117,7 @@ main (int argc, char *argv[])
             int     iColorAdjustRequired = 0;
             int     iAbsorption          = 0;
 
-            pszSpace = strchr (pszJPQuoted, ' ');
+            pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
             if (pszSpace)
             {
@@ -3185,7 +3186,7 @@ main (int argc, char *argv[])
             int     iSimulationRequired = 0;
             bool    fSimulationRequired = false;
 
-            pszSpace = strchr (pszJPQuoted, ' ');
+            pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
             if (pszSpace)
             {
@@ -3257,7 +3258,7 @@ main (int argc, char *argv[])
             int     iSimulationRequired = 0;
             bool    fSimulationRequired = false;
 
-            pszSpace = strchr (pszJPQuoted, ' ');
+            pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
             if (pszSpace)
             {
@@ -3326,7 +3327,7 @@ main (int argc, char *argv[])
             PSZCRO  pszJPQuoted = pCmd->getCommandString (false);
             PSZRO   pszJP       = 0;
 
-            pszSpace = strchr (pszJPQuoted, ' ');
+            pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
             if (pszSpace)
             {
@@ -3386,7 +3387,7 @@ main (int argc, char *argv[])
             int     iLogicalCount  = 0;
             int     iPlanes        = 0;
 
-            pszSpace = strchr (pszJPQuoted, ' ');
+            pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
             if (pszSpace)
             {
@@ -3460,7 +3461,7 @@ main (int argc, char *argv[])
             int     iDestinationBitsPerPel = 0;
             int     iScanlineMultiple      = 0;
 
-            pszSpace = strchr (pszJPQuoted, ' ');
+            pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
             if (pszSpace)
             {
@@ -3537,7 +3538,7 @@ main (int argc, char *argv[])
             int     iMinimumScale = 0;
             int     iMaximumScale = 0;
 
-            pszSpace = strchr (pszJPQuoted, ' ');
+            pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
             if (pszSpace)
             {
@@ -3605,7 +3606,7 @@ main (int argc, char *argv[])
             PSZCRO  pszJPQuoted = pCmd->getCommandString (false);
             PSZRO   pszJP       = 0;
 
-            pszSpace = strchr (pszJPQuoted, ' ');
+            pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
             if (pszSpace)
             {
@@ -3665,7 +3666,7 @@ main (int argc, char *argv[])
             int     iSimulationRequired = 0;
             bool    fSimulationRequired = false;
 
-            pszSpace = strchr (pszJPQuoted, ' ');
+            pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
             if (pszSpace)
             {
@@ -3736,7 +3737,7 @@ main (int argc, char *argv[])
             PSZCRO  pszJPQuoted = pCmd->getCommandString (false);
             PSZRO   pszJP       = 0;
 
-            pszSpace = strchr (pszJPQuoted, ' ');
+            pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
             if (pszSpace)
             {
@@ -3794,7 +3795,7 @@ main (int argc, char *argv[])
             PSZRO   pszJP       = 0;
             int     iType       = 0;
 
-            pszSpace = strchr (pszJPQuoted, ' ');
+            pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
             if (pszSpace)
             {
@@ -3859,7 +3860,7 @@ main (int argc, char *argv[])
             PSZCRO  pszJPQuoted = pCmd->getCommandString (false);
             PSZRO   pszJP       = 0;
 
-            pszSpace = strchr (pszJPQuoted, ' ');
+            pszSpace = const_cast<char*>(strchr (pszJPQuoted, ' '));
 
             if (pszSpace)
             {

@@ -203,7 +203,7 @@ main (int argc, char *argv[])
 
    char achLine[512]; // @TBD
 
-   while (0 < std::cin.getline (achLine, sizeof (achLine)))
+   while (std::cin.getline (achLine, sizeof (achLine)))
    {
 //////std::cout << "line = \"" << achLine << "\"" << std::endl;
 

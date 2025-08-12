@@ -20,3 +20,4 @@
 pkglib_LTLIBRARIES = libOmniXMLLibrary.la
 
 libOmniXMLLibrary_la_SOURCES = XMLInterface.cpp
+libOmniXMLLibrary_la_LIBADD = @XML_LIBS@

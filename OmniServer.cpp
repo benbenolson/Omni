@@ -28,6 +28,7 @@
 #include <cstdlib>
 #include <memory.h>
 #include <sstream>
+#include <cstdint>
 
 #include <unistd.h>
 #include <sys/types.h>
@@ -270,7 +271,7 @@ main (int argc, char *argv[])
 
       eCommand = PDCCMD_NACK;
 
-      switch (pCmd->getCommandType ())
+      switch ((unsigned int)pCmd->getCommandType ())
       {
       case PDCCMD_ACK:
       case PDCCMD_NACK:
@@ -316,7 +317,7 @@ main (int argc, char *argv[])
 
                while (pEnum->hasMoreElements ())
                {
-                  int iLangSupported = (int)pEnum->nextElement ();
+                  int iLangSupported = (int)(uintptr_t)pEnum->nextElement ();
 
                   if (iLangIn == iLangSupported)
                   {
@@ -374,7 +375,7 @@ main (int argc, char *argv[])
 
          while (pEnum->hasMoreElements ())
          {
-            int iLangSupported = (int)pEnum->nextElement ();
+            int iLangSupported = (int)(uintptr_t)pEnum->nextElement ();
 
             if (*pszLanguages)
                strcat (pszLanguages, " ");
@@ -401,7 +402,18 @@ main (int argc, char *argv[])
 
          pCmd->getCommandInt (iCmd);
 
-         switch (iCmd)
+         if (iCmd == -1)
+         {
+            if (  !pCmd->setCommand (PDCCMD_NACK, pszErrorMissingCmd)
+               || !pCmd->sendCommand (fdS2C)
+               )
+            {
+               goto BUGOUT;
+            }
+            break;
+         }
+
+         switch ((unsigned int)iCmd)
          {
          case PDCCMD_ACK:
          case PDCCMD_NACK:
@@ -629,7 +641,6 @@ main (int argc, char *argv[])
          case PDCCMD_PUSH_CURRENT_TRIMMING:
 #endif
          case PDCCMD_PUSH_CURRENT_GAMMA:
-         case -1:
          {
             if (  !pCmd->setCommand (PDCCMD_NACK, pszErrorMissingCmd)
                || !pCmd->sendCommand (fdS2C)
@@ -929,9 +940,9 @@ main (int argc, char *argv[])
             break;
          }
 
-         switch (pCmd->getCommandType ())
+                  switch ((unsigned int)pCmd->getCommandType ())
          {
-         case PDCCMD_GET_VERSION:
+            case PDCCMD_GET_VERSION:
          {
             if (  !pCmd->setCommand (PDCCMD_ACK, pDevice->getVersion ())
                || !pCmd->sendCommand (fdS2C)
@@ -4703,7 +4714,7 @@ main (int argc, char *argv[])
             pbBuffer1 = 0;
          }
 
-         if (0 < pbBuffer1)
+                   if (pbBuffer1 != nullptr)
          {
             eCommand = PDCCMD_ACK;
          }
@@ -4735,12 +4746,12 @@ main (int argc, char *argv[])
             pbBuffer2 = 0;
          }
 
-         if (0 < pbBuffer2)
+         if (pbBuffer2 != nullptr)
          {
             eCommand = PDCCMD_ACK;
          }
 
-         if (0 < pbBuffer2)
+         if (pbBuffer2 != nullptr)
          {
             eCommand = PDCCMD_ACK;
          }

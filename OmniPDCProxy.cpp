@@ -34,6 +34,7 @@
 #include <sys/sem.h>
 #include <errno.h>
 #include <sys/wait.h>
+#include <cstdint>
 
 #if defined(__GNU_LIBRARY__) && !defined(_SEM_SEMUN_UNDEFINED)
 /* union semun is defined by including <sys/sem.h> */
@@ -5803,7 +5804,7 @@ rasterize (PBYTE        pbBits,
          cbBuffer1_d = pbmi->cbFix;
          pbBuffer1_d = (byte *)shmat (idBuffer1_d, 0, 0);
 
-         if (-1 == (uintptr_t)pbBuffer1_d)
+         if (nullptr == pbBuffer1_d)
          {
 #ifndef RETAIL
             if (DebugOutput::shouldOutputOmniPDCProxy ())
@@ -5877,7 +5878,7 @@ rasterize (PBYTE        pbBits,
          cbBuffer2_d = cbBuffer2;
          pbBuffer2_d = (byte *)shmat (idBuffer2_d, 0, 0);
 
-         if (-1 == (uintptr_t)pbBuffer2_d)
+         if (nullptr == pbBuffer2_d)
          {
 #ifndef RETAIL
             if (DebugOutput::shouldOutputOmniPDCProxy ())

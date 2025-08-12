@@ -19,6 +19,7 @@
 #include "XMLDevice.hpp"
 #include "XMLDeviceInstance.hpp"
 #include "XMLDeviceBlitter.hpp"
+#include <cstdint>
 
 XMLDeviceBlitter::
 XMLDeviceBlitter (GModule     *hmodLibrary,
@@ -156,8 +157,8 @@ toString (std::ostringstream& oss)
 
    oss << "{XMLDeviceBlitter: "
        << "hmodLibrary_d = " << std::hex << hmodLibrary_d
-       << ", pfnCreateBlitter_d = " << (int)pfnCreateBlitter_d
-       << ", pfnDeleteBlitter_d = " << (int)pfnDeleteBlitter_d << std::dec
+       << ", pfnCreateBlitter_d = " << (uintptr_t)pfnCreateBlitter_d
+       << ", pfnDeleteBlitter_d = " << (uintptr_t)pfnDeleteBlitter_d << std::dec
        << ", "
        << DeviceBlitter::toString (oss2)
        << " }";

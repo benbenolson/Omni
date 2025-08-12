@@ -24,8 +24,8 @@ CLEANFILES      = Epson_*
 
 parser_SOURCES = OmniDomParser.cpp \
                  Main.cpp
-parser_LDADD = $(top_builddir)/libomni.la
-parser_LDFLAGS = @XML_LIBS@ @GLIB_LIBS@
+parser_LDADD = $(top_builddir)/libomni.la $(top_builddir)/XMLLib/libOmniXMLLibrary.la @XML_LIBS@
+parser_LDFLAGS = @GLIB_LIBS@
 
 # BUG - this executes when make install is called
 executeParser:		parser

@@ -21,6 +21,7 @@
 #include "JobProperties.hpp"
 
 #include <typeinfo>
+#include <cstdint>
 
 static PSZCRO vapszExtraKeys[] = {
    "XMLMasterFile"
@@ -527,7 +528,7 @@ toString (std::ostringstream& oss)
 
    oss << "{XMLDeviceInstance: "
        << "hmodLibrary_d = " << std::hex << hmodLibrary_d
-       << ", pfnDeleteInstance_d = " << (int)pfnDeleteInstance_d << std::dec
+       << ", pfnDeleteInstance_d = " << (uintptr_t)pfnDeleteInstance_d << std::dec
        << ", "
        << DeviceInstance::toString (oss2)
        << " }";

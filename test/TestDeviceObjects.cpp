@@ -2483,11 +2483,11 @@ executeDevice (PSZRO  pszFullDeviceName,
    if (fUsePDC)
    {
 #ifdef PDC_INTERFACE_ENABLED
-      char *pszSlash = strchr (pszFullDeviceName, '/');
+      const char *pszSlash = strchr (pszFullDeviceName, '/');
 
       while (pszSlash)
       {
-         pszFullDeviceName = pszSlash + 1;
+         pszFullDeviceName = const_cast<char*>(pszSlash + 1);
 
          pszSlash = strchr (pszFullDeviceName, '/');
       }
