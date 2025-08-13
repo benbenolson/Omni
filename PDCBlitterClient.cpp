@@ -3375,24 +3375,23 @@ main (int argc, char *argv[])
             && *pszCommandString
             )
          {
-            char   *pszSpace       = 0;
+            const char *pszSpaceConst = 0;
             PSZCRO  pszJPQuoted    = pCmd->getCommandString (false);
             PSZRO   pszJP          = 0;
             int     iPhysicalCount = 0;
             int     iLogicalCount  = 0;
             int     iPlanes        = 0;
 
-            pszSpace = strchr (pszJPQuoted, ' ');
+            pszSpaceConst = strchr (pszJPQuoted, ' ');
 
-            if (pszSpace)
+            if (pszSpaceConst)
             {
-               *pszSpace = '\0';
+               std::string tempQuoted(pszJPQuoted, pszSpaceConst - pszJPQuoted);
 
-               pszJP = Omni::dequoteString (pszJPQuoted);
+               pszJP = Omni::dequoteString (tempQuoted.c_str());
 
                if (!pszJP)
                {
-                  *pszSpace = ' ';
                }
 
                if (  pszJP
