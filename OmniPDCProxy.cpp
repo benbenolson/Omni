@@ -2785,28 +2785,27 @@ public:
          && PDCCMD_ACK == pCmd->getCommandType ()
          )
       {
-         char   *pszSpace            = 0;
+                  const char *pszSpaceConst    = 0;
          PSZCRO  pszJPQuoted         = pCmd->getCommandString (false);
          PSZRO   pszJP               = 0;
          int     iSimulationRequired = 0;
          bool    fSimulationRequired = false;
-
-         pszSpace = strchr (pszJPQuoted, ' ');
-
-         if (!pszSpace)
+ 
+         pszSpaceConst = strchr (pszJPQuoted, ' ');
+ 
+         if (!pszSpaceConst)
             return 0;
-
-         *pszSpace = '\0';
-
-         pszJP = Omni::dequoteString (pszJPQuoted);
-
+ 
+         std::string tempQuoted(pszJPQuoted, pszSpaceConst - pszJPQuoted);
+ 
+         pszJP = Omni::dequoteString (tempQuoted.c_str());
+ 
          if (!pszJP)
          {
-            *pszSpace = ' ';
             return 0;
          }
-
-         sscanf (pszSpace + 1,
+ 
+         sscanf (pszSpaceConst + 1,
                  "%d",
                  &iSimulationRequired);
 
@@ -3308,33 +3307,32 @@ public:
          && PDCCMD_ACK == pCmd->getCommandType ()
          )
       {
-         char   *pszSpace       = 0;
-         PSZCRO  pszJPQuoted    = pCmd->getCommandString (false);
-         PSZRO   pszJP          = 0;
-         int     iPhysicalCount = 0;
-         int     iLogicalCount  = 0;
-         int     iPlanes        = 0;
-
-         pszSpace = strchr (pszJPQuoted, ' ');
-
-         if (!pszSpace)
-            return 0;
-
-         *pszSpace = '\0';
-
-         pszJP = Omni::dequoteString (pszJPQuoted);
-
-         if (!pszJP)
-         {
-            *pszSpace = ' ';
-            return 0;
-         }
-
-         sscanf (pszSpace + 1,
-                 "%d %d %d",
-                 &iPhysicalCount,
-                 &iLogicalCount,
-                 &iPlanes);
+                   const char *pszSpaceConst = 0;
+          PSZCRO  pszJPQuoted    = pCmd->getCommandString (false);
+          PSZRO   pszJP          = 0;
+          int     iPhysicalCount = 0;
+          int     iLogicalCount  = 0;
+          int     iPlanes        = 0;
+ 
+          pszSpaceConst = strchr (pszJPQuoted, ' ');
+ 
+          if (!pszSpaceConst)
+             return 0;
+ 
+          std::string tempQuoted(pszJPQuoted, pszSpaceConst - pszJPQuoted);
+ 
+          pszJP = Omni::dequoteString (tempQuoted.c_str());
+ 
+          if (!pszJP)
+          {
+             return 0;
+          }
+ 
+          sscanf (pszSpaceConst + 1,
+                  "%d %d %d",
+                  &iPhysicalCount,
+                  &iLogicalCount,
+                  &iPlanes);
 
 #ifndef RETAIL
          if (DebugOutput::shouldOutputOmniPDCProxy ())
@@ -3606,26 +3604,25 @@ public:
          int     iDestinationBitsPerPel = 0;
          int     iScanlineMultiple      = 0;
 
-         pszSpace = strchr (pszJPQuoted, ' ');
-
-         if (!pszSpace)
-            return 0;
-
-         *pszSpace = '\0';
-
-         pszJP = Omni::dequoteString (pszJPQuoted);
-
-         if (!pszJP)
-         {
-            *pszSpace = ' ';
-            return 0;
-         }
-
-         sscanf (pszSpace + 1,
-                 "%d %d %d %d %d %d %d",
-                 &iXRes,
-                 &iYRes,
-                 &iXInternalRes,
+                   const char *pszSpaceConst = strchr (pszJPQuoted, ' ');
+ 
+          if (!pszSpaceConst)
+             return 0;
+ 
+          std::string tempQuoted(pszJPQuoted, pszSpaceConst - pszJPQuoted);
+ 
+          pszJP = Omni::dequoteString (tempQuoted.c_str());
+ 
+          if (!pszJP)
+          {
+             return 0;
+          }
+ 
+          sscanf (pszSpaceConst + 1,
+                  "%d %d %d %d %d %d %d",
+                  &iXRes,
+                  &iYRes,
+                  &iXInternalRes,
                  &iYInternalRes,
                  &iCapabilities,
                  &iDestinationBitsPerPel,
@@ -4940,29 +4937,28 @@ public:
          && PDCCMD_ACK == pCmd->getCommandType ()
          )
       {
-         char   *pszSpace    = 0;
-         PSZCRO  pszJPQuoted = pCmd->getCommandString (false);
-         PSZRO   pszJP       = 0;
-         int     iType       = 0;
-
-         pszSpace = strchr (pszJPQuoted, ' ');
-
-         if (!pszSpace)
-            return 0;
-
-         *pszSpace = '\0';
-
-         pszJP = Omni::dequoteString (pszJPQuoted);
-
-         if (!pszJP)
-         {
-            *pszSpace = ' ';
-            return 0;
-         }
-
-         sscanf (pszSpace + 1,
-                 "%d",
-                 &iType);
+                   const char *pszSpaceConst = 0;
+          PSZCRO  pszJPQuoted = pCmd->getCommandString (false);
+          PSZRO   pszJP       = 0;
+          int     iType       = 0;
+ 
+          pszSpaceConst = strchr (pszJPQuoted, ' ');
+ 
+          if (!pszSpaceConst)
+             return 0;
+ 
+          std::string tempQuoted(pszJPQuoted, pszSpaceConst - pszJPQuoted);
+ 
+          pszJP = Omni::dequoteString (tempQuoted.c_str());
+ 
+          if (!pszJP)
+          {
+             return 0;
+          }
+ 
+          sscanf (pszSpaceConst + 1,
+                  "%d",
+                  &iType);
 
 #ifndef RETAIL
          if (DebugOutput::shouldOutputOmniPDCProxy ())
