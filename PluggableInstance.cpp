@@ -24,6 +24,7 @@
 #include <cstring>
 #include <cstdio>
 #include <cstdlib>
+#include <cstdint>
 
 #include <unistd.h>
 #include <sys/types.h>
@@ -529,21 +530,21 @@ stopPDCSession (bool fError)
 std::string * PluggableInstance::
 getJobProperties (bool fInDeviceSpecific)
 {
-   if (!pCmd_d)
-   {
-      startPDCSession ();
-
-      if (!pCmd_d)
+         if (!pCmd_d)
       {
-         return false;
-      }
-   }
+         startPDCSession ();
 
-   if (  pCmd_d->setCommand (PDCCMD_GET_JOB_PROPERTIES, fInDeviceSpecific)
-      && pCmd_d->sendCommand (fdC2S_d)
-      && pCmd_d->readCommand (fdS2C_d)
-      && PDCCMD_ACK == pCmd_d->getCommandType ()
-      )
+         if (!pCmd_d)
+         {
+            return nullptr;
+         }
+      }
+ 
+      if (  pCmd_d->setCommand (PDCCMD_GET_JOB_PROPERTIES, fInDeviceSpecific)
+         && pCmd_d->sendCommand (fdC2S_d)
+         && pCmd_d->readCommand (fdS2C_d)
+         && PDCCMD_ACK == pCmd_d->getCommandType ()
+         )
    {
       return new std::string (pCmd_d->getCommandString (false));
    }
@@ -667,21 +668,21 @@ getGroupEnumeration (bool fInDeviceSpecific)
 std::string * PluggableInstance::
 getJobPropertyType (PSZCRO pszKey)
 {
-   if (!pCmd_d)
-   {
-      startPDCSession ();
+          if (!pCmd_d)
+       {
+          startPDCSession ();
 
-      if (!pCmd_d)
-      {
-         return false;
-      }
-   }
-
-   if (  pCmd_d->setCommand (PDCCMD_GET_JOB_PROPERTY_TYPE, pszKey)
-      && pCmd_d->sendCommand (fdC2S_d)
-      && pCmd_d->readCommand (fdS2C_d)
-      && PDCCMD_ACK == pCmd_d->getCommandType ()
-      )
+          if (!pCmd_d)
+          {
+             return nullptr;
+          }
+       }
+ 
+       if (  pCmd_d->setCommand (PDCCMD_GET_JOB_PROPERTY_TYPE, pszKey)
+          && pCmd_d->sendCommand (fdC2S_d)
+          && pCmd_d->readCommand (fdS2C_d)
+          && PDCCMD_ACK == pCmd_d->getCommandType ()
+          )
    {
       return new std::string (pCmd_d->getCommandString (false));
    }
@@ -692,21 +693,21 @@ getJobPropertyType (PSZCRO pszKey)
 std::string * PluggableInstance::
 getJobProperty (PSZCRO pszKey)
 {
-   if (!pCmd_d)
-   {
-      startPDCSession ();
-
-      if (!pCmd_d)
-      {
-         return false;
-      }
-   }
-
-   if (  pCmd_d->setCommand (PDCCMD_GET_JOB_PROPERTY, pszKey)
-      && pCmd_d->sendCommand (fdC2S_d)
-      && pCmd_d->readCommand (fdS2C_d)
-      && PDCCMD_ACK == pCmd_d->getCommandType ()
-      )
+          if (!pCmd_d)
+       {
+          startPDCSession ();
+ 
+          if (!pCmd_d)
+          {
+             return nullptr;
+          }
+       }
+ 
+       if (  pCmd_d->setCommand (PDCCMD_GET_JOB_PROPERTY, pszKey)
+          && pCmd_d->sendCommand (fdC2S_d)
+          && pCmd_d->readCommand (fdS2C_d)
+          && PDCCMD_ACK == pCmd_d->getCommandType ()
+          )
    {
       return new std::string (pCmd_d->getCommandString (false));
    }
@@ -718,17 +719,17 @@ std::string * PluggableInstance::
 translateKeyValue (PSZCRO pszKey,
                    PSZCRO pszValue)
 {
-   if (!pCmd_d)
-   {
-      startPDCSession ();
-
-      if (!pCmd_d)
-      {
-         return false;
-      }
-   }
-
-   if (!pCmd_d->setCommand (PDCMD_XLATE_JOB_PROPERTY_KEY_VALUE, pszKey))
+          if (!pCmd_d)
+       {
+          startPDCSession ();
+ 
+          if (!pCmd_d)
+          {
+             return nullptr;
+          }
+       }
+ 
+       if (!pCmd_d->setCommand (PDCMD_XLATE_JOB_PROPERTY_KEY_VALUE, pszKey))
    {
       return DeviceInstance::translateKeyValue (pszKey, pszValue);
    }
@@ -1893,7 +1894,7 @@ rasterize (PBYTE        pbBits,
          cbBuffer1_d = pbmi->cbFix;
          pbBuffer1_d = (byte *)shmat (idBuffer1_d, 0, 0);
 
-         if (-1 == (int)pbBuffer1_d)
+         if (-1 == (intptr_t)pbBuffer1_d)
          {
 #ifndef RETAIL
             if (DebugOutput::shouldOutputPluggableInstance ())
@@ -1967,7 +1968,7 @@ rasterize (PBYTE        pbBits,
          cbBuffer2_d = cbBuffer2;
          pbBuffer2_d = (byte *)shmat (idBuffer2_d, 0, 0);
 
-         if (-1 == (int)pbBuffer2_d)
+         if (-1 == (intptr_t)pbBuffer2_d)
          {
 #ifndef RETAIL
             if (DebugOutput::shouldOutputPluggableInstance ())

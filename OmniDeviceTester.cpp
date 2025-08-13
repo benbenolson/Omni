@@ -35,7 +35,7 @@
 #include <glib.h>
 #include <gmodule.h>
 
-typedef unsigned int ULONG;
+// typedef unsigned int ULONG;
 typedef short int SHORT;
 typedef unsigned short int USHORT;
 

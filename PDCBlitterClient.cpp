@@ -2107,7 +2107,7 @@ main (int argc, char *argv[])
 
                while (pEnum->hasMoreElements ())
                {
-                  int iLangSupported = (int)pEnum->nextElement ();
+                                     intptr_t iLangSupported = (intptr_t)pEnum->nextElement ();
 
                   if (iLangIn == iLangSupported)
                   {
@@ -2683,7 +2683,7 @@ main (int argc, char *argv[])
             pbBuffer1 = 0;
          }
 
-         if (0 < pbBuffer1)
+                   if (pbBuffer1 != 0)
          {
             eCommand = PDCCMD_ACK;
          }
@@ -2715,7 +2715,7 @@ main (int argc, char *argv[])
             pbBuffer2 = 0;
          }
 
-         if (0 < pbBuffer2)
+                   if (pbBuffer2 != 0)
          {
             eCommand = PDCCMD_ACK;
          }
@@ -2884,7 +2884,7 @@ main (int argc, char *argv[])
             && *pszCommandString
             )
          {
-            char   *pszSpace            = 0;
+            const char *pszSpaceConst   = 0;
             PSZCRO  pszJPQuoted         = pCmd->getCommandString (false);
             PSZRO   pszJP               = 0;
             int     iMinimum            = 0;
@@ -2892,31 +2892,30 @@ main (int argc, char *argv[])
             int     iSimulationRequired = 0;
             bool    fSimulationRequired = false;
 
-            pszSpace = strchr (pszJPQuoted, ' ');
+            pszSpaceConst = strchr (pszJPQuoted, ' ');
 
-            if (pszSpace)
+            if (pszSpaceConst)
             {
-               *pszSpace = '\0';
+               std::string tempQuoted(pszJPQuoted, pszSpaceConst - pszJPQuoted);
 
-               pszJP = Omni::dequoteString (pszJPQuoted);
+               pszJP = Omni::dequoteString (tempQuoted.c_str());
 
                if (!pszJP)
                {
-                  *pszSpace = ' ';
                }
 
                if (  pszJP
-                  && 3 == sscanf (pszSpace + 1,
+                  && 3 == sscanf (pszSpaceConst + 1,
                                   "%d %d %d",
                                   &iMinimum,
                                   &iMaximum,
                                   &iSimulationRequired)
                   )
-               {
-                  PSZCRO pszID = findSpace (pszSpace + 1, 3);
-
-                  if (iSimulationRequired)
-                  {
+                              {
+                   PSZCRO pszID = findSpace (pszSpaceConst + 1, 3);
+ 
+                   if (iSimulationRequired)
+                   {
                      fSimulationRequired = true;
                   }
 
@@ -2973,7 +2972,7 @@ main (int argc, char *argv[])
             && *pszCommandString
             )
          {
-            char   *pszSpace      = 0;
+            const char *pszSpaceConst = 0;
             PSZCRO  pszJPQuoted   = pCmd->getCommandString (false);
             PSZRO   pszJP         = 0;
             int     iCapabilities = 0;
@@ -2982,21 +2981,20 @@ main (int argc, char *argv[])
             int     iRightClip    = 0;
             int     iBottomClip   = 0;
 
-            pszSpace = strchr (pszJPQuoted, ' ');
+            pszSpaceConst = strchr (pszJPQuoted, ' ');
 
-            if (pszSpace)
+            if (pszSpaceConst)
             {
-               *pszSpace = '\0';
+               std::string tempQuoted(pszJPQuoted, pszSpaceConst - pszJPQuoted);
 
-               pszJP = Omni::dequoteString (pszJPQuoted);
+               pszJP = Omni::dequoteString (tempQuoted.c_str());
 
                if (!pszJP)
                {
-                  *pszSpace = ' ';
                }
 
                if (  pszJP
-                  && 5 == sscanf (pszSpace + 1,
+                  && 5 == sscanf (pszSpaceConst + 1,
                                   "%d %d %d %d %d",
                                   &iCapabilities,
                                   &iLeftClip,
@@ -3005,7 +3003,7 @@ main (int argc, char *argv[])
                                   &iBottomClip)
                   )
                {
-                  PSZCRO pszID = findSpace (pszSpace + 1, 5);
+                                     PSZCRO pszID = findSpace (pszSpaceConst + 1, 5);
 
                   pFormTemp = new BCDeviceForm (0,
                                                 pszJP,
@@ -3110,30 +3108,29 @@ main (int argc, char *argv[])
             && *pszCommandString
             )
          {
-            char   *pszSpace             = 0;
+                        const char *pszSpaceConst    = 0;
             PSZCRO  pszJPQuoted          = pCmd->getCommandString (false);
             PSZRO   pszJP                = 0;
             int     iColorAdjustRequired = 0;
             int     iAbsorption          = 0;
 
-            pszSpace = strchr (pszJPQuoted, ' ');
+            pszSpaceConst = strchr (pszJPQuoted, ' ');
 
-            if (pszSpace)
+            if (pszSpaceConst)
             {
-               *pszSpace = '\0';
+               std::string tempQuoted(pszJPQuoted, pszSpaceConst - pszJPQuoted);
 
-               pszJP = Omni::dequoteString (pszJPQuoted);
+               pszJP = Omni::dequoteString (tempQuoted.c_str());
 
                if (!pszJP)
                {
-                  *pszSpace = ' ';
                }
 
                if (  pszJP
-                  && 2 == sscanf (pszSpace + 1,
-                                  "%d %d",
-                                  &iColorAdjustRequired,
-                                  &iAbsorption)
+                  && 2 == sscanf (pszSpaceConst + 1,
+                                   "%d %d",
+                                   &iColorAdjustRequired,
+                                   &iAbsorption)
                   )
                {
                   PSZCRO pszID = findSpace (pszSpace + 1, 2);
@@ -3179,32 +3176,31 @@ main (int argc, char *argv[])
             && *pszCommandString
             )
          {
-            char   *pszSpace             = 0;
+            const char *pszSpaceConst    = 0;
             PSZCRO  pszJPQuoted          = pCmd->getCommandString (false);
             PSZRO   pszJP                = 0;
             int     iSimulationRequired = 0;
             bool    fSimulationRequired = false;
 
-            pszSpace = strchr (pszJPQuoted, ' ');
+            pszSpaceConst = strchr (pszJPQuoted, ' ');
 
-            if (pszSpace)
+            if (pszSpaceConst)
             {
-               *pszSpace = '\0';
+               std::string tempQuoted(pszJPQuoted, pszSpaceConst - pszJPQuoted);
 
-               pszJP = Omni::dequoteString (pszJPQuoted);
+               pszJP = Omni::dequoteString (tempQuoted.c_str());
 
                if (!pszJP)
                {
-                  *pszSpace = ' ';
                }
 
                if (  pszJP
-                  && 1 == sscanf (pszSpace + 1,
+                  && 1 == sscanf (pszSpaceConst + 1,
                                   "%d",
                                   &iSimulationRequired)
                   )
                {
-                  PSZCRO pszID = findSpace (pszSpace + 1, 1);
+                  PSZCRO pszID = findSpace (pszSpaceConst + 1, 1);
 
                   if (iSimulationRequired)
                   {
@@ -3400,14 +3396,14 @@ main (int argc, char *argv[])
                }
 
                if (  pszJP
-                  && 3 == sscanf (pszSpace + 1,
-                                  "%d %d %d",
-                                  &iPhysicalCount,
-                                  &iLogicalCount,
-                                  &iPlanes)
-                  )
-               {
-                  PSZCRO pszID = findSpace (pszSpace + 1, 3);
+                                     && 3 == sscanf (pszSpaceConst + 1,
+                                   "%d %d %d",
+                                   &iPhysicalCount,
+                                   &iLogicalCount,
+                                   &iPlanes)
+                   )
+                {
+                   PSZCRO pszID = findSpace (pszSpaceConst + 1, 3);
 
                   pPrintModeTemp = new BCDevicePrintMode (0,
                                                           pszJP,
