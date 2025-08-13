@@ -197,7 +197,7 @@ AUTOCONF = ${SHELL} '/workspace/missing' autoconf
 AUTOHEADER = ${SHELL} '/workspace/missing' autoheader
 AUTOMAKE = ${SHELL} '/workspace/missing' automake-1.17
 AWK = mawk
-BUILD_COMPILED_DEVICE = 
+BUILD_COMPILED_DEVICE = XMLParser
 BUILD_CUPS = 
 BUILD_DEVICE_FONT_SUPPORT = 
 BUILD_JOB_DIALOG = 
@@ -211,8 +211,8 @@ BUILD_XML_TOOL2 =
 CC = gcc
 CCDEPMODE = depmode=gcc3
 CDEFINES = -DUSE_STANDARD_NAMES=1 -DRETAIL=1 -DLIBRARY_PATH=${exec_prefix}/lib/Omni/ -DSHARE_PATH=${datarootdir}/Omni/ -DBIN_PATH=${exec_prefix}/bin/
-CFLAGS = -g -O2
-COMPILED_DEVICES = 
+CFLAGS = 
+COMPILED_DEVICES =  XMLDevice Brother Canon Epson HPLaserJet IBM KS Kyocera Okidata Panasonic Star
 CPPFLAGS = 
 CSCOPE = cscope
 CTAGS = ctags
@@ -220,7 +220,7 @@ CUPS_LIBS =
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -DUSE_STANDARD_NAMES=1 -DRETAIL=1 -DLIBRARY_PATH=${exec_prefix}/lib/Omni/ -DSHARE_PATH=${datarootdir}/Omni/ -DBIN_PATH=${exec_prefix}/bin/ -g -O2  -Wall -Wstrict-prototypes -Wmissing-prototypes -fno-builtin -fno-common
+CXXFLAGS = -DUSE_STANDARD_NAMES=1 -DRETAIL=1 -DLIBRARY_PATH=${exec_prefix}/lib/Omni/ -DSHARE_PATH=${datarootdir}/Omni/ -DBIN_PATH=${exec_prefix}/bin/   -Wall -Wstrict-prototypes -Wmissing-prototypes -fno-builtin -fno-common
 CYGPATH_W = echo
 DEBUG_LIBS = 
 DEFAULTCUPSDATAROOT = /usr/share/cups/model/omni
