@@ -21,6 +21,7 @@
 #include "defines.hpp"
 
 #include <cstdarg>
+#include <cstdint>
 
 #include <unistd.h>
 #include <sys/mman.h>
@@ -1232,12 +1233,12 @@ outputSelf ()
 std::string OmniProxy::
 toString (std::ostringstream& oss)
 {
-   oss << "{OmniProxy: pDevice_d = " << *pDevice_d
-       << ", pHeadersRoot_d = 0x" << std::hex << (int)pHeadersRoot_d << std::dec
-       << ", pHeadersCurrent_d = 0x" << pHeadersCurrent_d
-       << ", pHeaderCurrent_d = 0x" << pHeaderCurrent_d
-       << ", fp_d = 0x" << fp_d
-       << "}";
+      oss << "{OmniProxy: pDevice_d = " << *pDevice_d
+        << ", pHeadersRoot_d = 0x" << std::hex << reinterpret_cast<uintptr_t>(pHeadersRoot_d) << std::dec
+        << ", pHeadersCurrent_d = 0x" << reinterpret_cast<uintptr_t>(pHeadersCurrent_d)
+        << ", pHeaderCurrent_d = 0x" << reinterpret_cast<uintptr_t>(pHeaderCurrent_d)
+        << ", fp_d = 0x" << reinterpret_cast<uintptr_t>(fp_d)
+        << "}";
 
    return oss.str ();
 }
