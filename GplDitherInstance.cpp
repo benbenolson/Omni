@@ -330,28 +330,25 @@ createDitherInstance (PSZCRO  pszDitherType,
       return 0;
    }
 
-   bool         fDataInRGB;
-   int          iBlackReduction;
-   int          iColorTech;
-   int          iNumDitherRows;
-   int          iSrcRowPels;
-   int          iNumDestRowBytes;
-   int          iDestBitsPerPel;
+   bool         fDataInRGB        = false;
+   int          iBlackReduction   = 0;
+   int          iColorTech        = 0;
+   int          iNumDitherRows    = 0;
+   int          iSrcRowPels       = 0;
+   int          iNumDestRowBytes  = 0;
+   int          iDestBitsPerPel   = 0;
    DeviceGamma *pGamma           = 0;
    int          i;
 
-   typedef struct _BoolParmMapping {
-      char *pszName;
-      bool *pfParm;
-   } BOOLPARMMAPPING, *PBOOlPARMMAPPING;
-   BOOLPARMMAPPING aBoolMappings[] = {
+   struct BoolParmMapping { const char *pszName; bool *pfParm; };
+   BoolParmMapping aBoolMappings[] = {
       { "fDataInRGB=", &fDataInRGB }
    };
 
    for (i = 0; i < (int)dimof (aBoolMappings); i++)
    {
-      char *pszName = aBoolMappings[i].pszName;
-      char *pszPos  = strstr (pszOptions, pszName);
+      const char *pszName = aBoolMappings[i].pszName;
+      const char *pszPos  = (pszOptions ? strstr (pszOptions, pszName) : 0);
 
       if (!pszPos)
          break;
@@ -359,8 +356,8 @@ createDitherInstance (PSZCRO  pszDitherType,
 #ifndef RETAIL
       if (DebugOutput::shouldOutputGplDitherInstance ())
       {
-         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Found " << pszName << " at offset " << pszPos - pszOptions << std::endl;
-         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Looking at " << pszPos + strlen (pszName) << std::endl;
+         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Found " << pszName << " at offset " << (pszPos - pszOptions) << std::endl;
+         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Looking at " << (pszPos + strlen (pszName)) << std::endl;
       }
 #endif
 
@@ -385,25 +382,11 @@ createDitherInstance (PSZCRO  pszDitherType,
 #endif
    }
 
-#ifndef RETAIL
-   if (DebugOutput::shouldOutputGplDitherInstance ())
-   {
-      if (i != (int)dimof (aBoolMappings))
-         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Failure @ " << __LINE__ << "!" << std::endl;
-      else
-         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Success @ " << __LINE__ << "!" << std::endl;
-   }
-#endif
-
    if (i != (int)dimof (aBoolMappings))
-      // Failure!  Every element was supposed to be on the options line.
       return 0;
 
-   typedef struct _IntParmMapping {
-      char *pszName;
-      int  *piParm;
-   } INTPARMMAPPING, *PINTPARMMAPPING;
-   INTPARMMAPPING aIntMappings[] = {
+   struct IntParmMapping { const char *pszName; int *piParm; };
+   IntParmMapping aIntMappings[] = {
       { "iBlackReduction=",  &iBlackReduction  },
       { "iColorTech=",       &iColorTech       },
       { "iNumDitherRows=",   &iNumDitherRows   },
@@ -414,8 +397,8 @@ createDitherInstance (PSZCRO  pszDitherType,
 
    for (i = 0; i < (int)dimof (aIntMappings); i++)
    {
-      char *pszName = aIntMappings[i].pszName;
-      char *pszPos  = strstr (pszOptions, pszName);
+      const char *pszName = aIntMappings[i].pszName;
+      const char *pszPos  = (pszOptions ? strstr (pszOptions, pszName) : 0);
 
       if (!pszPos)
          break;
@@ -423,14 +406,12 @@ createDitherInstance (PSZCRO  pszDitherType,
 #ifndef RETAIL
       if (DebugOutput::shouldOutputGplDitherInstance ())
       {
-         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Found " << pszName << " at offset " << pszPos - pszOptions << std::endl;
-         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Looking at " << pszPos + strlen (pszName) << std::endl;
+         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Found " << pszName << " at offset " << (pszPos - pszOptions) << std::endl;
+         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Looking at " << (pszPos + strlen (pszName)) << std::endl;
       }
 #endif
 
-      if (0 == sscanf (pszPos + strlen (pszName),
-                       "%d",
-                       aIntMappings[i].piParm))
+      if (0 == sscanf (pszPos + strlen (pszName), "%d", aIntMappings[i].piParm))
          break;
 
 #ifndef RETAIL
@@ -441,19 +422,7 @@ createDitherInstance (PSZCRO  pszDitherType,
 #endif
    }
 
-
-#ifndef RETAIL
-   if (DebugOutput::shouldOutputGplDitherInstance ())
-   {
-      if (i != (int)dimof (aIntMappings))
-         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Failure @ " << __LINE__ << "!" << std::endl;
-      else
-         DebugOutput::getErrorStream () << "GplDitherInstance:" << __FUNCTION__ << ": Success @ " << __LINE__ << "!" << std::endl;
-   }
-#endif
-
    if (i != (int)dimof (aIntMappings))
-      // Failure!  Every element was supposed to be on the options line.
       return 0;
 
    pGamma = pDevice->getCurrentGamma ();
@@ -469,7 +438,6 @@ createDitherInstance (PSZCRO  pszDitherType,
                                  iDestBitsPerPel,
                                  pGamma);
 }
-
 std::string * GplDitherInstance::
 getCreateHash (PSZRO pszJobProperties)
 {

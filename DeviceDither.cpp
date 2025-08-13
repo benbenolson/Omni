@@ -591,7 +591,7 @@ public:
          char          *pszLine;
          PNAMEENTRY     pCurrent           = pNames_d;
 
-         while (0 < ifIn.getline (achLine, sizeof (achLine)))
+         while (ifIn.getline(achLine, sizeof(achLine)))
          {
             pszLine = achLine;
 
@@ -957,7 +957,7 @@ queryLibrary (char *pszFillIn, PSZCRO pszID)
 
    *pszFillIn = '\0';
 
-   while (0 < ifIn.getline (achLine, sizeof (achLine)))
+   while (ifIn.getline(achLine, sizeof(achLine)))
    {
       pszLine = achLine;
 

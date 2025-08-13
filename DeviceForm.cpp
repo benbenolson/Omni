@@ -780,13 +780,13 @@ getShortFormName (PSZCRO pszLongName)
 
 typedef struct _ReservedMap {
    PSZCRO pszName;
-   int    iValue;
+   unsigned int    iValue;
 } RESERVEDMAP, *PRESERVEDMAP;
 
 static const RESERVEDMAP vaReservedKeywords[] = {
-   { "NO_CAPABILITIES",             0x00000000 },
-   { "FORM_CAPABILITY_ROLL",        0x80000000 },
-   { "FORM_CAPABILITY_USERDEFINED", 0x40000000 }
+   { "NO_CAPABILITIES",             0u },
+   { "FORM_CAPABILITY_ROLL",        0x80000000u },
+   { "FORM_CAPABILITY_USERDEFINED", 0x40000000u }
 };
 
 bool DeviceForm::

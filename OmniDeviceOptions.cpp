@@ -59,13 +59,15 @@ executeDevice (PSZRO             pszFullDeviceName,
    if (fUsePDC)
    {
 #ifdef PDC_INTERFACE_ENABLED
-      char *pszSlash = strchr (pszFullDeviceName, '/');
+             const char *pszSlashConst = strchr (pszFullDeviceName, '/');
+       char *pszSlash = const_cast<char*>(pszSlashConst);
 
       while (pszSlash)
       {
          pszFullDeviceName = pszSlash + 1;
 
-         pszSlash = strchr (pszFullDeviceName, '/');
+                   pszSlashConst = strchr (pszFullDeviceName, '/');
+          pszSlash = const_cast<char*>(pszSlashConst);
       }
 
       pDevice = new OmniPDCProxy (0,                 // client exe to spawn

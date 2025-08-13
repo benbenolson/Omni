@@ -517,10 +517,10 @@ public:
    virtual void *
    nextElement ()
    {
-      if (!hasMoreElements ())
-      {
-         return false;
-      }
+             if (!hasMoreElements ())
+       {
+          return nullptr;
+       }
 
       std::ostringstream  oss;
       void               *pvRet = 0;

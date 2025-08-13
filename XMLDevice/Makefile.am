@@ -22,12 +22,12 @@ pkglib_LTLIBRARIES = libXMLOmniDevice.la
 CLEANFILES         =
 
 InstallOmniDeviceXMLs_SOURCES = InstallOmniDeviceXMLs.cpp
-InstallOmniDeviceXMLs_LDADD   = $(top_builddir)/XMLLib/libOmniXMLLibrary.la
-InstallOmniDeviceXMLs_LDFLAGS = @XML_LIBS@
+InstallOmniDeviceXMLs_LDADD   = $(top_builddir)/XMLLib/libOmniXMLLibrary.la @XML_LIBS@
+InstallOmniDeviceXMLs_LDFLAGS =
 
 CopyOmniDeviceBIs_SOURCES = CopyOmniDeviceBIs.cpp
-CopyOmniDeviceBIs_LDADD   = $(top_builddir)/XMLLib/libOmniXMLLibrary.la
-CopyOmniDeviceBIs_LDFLAGS = @XML_LIBS@
+CopyOmniDeviceBIs_LDADD   = $(top_builddir)/XMLLib/libOmniXMLLibrary.la @XML_LIBS@
+CopyOmniDeviceBIs_LDFLAGS =
 
 libXMLOmniDevice_la_SOURCES = XMLDeviceCopies.cpp \
                               XMLDeviceForm.cpp \

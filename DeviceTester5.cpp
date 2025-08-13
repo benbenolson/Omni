@@ -20,6 +20,8 @@
 #include <Device.hpp>
 #include <Omni.hpp>
 #include <JobProperties.hpp>
+#include <gmodule.h>
+#include <cstdint>
 
 Device *
 loadDevice (PSZCRO    pszFullDeviceName,
@@ -62,7 +64,7 @@ loadDevice (PSZCRO    pszFullDeviceName,
                     "newDeviceW_JopProp_Advanced",
                     (gpointer *)&pfnNewDeviceWArgs);
 
-   if (DebugOutput::shouldOutputDeviceTester ()) DebugOutput::getErrorStream () << __FUNCTION__ << ": pfnNewDeviceWArgs = 0x" << std::hex << (int)pfnNewDeviceWArgs << std::dec << std::endl;
+   if (DebugOutput::shouldOutputDeviceTester ()) DebugOutput::getErrorStream () << __FUNCTION__ << ": pfnNewDeviceWArgs = 0x" << std::hex << reinterpret_cast<uintptr_t>(pfnNewDeviceWArgs) << std::dec << std::endl;
 
    if (!pfnNewDeviceWArgs)
       return 0;

@@ -596,6 +596,7 @@ echo "Running autoconf [`autoconf --version | head -n 1`]..."
 autoconf || exit
 
 echo "Running configure "${CONFIGURE_ARGS}" "CFLAGS=\"${CFLAGS}\"" ..."
+export PATH="$(pwd):$PATH"
 ./configure ${CONFIGURE_ARGS} CFLAGS="${CFLAGS}" || exit
 
 if test ${BUILD_XML_DEVICE} = 1; then

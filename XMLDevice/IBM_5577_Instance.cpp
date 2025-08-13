@@ -61,7 +61,7 @@ IBM_5577_Instance::
 }
 
 void IBM_5577_Instance::
-initializeInstance ()
+initializeInstance (PSZCRO pszJobProperties)
 {
    if (fHaveInitialized_d)
       return;
@@ -682,8 +682,8 @@ beginJob ()
 
    /* tray select */
    if (  pstringTray
-      && 0 == pstringTray->compare ("TRAY_AUTO")
-      && 0 == pstringTray->compare ("TRAY_FRONT_CONTINUOUS") // for 5577 continuous mode
+      && 0 == pstringTray->compare ("AutoSelect")
+      && 0 == pstringTray->compare ("Front") // for 5577 continuous mode
       )
    {
 #ifndef RETAIL
@@ -704,24 +704,24 @@ beginJob ()
 
       if (pstringForm)
       {
-         if (  0 == pstringForm->compare ("FORM_A3")
-            || 0 == pstringForm->compare ("FORM_JIS_B4")
-            || 0 == pstringForm->compare ("FORM_A4")
-            || 0 == pstringForm->compare ("FORM_JIS_B5")
-            || 0 == pstringForm->compare ("FORM_A5")
-            || 0 == pstringForm->compare ("FORM_LETTER")
-            || 0 == pstringForm->compare ("FORM_LEGAL")
-            || 0 == pstringForm->compare ("FORM_HAGAKI_CARD")
+         if (  0 == pstringForm->compare ("iso_a3_297.00x420.00mm")
+            || 0 == pstringForm->compare ("jis_b4_257.00x364.00mm")
+            || 0 == pstringForm->compare ("iso_a4_210.00x297.00mm")
+            || 0 == pstringForm->compare ("jis_b5_182.00x257.00mm")
+            || 0 == pstringForm->compare ("iso_a5_148.00x210.00mm")
+            || 0 == pstringForm->compare ("na_letter_8.50x11.00in")
+            || 0 == pstringForm->compare ("na_legal_8.50x14.00in")
+            || 0 == pstringForm->compare ("jpn_hagaki_100.00x148.00mm")
             )
          {
             tray = 0x02;
          }
-         else if (  0 == pstringForm->compare ("FORM_10_X_11")
-                 || 0 == pstringForm->compare ("FORM_11_X_12")
-                 || 0 == pstringForm->compare ("FORM_11_X_15")
-                 || 0 == pstringForm->compare ("FORM_12_X_19")
-                 || 0 == pstringForm->compare ("FORM_15_X_11")
-                 || 0 == pstringForm->compare ("FORM_5_X_7")
+         else if (  0 == pstringForm->compare ("na_10x11_10.00x11.00in")
+                 || 0 == pstringForm->compare ("na_11x12_11.00x12.00in")
+                 || 0 == pstringForm->compare ("na_11x15_11.00x15.00in")
+                 || 0 == pstringForm->compare ("na_12x19_12.00x19.00in")
+                 || 0 == pstringForm->compare ("na_15x11_15.00x11.00in")
+                 || 0 == pstringForm->compare ("na_5x7_5.00x7.00in")
                  )
          {
             tray = 0x01;

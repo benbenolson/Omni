@@ -28,6 +28,7 @@
 #include <cstdlib>
 #include <memory.h>
 #include <sstream>
+#include <cstdint>
 
 #include <unistd.h>
 #include <sys/types.h>
@@ -316,7 +317,7 @@ main (int argc, char *argv[])
 
                while (pEnum->hasMoreElements ())
                {
-                  int iLangSupported = (int)pEnum->nextElement ();
+                  intptr_t iLangSupported = (intptr_t)pEnum->nextElement ();
 
                   if (iLangIn == iLangSupported)
                   {
@@ -374,11 +375,11 @@ main (int argc, char *argv[])
 
          while (pEnum->hasMoreElements ())
          {
-            int iLangSupported = (int)pEnum->nextElement ();
+            intptr_t iLangSupported = (intptr_t)pEnum->nextElement ();
 
             if (*pszLanguages)
                strcat (pszLanguages, " ");
-            strcat (pszLanguages, StringResource::IDToName (iLangSupported));
+            strcat (pszLanguages, StringResource::IDToName ((int)iLangSupported));
          }
 
          delete pEnum;
@@ -397,11 +398,11 @@ main (int argc, char *argv[])
 
       case PDCCMD_IS_CMD_SUPPORTED:
       {
-         int iCmd = -1;
-
+                  int iCmd = -1;
+ 
          pCmd->getCommandInt (iCmd);
-
-         switch (iCmd)
+ 
+         switch ((unsigned int)iCmd)
          {
          case PDCCMD_ACK:
          case PDCCMD_NACK:
@@ -629,7 +630,7 @@ main (int argc, char *argv[])
          case PDCCMD_PUSH_CURRENT_TRIMMING:
 #endif
          case PDCCMD_PUSH_CURRENT_GAMMA:
-         case -1:
+         default:
          {
             if (  !pCmd->setCommand (PDCCMD_NACK, pszErrorMissingCmd)
                || !pCmd->sendCommand (fdS2C)
@@ -640,6 +641,7 @@ main (int argc, char *argv[])
             break;
          }
 
+         /* unreachable with explicit default earlier
          default:
          {
             if (  !pCmd->setCommand (PDCCMD_UNSUPPORTED)
@@ -650,6 +652,7 @@ main (int argc, char *argv[])
             }
             break;
          }
+         */
          }
          break;
       }
@@ -4703,7 +4706,7 @@ main (int argc, char *argv[])
             pbBuffer1 = 0;
          }
 
-         if (0 < pbBuffer1)
+                   if (pbBuffer1 != 0)
          {
             eCommand = PDCCMD_ACK;
          }
@@ -4735,15 +4738,10 @@ main (int argc, char *argv[])
             pbBuffer2 = 0;
          }
 
-         if (0 < pbBuffer2)
-         {
-            eCommand = PDCCMD_ACK;
-         }
-
-         if (0 < pbBuffer2)
-         {
-            eCommand = PDCCMD_ACK;
-         }
+                   if (pbBuffer2 != 0)
+          {
+             eCommand = PDCCMD_ACK;
+          }
 
          if (  !pCmd->setCommand (eCommand)
             || !pCmd->sendCommand (fdS2C)

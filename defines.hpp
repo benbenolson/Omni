@@ -45,7 +45,7 @@ typedef const unsigned char *PUCHRO;
 typedef unsigned char byte, BYTE, *PBYTE;
 typedef short int SHORT, *PSHORT;
 typedef unsigned short int USHORT, *PUSHORT;
-typedef unsigned int ULONG, *PULONG;
+typedef unsigned long ULONG, *PULONG;
 typedef int INT, *PINT;
 typedef bool BOOL, *PBOOL;
 typedef int LONG, *PLONG;

@@ -25,6 +25,8 @@
 #include <cstring>
 #include <cstdio>
 #include <cstdlib>
+#include <string>
+#include <cstdint>
 
 #include <unistd.h>
 #include <sys/types.h>
@@ -1241,34 +1243,33 @@ public:
          && PDCCMD_ACK == pCmd->getCommandType ()
          )
       {
-         char   *pszSpace            = 0;
-         PSZCRO  pszJPQuoted         = pCmd->getCommandString (false);
-         PSZRO   pszJP               = 0;
-         int     iMinimum            = 0;
-         int     iMaximum            = 0;
-         int     iSimulationRequired = 0;
-         bool    fSimulationRequired = false;
+                  const char *pszSpaceConst    = 0;
+          PSZCRO  pszJPQuoted         = pCmd->getCommandString (false);
+          PSZRO   pszJP               = 0;
+          int     iMinimum            = 0;
+          int     iMaximum            = 0;
+          int     iSimulationRequired = 0;
+          bool    fSimulationRequired = false;
+ 
+          pszSpaceConst = strchr (pszJPQuoted, ' ');
+ 
+          if (!pszSpaceConst)
+             return 0;
+ 
+          std::string tempQuoted(pszJPQuoted, pszSpaceConst - pszJPQuoted);
+ 
+                     pszJP = Omni::dequoteString (tempQuoted.c_str());
+ 
+           if (!pszJP)
+           {
+              return 0;
+           }
 
-         pszSpace = strchr (pszJPQuoted, ' ');
-
-         if (!pszSpace)
-            return 0;
-
-         *pszSpace = '\0';
-
-         pszJP = Omni::dequoteString (pszJPQuoted);
-
-         if (!pszJP)
-         {
-            *pszSpace = ' ';
-            return 0;
-         }
-
-         sscanf (pszSpace + 1,
-                 "%d %d %d",
-                 &iMinimum,
-                 &iMaximum,
-                 &iSimulationRequired);
+                   sscanf (pszSpaceConst + 1,
+                  "%d %d %d",
+                  &iMinimum,
+                  &iMaximum,
+                  &iSimulationRequired);
 
          if (iSimulationRequired)
          {
@@ -1400,19 +1401,22 @@ getCurrentCopies ()
 
          if (pszNetworkJobProperties)
          {
-            PSZRO  pszJobProperties = 0;
-            char  *pszSpace         = 0;
-
-            pszSpace = strchr (pszNetworkJobProperties, ' ');
-
-            if (pszSpace)
-            {
-               *pszSpace = '\0';
-            }
-
-            pszJobProperties = Omni::dequoteString (pszNetworkJobProperties);
-
-            pCopies_d = OmniPDCProxyCopies::createS (this,
+                         PSZRO  pszJobProperties = 0;
+             const char  *pszSpaceConst   = strchr (pszNetworkJobProperties, ' ');
+ 
+             std::string tempJP;
+             if (pszSpaceConst)
+             {
+                tempJP.assign(pszNetworkJobProperties, pszSpaceConst - pszNetworkJobProperties);
+             }
+             else
+             {
+                tempJP.assign(pszNetworkJobProperties);
+             }
+ 
+             pszJobProperties = Omni::dequoteString (tempJP.c_str());
+ 
+             pCopies_d = OmniPDCProxyCopies::createS (this,
                                                      pszJobProperties,
                                                      pCmd_d,
                                                      fdC2S_d,
@@ -1685,37 +1689,36 @@ public:
          && PDCCMD_ACK == pCmd->getCommandType ()
          )
       {
-         char   *pszSpace      = 0;
-         PSZCRO  pszJPQuoted   = pCmd->getCommandString (false);
-         PSZRO   pszJP         = 0;
-         int     iCapabilities = 0;
-         int     iLeftClip     = 0;
-         int     iTopClip      = 0;
-         int     iRightClip    = 0;
-         int     iBottomClip   = 0;
+                   const char *pszSpaceConst = 0;
+          PSZCRO  pszJPQuoted   = pCmd->getCommandString (false);
+          PSZRO   pszJP         = 0;
+          int     iCapabilities = 0;
+          int     iLeftClip     = 0;
+          int     iTopClip      = 0;
+          int     iRightClip    = 0;
+          int     iBottomClip   = 0;
+ 
+          pszSpaceConst = strchr (pszJPQuoted, ' ');
+ 
+          if (!pszSpaceConst)
+             return 0;
+ 
+          std::string tempQuoted(pszJPQuoted, pszSpaceConst - pszJPQuoted);
+ 
+          pszJP = Omni::dequoteString (tempQuoted.c_str());
+ 
+          if (!pszJP)
+          {
+             return 0;
+          }
 
-         pszSpace = strchr (pszJPQuoted, ' ');
-
-         if (!pszSpace)
-            return 0;
-
-         *pszSpace = '\0';
-
-         pszJP = Omni::dequoteString (pszJPQuoted);
-
-         if (!pszJP)
-         {
-            *pszSpace = ' ';
-            return 0;
-         }
-
-         sscanf (pszSpace + 1,
-                 "%d %d %d %d %d",
-                 &iCapabilities,
-                 &iLeftClip,
-                 &iTopClip,
-                 &iRightClip,
-                 &iBottomClip);
+                   sscanf (pszSpaceConst + 1,
+                  "%d %d %d %d %d",
+                  &iCapabilities,
+                  &iLeftClip,
+                  &iTopClip,
+                  &iRightClip,
+                  &iBottomClip);
 
 #ifndef RETAIL
          if (DebugOutput::shouldOutputOmniPDCProxy ())
@@ -1855,16 +1858,19 @@ getCurrentForm ()
          if (pszNetworkJobProperties)
          {
             PSZRO  pszJobProperties = 0;
-            char  *pszSpace         = 0;
+            const char  *pszSpaceConst = strchr (pszNetworkJobProperties, ' ');
 
-            pszSpace = strchr (pszNetworkJobProperties, ' ');
-
-            if (pszSpace)
+            std::string tempJP;
+            if (pszSpaceConst)
             {
-               *pszSpace = '\0';
+               tempJP.assign(pszNetworkJobProperties, pszSpaceConst - pszNetworkJobProperties);
+            }
+            else
+            {
+               tempJP.assign(pszNetworkJobProperties);
             }
 
-            pszJobProperties = Omni::dequoteString (pszNetworkJobProperties);
+            pszJobProperties = Omni::dequoteString (tempJP.c_str());
 
             pForm_d = OmniPDCProxyForm::createS (this,
                                                  pszJobProperties,
@@ -2228,31 +2234,30 @@ public:
          && PDCCMD_ACK == pCmd->getCommandType ()
          )
       {
-         char   *pszSpace             = 0;
+                  const char *pszSpaceConst    = 0;
          PSZCRO  pszJPQuoted          = pCmd->getCommandString (false);
          PSZRO   pszJP                = 0;
          int     iColorAdjustRequired = 0;
          int     iAbsorption          = 0;
-
-         pszSpace = strchr (pszJPQuoted, ' ');
-
-         if (!pszSpace)
+ 
+         pszSpaceConst = strchr (pszJPQuoted, ' ');
+ 
+         if (!pszSpaceConst)
             return 0;
+ 
+         std::string tempQuoted(pszJPQuoted, pszSpaceConst - pszJPQuoted);
+ 
+         pszJP = Omni::dequoteString (tempQuoted.c_str());
 
-         *pszSpace = '\0';
-
-         pszJP = Omni::dequoteString (pszJPQuoted);
-
-         if (!pszJP)
-         {
-            *pszSpace = ' ';
-            return 0;
-         }
-
-         sscanf (pszSpace + 1,
-                 "%d %d",
-                 &iColorAdjustRequired,
-                 &iAbsorption);
+                   if (!pszJP)
+          {
+             return 0;
+          }
+ 
+          sscanf (pszSpaceConst + 1,
+                  "%d %d",
+                  &iColorAdjustRequired,
+                  &iAbsorption);
 
 #ifndef RETAIL
          if (DebugOutput::shouldOutputOmniPDCProxy ())
@@ -2378,16 +2383,19 @@ getCurrentMedia ()
          if (pszNetworkJobProperties)
          {
             PSZRO  pszJobProperties = 0;
-            char  *pszSpace         = 0;
+            const char  *pszSpaceConst = strchr (pszNetworkJobProperties, ' ');
 
-            pszSpace = strchr (pszNetworkJobProperties, ' ');
-
-            if (pszSpace)
+            std::string tempJP;
+            if (pszSpaceConst)
             {
-               *pszSpace = '\0';
+               tempJP.assign(pszNetworkJobProperties, pszSpaceConst - pszNetworkJobProperties);
+            }
+            else
+            {
+               tempJP.assign(pszNetworkJobProperties);
             }
 
-            pszJobProperties = Omni::dequoteString (pszNetworkJobProperties);
+            pszJobProperties = Omni::dequoteString (tempJP.c_str());
 
             pMedia_d = OmniPDCProxyMedia::createS (this,
                                                    pszJobProperties,
@@ -2503,46 +2511,42 @@ public:
          && PDCCMD_ACK == pCmd->getCommandType ()
          )
       {
-         char   *pszSpace            = 0;
+                  const char *pszSpaceConst    = 0;
          PSZCRO  pszJPQuoted         = pCmd->getCommandString (false);
          PSZRO   pszJP               = 0;
          int     iSimulationRequired = 0;
          bool    fSimulationRequired = false;
-
-         pszSpace = strchr (pszJPQuoted, ' ');
-
-         if (!pszSpace)
+ 
+         pszSpaceConst = strchr (pszJPQuoted, ' ');
+ 
+         if (!pszSpaceConst)
             return 0;
-
-         *pszSpace = '\0';
-
-         pszJP = Omni::dequoteString (pszJPQuoted);
-
+ 
+         std::string tempQuoted(pszJPQuoted, pszSpaceConst - pszJPQuoted);
+ 
+         pszJP = Omni::dequoteString (tempQuoted.c_str());
+ 
          if (!pszJP)
          {
-            *pszSpace = ' ';
             return 0;
          }
-
-         sscanf (pszSpace + 1,
+ 
+         sscanf (pszSpaceConst + 1,
                  "%d",
                  &iSimulationRequired);
-
-         if (iSimulationRequired)
-         {
-            fSimulationRequired = true;
-         }
-
-#ifndef RETAIL
+ 
+         fSimulationRequired = (0 != iSimulationRequired);
+ 
+ #ifndef RETAIL
          if (DebugOutput::shouldOutputOmniPDCProxy ())
          {
             DebugOutput::getErrorStream () << "OmniPDCProxyNUp:" << __FUNCTION__ << ": pszJP               = " << pszJP               << std::endl;
             DebugOutput::getErrorStream () << "OmniPDCProxyNUp:" << __FUNCTION__ << ": fSimulationRequired = " << fSimulationRequired << std::endl;
          }
-#endif
-
+ #endif
+ 
          DeviceNUp *pNUp;
-
+ 
          pNUp = new OmniPDCProxyNUp (pDevice,
                                      pszJP,
                                      0,
@@ -2654,18 +2658,21 @@ getCurrentNUp ()
 
          if (pszNetworkJobProperties)
          {
-            PSZRO  pszJobProperties = 0;
-            char  *pszSpace         = 0;
-
-            pszSpace = strchr (pszNetworkJobProperties, ' ');
-
-            if (pszSpace)
+                        PSZRO  pszJobProperties = 0;
+            const char  *pszSpaceConst = strchr (pszNetworkJobProperties, ' ');
+ 
+            std::string tempJP;
+            if (pszSpaceConst)
             {
-               *pszSpace = '\0';
+               tempJP.assign(pszNetworkJobProperties, pszSpaceConst - pszNetworkJobProperties);
             }
-
-            pszJobProperties = Omni::dequoteString (pszNetworkJobProperties);
-
+            else
+            {
+               tempJP.assign(pszNetworkJobProperties);
+            }
+ 
+            pszJobProperties = Omni::dequoteString (tempJP.c_str());
+ 
             pNUp_d = OmniPDCProxyNUp::createS (this,
                                                pszJobProperties,
                                                pCmd_d,
@@ -2778,35 +2785,31 @@ public:
          && PDCCMD_ACK == pCmd->getCommandType ()
          )
       {
-         char   *pszSpace            = 0;
+                  const char *pszSpaceConst    = 0;
          PSZCRO  pszJPQuoted         = pCmd->getCommandString (false);
          PSZRO   pszJP               = 0;
          int     iSimulationRequired = 0;
          bool    fSimulationRequired = false;
-
-         pszSpace = strchr (pszJPQuoted, ' ');
-
-         if (!pszSpace)
+ 
+         pszSpaceConst = strchr (pszJPQuoted, ' ');
+ 
+         if (!pszSpaceConst)
             return 0;
-
-         *pszSpace = '\0';
-
-         pszJP = Omni::dequoteString (pszJPQuoted);
-
+ 
+         std::string tempQuoted(pszJPQuoted, pszSpaceConst - pszJPQuoted);
+ 
+         pszJP = Omni::dequoteString (tempQuoted.c_str());
+ 
          if (!pszJP)
          {
-            *pszSpace = ' ';
             return 0;
          }
-
-         sscanf (pszSpace + 1,
+ 
+         sscanf (pszSpaceConst + 1,
                  "%d",
                  &iSimulationRequired);
 
-         if (iSimulationRequired)
-         {
-            fSimulationRequired = true;
-         }
+         fSimulationRequired = (0 != iSimulationRequired);
 
 #ifndef RETAIL
          if (DebugOutput::shouldOutputOmniPDCProxy ())
@@ -2928,19 +2931,22 @@ getCurrentOrientation ()
 
          if (pszNetworkJobProperties)
          {
-            PSZRO  pszJobProperties = 0;
-            char  *pszSpace         = 0;
-
-            pszSpace = strchr (pszNetworkJobProperties, ' ');
-
-            if (pszSpace)
-            {
-               *pszSpace = '\0';
-            }
-
-            pszJobProperties = Omni::dequoteString (pszNetworkJobProperties);
-
-            pOrientation_d = OmniPDCProxyOrientation::createS (this,
+                         PSZRO  pszJobProperties = 0;
+             const char  *pszSpaceConst = strchr (pszNetworkJobProperties, ' ');
+ 
+             std::string tempJP;
+             if (pszSpaceConst)
+             {
+                tempJP.assign(pszNetworkJobProperties, pszSpaceConst - pszNetworkJobProperties);
+             }
+             else
+             {
+                tempJP.assign(pszNetworkJobProperties);
+             }
+ 
+             pszJobProperties = Omni::dequoteString (tempJP.c_str());
+ 
+             pOrientation_d = OmniPDCProxyOrientation::createS (this,
                                                                pszJobProperties,
                                                                pCmd_d,
                                                                fdC2S_d,
@@ -3301,33 +3307,32 @@ public:
          && PDCCMD_ACK == pCmd->getCommandType ()
          )
       {
-         char   *pszSpace       = 0;
-         PSZCRO  pszJPQuoted    = pCmd->getCommandString (false);
-         PSZRO   pszJP          = 0;
-         int     iPhysicalCount = 0;
-         int     iLogicalCount  = 0;
-         int     iPlanes        = 0;
-
-         pszSpace = strchr (pszJPQuoted, ' ');
-
-         if (!pszSpace)
-            return 0;
-
-         *pszSpace = '\0';
-
-         pszJP = Omni::dequoteString (pszJPQuoted);
-
-         if (!pszJP)
-         {
-            *pszSpace = ' ';
-            return 0;
-         }
-
-         sscanf (pszSpace + 1,
-                 "%d %d %d",
-                 &iPhysicalCount,
-                 &iLogicalCount,
-                 &iPlanes);
+                   const char *pszSpaceConst = 0;
+          PSZCRO  pszJPQuoted    = pCmd->getCommandString (false);
+          PSZRO   pszJP          = 0;
+          int     iPhysicalCount = 0;
+          int     iLogicalCount  = 0;
+          int     iPlanes        = 0;
+ 
+          pszSpaceConst = strchr (pszJPQuoted, ' ');
+ 
+          if (!pszSpaceConst)
+             return 0;
+ 
+          std::string tempQuoted(pszJPQuoted, pszSpaceConst - pszJPQuoted);
+ 
+          pszJP = Omni::dequoteString (tempQuoted.c_str());
+ 
+          if (!pszJP)
+          {
+             return 0;
+          }
+ 
+          sscanf (pszSpaceConst + 1,
+                  "%d %d %d",
+                  &iPhysicalCount,
+                  &iLogicalCount,
+                  &iPlanes);
 
 #ifndef RETAIL
          if (DebugOutput::shouldOutputOmniPDCProxy ())
@@ -3453,19 +3458,22 @@ getCurrentPrintMode ()
 
          if (pszNetworkJobProperties)
          {
-            PSZRO  pszJobProperties = 0;
-            char  *pszSpace         = 0;
-
-            pszSpace = strchr (pszNetworkJobProperties, ' ');
-
-            if (pszSpace)
-            {
-               *pszSpace = '\0';
-            }
-
-            pszJobProperties = Omni::dequoteString (pszNetworkJobProperties);
-
-            pPrintMode_d = OmniPDCProxyPrintMode::createS (this,
+                         PSZRO  pszJobProperties = 0;
+             const char  *pszSpaceConst = strchr (pszNetworkJobProperties, ' ');
+ 
+             std::string tempJP;
+             if (pszSpaceConst)
+             {
+                tempJP.assign(pszNetworkJobProperties, pszSpaceConst - pszNetworkJobProperties);
+             }
+             else
+             {
+                tempJP.assign(pszNetworkJobProperties);
+             }
+ 
+             pszJobProperties = Omni::dequoteString (tempJP.c_str());
+ 
+             pPrintMode_d = OmniPDCProxyPrintMode::createS (this,
                                                            pszJobProperties,
                                                            pCmd_d,
                                                            fdC2S_d,
@@ -3596,26 +3604,25 @@ public:
          int     iDestinationBitsPerPel = 0;
          int     iScanlineMultiple      = 0;
 
-         pszSpace = strchr (pszJPQuoted, ' ');
-
-         if (!pszSpace)
-            return 0;
-
-         *pszSpace = '\0';
-
-         pszJP = Omni::dequoteString (pszJPQuoted);
-
-         if (!pszJP)
-         {
-            *pszSpace = ' ';
-            return 0;
-         }
-
-         sscanf (pszSpace + 1,
-                 "%d %d %d %d %d %d %d",
-                 &iXRes,
-                 &iYRes,
-                 &iXInternalRes,
+                   const char *pszSpaceConst = strchr (pszJPQuoted, ' ');
+ 
+          if (!pszSpaceConst)
+             return 0;
+ 
+          std::string tempQuoted(pszJPQuoted, pszSpaceConst - pszJPQuoted);
+ 
+          pszJP = Omni::dequoteString (tempQuoted.c_str());
+ 
+          if (!pszJP)
+          {
+             return 0;
+          }
+ 
+          sscanf (pszSpaceConst + 1,
+                  "%d %d %d %d %d %d %d",
+                  &iXRes,
+                  &iYRes,
+                  &iXInternalRes,
                  &iYInternalRes,
                  &iCapabilities,
                  &iDestinationBitsPerPel,
@@ -3750,19 +3757,22 @@ getCurrentResolution ()
 
          if (pszNetworkJobProperties)
          {
-            PSZRO  pszJobProperties = 0;
-            char  *pszSpace         = 0;
-
-            pszSpace = strchr (pszNetworkJobProperties, ' ');
-
-            if (pszSpace)
-            {
-               *pszSpace = '\0';
-            }
-
-            pszJobProperties = Omni::dequoteString (pszNetworkJobProperties);
-
-            pResolution_d = OmniPDCProxyResolution::createS (this,
+                         PSZRO  pszJobProperties = 0;
+             const char  *pszSpaceConst = strchr (pszNetworkJobProperties, ' ');
+ 
+             std::string tempJP;
+             if (pszSpaceConst)
+             {
+                tempJP.assign(pszNetworkJobProperties, pszSpaceConst - pszNetworkJobProperties);
+             }
+             else
+             {
+                tempJP.assign(pszNetworkJobProperties);
+             }
+ 
+             pszJobProperties = Omni::dequoteString (tempJP.c_str());
+ 
+             pResolution_d = OmniPDCProxyResolution::createS (this,
                                                              pszJobProperties,
                                                              pCmd_d,
                                                              fdC2S_d,
@@ -3878,31 +3888,30 @@ public:
          && PDCCMD_ACK == pCmd->getCommandType ()
          )
       {
-         char   *pszSpace      = 0;
-         PSZCRO  pszJPQuoted   = pCmd->getCommandString (false);
-         PSZRO   pszJP         = 0;
-         int     iMinimumScale = 0;
-         int     iMaximumScale = 0;
-
-         pszSpace = strchr (pszJPQuoted, ' ');
-
-         if (!pszSpace)
-            return 0;
-
-         *pszSpace = '\0';
-
-         pszJP = Omni::dequoteString (pszJPQuoted);
-
-         if (!pszJP)
-         {
-            *pszSpace = ' ';
-            return 0;
-         }
-
-         sscanf (pszSpace + 1,
-                 "%d %d",
-                 &iMinimumScale,
-                 &iMaximumScale);
+                   const char *pszSpaceConst = 0;
+          PSZCRO  pszJPQuoted   = pCmd->getCommandString (false);
+          PSZRO   pszJP         = 0;
+          int     iMinimumScale = 0;
+          int     iMaximumScale = 0;
+ 
+          pszSpaceConst = strchr (pszJPQuoted, ' ');
+ 
+          if (!pszSpaceConst)
+             return 0;
+ 
+          std::string tempQuoted(pszJPQuoted, pszSpaceConst - pszJPQuoted);
+ 
+          pszJP = Omni::dequoteString (tempQuoted.c_str());
+ 
+          if (!pszJP)
+          {
+             return 0;
+          }
+ 
+          sscanf (pszSpaceConst + 1,
+                  "%d %d",
+                  &iMinimumScale,
+                  &iMaximumScale);
 
 #ifndef RETAIL
          if (DebugOutput::shouldOutputOmniPDCProxy ())
@@ -4027,19 +4036,22 @@ getCurrentScaling ()
 
          if (pszNetworkJobProperties)
          {
-            PSZRO  pszJobProperties = 0;
-            char  *pszSpace         = 0;
-
-            pszSpace = strchr (pszNetworkJobProperties, ' ');
-
-            if (pszSpace)
-            {
-               *pszSpace = '\0';
-            }
-
-            pszJobProperties = Omni::dequoteString (pszNetworkJobProperties);
-
-            pScaling_d = OmniPDCProxyScaling::createS (this,
+                         PSZRO  pszJobProperties = 0;
+             const char  *pszSpaceConst = strchr (pszNetworkJobProperties, ' ');
+ 
+             std::string tempJP;
+             if (pszSpaceConst)
+             {
+                tempJP.assign(pszNetworkJobProperties, pszSpaceConst - pszNetworkJobProperties);
+             }
+             else
+             {
+                tempJP.assign(pszNetworkJobProperties);
+             }
+ 
+             pszJobProperties = Omni::dequoteString (tempJP.c_str());
+ 
+             pScaling_d = OmniPDCProxyScaling::createS (this,
                                                        pszJobProperties,
                                                        pCmd_d,
                                                        fdC2S_d,
@@ -4402,47 +4414,43 @@ public:
          && PDCCMD_ACK == pCmd->getCommandType ()
          )
       {
-         char   *pszSpace            = 0;
-         PSZCRO  pszJPQuoted         = pCmd->getCommandString (false);
-         PSZRO   pszJP               = 0;
-         int     iSimulationRequired = 0;
-         bool    fSimulationRequired = false;
-
-         pszSpace = strchr (pszJPQuoted, ' ');
-
-         if (!pszSpace)
-            return 0;
-
-         *pszSpace = '\0';
-
-         pszJP = Omni::dequoteString (pszJPQuoted);
-
-         if (!pszJP)
-         {
-            *pszSpace = ' ';
-            return 0;
-         }
-
-         sscanf (pszSpace + 1,
-                 "%d",
-                 &iSimulationRequired);
-
-         if (iSimulationRequired)
-         {
-            fSimulationRequired = true;
-         }
-
-#ifndef RETAIL
-         if (DebugOutput::shouldOutputOmniPDCProxy ())
-         {
-            DebugOutput::getErrorStream () << "OmniPDCProxySide:" << __FUNCTION__ << ": pszJP               = " << pszJP << std::endl;
-            DebugOutput::getErrorStream () << "OmniPDCProxySide:" << __FUNCTION__ << ": fSimulationRequired = " << fSimulationRequired << std::endl;
-         }
-#endif
-
-         DeviceSide *pSide;
-
-         pSide = new OmniPDCProxySide (pDevice,
+                   const char *pszSpaceConst    = 0;
+          PSZCRO  pszJPQuoted         = pCmd->getCommandString (false);
+          PSZRO   pszJP               = 0;
+          int     iSimulationRequired = 0;
+          bool    fSimulationRequired = false;
+ 
+          pszSpaceConst = strchr (pszJPQuoted, ' ');
+ 
+          if (!pszSpaceConst)
+             return 0;
+ 
+          std::string tempQuoted(pszJPQuoted, pszSpaceConst - pszJPQuoted);
+ 
+          pszJP = Omni::dequoteString (tempQuoted.c_str());
+ 
+          if (!pszJP)
+          {
+             return 0;
+          }
+ 
+          sscanf (pszSpaceConst + 1,
+                  "%d",
+                  &iSimulationRequired);
+ 
+          fSimulationRequired = (0 != iSimulationRequired);
+ 
+ #ifndef RETAIL
+          if (DebugOutput::shouldOutputOmniPDCProxy ())
+          {
+             DebugOutput::getErrorStream () << "OmniPDCProxySide:" << __FUNCTION__ << ": pszJP               = " << pszJP               << std::endl;
+             DebugOutput::getErrorStream () << "OmniPDCProxySide:" << __FUNCTION__ << ": fSimulationRequired = " << fSimulationRequired << std::endl;
+          }
+ #endif
+ 
+          DeviceSide *pSide;
+ 
+          pSide = new OmniPDCProxySide (pDevice,
                                        pszJP,
                                        0,
                                        fSimulationRequired,
@@ -4553,19 +4561,22 @@ getCurrentSide ()
 
          if (pszNetworkJobProperties)
          {
-            PSZRO  pszJobProperties = 0;
-            char  *pszSpace         = 0;
-
-            pszSpace = strchr (pszNetworkJobProperties, ' ');
-
-            if (pszSpace)
-            {
-               *pszSpace = '\0';
-            }
-
-            pszJobProperties = Omni::dequoteString (pszNetworkJobProperties);
-
-            pSide_d = OmniPDCProxySide::createS (this,
+                         PSZRO  pszJobProperties = 0;
+             const char  *pszSpaceConst = strchr (pszNetworkJobProperties, ' ');
+ 
+             std::string tempJP;
+             if (pszSpaceConst)
+             {
+                tempJP.assign(pszNetworkJobProperties, pszSpaceConst - pszNetworkJobProperties);
+             }
+             else
+             {
+                tempJP.assign(pszNetworkJobProperties);
+             }
+ 
+             pszJobProperties = Omni::dequoteString (tempJP.c_str());
+ 
+             pSide_d = OmniPDCProxySide::createS (this,
                                                  pszJobProperties,
                                                  pCmd_d,
                                                  fdC2S_d,
@@ -4926,29 +4937,28 @@ public:
          && PDCCMD_ACK == pCmd->getCommandType ()
          )
       {
-         char   *pszSpace    = 0;
-         PSZCRO  pszJPQuoted = pCmd->getCommandString (false);
-         PSZRO   pszJP       = 0;
-         int     iType       = 0;
-
-         pszSpace = strchr (pszJPQuoted, ' ');
-
-         if (!pszSpace)
-            return 0;
-
-         *pszSpace = '\0';
-
-         pszJP = Omni::dequoteString (pszJPQuoted);
-
-         if (!pszJP)
-         {
-            *pszSpace = ' ';
-            return 0;
-         }
-
-         sscanf (pszSpace + 1,
-                 "%d",
-                 &iType);
+                   const char *pszSpaceConst = 0;
+          PSZCRO  pszJPQuoted = pCmd->getCommandString (false);
+          PSZRO   pszJP       = 0;
+          int     iType       = 0;
+ 
+          pszSpaceConst = strchr (pszJPQuoted, ' ');
+ 
+          if (!pszSpaceConst)
+             return 0;
+ 
+          std::string tempQuoted(pszJPQuoted, pszSpaceConst - pszJPQuoted);
+ 
+          pszJP = Omni::dequoteString (tempQuoted.c_str());
+ 
+          if (!pszJP)
+          {
+             return 0;
+          }
+ 
+          sscanf (pszSpaceConst + 1,
+                  "%d",
+                  &iType);
 
 #ifndef RETAIL
          if (DebugOutput::shouldOutputOmniPDCProxy ())
@@ -5071,19 +5081,22 @@ getCurrentTray ()
 
          if (pszNetworkJobProperties)
          {
-            PSZRO  pszJobProperties = 0;
-            char  *pszSpace         = 0;
-
-            pszSpace = strchr (pszNetworkJobProperties, ' ');
-
-            if (pszSpace)
-            {
-               *pszSpace = '\0';
-            }
-
-            pszJobProperties = Omni::dequoteString (pszNetworkJobProperties);
-
-            pTray_d = OmniPDCProxyTray::createS (this,
+                         PSZRO  pszJobProperties = 0;
+             const char  *pszSpaceConst = strchr (pszNetworkJobProperties, ' ');
+ 
+             std::string tempJP;
+             if (pszSpaceConst)
+             {
+                tempJP.assign(pszNetworkJobProperties, pszSpaceConst - pszNetworkJobProperties);
+             }
+             else
+             {
+                tempJP.assign(pszNetworkJobProperties);
+             }
+ 
+             pszJobProperties = Omni::dequoteString (tempJP.c_str());
+ 
+             pTray_d = OmniPDCProxyTray::createS (this,
                                                  pszJobProperties,
                                                  pCmd_d,
                                                  fdC2S_d,
@@ -5803,7 +5816,7 @@ rasterize (PBYTE        pbBits,
          cbBuffer1_d = pbmi->cbFix;
          pbBuffer1_d = (byte *)shmat (idBuffer1_d, 0, 0);
 
-         if (-1 == (int)pbBuffer1_d)
+                   if (-1 == (intptr_t)pbBuffer1_d)
          {
 #ifndef RETAIL
             if (DebugOutput::shouldOutputOmniPDCProxy ())
@@ -5877,7 +5890,7 @@ rasterize (PBYTE        pbBits,
          cbBuffer2_d = cbBuffer2;
          pbBuffer2_d = (byte *)shmat (idBuffer2_d, 0, 0);
 
-         if (-1 == (int)pbBuffer2_d)
+                   if (-1 == (intptr_t)pbBuffer2_d)
          {
 #ifndef RETAIL
             if (DebugOutput::shouldOutputOmniPDCProxy ())

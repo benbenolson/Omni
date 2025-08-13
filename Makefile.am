@@ -109,8 +109,8 @@ libomni_la_SOURCES = BinaryData.cpp \
 # it also complains: *** Warning: Linking the shared library libomni.la against the
 #                    *** static library ./hppcl3/libbitmap.a is not portable!
 #libomni_la_LIBADD = $(top_builddir)/hppcl3/libbitmap.a
-libomni_la_LIBADD  = $(top_builddir)/hppcl3/CMYKbitmap.lo $(top_builddir)/hppcl3/bitmap.lo $(top_builddir)/XMLLib/libOmniXMLLibrary.la
-libomni_la_LDFLAGS = -version-info @LT_CURRENT@:@LT_REVISION@:@LT_AGE@ @XML_LIBS@
+libomni_la_LIBADD  = $(top_builddir)/hppcl3/CMYKbitmap.lo $(top_builddir)/hppcl3/bitmap.lo $(top_builddir)/XMLLib/libOmniXMLLibrary.la @XML_LIBS@ @GLIB_LIBS@ @GLIB_LIBS@
+libomni_la_LDFLAGS = -version-info @LT_CURRENT@:@LT_REVISION@:@LT_AGE@
 
 libPDCBlitterClient_la_SOURCES = PDCBlitterClient.cpp
 

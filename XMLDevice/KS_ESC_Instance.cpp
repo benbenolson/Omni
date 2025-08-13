@@ -62,7 +62,7 @@ KS_ESC_Instance::
 }
 
 void KS_ESC_Instance::
-initializeInstance ()
+initializeInstance (PSZCRO pszJobProperties)
 {
    if (fHaveInitialized_d)
       return;

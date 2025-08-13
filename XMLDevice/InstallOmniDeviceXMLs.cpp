@@ -109,7 +109,7 @@ main (int argc, char *argv[])
 
       std::ifstream ifIn (stringFileNameDeviceList.c_str ());
 
-      while (0 < ifIn.getline (achLine, sizeof (achLine)))
+      while (ifIn.getline (achLine, sizeof (achLine)))
       {
          if (  '#' != achLine[0]
             && sizeof (achLine) - 4 > strlen (achLine)

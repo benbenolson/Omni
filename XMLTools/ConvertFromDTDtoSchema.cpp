@@ -237,7 +237,7 @@ processFile (const char *pszFileName)
       return false;
    }
 
-   while (0 < ifstreamIn.getline (achLine, sizeof (achLine)))
+   while (ifstreamIn.getline (achLine, sizeof (achLine)))
    {
 if (fDebug) std::cout << "Read[" << eState << "]: " << achLine << std::endl;
       if (STATE_PRELUDE == eState)

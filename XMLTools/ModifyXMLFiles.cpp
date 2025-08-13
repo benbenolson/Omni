@@ -76,7 +76,7 @@ processFile (const char *pszFileName)
       return false;
    }
 
-   while (0 < ifstreamIn.getline (achLine, sizeof (achLine)))
+   while (ifstreamIn.getline (achLine, sizeof (achLine)))
    {
       std::string            stringLine = achLine;
       std::string::size_type index      = 0;
